@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             tools:context=".ArticleFragment" android:id="@+id/article_fragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/hello_blank_fragment" android:id="@+id/article_fragment1"
+            android:textAppearance="@android:style/TextAppearance" android:textSize="14sp"
+            android:textColor="@android:color/black" tools:text="@tools:sample/first_names"/>
+
+</FrameLayout>

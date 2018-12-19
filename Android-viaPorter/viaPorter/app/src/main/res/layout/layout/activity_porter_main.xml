@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".PorterMain" android:id="@+id/PorterMain" android:minWidth="1480dp" android:maxWidth="1480dp"
+        android:minHeight="2048dp" android:maxHeight="2048dp">
+
+    <TextView
+            android:text="@string/porter"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"
+            android:id="@+id/PorterText1" app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintTop_toTopOf="parent" app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintVertical_bias="0.0" android:textAppearance="@android:style/TextAppearance"
+            android:textSize="14sp" android:textColor="@android:color/black" android:textAlignment="center"/>
+    <TextView
+            android:text="@string/popular_destinations"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/popular_destinations" app:layout_constraintStart_toStartOf="@+id/where_to"
+            app:layout_constraintHorizontal_bias="0.0" app:layout_constraintEnd_toEndOf="@+id/where_to"
+            app:layout_constraintTop_toBottomOf="@+id/where_to"
+            app:layout_constraintVertical_bias="0.0" android:textAppearance="@android:style/TextAppearance"
+            android:textSize="14sp" android:textColor="@android:color/black"
+            app:layout_constraintBottom_toTopOf="@+id/mumbai_central_1" android:textAlignment="viewStart"/>
+    <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:text="@string/where_to"
+            android:ems="10"
+            app:layout_constraintStart_toStartOf="@+id/PorterText1"
+            app:layout_constraintEnd_toEndOf="@+id/PorterText1" android:id="@+id/where_to"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/PorterText1"
+            android:textAppearance="@android:style/TextAppearance" android:textSize="14sp"
+            android:textColor="@android:color/darker_gray" android:hint="@string/where_to"
+            app:layout_constraintVertical_bias="0.0" android:textAlignment="viewStart"
+            app:layout_constraintHorizontal_bias="0.0" android:layout_marginEnd="64dp"/>
+    <TextView
+            android:text="@string/see_all"
+            android:layout_width="wrap_content"
+            android:layout_height="19dp"
+            android:id="@+id/see_all_1" app:layout_constraintStart_toEndOf="@+id/popular_destinations"
+            app:layout_constraintHorizontal_bias="1.0" app:layout_constraintEnd_toEndOf="@+id/PorterText1"
+            app:layout_constraintBottom_toBottomOf="@+id/popular_destinations"
+            app:layout_constraintTop_toBottomOf="@+id/where_to"
+            app:layout_constraintVertical_bias="0.0" android:textAppearance="@android:style/TextAppearance"
+            android:textSize="12sp" android:textColor="@android:color/darker_gray"/>
+    <Button
+            android:text="@string/new_delhi"
+            android:layout_width="94dp"
+            android:layout_height="104dp"
+            android:id="@+id/new_delhi_1" app:layout_constraintStart_toStartOf="@+id/popular_destinations"
+            app:layout_constraintHorizontal_bias="1.0" app:layout_constraintEnd_toStartOf="@+id/mumbai_central_1"
+            app:layout_constraintTop_toBottomOf="@+id/popular_destinations"
+            style="@style/Widget.AppCompat.Button" android:textAppearance="@android:style/TextAppearance"
+            android:textSize="12sp" android:textColor="@android:color/white"
+            android:textAlignment="center"/>
+    <Button
+            android:text="@string/mumbai_central"
+            android:layout_width="111dp"
+            android:layout_height="104dp"
+            app:layout_constraintStart_toEndOf="@+id/new_delhi_1" app:layout_constraintEnd_toStartOf="@+id/chennai_1"
+            app:layout_constraintTop_toBottomOf="@+id/popular_destinations"
+            style="@style/Widget.AppCompat.Button" android:textAppearance="@android:style/TextAppearance"
+            android:textSize="12sp" android:textColor="@android:color/white" android:id="@+id/mumbai_central_1"
+            android:textAlignment="center" app:layout_constraintHorizontal_bias="1.0"/>
+    <Button
+            android:text="@string/chennai"
+            android:layout_width="97dp"
+            android:layout_height="104dp"
+            android:id="@+id/chennai_1" app:layout_constraintStart_toEndOf="@+id/mumbai_central_1"
+            app:layout_constraintHorizontal_bias="1.0" app:layout_constraintEnd_toEndOf="@+id/PorterText1"
+            app:layout_constraintTop_toBottomOf="@+id/popular_destinations"
+            style="@style/Widget.AppCompat.Button" android:textAppearance="@android:style/TextAppearance"
+            android:textSize="12sp" android:textColor="@android:color/white" android:textAlignment="center"
+    />
+    <TextView
+            android:text="@string/history"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/history" app:layout_constraintStart_toStartOf="@+id/where_to"
+            app:layout_constraintHorizontal_bias="0.0" app:layout_constraintEnd_toEndOf="@+id/PorterText1"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/mumbai_central_1" app:layout_constraintVertical_bias="0.0"
+            android:textAppearance="@android:style/TextAppearance" android:textSize="14sp"
+            android:textColor="@android:color/black"/>
+    <TextView
+            android:text="@string/see_all"
+            android:layout_width="37dp"
+            android:layout_height="19dp"
+            app:layout_constraintEnd_toEndOf="@+id/PorterText1" android:id="@+id/see_all_2"
+            app:layout_constraintStart_toEndOf="@+id/history" app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintBottom_toBottomOf="@+id/history"
+            app:layout_constraintTop_toBottomOf="@+id/mumbai_central_1" app:layout_constraintVertical_bias="0.003"
+            android:textSize="12sp" android:textColor="@android:color/darker_gray"/>
+    <TextView
+            android:text="@string/mumbai_central"
+            android:layout_width="148dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="@id/PorterText1"
+            android:id="@+id/mumbai_central_2" app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintTop_toBottomOf="@+id/history"
+            android:textAppearance="@android:style/TextAppearance"
+            android:textSize="14sp" android:textColor="@android:color/black" android:textAlignment="viewStart"
+    />
+    <TextView
+            android:text="@string/Porters_Currently_Active"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@id/mumbai_central_2"
+            app:layout_constraintEnd_toEndOf="@+id/mumbai_central_2"
+            android:id="@+id/porters_currently_active" app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintBottom_toBottomOf="@+id/eighty_seven"
+            app:layout_constraintTop_toBottomOf="@+id/mumbai_central_2" app:layout_constraintVertical_bias="0.0"
+            android:textSize="12sp" android:textColor="@android:color/holo_red_light" android:layout_marginTop="32dp"
+            android:textAlignment="viewStart"/>
+    <TextView
+            android:text="@string/eighty_seven"
+            android:layout_width="18dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/eighty_seven" app:layout_constraintStart_toStartOf="@id/mumbai_central_2"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintEnd_toStartOf="@+id/porters_currently_active"
+            app:layout_constraintTop_toTopOf="@+id/porters_currently_active"
+            android:textAppearance="@android:style/TextAppearance" android:textSize="12sp"
+            android:textColor="@android:color/holo_red_light" android:textAlignment="viewStart"/>
+    <TextView
+            android:text="@string/bookings"
+            android:layout_width="wrap_content"
+            android:layout_height="19dp"
+            app:layout_constraintStart_toStartOf="@+id/history"
+            app:layout_constraintEnd_toEndOf="@+id/PorterText1"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/porters_currently_active"
+            app:layout_constraintVertical_bias="0.0" android:id="@+id/bookings"
+            android:textAppearance="@android:style/TextAppearance" android:textSize="14sp"
+            android:textColor="@android:color/black" app:layout_constraintHorizontal_bias="0.0"/>
+    <TextView
+            android:text="@string/see_all"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/see_all_3" app:layout_constraintStart_toEndOf="@+id/bookings"
+            app:layout_constraintHorizontal_bias="1.0" app:layout_constraintEnd_toEndOf="@+id/PorterText1"
+            app:layout_constraintBottom_toBottomOf="@+id/bookings"
+            app:layout_constraintTop_toBottomOf="@+id/porters_currently_active"
+            app:layout_constraintVertical_bias="1.0" android:textAppearance="@android:style/TextAppearance"
+            android:textSize="12sp" android:textColor="@android:color/darker_gray"/>
+    <TextView
+            android:text="@string/eighteen"
+            android:layout_width="38dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/eighteen"
+            app:layout_constraintStart_toStartOf="@+id/bookings" app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintEnd_toEndOf="@+id/PorterText1"
+            app:layout_constraintTop_toBottomOf="@+id/bookings"
+            app:layout_constraintBottom_toTopOf="@+id/today" app:layout_constraintVertical_bias="0.0"
+            android:textAppearance="@android:style/TextAppearance" android:textSize="14sp"
+            android:textColor="@android:color/black" android:textAlignment="center"/>
+    <TextView
+            android:text="@string/today"
+            android:layout_width="38dp"
+            android:layout_height="19dp"
+            android:id="@+id/today"
+            app:layout_constraintTop_toBottomOf="@+id/eighteen"
+            app:layout_constraintStart_toStartOf="@+id/eighteen" app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintEnd_toEndOf="@+id/eighteen" android:textAppearance="@android:style/TextAppearance"
+            android:textSize="12sp" android:textColor="@android:color/black"
+            android:textAlignment="center"/>
+    <TextView
+            android:text="@string/your_porter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/your_porter" app:layout_constraintStart_toEndOf="@+id/eighteen"
+            app:layout_constraintHorizontal_bias="0.0" app:layout_constraintEnd_toEndOf="@+id/PorterText1"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/bookings"
+            android:textAppearance="@android:style/TextAppearance" android:textSize="14sp"
+            android:textColor="@android:color/black" app:layout_constraintVertical_bias="0.0"
+            android:textAlignment="viewStart"/>
+    <TextView
+            android:text="@string/chandra"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/chandra" app:layout_constraintStart_toEndOf="@+id/your_porter"
+            app:layout_constraintHorizontal_bias="0.0" app:layout_constraintEnd_toEndOf="@+id/PorterText1"
+            app:layout_constraintTop_toBottomOf="@+id/bookings" android:textAppearance="@android:style/TextAppearance"
+            android:textSize="14sp" android:textColor="@android:color/black" android:textAlignment="viewStart"/>
+    <TextView
+            android:text="@string/mumbai_central"
+            android:layout_width="wrap_content"
+            android:layout_height="19dp"
+            android:id="@+id/mumbai_central_3" app:layout_constraintStart_toEndOf="@+id/today"
+            app:layout_constraintHorizontal_bias="0.0" app:layout_constraintEnd_toEndOf="@+id/PorterText1"
+            app:layout_constraintTop_toBottomOf="@+id/your_porter"
+            android:textAppearance="@android:style/TextAppearance"
+            android:textSize="12sp" android:textColor="@android:color/darker_gray" android:textAlignment="viewStart"/>
+    <TextView
+            android:text="@string/comma"
+            android:layout_width="1dp"
+            android:layout_height="19dp"
+            android:id="@+id/comma" app:layout_constraintStart_toEndOf="@+id/mumbai_central_3"
+            app:layout_constraintHorizontal_bias="0.0" app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/your_porter"
+            android:textAppearance="@android:style/TextAppearance"
+            android:textSize="12sp" android:textColor="@android:color/darker_gray"
+            android:layout_marginEnd="5dp"/>
+    <TextView
+            android:text="@string/one_four_zero_zero"
+            android:layout_width="wrap_content"
+            android:layout_height="19dp"
+            android:id="@+id/one_four_zero_zero" app:layout_constraintStart_toEndOf="@+id/mumbai_central_3"
+            app:layout_constraintHorizontal_bias="0.0" app:layout_constraintBottom_toBottomOf="@+id/mumbai_central_3"
+            app:layout_constraintTop_toBottomOf="@+id/your_porter"
+            app:layout_constraintEnd_toEndOf="@+id/chandra"
+            android:textAppearance="@android:style/TextAppearance"
+            android:textSize="12sp" android:textColor="@android:color/darker_gray" android:textAlignment="viewStart"
+            android:layout_marginStart="4dp"/>
+    <Button
+            android:text="@string/trip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/trip" app:layout_constraintStart_toStartOf="@+id/where_to"
+            app:layout_constraintHorizontal_bias="0.0" app:layout_constraintEnd_toEndOf="@+id/PorterText1"
+            app:layout_constraintTop_toBottomOf="@+id/today" style="@style/Widget.AppCompat.Button"
+            android:textAppearance="@android:style/TextAppearance" android:textSize="12sp"
+            android:textColor="@android:color/holo_blue_dark" android:backgroundTint="@android:color/white"
+            app:layout_constraintVertical_bias="1.0"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+    <Button
+            android:text="@string/chats"
+            android:layout_width="96dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@+id/where_to" app:layout_constraintEnd_toEndOf="@+id/PorterText1"
+            android:id="@+id/chats"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_bias="0.5" app:layout_constraintTop_toBottomOf="@+id/mumbai_central_3"
+            style="@style/Widget.AppCompat.Button" android:backgroundTint="@android:color/white"
+            android:textAppearance="@android:style/TextAppearance" android:textSize="12sp"
+            android:textColor="@android:color/darker_gray" app:layout_constraintVertical_bias="1.0"/>
+    <Button
+            android:text="@string/profile"
+            android:layout_width="85dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/profile"
+            style="@style/Widget.AppCompat.Button"
+            android:backgroundTint="@android:color/white" android:textAppearance="@android:style/TextAppearance"
+            android:textSize="12sp" android:textColor="@android:color/darker_gray"
+            app:layout_constraintStart_toEndOf="@+id/chats"
+            app:layout_constraintHorizontal_bias="1.0" app:layout_constraintEnd_toEndOf="@+id/PorterText1"
+            app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintTop_toBottomOf="@+id/see_all_3"
+            app:layout_constraintVertical_bias="1.0"
+            android:onClick="goToMyProfileScreenFromPorterMainScreenViaProfileButton"/>
+    <Button
+            android:text="@string/search"
+            android:layout_width="68dp"
+            android:layout_height="38dp"
+            android:id="@+id/search_button" app:layout_constraintStart_toEndOf="@+id/where_to"
+            app:layout_constraintEnd_toEndOf="@+id/PorterText1"
+            android:textAppearance="@android:style/TextAppearance" android:textColor="@android:color/black"
+            android:textSize="14sp"
+            android:onClick="goToStationsScreenFromPorterMainScreenViaSearchButton"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toBottomOf="@+id/PorterText1"/>
+</android.support.constraint.ConstraintLayout>

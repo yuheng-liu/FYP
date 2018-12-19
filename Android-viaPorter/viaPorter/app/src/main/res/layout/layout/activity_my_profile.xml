@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".MyProfile" android:id="@+id/my_profile_screen" android:minWidth="1480dp"
+        android:maxWidth="1480dp"
+        android:minHeight="2048dp" android:maxHeight="2048dp">
+
+    <TextView
+            android:text="@string/my_profile"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:id="@+id/MyProfile"
+            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintVertical_bias="0.0" android:textAppearance="@android:style/TextAppearance"
+            android:textColor="@android:color/black"/>
+    <TextView
+            android:text="@string/max"
+            android:layout_width="146dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/Max" app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintHorizontal_bias="0.5" app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/MyProfile" app:layout_constraintBottom_toBottomOf="parent"
+            android:textAppearance="@android:style/TextAppearance" android:textSize="12sp"
+            app:layout_constraintVertical_bias="0.0" android:textAlignment="viewStart"
+            android:textColor="@android:color/black"/>
+    <TextView
+            android:text="@string/singapore"
+            android:layout_width="146dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@+id/Max" app:layout_constraintEnd_toEndOf="@+id/Max"
+            android:id="@+id/singapore" app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintTop_toBottomOf="@+id/Max"
+            android:textAppearance="@android:style/TextAppearance" android:textSize="12sp"
+            android:textColor="@android:color/darker_gray" app:layout_constraintVertical_bias="0.0"
+            android:textAlignment="viewStart"/>
+    <TextView
+            android:text="@string/thesgwayfareratgmail_com"
+            android:layout_width="147dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@+id/singapore"
+            android:id="@+id/thesgwayfareratgmail.com"
+            app:layout_constraintEnd_toEndOf="@+id/singapore"
+            app:layout_constraintBottom_toTopOf="parent" app:layout_constraintTop_toBottomOf="@+id/singapore"
+            android:textAppearance="@android:style/TextAppearance" android:textSize="12sp"
+            android:textColor="@android:color/darker_gray" app:layout_constraintVertical_bias="0.0"
+            android:textAlignment="viewStart"/>
+    <TextView
+            android:text="@string/language"
+            android:layout_width="195dp"
+            android:layout_height="28dp"
+            android:id="@+id/language"
+            android:textAppearance="@android:style/TextAppearance" android:textSize="14sp"
+            android:textColor="@android:color/black" app:layout_constraintStart_toStartOf="@+id/MyProfile"
+            app:layout_constraintHorizontal_bias="0.0" app:layout_constraintEnd_toEndOf="@+id/thesgwayfareratgmail.com"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/thesgwayfareratgmail.com"
+            app:layout_constraintVertical_bias="0.0"/>
+    <TextView
+            android:text="@string/reminders"
+            android:layout_width="195dp"
+            android:layout_height="28dp"
+            android:id="@+id/reminders"
+            app:layout_constraintEnd_toEndOf="@id/legaltender"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:textAppearance="@android:style/TextAppearance"
+            android:textSize="14sp" android:textColor="@android:color/black"
+            app:layout_constraintStart_toStartOf="@+id/legaltender"
+            app:layout_constraintTop_toBottomOf="@+id/legaltender" app:layout_constraintVertical_bias="0.0"
+            app:layout_constraintHorizontal_bias="0.0"/>
+    <TextView
+            android:text="@string/units"
+            android:layout_width="195dp"
+            android:layout_height="28dp"
+            android:id="@+id/units" app:layout_constraintStart_toStartOf="@+id/reminders"
+            app:layout_constraintHorizontal_bias="0.0" app:layout_constraintEnd_toEndOf="@+id/reminders"
+            app:layout_constraintTop_toBottomOf="@+id/reminders"
+            android:textAppearance="@android:style/TextAppearance"
+            android:textSize="14sp" android:textColor="@android:color/black"/>
+    <TextView
+            android:text="@string/privacy_policy"
+            android:layout_width="195dp"
+            android:layout_height="28dp"
+            android:id="@+id/privacy_policy" app:layout_constraintStart_toStartOf="@+id/units"
+            app:layout_constraintHorizontal_bias="0.0" app:layout_constraintEnd_toEndOf="@+id/units"
+            app:layout_constraintTop_toBottomOf="@+id/units"
+            android:textAppearance="@android:style/TextAppearance"
+            android:textSize="14sp" android:textColor="@android:color/black"/>
+    <Button
+            android:text="@string/sign_out"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/sign_out" app:layout_constraintStart_toStartOf="@+id/MyProfile"
+            app:layout_constraintHorizontal_bias="0.0" app:layout_constraintEnd_toEndOf="@+id/MyProfile"
+            app:layout_constraintTop_toBottomOf="@+id/privacy_policy"
+            style="@style/Widget.AppCompat.Button"
+            android:textAppearance="@android:style/TextAppearance" android:textSize="14sp"
+            android:textColor="@android:color/white" android:backgroundTint="@android:color/black"
+            android:onClick="goToMainActivityScreenFromMyProfileScreenViaSignOutButton"/>
+    <TextView
+            android:text="@string/currency"
+            android:layout_width="195dp"
+            android:layout_height="28dp"
+            android:id="@+id/legaltender"
+            android:textAppearance="@android:style/TextAppearance" android:textSize="14sp"
+            android:textColor="@android:color/black" app:layout_constraintStart_toStartOf="@+id/language"
+            app:layout_constraintHorizontal_bias="0.0" app:layout_constraintEnd_toEndOf="@+id/language"
+            app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintTop_toBottomOf="@+id/language"
+            app:layout_constraintVertical_bias="0.0"/>
+    <Button
+            android:text="@string/porter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/porter_button"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintHorizontal_bias="0.5" app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/chats" app:layout_constraintTop_toBottomOf="@+id/sign_out"
+            android:textAppearance="@android:style/TextAppearance" android:textSize="14sp"
+            android:textColor="@android:color/holo_blue_dark" android:backgroundTint="@android:color/white"
+            app:layout_constraintVertical_bias="1.0"/>
+    <Button
+            android:text="@string/trip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"
+            android:id="@+id/trip" app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintTop_toBottomOf="@+id/sign_out"
+            android:textAppearance="@android:style/TextAppearance" android:textSize="12sp"
+            android:textColor="@android:color/black" android:backgroundTint="@android:color/white"
+            app:layout_constraintVertical_bias="1.0" app:layout_constraintEnd_toStartOf="@+id/chats"
+            android:onClick="goToPorterMainScreenFromMyProfileScreenViaTripButton"/>
+    <Button
+            android:text="@string/chats"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@+id/porter_button"
+            app:layout_constraintEnd_toEndOf="@+id/porter_button"
+            app:layout_constraintTop_toTopOf="@+id/trip"
+            android:id="@+id/chats" android:backgroundTint="@android:color/white"
+            android:textAppearance="@android:style/TextAppearance" android:textSize="12sp"
+            android:textColor="@android:color/black" app:layout_constraintStart_toEndOf="@+id/trip"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/porter_button" app:layout_constraintVertical_bias="1.0"
+            app:layout_constraintHorizontal_bias="0.5"/>
+    <Button
+            android:text="@string/profile"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            app:layout_constraintEnd_toEndOf="@+id/sign_out" android:id="@+id/profile"
+            app:layout_constraintStart_toEndOf="@+id/chats" app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintTop_toBottomOf="@+id/porter_button"
+            app:layout_constraintBottom_toBottomOf="@+id/language"
+            android:backgroundTint="@android:color/white" android:textAppearance="@android:style/TextAppearance"
+            android:textSize="12sp" android:textColor="@android:color/holo_blue_dark"
+            app:layout_constraintVertical_bias="0.0"
+            android:onClick="goToPorterMainScreenFromMyProfileScreenViaTripButton"/>
+    <TextView
+            android:text="@string/english"
+            android:layout_width="64dp"
+            android:layout_height="28dp"
+            android:id="@+id/english"
+            app:layout_constraintHorizontal_bias="0.0" app:layout_constraintEnd_toEndOf="@+id/usd"
+            android:textAppearance="@android:style/TextAppearance" android:textSize="14sp"
+            android:textColor="@android:color/darker_gray"
+            android:textAlignment="viewEnd"
+            app:layout_constraintEnd_toStartOf="@+id/language_arrow"
+            app:layout_constraintTop_toBottomOf="@+id/thesgwayfareratgmail.com"/>
+    <TextView
+            android:text="@string/usd"
+            android:layout_width="64dp"
+            android:layout_height="28dp"
+            app:layout_constraintEnd_toEndOf="@+id/english" android:id="@+id/usd"
+            app:layout_constraintTop_toBottomOf="@+id/english"
+            app:layout_constraintBottom_toTopOf="@+id/sign_out" android:textAppearance="@android:style/TextAppearance"
+            android:textColor="@android:color/darker_gray" app:layout_constraintVertical_bias="0.0"
+            app:layout_constraintHorizontal_bias="0.0" android:textAlignment="viewEnd"/>
+    <TextView
+            android:text="@string/imperial"
+            android:layout_width="64dp"
+            android:layout_height="28dp"
+            android:id="@+id/imperial"
+            app:layout_constraintHorizontal_bias="0.0" app:layout_constraintEnd_toEndOf="@+id/usd"
+            app:layout_constraintTop_toBottomOf="@+id/usd" app:layout_constraintBottom_toTopOf="@+id/sign_out"
+            android:textAppearance="@android:style/TextAppearance" android:textSize="14sp"
+            android:textColor="@android:color/darker_gray" android:textAlignment="viewEnd"
+    />
+    <ImageButton
+            android:layout_width="61dp"
+            android:layout_height="28dp" app:srcCompat="@android:drawable/ic_menu_send"
+            android:id="@+id/language_arrow" app:layout_constraintStart_toStartOf="@+id/units_arrow"
+            app:layout_constraintEnd_toEndOf="@+id/units_arrow"
+            app:layout_constraintTop_toTopOf="@+id/english" app:layout_constraintBottom_toTopOf="@+id/language"
+            app:layout_constraintVertical_bias="0.0" android:tint="@android:color/holo_blue_dark"
+            android:visibility="visible" android:backgroundTint="@android:color/white"
+            app:layout_constraintHorizontal_bias="0.0" android:background="@android:color/white"
+            android:contentDescription="@string/language"/>
+    <ImageButton
+            android:layout_width="61dp"
+            android:layout_height="28dp" app:srcCompat="@android:drawable/ic_menu_send"
+            android:id="@+id/legal_tender_button"
+            android:backgroundTint="@android:color/white" android:tint="@android:color/holo_blue_dark"
+            app:layout_constraintStart_toStartOf="@+id/units_arrow" app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintEnd_toEndOf="@+id/units_arrow"
+            app:layout_constraintTop_toBottomOf="@+id/language_arrow"
+            app:layout_constraintBottom_toTopOf="@+id/sign_out" app:layout_constraintVertical_bias="0.0"
+            android:visibility="visible" android:contentDescription="@string/currency"/>
+    <Switch
+            android:text="@string/reminders"
+            android:layout_width="62dp"
+            android:layout_height="28dp"
+            android:id="@+id/reminders_button" app:layout_constraintStart_toStartOf="@+id/legal_tender_button"
+            app:layout_constraintHorizontal_bias="0.5" app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/usd" app:layout_constraintBottom_toTopOf="@+id/imperial"
+            android:textAppearance="@android:style/TextAppearance" android:textSize="12sp"
+            android:textColor="@android:color/white" app:layout_constraintVertical_bias="0.0"
+            android:showText="false" android:textAlignment="viewEnd" android:layout_marginEnd="16dp"
+            app:layout_constraintStart_toEndOf="@+id/reminders"/>
+    <ImageButton
+            android:layout_width="61dp"
+            android:layout_height="28dp" app:srcCompat="@android:drawable/ic_menu_send"
+            android:id="@+id/units_arrow"
+            app:layout_constraintStart_toEndOf="@+id/imperial" app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toBottomOf="@+id/reminders_button"
+            app:layout_constraintBottom_toTopOf="@+id/sign_out" android:tint="@android:color/holo_blue_dark"
+            android:backgroundTint="@android:color/white" app:layout_constraintVertical_bias="0.0"
+            android:contentDescription="@string/units"/>
+    <ImageButton
+            android:layout_width="61dp"
+            android:layout_height="29dp" app:srcCompat="@android:drawable/ic_menu_send"
+            android:id="@+id/privacy_policy_button"
+            app:layout_constraintStart_toStartOf="@+id/units_arrow" app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toBottomOf="@+id/units_arrow"
+            app:layout_constraintBottom_toTopOf="@+id/sign_out" android:visibility="visible"
+            android:tint="@android:color/holo_blue_dark" android:backgroundTint="@android:color/white"
+            android:contentDescription="@string/privacy_policy"/>
+</android.support.constraint.ConstraintLayout>

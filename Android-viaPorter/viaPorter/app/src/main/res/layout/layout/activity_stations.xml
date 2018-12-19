@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".Stations" android:id="@+id/StationsScreen" android:minWidth="1480dp" android:maxWidth="1480dp"
+        android:minHeight="2048dp" android:maxHeight="2048dp">
+
+    <TextView
+            android:text="@string/stations"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/stations" app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" app:layout_constraintBottom_toBottomOf="parent"
+            android:textAppearance="@android:style/TextAppearance" android:textSize="14sp"
+            android:textColor="@android:color/black" app:layout_constraintVertical_bias="0.0"
+    />
+    <EditText
+            android:layout_width="0dp"
+            android:layout_height="36dp"
+            android:text="@string/mum"
+            android:ems="10"
+            android:id="@+id/mum"
+            app:layout_constraintStart_toStartOf="@+id/stations" app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintEnd_toEndOf="@+id/stations"
+            app:layout_constraintTop_toBottomOf="@+id/stations"
+            app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintVertical_bias="0.0"
+            android:inputType="text" android:textAppearance="@android:style/TextAppearance" android:textSize="14sp"
+            android:textColor="@android:color/black" android:layout_marginEnd="28dp"/>
+    <ImageButton
+            android:layout_width="24dp"
+            android:layout_height="25dp" app:srcCompat="@android:drawable/btn_dialog"
+            app:layout_constraintEnd_toEndOf="parent" android:id="@+id/crossBackButton"
+            app:layout_constraintStart_toEndOf="@+id/mum" app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintBottom_toBottomOf="@+id/mum" app:layout_constraintTop_toBottomOf="@+id/stations"
+            android:backgroundTint="@android:color/white" app:layout_constraintVertical_bias="0.0"
+            style="@android:style/Widget.DeviceDefault.ImageButton"
+            android:tint="@android:color/transparent"
+            android:background="@android:color/white" android:visibility="visible"
+            android:contentDescription="@string/back"
+            android:onClick="goToPorterMainScreenFromStationsScreenViaCrossBackButton"/>
+    <Button
+            android:text="@string/trip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/trip" app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintHorizontal_bias="0.0" app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintTop_toBottomOf="@+id/mum"
+            app:layout_constraintVertical_bias="1.0" android:textAppearance="@android:style/TextAppearance"
+            android:textSize="12sp" android:textColor="@android:color/holo_blue_dark"/>
+    <Button
+            android:text="@string/chats"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"
+            android:id="@+id/chats" app:layout_constraintStart_toEndOf="@+id/trip"
+            app:layout_constraintHorizontal_bias="0.5" app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/mum" app:layout_constraintVertical_bias="1.0"
+            android:textAppearance="@android:style/TextAppearance" android:textSize="12sp"
+            android:textColor="@android:color/black"/>
+    <Button
+            android:text="@string/profile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/profile" app:layout_constraintStart_toEndOf="@+id/chats"
+            app:layout_constraintHorizontal_bias="1.0" app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintTop_toBottomOf="@+id/mum"
+            app:layout_constraintVertical_bias="1.0" android:textAppearance="@android:style/TextAppearance"
+            android:textSize="12sp" android:textColor="@android:color/black"/>
+    <Button
+            android:text="@string/mumbai_central"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/mumbai_central" app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintHorizontal_bias="0.0" app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/mum" app:layout_constraintBottom_toTopOf="@+id/chats"
+            app:layout_constraintVertical_bias="0.0" android:background="@android:color/transparent"
+            android:textAppearance="@android:style/TextAppearance" android:textSize="14sp"
+            android:textColor="@android:color/black"/>
+    <Button
+            android:text="@string/mumbra"
+            android:layout_width="97dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/mumbra" app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintHorizontal_bias="0.0" app:layout_constraintEnd_toEndOf="@+id/mumbai_central"
+            app:layout_constraintTop_toBottomOf="@+id/mumbai_central" app:layout_constraintBottom_toTopOf="@+id/chats"
+            app:layout_constraintVertical_bias="0.0" android:textAppearance="@android:style/TextAppearance"
+            android:textSize="14sp" android:textColor="@android:color/black"
+            android:background="@android:color/transparent"/>
+</android.support.constraint.ConstraintLayout>
