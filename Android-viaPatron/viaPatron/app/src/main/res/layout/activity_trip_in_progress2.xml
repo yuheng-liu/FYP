@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".TripInProgress2" android:id="@+id/trip_confirmed" android:minWidth="1480dp"
+        android:maxWidth="1480dp" android:minHeight="2040dp" android:maxHeight="2040dp">
+
+    <TextView
+            android:text="@string/space"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent" android:id="@+id/helper"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/trip_in_progress" app:layout_constraintBottom_toTopOf="@+id/imageView2"
+            app:layout_constraintVertical_bias="0.0"
+            android:textAppearance="@android:style/TextAppearance" android:textSize="14sp"
+            android:textColor="@android:color/transparent" app:layout_constraintEnd_toStartOf="@+id/imageView2"
+            app:layout_constraintHorizontal_bias="0.0"/>
+    <TextView
+            android:text="@string/trip_in_progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:id="@+id/trip_in_progress"
+            app:layout_constraintTop_toTopOf="parent"
+            android:textAppearance="@android:style/TextAppearance"
+            android:textSize="14sp" android:textColor="@android:color/black"
+            app:layout_constraintStart_toStartOf="parent" app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintVertical_bias="0.0"/>
+    <Button
+            android:text="@string/trip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent" android:id="@+id/trip"
+            app:layout_constraintHorizontal_bias="0.0" app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/trip_in_progress"
+            app:layout_constraintVertical_bias="1.0" android:textAppearance="@android:style/TextAppearance"
+            android:textSize="12sp" android:textColor="@android:color/holo_blue_dark"
+            tools:targetApi="ice_cream_sandwich"/>
+    <Button
+            android:text="@string/chats"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent" android:id="@+id/chats"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/trip_in_progress"
+            app:layout_constraintVertical_bias="1.0" android:textAppearance="@android:style/TextAppearance"
+            android:textSize="12sp" android:textColor="@android:color/black"/>
+    <Button
+            android:text="@string/profile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/profile" app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintHorizontal_bias="1.0" app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/trip_in_progress"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintVertical_bias="1.0"
+            android:textAppearance="@android:style/TextAppearance" android:textSize="12sp"
+            android:textColor="@android:color/black"/>
+    <TextView
+            android:text="@string/space"
+            android:layout_width="0dp"
+            android:layout_height="79dp"
+            app:layout_constraintStart_toStartOf="parent" android:id="@+id/whitespace"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" tools:text="@string/space"
+            android:textAppearance="@android:style/TextAppearance" android:textSize="14sp"
+            android:textColor="@android:color/transparent" android:background="@android:color/white"
+            app:layout_constraintHorizontal_bias="0.0" app:layout_constraintVertical_bias="0.868"/>
+    <TextView
+            android:text="@string/end_trip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/end_trip" app:layout_constraintStart_toStartOf="@+id/whitespace"
+            app:layout_constraintHorizontal_bias="0.5" app:layout_constraintEnd_toEndOf="@+id/whitespace"
+            app:layout_constraintTop_toTopOf="@+id/whitespace"
+            app:layout_constraintVertical_bias="0.0" android:textAppearance="@android:style/TextAppearance"
+            android:textSize="14sp" android:textColor="@android:color/black" android:textStyle="bold"/>
+    <TextView
+            android:text="@string/are_you_sure_you_want_to_end_your_trip"
+            android:layout_width="wrap_content"
+            android:layout_height="19dp"
+            android:id="@+id/are_you_sure_you_want_to_end_your_trip"
+            app:layout_constraintStart_toStartOf="@+id/whitespace"
+            app:layout_constraintHorizontal_bias="0.5" app:layout_constraintEnd_toEndOf="@+id/whitespace"
+            app:layout_constraintTop_toBottomOf="@+id/end_trip" app:layout_constraintBottom_toBottomOf="@+id/whitespace"
+            android:textAppearance="@android:style/TextAppearance" android:textSize="12sp"
+            android:textColor="@android:color/black" app:layout_constraintVertical_bias="0.0"
+            android:layout_marginTop="8dp"/>
+    <Button
+            android:text="@string/confirm"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:id="@+id/confirm"
+            app:layout_constraintStart_toStartOf="@+id/are_you_sure_you_want_to_end_your_trip"
+            app:layout_constraintTop_toBottomOf="@+id/are_you_sure_you_want_to_end_your_trip"
+            app:layout_constraintBottom_toTopOf="@+id/chats" style="@style/Widget.AppCompat.Button.Borderless"
+            android:backgroundTint="@android:color/holo_blue_dark"
+            android:textAppearance="@android:style/TextAppearance" android:textSize="14sp"
+            android:textColor="@android:color/white" android:background="@android:color/holo_blue_dark"
+            app:layout_constraintVertical_bias="0.0" android:layout_marginTop="8dp"
+            tools:targetApi="lollipop"
+            android:onClick="goToYourLastTripScreenFromTripInProgress2ScreenViaConfirmButton"/>
+    <Button
+            android:text="@string/cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp" android:id="@+id/cancel_button"
+            app:layout_constraintEnd_toEndOf="@+id/are_you_sure_you_want_to_end_your_trip"
+            app:layout_constraintTop_toTopOf="@+id/confirm" android:background="@android:color/darker_gray"
+            style="@style/Widget.AppCompat.Button.Borderless" android:textAppearance="@android:style/TextAppearance"
+            android:textSize="14sp" android:textColor="@android:color/white"
+            android:onClick="goToTripInProgressScreenFromTripInProgress2ScreenViaCancelButton" tools:targetApi="donut"/>
+    <ImageView
+            android:src="@drawable/trip_confirmed_image"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:id="@+id/imageView2" app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintTop_toTopOf="@+id/helper"
+            app:layout_constraintBottom_toTopOf="@+id/end_trip" app:layout_constraintVertical_bias="0.0"
+            android:contentDescription="@string/photo" tools:targetApi="donut"/>
+</android.support.constraint.ConstraintLayout>

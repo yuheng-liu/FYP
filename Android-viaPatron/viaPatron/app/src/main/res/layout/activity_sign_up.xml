@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".SignUp" android:id="@+id/sign_up" android:minWidth="1480dp" android:maxWidth="1480dp"
+        android:minHeight="2048dp" android:maxHeight="2048dp">
+
+    <TextView
+            android:text="@string/sign_up"
+            android:layout_width="0dp"
+            android:layout_height="34dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:id="@+id/sign_up_text"
+            app:layout_constraintTop_toTopOf="parent"
+            android:textAppearance="@android:style/TextAppearance"
+            android:textSize="14sp" android:textAlignment="center"
+            app:layout_constraintStart_toStartOf="parent"/>
+    <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/first_name"
+            android:ems="10"
+            app:layout_constraintStart_toStartOf="@+id/sign_up_text"
+            app:layout_constraintEnd_toEndOf="@+id/sign_up_text" android:id="@+id/first_name"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintTop_toBottomOf="@+id/sign_up_text"
+            android:textAppearance="@android:style/TextAppearance" android:textSize="14sp"
+            android:textColor="@android:color/darker_gray" android:autofillHints="" android:hint="@string/first_name"
+            android:inputType="text" tools:targetApi="o"/>
+    <EditText
+            android:layout_width="0dp"
+            android:layout_height="42dp"
+            android:inputType="text|textPersonName"
+            android:text="@string/last_name"
+            android:ems="10"
+            android:id="@+id/last_name" app:layout_constraintEnd_toEndOf="@+id/first_name"
+            app:layout_constraintStart_toStartOf="@+id/first_name" app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintTop_toBottomOf="@+id/first_name"
+            android:textAppearance="@android:style/TextAppearance" android:textSize="14sp"
+            android:textColor="@android:color/darker_gray" android:autofillHints="" android:hint="@string/last_name"
+            tools:targetApi="o"/>
+    <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/email_address"
+            android:ems="10"
+            android:id="@+id/email_address" app:layout_constraintEnd_toEndOf="@+id/last_name"
+            app:layout_constraintStart_toStartOf="@+id/last_name" app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintTop_toBottomOf="@+id/last_name"
+            android:textAppearance="@android:style/TextAppearance"
+            android:textSize="14sp" android:textColor="@android:color/darker_gray" android:autofillHints=""
+            android:hint="@string/email_address" tools:targetApi="o" android:inputType="textEmailAddress"/>
+    <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/phone_number"
+            android:ems="10"
+            app:layout_constraintStart_toStartOf="@+id/email_address"
+            app:layout_constraintEnd_toEndOf="@+id/email_address" android:id="@+id/phone_number"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintTop_toBottomOf="@+id/email_address"
+            android:textAppearance="@android:style/TextAppearance" android:textSize="14sp"
+            android:textColor="@android:color/darker_gray" android:hint="@string/phone_number"
+            android:autofillHints="" tools:targetApi="o" android:inputType="phone"/>
+    <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/password"
+            android:ems="10"
+            android:id="@+id/password"
+            android:hint="@string/password" android:textAppearance="@android:style/TextAppearance"
+            android:textSize="14sp" android:textColor="@android:color/darker_gray"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintTop_toBottomOf="@+id/phone_number"
+            app:layout_constraintBottom_toTopOf="@+id/confirm_password" android:autofillHints=""
+            tools:targetApi="o" android:inputType="textPassword"/>
+    <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/confirm_password"
+            android:ems="10"
+            app:layout_constraintStart_toStartOf="@+id/password"
+            app:layout_constraintEnd_toEndOf="@+id/password" android:id="@+id/confirm_password"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintTop_toBottomOf="@+id/password"
+            android:hint="@string/confirm_password"
+            android:textAppearance="@android:style/TextAppearance" android:textSize="14sp"
+            android:textColor="@android:color/darker_gray" android:autofillHints="" tools:targetApi="o"
+            android:inputType="textPassword"/>
+    <Button
+            android:text="@string/sign_up_small_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@+id/confirm_password"
+            app:layout_constraintEnd_toEndOf="@+id/confirm_password"
+            android:id="@+id/sign_up_button"
+            app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintTop_toBottomOf="@+id/confirm_password"
+            app:layout_constraintVertical_bias="0.0" android:layout_marginTop="32dp"
+            android:backgroundTint="@android:color/black" android:textAppearance="@android:style/TextAppearance"
+            android:textSize="14sp" android:textColor="@android:color/white"
+            android:onClick="goToPorterMainScreenFromSignUpScreenViaSignUpButton" tools:targetApi="lollipop"/>
+    <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" app:srcCompat="?android:attr/actionModeCloseDrawable"
+            android:id="@+id/back_button"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintVertical_bias="0.0"
+            android:contentDescription="@string/back" android:tint="@android:color/holo_blue_dark"
+            android:visibility="visible"
+            android:backgroundTint="@android:color/transparent"
+            android:onClick="goToMainActivityScreenFromSignUpScreenViaBackButton"
+            app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toStartOf="@+id/sign_up_text"
+            app:layout_constraintHorizontal_bias="0.0" tools:targetApi="lollipop"
+            android:background="@android:color/transparent"/>
+</android.support.constraint.ConstraintLayout>
