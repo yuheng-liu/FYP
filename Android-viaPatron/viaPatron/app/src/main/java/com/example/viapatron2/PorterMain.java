@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.EditText;
 
 //public static final String EXTRA_MESSAGE = "com.example.viapatron2.MESSAGE";
 

@@ -28,12 +28,4 @@ public class MyProfile extends AppCompatActivity {
         //intent.putExtra(EXTRA_MESSAGE, message);
         startActivity(intent);
     }
-
-    public void goToPorterMainScreenFromMyProfileScreenViaPorterButton(View view){
-        Intent intent = new Intent(this, PorterMain.class);
-        //EditText editText = (EditText) findViewById(R.id.editText);
-        //String message = editText.getText().toString();
-        //intent.putExtra(EXTRA_MESSAGE, message);
-        startActivity(intent);
-    }
 }

@@ -111,7 +111,7 @@
             android:text="@string/mumbai_central"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toEndOf="@+id/mumbai_central_history" app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/mumbai_central_history"
             android:id="@+id/mumbai_central_2" app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintTop_toBottomOf="@+id/history"
             android:textAppearance="@android:style/TextAppearance"
@@ -250,7 +250,7 @@
             app:layout_constraintTop_toBottomOf="@+id/popular_destinations"
             app:layout_constraintBottom_toTopOf="@+id/history" android:contentDescription="@string/new_delhi"
             app:layout_constraintVertical_bias="1.0"
-            tools:targetApi="donut"/>
+            tools:targetApi="donut" android:visibility="visible"/>
     <ImageButton
             android:layout_width="109dp"
             android:layout_height="103dp" app:srcCompat="@drawable/mumbai_central"
@@ -258,7 +258,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/popular_destinations"
             app:layout_constraintBottom_toTopOf="@+id/history" app:layout_constraintVertical_bias="1.0"
-            android:contentDescription="@string/mumbai_central" tools:targetApi="donut"/>
+            android:contentDescription="@string/mumbai_central" tools:targetApi="donut" android:visibility="visible"/>
     <ImageButton
             android:layout_width="110dp"
             android:layout_height="104dp" app:srcCompat="@drawable/chennai"
@@ -267,7 +267,8 @@
             app:layout_constraintTop_toBottomOf="@+id/see_all_1"
             app:layout_constraintBottom_toTopOf="@+id/see_all_2" app:layout_constraintVertical_bias="0.0"
             android:contentDescription="@string/chennai"
-            app:layout_constraintStart_toEndOf="@+id/mumbai_central" tools:targetApi="donut"/>
+            app:layout_constraintStart_toEndOf="@+id/mumbai_central" tools:targetApi="donut"
+            android:visibility="visible"/>
     <TextView
             android:text="@string/new_delhi"
             android:layout_width="wrap_content"
@@ -309,5 +310,5 @@
             app:layout_constraintTop_toTopOf="@+id/mumbai_central_2"
             app:layout_constraintBottom_toBottomOf="@+id/porters_currently_active"
             android:background="@android:color/white" android:contentDescription="@string/mumbai_central"
-            tools:targetApi="donut"/>
+            tools:targetApi="donut" android:visibility="visible"/>
 </android.support.constraint.ConstraintLayout>
