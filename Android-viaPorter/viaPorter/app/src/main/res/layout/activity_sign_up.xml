@@ -95,10 +95,11 @@
             android:text="@string/sign_up_small_text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="@+id/confirm_password"
+            app:layout_constraintStart_toStartOf="@+id/PorterLicensePicture"
             app:layout_constraintEnd_toEndOf="@+id/confirm_password"
             android:id="@+id/sign_up_button"
-            app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintTop_toBottomOf="@+id/confirm_password"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/PorterLicensePicture"
             app:layout_constraintVertical_bias="0.0" android:layout_marginTop="32dp"
             android:backgroundTint="@android:color/black" android:textAppearance="@android:style/TextAppearance"
             android:textSize="14sp" android:textColor="@android:color/white"
@@ -116,4 +117,24 @@
             app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toStartOf="@+id/sign_up_text"
             app:layout_constraintHorizontal_bias="0.0" tools:targetApi="lollipop"
             android:background="@android:color/transparent"/>
+    <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" app:srcCompat="@android:drawable/ic_menu_my_calendar"
+            android:id="@+id/PorterLicensePicture"
+            app:layout_constraintStart_toStartOf="@+id/confirm_password" app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintEnd_toEndOf="@+id/confirm_password"
+            app:layout_constraintTop_toBottomOf="@+id/confirm_password"
+            android:contentDescription="@string/license" tools:targetApi="donut"/>
+    <Button
+            android:text="@string/upload_a_picture_of_your_porter_license"
+            android:layout_width="0dp"
+            android:layout_height="52dp"
+            android:id="@+id/upload_a_picture_of_your_porter_license"
+            app:layout_constraintStart_toEndOf="@+id/PorterLicensePicture" app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintEnd_toEndOf="@+id/confirm_password"
+            app:layout_constraintTop_toTopOf="@+id/PorterLicensePicture"
+            app:layout_constraintBottom_toBottomOf="@+id/PorterLicensePicture" style="@android:style/Widget.Button"
+            android:textAppearance="@android:style/TextAppearance" android:textSize="14sp"
+            android:textColor="@android:color/darker_gray" android:background="@android:color/transparent"
+            android:textAlignment="viewStart"/>
 </android.support.constraint.ConstraintLayout>

@@ -269,14 +269,14 @@
             app:layout_constraintTop_toBottomOf="@+id/trip_photo" app:layout_constraintVertical_bias="0.0"
             tools:targetApi="donut"/>
     <Button
-            android:text="@string/chandra"
+            android:text="@string/max"
             android:layout_width="wrap_content"
             android:layout_height="37dp"
             android:id="@+id/chandra" app:layout_constraintStart_toEndOf="@+id/porterphoto"
             app:layout_constraintTop_toBottomOf="@+id/trip_photo"
             app:layout_constraintStart_toStartOf="@+id/star1finalised"
             android:textAppearance="@android:style/TextAppearance" android:textSize="12sp"
-            android:textColor="@android:color/black"/>
+            android:textColor="@android:color/black" android:textAlignment="center"/>
     <TextView
             android:text="@string/usd"
             android:layout_width="wrap_content"

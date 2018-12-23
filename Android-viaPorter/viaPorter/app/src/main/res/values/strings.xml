@@ -16,12 +16,12 @@
     <string name="phone_number">Phone Number</string>
     <string name="confirm_password">Confirm Password</string>
     <string name="sign_up_small_text">Sign Up</string>
-    <string name="popular_destinations">Popular Destinations</string>
+    <string name="popular_destinations" tools:keep="@string/popular_destinations">Popular Destinations</string>
     <string name="history">History</string>
     <string name="see_all">See All</string>
-    <string name="new_delhi">New Delhi</string>
+    <string name="new_delhi" tools:keep="@string/new_delhi">New Delhi</string>
     <string name="mumbai_central">Mumbai Central</string>
-    <string name="chennai">Chennai</string>
+    <string name="chennai" tools:keep="@string/chennai">Chennai</string>
     <string name="your_porter">"Your Porter : "</string>
     <string name="chandra">Chandra</string>
     <string name="eighteen">18</string>
@@ -29,7 +29,7 @@
     <string name="trip">Trip</string>
     <string name="chats">Chats</string>
     <string name="profile">Profile</string>
-    <string name="where_to">Where to?</string>
+    <string name="where_to" tools:keep="@string/where_to">Where to?</string>
     <string name="Porters_Currently_Active">Porters Currently Active</string>
     <string name="eighty_seven">87</string>
     <string name="bookings">Bookings</string>
@@ -39,72 +39,81 @@
     <string name="language">Language</string>
     <string name="currency">Currency</string>
     <string name="usd">USD</string>
-    <string name="right_arrow">></string>
+    <string name="right_arrow" tools:keep="@string/right_arrow">-></string>
     <string name="reminders">Reminders</string>
     <string name="units">Units</string>
     <string name="imperial">Imperial</string>
     <string name="privacy_policy">Privacy Policy</string>
     <string name="sign_out">Sign Out</string>
     <string name="max">Max</string>
-    <string name="singapore">Singapore</string>
-    <string name="thesgwayfareratgmail_com">thesgwayfarer@gmail.com</string>
+    <string name="singapore" tools:keep="@string/singapore">Singapore</string>
+    <string name="thesgwayfareratgmail_com" tools:keep="@string/thesgwayfareratgmail_com">thesgwayfarer@gmail.com
+    </string>
     <string name="english">English</string>
     <string name="stations">Stations</string>
     <string name="mumbra">Mumbra</string>
     <string name="mum">Mum</string>
     <string name="enter" tools:keep="@string/enter">Enter</string>
-    <string name="search">Search</string>
-    <string name="trip_request">Trip Request</string>
-    <string name="from">FROM</string>
+    <string name="search" tools:keep="@string/search">Search</string>
+    <string name="trip_request" tools:keep="@string/trip_request">Trip Request</string>
+    <string name="from" tools:keep="@string/from">FROM</string>
     <string name="exit_3">Exit 3</string>
-    <string name="to">To</string>
-    <string name="luggages">LUGGAGES</string>
-    <string name="weight_of_1st_luggage_in_kg">WEIGHT OF 1ST LUGGAGE (IN KG)</string>
+    <string name="to" tools:keep="@string/to">To</string>
+    <string name="luggages" tools:keep="@string/luggages">LUGGAGES</string>
+    <string name="weight_of_1st_luggage_in_kg" tools:keep="@string/weight_of_1st_luggage_in_kg">WEIGHT OF 1ST LUGGAGE
+        (IN KG)
+    </string>
     <string name="luggages_small_text" tools:keep="@string/luggages_small_text">Luggages</string>
-    <string name="sixteen_point_five">16.5</string>
-    <string name="weight_of_2nd_luggage_in_kg">WEIGHT OF 2ND LUGGAGE (IN KG)</string>
-    <string name="enter_weight">Enter Weight</string>
-    <string name="next">Next</string>
-    <string name="aug">Aug</string>
-    <string name="enter_location">Enter Location</string>
-    <string name="two_luggages">2 Luggages</string>
-    <string name="twenty_eight">28</string>
-    <string name="kg">KG</string>
+    <string name="sixteen_point_five" tools:keep="@string/sixteen_point_five">16.5</string>
+    <string name="weight_of_2nd_luggage_in_kg" tools:keep="@string/weight_of_2nd_luggage_in_kg">WEIGHT OF 2ND LUGGAGE
+        (IN KG)
+    </string>
+    <string name="enter_weight" tools:keep="@string/enter_weight">Enter Weight</string>
+    <string name="next" tools:keep="@string/next">Next</string>
+    <string name="aug" tools:keep="@string/aug">Aug</string>
+    <string name="enter_location" tools:keep="@string/enter_location">Enter Location</string>
+    <string name="two_luggages" tools:keep="@string/two_luggages">2 Luggages</string>
+    <string name="twenty_eight" tools:keep="@string/twenty_eight">28</string>
+    <string name="kg" tools:keep="@string/kg">KG</string>
     <string name="dash">-</string>
     <string name="dollar_sign">$</string>
     <string name="ten">10</string>
-    <string name="twenty">20</string>
-    <string name="platform_b">Platform B</string>
+    <string name="twenty" tools:keep="@string/twenty">20</string>
+    <string name="platform_b" tools:keep="@string/platform_b">Platform B</string>
     <string name="confirm">Confirm</string>
-    <string name="total">Total</string>
-    <string name="trip_request_bidding">Trip Request Bidding</string>
-    <string name="bidding_ends_in">Bidding ends in</string>
-    <string name="zero_two">02</string>
+    <string name="total" tools:keep="@string/total">Total</string>
+    <string name="trip_request_bidding" tools:keep="@string/trip_request_bidding">Trip Request Bidding</string>
+    <string name="bidding_ends_in" tools:keep="@string/bidding_ends_in">Bidding ends in</string>
+    <string name="zero_two" tools:keep="@string/zero_two">02</string>
     <string name="colon">:</string>
-    <string name="fifty_nine">59</string>
-    <string name="cancel_request">Cancel Request</string>
-    <string name="one">1</string>
-    <string name="two">2</string>
-    <string name="vishnu">Vishnu</string>
+    <string name="fifty_nine" tools:keep="@string/fifty_nine">59</string>
+    <string name="cancel_request" tools:keep="@string/cancel_request">Cancel Request</string>
+    <string name="one" tools:keep="@string/one">1</string>
+    <string name="two" tools:keep="@string/two">2</string>
+    <string name="vishnu" tools:keep="@string/vishnu">Vishnu</string>
     <string name="nine_fifty">9.50</string>
-    <string name="twelve_point_zero_zero">12.00</string>
-    <string name="four_point_nine">4.9</string>
-    <string name="four_point_seven">4.7</string>
-    <string name="eleven">11</string>
+    <string name="twelve_point_zero_zero" tools:keep="@string/twelve_point_zero_zero">12.00</string>
+    <string name="four_point_nine" tools:keep="@string/four_point_nine">4.9</string>
+    <string name="four_point_seven" tools:keep="@string/four_point_seven">4.7</string>
+    <string name="eleven" tools:keep="@string/eleven">11</string>
     <string name="star">Star</string>
-    <string name="space"> </string>
-    <string name="accept">Accept</string>
-    <string name="zero_three">03</string>
-    <string name="zero_one">01</string>
-    <string name="confirm_porter">Confirm Porter</string>
-    <string name="would_you_like_to_confirm_your_porter_for">Would you like to confirm your porter for</string>
+    <string name="space"></string>
+    <string name="accept" tools:keep="@string/accept">Accept</string>
+    <string name="zero_three" tools:keep="@string/zero_three">03</string>
+    <string name="zero_one" tools:keep="@string/zero_one">01</string>
+    <string name="confirm_porter" tools:keep="@string/confirm_porter">Confirm Porter</string>
+    <string name="would_you_like_to_confirm_your_porter_for"
+            tools:keep="@string/would_you_like_to_confirm_your_porter_for">Would you like to confirm your porter for
+    </string>
     <string name="cancel">Cancel</string>
-    <string name="question_mark">\?</string>
-    <string name="number_of_luggages">Number of luggages</string>
+    <string name="question_mark" tools:keep="@string/question_mark">\?</string>
+    <string name="number_of_luggages" tools:keep="@string/number_of_luggages">Number of luggages</string>
     <string name="trip_confirmed">Trip Confirmed</string>
     <string name="start_trip">Start Trip</string>
-    <string name="your_porter_is_on_the_way">Your porter is on the way.</string>
-    <string name="your_porter_has_arrived">Your porter has arrived.</string>
+    <string name="your_porter_is_on_the_way" tools:keep="@string/your_porter_is_on_the_way">Your porter is on the way.
+    </string>
+    <string name="your_porter_has_arrived" tools:keep="@string/your_porter_has_arrived">Your porter has arrived.
+    </string>
     <string name="press_again_to_confirm">Press again to confirm</string>
     <string name="cancel_trip">Cancel Trip</string>
     <string name="trip_has_already_started_are_you_sure_you_want">Trip has already started. Are you sure you want
@@ -127,4 +136,50 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="license">license</string>
+    <string name="upload_a_picture_of_your_porter_license">Upload a picture of your Porter License.</string>
+    <string name="home">Home</string>
+    <string name="jobs">Jobs</string>
+    <string name="india">India</string>
+    <string name="broadcasted_trip_requests" tools:keep="@string/broadcasted_trip_requests">Broadcasted Trip Requests
+    </string>
+    <string name="trip_requests" tools:keep="@string/trip_requests">Trip Requests</string>
+    <string name="current_bids" tools:keep="@string/current_bids">Current Bids</string>
+    <string name="refresh" tools:keep="@string/refresh">Refresh</string>
+    <string name="taxi_stand_2" tools:keep="@string/taxi_stand_2">Taxi Stand 2</string>
+    <string name="Platform_A_Car_3" tools:keep="@string/Platform_A_Car_3">Platform A Car 3</string>
+    <string name="auction" tools:keep="@string/auction">Auction</string>
+    <string name="reject" tools:keep="@string/reject">Reject</string>
+    <string name="make_offer" tools:keep="@string/make_offer">Make Offer</string>
+    <string name="default_offer" tools:keep="@string/default_offer">Default Offer</string>
+    <string name="new_offer" tools:keep="@string/new_offer">New Offer</string>
+    <string name="rank_1_with_four_dollars" tools:keep="@string/rank_1_with_four_dollars">Rank 1 with $4.00</string>
+    <string name="remaining" tools:keep="@string/remaining">remaining</string>
+    <string name="edit_bid" tools:keep="@string/edit_bid">Edit Bid</string>
+    <string name="bid_success" tools:keep="@string/bid_success">Bid Success</string>
+    <string name="the_following_bid" tools:keep="@string/the_following_bid">The following bid</string>
+    <string name="is_successful" tools:keep="@string/is_successful">is successful.</string>
+    <string name="okay" tools:keep="@string/okay">OK</string>
+    <string name="please_proceed_to_find_your_patron" tools:keep="@string/please_proceed_to_find_your_patron">Please
+        proceed to find your patron.
+    </string>
+    <string name="rajesh80atgmail_com">rajesth80@gmail.com</string>
+    <string name="you_have_arrived">You have arrived.</string>
+    <string name="rajesh">Rajesh</string>
+    <string name="Refresh" tools:keep="@string/Refresh">Refresh</string>
+    <string name="Rank_1" tools:keep="@string/Rank_1">Rank 1</string>
+    <string name="with_dollar_sign" tools:keep="@string/with_$">with $</string>
+    <string name="decimal_point">.</string>
+    <string name="four">4</string>
+    <string name="zero_zero">00</string>
+    <string name="rank">Rank</string>
+    <string name="with">with</string>
+    <string name="enter_your_new_bid">Enter your new bid</string>
+    <string name="reject_request">Reject Request</string>
+    <string name="are_you_sure_you_want_to">Are you sure you want to</string>
+    <string name="reject_the_request">reject the request?</string>
+    <string name="cancel_bid">Cancel Bid</string>
+    <string name="withdraw_your_bid">withdraw your bid?</string>
+    <string name="bid_cancelled">Bid Cancelled</string>
+    <string name="has_been_cancelled">has been cancelled.</string>
 </resources>

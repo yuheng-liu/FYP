@@ -21,7 +21,7 @@
             app:layout_constraintHorizontal_bias="0.0"/>
     <TextView
             android:text="@string/trip_in_progress"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             android:id="@+id/trip_in_progress"
@@ -29,39 +29,8 @@
             android:textAppearance="@android:style/TextAppearance"
             android:textSize="14sp" android:textColor="@android:color/black"
             app:layout_constraintStart_toStartOf="parent" app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintVertical_bias="0.0"/>
-    <Button
-            android:text="@string/trip"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent" android:id="@+id/trip"
-            app:layout_constraintHorizontal_bias="0.0" app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/trip_in_progress"
-            app:layout_constraintVertical_bias="1.0" android:textAppearance="@android:style/TextAppearance"
-            android:textSize="12sp" android:textColor="@android:color/holo_blue_dark"
-            tools:targetApi="ice_cream_sandwich"/>
-    <Button
-            android:text="@string/chats"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent" android:id="@+id/chats"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/trip_in_progress"
-            app:layout_constraintVertical_bias="1.0" android:textAppearance="@android:style/TextAppearance"
-            android:textSize="12sp" android:textColor="@android:color/black"/>
-    <Button
-            android:text="@string/profile"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/profile" app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintHorizontal_bias="1.0" app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/trip_in_progress"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintVertical_bias="1.0"
-            android:textAppearance="@android:style/TextAppearance" android:textSize="12sp"
-            android:textColor="@android:color/black"/>
+            app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintVertical_bias="0.0"
+            android:textAlignment="center"/>
     <TextView
             android:text="@string/space"
             android:layout_width="0dp"
@@ -125,4 +94,50 @@
             app:layout_constraintTop_toTopOf="@+id/helper"
             app:layout_constraintBottom_toTopOf="@+id/end_trip" app:layout_constraintVertical_bias="0.0"
             android:contentDescription="@string/photo" tools:targetApi="donut"/>
+    <Button
+            android:text="@string/home"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" android:id="@+id/home"
+            android:textAppearance="@android:style/TextAppearance"
+            android:textSize="12sp" android:textColor="@android:color/black"
+            tools:targetApi="ice_cream_sandwich"
+            android:textAlignment="center"
+            app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintHorizontal_bias="0.0"
+    />
+    <Button
+            android:text="@string/chats"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/chats"
+            app:layout_constraintStart_toEndOf="@+id/jobs"
+            app:layout_constraintTop_toTopOf="@+id/jobs"
+            app:layout_constraintBottom_toBottomOf="@+id/jobs"
+            android:textAppearance="@android:style/TextAppearance"
+            android:textSize="12sp" android:textColor="@android:color/black"
+            app:layout_constraintHorizontal_bias="0.7" android:textAlignment="center"
+            app:layout_constraintEnd_toStartOf="@+id/profile"/>
+    <Button
+            android:text="@string/profile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/profile"
+            app:layout_constraintEnd_toEndOf="@+id/trip_in_progress"
+            app:layout_constraintTop_toTopOf="@+id/chats"
+            android:textAppearance="@android:style/TextAppearance" android:textSize="12sp"
+            android:textColor="@android:color/black"
+            tools:targetApi="donut"
+            app:layout_constraintBottom_toBottomOf="@+id/chats" android:textAlignment="center"/>
+
+    <Button
+            android:text="@string/jobs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/jobs" app:layout_constraintStart_toEndOf="@+id/home"
+            app:layout_constraintEnd_toStartOf="@+id/chats"
+            app:layout_constraintBottom_toBottomOf="@+id/home" app:layout_constraintTop_toTopOf="@+id/home"
+            android:textAppearance="@android:style/TextAppearance"
+            android:textSize="12sp" android:textColor="@android:color/holo_blue_dark" android:textAlignment="center"
+            tools:targetApi="ice_cream_sandwich"/>
 </android.support.constraint.ConstraintLayout>

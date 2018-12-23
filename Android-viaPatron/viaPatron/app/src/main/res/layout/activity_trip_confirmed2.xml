@@ -84,7 +84,7 @@
             app:layout_constraintBottom_toTopOf="@+id/chats" app:layout_constraintVertical_bias="0.0"
             android:background="@android:color/holo_green_light"
             android:textAppearance="@android:style/TextAppearance" android:textSize="12sp"
-            android:textColor="@android:color/white" android:textAlignment="center"
+            android:textColor="@android:color/white" android:textAlignment="viewStart"
             tools:targetApi="ice_cream_sandwich"/>
     <TextView
             android:text="@string/chandra"

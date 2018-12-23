@@ -13,15 +13,15 @@ public class TripRequest extends AppCompatActivity {
         setContentView(R.layout.activity_trip_request);
     }
 
-    public void goToStationsScreenFromTripRequestScreenViaBackButton(View view){
-        Intent intent = new Intent(this, Stations.class);
+    public void goToPorterMainScreenFromTripRequestScreenViaHomeButton(View view){
+        Intent intent = new Intent(this, PorterMain.class);
         //EditText editText = (EditText) findViewById(R.id.editText);
         //String message = editText.getText().toString();
         //intent.putExtra(EXTRA_MESSAGE, message);
         startActivity(intent);
     }
 
-    public void goToTripRequest2ScreenFromTripRequestScreenViaNextButton(View view){
+    public void goToTripRequests2ScreenFromTripRequestScreenViaRefreshButton(View view){
         Intent intent = new Intent(this, TripRequest2.class);
         //EditText editText = (EditText) findViewById(R.id.editText);
         //String message = editText.getText().toString();

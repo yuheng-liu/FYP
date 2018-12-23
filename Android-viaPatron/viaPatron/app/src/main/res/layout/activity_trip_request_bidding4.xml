@@ -91,7 +91,7 @@
             android:tint="@android:color/holo_blue_dark" app:layout_constraintStart_toEndOf="@+id/mumbai_central_2"
             app:layout_constraintEnd_toStartOf="@+id/mumbai_central_3"
             app:layout_constraintTop_toBottomOf="@+id/eighteen"
-            android:visibility="visible" android:layout_marginTop="16dp" app:layout_constraintVertical_bias="0.0"
+            android:visibility="visible" android:layout_marginTop="13dp" app:layout_constraintVertical_bias="0.0"
             app:layout_constraintBottom_toTopOf="@+id/mumbai_central_3"
             app:layout_constraintHorizontal_bias="0.68" android:contentDescription="@string/right_arrow"
             android:layout_marginEnd="16dp" tools:targetApi="ice_cream_sandwich"/>
@@ -167,7 +167,7 @@
             android:textColor="@android:color/black"/>
     <TextView
             android:text="@string/mumbai_central"
-            android:layout_width="87dp"
+            android:layout_width="110dp"
             android:layout_height="wrap_content"
             android:id="@+id/mumbai_central_2" app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintHorizontal_bias="0.0" app:layout_constraintEnd_toEndOf="@+id/eighteen"
@@ -176,7 +176,7 @@
             android:textColor="@android:color/black" android:textAlignment="center"/>
     <TextView
             android:text="@string/exit_3"
-            android:layout_width="87dp"
+            android:layout_width="110dp"
             android:layout_height="wrap_content"
             android:id="@+id/exit_3" app:layout_constraintStart_toStartOf="@+id/mumbai_central_2"
             app:layout_constraintHorizontal_bias="0.0" app:layout_constraintEnd_toEndOf="@id/mumbai_central_2"
@@ -186,7 +186,7 @@
             app:layout_constraintBottom_toTopOf="@+id/trip" app:layout_constraintVertical_bias="0.0"/>
     <TextView
             android:text="@string/mumbai_central"
-            android:layout_width="87dp"
+            android:layout_width="110dp"
             android:layout_height="wrap_content"
             android:id="@+id/mumbai_central_3" app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintHorizontal_bias="1.0" app:layout_constraintEnd_toEndOf="@+id/platform_b"
@@ -196,7 +196,7 @@
             android:textAlignment="center"/>
     <TextView
             android:text="@string/platform_b"
-            android:layout_width="87dp"
+            android:layout_width="110dp"
             android:layout_height="wrap_content"
             android:id="@+id/platform_b"
             app:layout_constraintEnd_toEndOf="parent"
@@ -206,7 +206,7 @@
             android:textAlignment="center"/>
     <TextView
             android:text="@string/two_luggages"
-            android:layout_width="87dp"
+            android:layout_width="110dp"
             android:layout_height="wrap_content"
             android:id="@+id/two_luggages" app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintHorizontal_bias="0.0" app:layout_constraintEnd_toEndOf="@+id/exit_3"
@@ -215,7 +215,7 @@
             android:textSize="14sp" android:textColor="@android:color/black" android:textAlignment="center"/>
     <TextView
             android:text="@string/twenty_eight"
-            android:layout_width="22dp"
+            android:layout_width="26dp"
             android:layout_height="16dp"
             android:id="@+id/twenty_eight" app:layout_constraintStart_toStartOf="@+id/two_luggages"
             app:layout_constraintHorizontal_bias="0.0" app:layout_constraintEnd_toStartOf="@+id/total"
@@ -243,7 +243,7 @@
             android:textSize="12sp" android:textColor="@android:color/darker_gray" android:textAlignment="viewStart"/>
     <Button
             android:text="@string/dollar_sign"
-            android:layout_width="16dp"
+            android:layout_width="30dp"
             android:layout_height="33dp"
             app:layout_constraintEnd_toEndOf="parent" android:id="@+id/dollar_sign_1"
             app:layout_constraintTop_toBottomOf="@+id/platform_b"
@@ -308,7 +308,7 @@
             android:layout_marginStart="8dp"
             android:backgroundTint="@android:color/holo_blue_dark"
             style="@android:style/Widget.DeviceDefault.ImageButton" android:contentDescription="@string/right_arrow"
-            tools:targetApi="lollipop" android:layout_marginTop="3dp"/>
+            tools:targetApi="lollipop"/>
     <TextView
             android:text="@string/bidding_ends_in"
             android:layout_width="110dp"
@@ -330,7 +330,7 @@
             app:layout_constraintTop_toBottomOf="@+id/bidding_ends_in"
             android:textColor="@android:color/black"
             app:layout_constraintBottom_toTopOf="@id/cancel_request" app:layout_constraintVertical_bias="0.0"
-            android:layout_marginBottom="4dp"/>
+            android:layout_marginBottom="4dp" android:textAlignment="viewEnd"/>
     <TextView
             android:text="@string/colon"
             android:layout_width="wrap_content"
@@ -353,7 +353,7 @@
             android:textColor="@android:color/black"
             app:layout_constraintTop_toBottomOf="@+id/bidding_ends_in" android:layout_marginEnd="4dp"
             app:layout_constraintBottom_toTopOf="@+id/chats"
-            app:layout_constraintVertical_bias="0.0"/>
+            app:layout_constraintVertical_bias="0.0" android:textAlignment="viewStart"/>
     <Button
             android:text="@string/cancel_request"
             android:layout_width="110dp"
@@ -557,7 +557,7 @@
             app:layout_constraintTop_toBottomOf="@+id/would_you_like_to_confirm_your_porter_for"
             android:textAppearance="@android:style/TextAppearance"
             android:textSize="12sp" android:textColor="@android:color/black"
-            android:textAlignment="center"/>
+            android:textAlignment="viewEnd"/>
     <TextView
             android:text="@string/nine_fifty"
             android:layout_width="wrap_content"

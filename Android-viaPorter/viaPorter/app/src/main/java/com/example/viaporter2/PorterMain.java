@@ -23,14 +23,13 @@ public class PorterMain extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void goToStationsScreenFromPorterMainScreenViaSearchButton(View view) {
-        Intent intent = new Intent(this, Stations.class);
+    public void goToTripRequestsScreenFromPorterMainScreenViaJobsButton(View view){
+        Intent intent = new Intent(this, TripRequest.class);
         //EditText editText = (EditText) findViewById(R.id.editText);
         //String message = editText.getText().toString();
         //intent.putExtra(EXTRA_MESSAGE, message);
         startActivity(intent);
     }
-
     /** Called when the user taps the Send button */
     //public void sendMessage(View view) {
       //  Intent intent = new Intent(this, Stations.class);

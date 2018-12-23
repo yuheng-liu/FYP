@@ -13,24 +13,24 @@ public class TripRequestBidding4 extends AppCompatActivity {
         setContentView(R.layout.activity_trip_request_bidding4);
     }
 
-    public void goToPorterMainScreenFromTripRequestBidding4ScreenViaCancelRequestButton(View view){
-        Intent intent = new Intent(this, PorterMain.class);
+    public void goToTripRequestBidding5ScreenFromTripRequestsBidding4ScreenViaBidSuccessSpaceButton(View view){
+        Intent intent = new Intent(this, TripRequestBidding5.class);
         //EditText editText = (EditText) findViewById(R.id.editText);
         //String message = editText.getText().toString();
         //intent.putExtra(EXTRA_MESSAGE, message);
         startActivity(intent);
     }
 
-    public void goToTripConfirmedScreenFromTripRequestBidding4ScreenViaConfirmButton(View view){
-        Intent intent = new Intent(this, TripConfirmed.class);
+    public void goToTripRequestBidding6ScreenFromTripRequestsBidding4ScreenViaBidSuccessSpaceButton(View view){
+        Intent intent = new Intent(this, TripRequestBidding6.class);
         //EditText editText = (EditText) findViewById(R.id.editText);
         //String message = editText.getText().toString();
         //intent.putExtra(EXTRA_MESSAGE, message);
         startActivity(intent);
     }
 
-    public void goToTripRequestBidding3ScreenFromTripRequestBidding4ScreenViaCancelButton(View view){
-        Intent intent = new Intent(this, TripRequestBidding3.class);
+    public void goToTripRequestBidding7ScreenFromTripRequestsBidding4ScreenViaBidSuccessSpaceButton(View view){
+        Intent intent = new Intent(this, TripRequestBidding7.class);
         //EditText editText = (EditText) findViewById(R.id.editText);
         //String message = editText.getText().toString();
         //intent.putExtra(EXTRA_MESSAGE, message);

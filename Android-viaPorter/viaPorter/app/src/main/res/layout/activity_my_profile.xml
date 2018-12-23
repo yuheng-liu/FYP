@@ -8,37 +8,6 @@
         tools:context=".MyProfile" android:id="@+id/my_profile_screen" android:minWidth="1480dp"
         android:maxWidth="1480dp"
         android:minHeight="2048dp" android:maxHeight="2048dp">
-
-    <Button
-            android:text="@string/trip"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent" android:id="@+id/trip"
-            app:layout_constraintHorizontal_bias="0.0" app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:textAppearance="@android:style/TextAppearance"
-            android:textSize="12sp" android:textColor="@android:color/holo_blue_dark"
-            tools:targetApi="ice_cream_sandwich"
-            android:onClick="goToPorterMainScreenFromMyProfileScreenViaTripButton"/>
-    <Button
-            android:text="@string/chats"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent" android:id="@+id/chats"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintTop_toBottomOf="@+id/porter_button"
-            app:layout_constraintVertical_bias="1.0" android:textAppearance="@android:style/TextAppearance"
-            android:textSize="12sp" android:textColor="@android:color/black"/>
-    <Button
-            android:text="@string/profile"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/profile" app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintHorizontal_bias="1.0" app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/trip" app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintVertical_bias="1.0"
-            android:textAppearance="@android:style/TextAppearance" android:textSize="12sp"
-            android:textColor="@android:color/black"/>
     <TextView
             android:text="@string/my_profile"
             android:layout_width="0dp"
@@ -49,7 +18,7 @@
             app:layout_constraintVertical_bias="0.0" android:textAppearance="@android:style/TextAppearance"
             android:textColor="@android:color/black"/>
     <TextView
-            android:text="@string/max"
+            android:text="@string/rajesh"
             android:layout_width="146dp"
             android:layout_height="wrap_content"
             android:id="@+id/Max" app:layout_constraintStart_toStartOf="parent"
@@ -59,23 +28,23 @@
             app:layout_constraintVertical_bias="0.0" android:textAlignment="viewStart"
             android:textColor="@android:color/black"/>
     <TextView
-            android:text="@string/singapore"
+            android:text="@string/india"
             android:layout_width="146dp"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="@+id/Max" app:layout_constraintEnd_toEndOf="@+id/Max"
-            android:id="@+id/singapore" app:layout_constraintHorizontal_bias="0.5"
+            android:id="@+id/india" app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintTop_toBottomOf="@+id/Max"
             android:textAppearance="@android:style/TextAppearance" android:textSize="12sp"
             android:textColor="@android:color/darker_gray" app:layout_constraintVertical_bias="0.0"
             android:textAlignment="viewStart"/>
     <TextView
-            android:text="@string/thesgwayfareratgmail_com"
+            android:text="@string/rajesh80atgmail_com"
             android:layout_width="147dp"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="@+id/singapore"
-            android:id="@+id/thesgwayfareratgmail.com"
-            app:layout_constraintEnd_toEndOf="@+id/singapore"
-            app:layout_constraintBottom_toTopOf="parent" app:layout_constraintTop_toBottomOf="@+id/singapore"
+            app:layout_constraintStart_toStartOf="@+id/india"
+            android:id="@+id/rajesh80ATgmail.com"
+            app:layout_constraintEnd_toEndOf="@+id/india"
+            app:layout_constraintBottom_toTopOf="parent" app:layout_constraintTop_toBottomOf="@+id/india"
             android:textAppearance="@android:style/TextAppearance" android:textSize="12sp"
             android:textColor="@android:color/darker_gray" app:layout_constraintVertical_bias="0.0"
             android:textAlignment="viewStart"/>
@@ -86,9 +55,9 @@
             android:id="@+id/language"
             android:textAppearance="@android:style/TextAppearance" android:textSize="14sp"
             android:textColor="@android:color/black" app:layout_constraintStart_toStartOf="@+id/MyProfile"
-            app:layout_constraintHorizontal_bias="0.0" app:layout_constraintEnd_toEndOf="@+id/thesgwayfareratgmail.com"
+            app:layout_constraintHorizontal_bias="0.0" app:layout_constraintEnd_toEndOf="@+id/rajesh80ATgmail.com"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/thesgwayfareratgmail.com"
+            app:layout_constraintTop_toBottomOf="@+id/rajesh80ATgmail.com"
             app:layout_constraintVertical_bias="0.0"/>
     <TextView
             android:text="@string/reminders"
@@ -142,17 +111,16 @@
             app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintTop_toBottomOf="@+id/language"
             app:layout_constraintVertical_bias="0.0"/>
     <Button
-            android:text="@string/porter"
+            android:text="@string/app_name"
             android:layout_width="0dp"
             android:layout_height="37dp"
-            android:id="@+id/porter_button"
+            android:id="@+id/viaPorter_text"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintHorizontal_bias="0.5" app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/sign_out"
             android:textAppearance="@android:style/TextAppearance" android:textSize="14sp"
             android:textColor="@android:color/holo_blue_dark" android:backgroundTint="@android:color/transparent"
             tools:targetApi="lollipop" style="@android:style/Widget.Button"
-            android:onClick="goToPorterMainScreenFromMyProfileScreenViaPorterButton"
             android:background="@android:color/transparent"/>
     <TextView
             android:text="@string/english"
@@ -164,7 +132,7 @@
             android:textColor="@android:color/darker_gray"
             android:textAlignment="viewEnd"
             app:layout_constraintEnd_toStartOf="@+id/language_arrow"
-            app:layout_constraintTop_toBottomOf="@+id/thesgwayfareratgmail.com"/>
+            app:layout_constraintTop_toBottomOf="@+id/rajesh80ATgmail.com"/>
     <TextView
             android:text="@string/usd"
             android:layout_width="64dp"
@@ -245,4 +213,51 @@
             app:layout_constraintEnd_toStartOf="@+id/language" app:layout_constraintTop_toBottomOf="@+id/MyProfile"
             app:layout_constraintBottom_toTopOf="@+id/language" android:contentDescription="@string/my_profile"
             android:visibility="visible" tools:targetApi="donut"/>
+    <Button
+            android:text="@string/home"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" android:id="@+id/home"
+            android:textAppearance="@android:style/TextAppearance"
+            android:textSize="12sp" android:textColor="@android:color/black"
+            tools:targetApi="ice_cream_sandwich"
+            android:textAlignment="center"
+            app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintHorizontal_bias="0.0"
+            android:onClick="goToPorterMainScreenFromMyProfileScreenViaHomeButton"/>
+    <Button
+            android:text="@string/chats"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/chats"
+            app:layout_constraintStart_toEndOf="@+id/jobs"
+            app:layout_constraintTop_toTopOf="@+id/jobs"
+            app:layout_constraintBottom_toBottomOf="@+id/jobs"
+            android:textAppearance="@android:style/TextAppearance"
+            android:textSize="12sp" android:textColor="@android:color/black"
+            app:layout_constraintHorizontal_bias="0.7" android:textAlignment="center"
+            app:layout_constraintEnd_toStartOf="@+id/profile"/>
+    <Button
+            android:text="@string/profile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/profile"
+            app:layout_constraintEnd_toEndOf="@+id/MyProfile"
+            app:layout_constraintTop_toTopOf="@+id/chats"
+            android:textAppearance="@android:style/TextAppearance" android:textSize="12sp"
+            android:textColor="@android:color/holo_blue_dark"
+            tools:targetApi="ice_cream_sandwich"
+            app:layout_constraintBottom_toBottomOf="@+id/chats" android:textAlignment="center"
+    />
+
+    <Button
+            android:text="@string/jobs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/jobs" app:layout_constraintStart_toEndOf="@+id/home"
+            app:layout_constraintEnd_toStartOf="@+id/chats"
+            app:layout_constraintBottom_toBottomOf="@+id/home" app:layout_constraintTop_toTopOf="@+id/home"
+            android:textAppearance="@android:style/TextAppearance"
+            android:textSize="12sp" android:textColor="@android:color/black" android:textAlignment="center"
+            android:onClick="goToTripRequestsScreenFromMyProfileScreenViaJobsButton" tools:targetApi="donut"/>
 </android.support.constraint.ConstraintLayout>

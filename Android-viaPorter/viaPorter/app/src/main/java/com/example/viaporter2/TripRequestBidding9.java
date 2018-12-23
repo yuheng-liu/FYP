@@ -1,27 +1,28 @@
 package com.example.viaporter2;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.view.View;
 
-public class TripRequestBidding2 extends AppCompatActivity {
+public class TripRequestBidding9 extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_trip_request_bidding2);
+        setContentView(R.layout.activity_trip_request_bidding9);
     }
-    public void goToPorterMainScreenFromTripRequestsBidding2ScreenViaHomeButton(View view){
-        Intent intent = new Intent(this, PorterMain.class);
+
+    public void goToTripRequestsBidding6FromTripRequestsBidding9ScreenViaCancelButton(View view){
+        Intent intent = new Intent(this, TripRequestBidding6.class);
         //EditText editText = (EditText) findViewById(R.id.editText);
         //String message = editText.getText().toString();
         //intent.putExtra(EXTRA_MESSAGE, message);
         startActivity(intent);
     }
 
-    public void goToTripRequestsBidding10ScreenFromTripRequestBidding2ScreenViaRejectButton(View view){
-        Intent intent = new Intent(this, TripRequestBidding10.class);
+    public void goToTripRequestsBidding12FromTripRequestsBidding9ScreenViaConfirmButton(View view){
+        Intent intent = new Intent(this, TripRequestBidding12.class);
         //EditText editText = (EditText) findViewById(R.id.editText);
         //String message = editText.getText().toString();
         //intent.putExtra(EXTRA_MESSAGE, message);

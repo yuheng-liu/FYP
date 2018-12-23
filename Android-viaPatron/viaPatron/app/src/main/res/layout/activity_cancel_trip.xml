@@ -58,7 +58,7 @@
             app:layout_constraintTop_toBottomOf="@+id/trip_in_progress"
             android:background="@android:color/holo_blue_dark"
             android:textAppearance="@android:style/TextAppearance" android:textSize="12sp"
-            android:textColor="@android:color/white" android:textAlignment="center"
+            android:textColor="@android:color/white" android:textAlignment="viewStart"
             tools:targetApi="ice_cream_sandwich"/>
     <TextView
             android:text="@string/chandra"

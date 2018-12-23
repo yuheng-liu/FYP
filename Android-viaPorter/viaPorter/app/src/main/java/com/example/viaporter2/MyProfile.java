@@ -21,7 +21,7 @@ public class MyProfile extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void goToPorterMainScreenFromMyProfileScreenViaTripButton(View view){
+    public void goToPorterMainScreenFromMyProfileScreenViaHomeButton(View view){
         Intent intent = new Intent(this, PorterMain.class);
         //EditText editText = (EditText) findViewById(R.id.editText);
         //String message = editText.getText().toString();
@@ -29,11 +29,13 @@ public class MyProfile extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void goToPorterMainScreenFromMyProfileScreenViaPorterButton(View view){
-        Intent intent = new Intent(this, PorterMain.class);
+    public void goToTripRequestsScreenFromMyProfileScreenViaJobsButton(View view){
+        Intent intent = new Intent(this, TripRequest.class);
         //EditText editText = (EditText) findViewById(R.id.editText);
         //String message = editText.getText().toString();
         //intent.putExtra(EXTRA_MESSAGE, message);
         startActivity(intent);
     }
+
+
 }

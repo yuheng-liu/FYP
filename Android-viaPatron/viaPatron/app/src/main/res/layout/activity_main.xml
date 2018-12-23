@@ -46,7 +46,7 @@
     <Button
             android:text="@string/sign_in"
             android:layout_width="0dp"
-            android:layout_height="39dp"
+            android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="@+id/password" app:layout_constraintEnd_toEndOf="@+id/password"
             android:id="@+id/sign_in" app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintTop_toBottomOf="@+id/password"

@@ -22,7 +22,7 @@
     <string name="new_delhi">New Delhi</string>
     <string name="mumbai_central">Mumbai Central</string>
     <string name="chennai">Chennai</string>
-    <string name="your_porter">"Your Porter : "</string>
+    <string name="your_porter">"Your Porter: "</string>
     <string name="chandra">Chandra</string>
     <string name="eighteen">18</string>
     <string name="today">Today</string>
@@ -39,7 +39,7 @@
     <string name="language">Language</string>
     <string name="currency">Currency</string>
     <string name="usd">USD</string>
-    <string name="right_arrow">></string>
+    <string name="right_arrow">-></string>
     <string name="reminders">Reminders</string>
     <string name="units">Units</string>
     <string name="imperial">Imperial</string>

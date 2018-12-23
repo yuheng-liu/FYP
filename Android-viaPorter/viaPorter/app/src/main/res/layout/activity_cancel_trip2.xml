@@ -50,18 +50,18 @@
             app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintVertical_bias="0.0"
             android:textAlignment="center"/>
     <TextView
-            android:text="@string/your_porter_has_arrived"
-            android:layout_width="wrap_content"
+            android:text="@string/you_have_arrived"
+            android:layout_width="144dp"
             android:layout_height="wrap_content"
             android:id="@+id/your_porter_has_arrived" app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintHorizontal_bias="0.5" app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/trip_in_progress"
             android:background="@android:color/holo_green_light"
             android:textAppearance="@android:style/TextAppearance" android:textSize="12sp"
-            android:textColor="@android:color/white" android:textAlignment="center"
+            android:textColor="@android:color/white" android:textAlignment="viewStart"
             tools:targetApi="ice_cream_sandwich"/>
     <TextView
-            android:text="@string/chandra"
+            android:text="@string/mumbai_central"
             android:layout_width="wrap_content"
             android:layout_height="29dp"
             android:id="@+id/chandra3"
@@ -73,7 +73,7 @@
             android:textColor="@android:color/white" android:textAlignment="viewEnd"
             app:layout_constraintHorizontal_bias="0.0" tools:targetApi="ice_cream_sandwich"/>
     <TextView
-            android:text="@string/comma"
+            android:text="@string/space"
             android:layout_width="4dp"
             android:layout_height="29dp"
             android:id="@+id/comma" app:layout_constraintStart_toEndOf="@+id/chandra3"
@@ -83,7 +83,7 @@
             app:layout_constraintVertical_bias="0.0"
             app:layout_constraintBottom_toBottomOf="parent" tools:targetApi="ice_cream_sandwich"/>
     <TextView
-            android:text="@string/four_point_nine"
+            android:text="@string/exit_3"
             android:layout_width="0dp"
             android:layout_height="29dp"
             android:id="@+id/four_point_nine" app:layout_constraintStart_toEndOf="@+id/comma"
@@ -109,13 +109,6 @@
             app:layout_constraintHorizontal_bias="0.5" app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/your_porter_has_arrived"
             android:background="@android:color/holo_green_light" tools:targetApi="ice_cream_sandwich"/>
-    <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="27dp" app:srcCompat="@android:drawable/btn_star"
-            android:id="@+id/star"
-            android:background="@android:color/transparent" app:layout_constraintStart_toEndOf="@+id/comma"
-            app:layout_constraintTop_toBottomOf="@+id/your_porter_has_arrived"
-            android:layout_marginStart="16dp" android:contentDescription="@string/star" tools:targetApi="donut"/>
     <ImageButton
             android:layout_width="44dp"
             android:layout_height="43dp" app:srcCompat="@android:drawable/ic_menu_my_calendar"
