@@ -1,0 +1,32 @@
+{
+	"providers": {
+		"awscloudformation": {
+			"AuthRoleName": "iviaatron-20190101233931-authRole",
+			"UnauthRoleArn": "arn:aws:iam::573611429528:role/iviaatron-20190101233931-unauthRole",
+			"AuthRoleArn": "arn:aws:iam::573611429528:role/iviaatron-20190101233931-authRole",
+			"Region": "ap-southeast-1",
+			"DeploymentBucketName": "iviaatron-20190101233931-deployment",
+			"UnauthRoleName": "iviaatron-20190101233931-unauthRole",
+			"StackName": "iviaatron-20190101233931",
+			"StackId": "arn:aws:cloudformation:ap-southeast-1:573611429528:stack/iviaatron-20190101233931/6ea13b90-0ddb-11e9-a4c6-02f6be1377fa"
+		}
+	},
+	"api": {
+		"iosviapatron": {
+			"service": "AppSync",
+			"providerPlugin": "awscloudformation",
+			"output": {
+				"securityType": "API_KEY",
+				"GraphQLAPIIdOutput": "e3px6n7xibfwba3e5eej4corgu",
+				"GraphQLAPIEndpointOutput": "https://vfsycdf2qjaqtoz6nf3yixkd4i.appsync-api.ap-southeast-1.amazonaws.com/graphql",
+				"GraphQLAPIKeyOutput": "da2-sa26ufsm3ncwhhnzwxbwv75jju"
+			},
+			"providerMetadata": {
+				"s3TemplateURL": "https://s3.amazonaws.com/iviaatron-20190101233931-deployment/amplify-cfn-templates/api/cloudformation-template.json",
+				"logicalId": "apiiosviapatron"
+			},
+			"lastPushTimeStamp": "2019-01-01T15:50:51.952Z",
+			"lastPushDirHash": "+PHPOUdZnRNjBuBJq4Axjj/SwOc="
+		}
+	}
+}

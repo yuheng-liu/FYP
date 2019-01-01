@@ -1,0 +1,16 @@
+projects:
+  iosviapatron:
+    schemaPath: graphql/schema.json
+    includes:
+      - graphql/**/*.graphql
+    excludes:
+      - ./amplify/**
+    extensions:
+      amplify:
+        codeGenTarget: swift
+        generatedFileName: API.swift
+        docsFilePath: graphql
+        graphQLApiId: e3px6n7xibfwba3e5eej4corgu
+      endpoints:
+        prod: >-
+          https://vfsycdf2qjaqtoz6nf3yixkd4i.appsync-api.ap-southeast-1.amazonaws.com/graphql

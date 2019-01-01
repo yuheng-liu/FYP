@@ -1,0 +1,10 @@
+platform :ios, '9.0'
+
+target :'iOS-viaPatron' do
+  use_frameworks!
+
+  # Pods for iOS-viaPatron
+  #  pod 'AWSCore', '~> 2.8.0'
+  pod 'AWSAppSync', '~> 2.8.0'
+
+end

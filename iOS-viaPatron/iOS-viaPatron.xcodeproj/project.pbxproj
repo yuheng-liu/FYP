@@ -7,14 +7,19 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		58B95FA821DBC4F600D0F64F /* awsconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = 58B95FA721DBC4F600D0F64F /* awsconfiguration.json */; };
+		58B95FAA21DBC4FF00D0F64F /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58B95FA921DBC4FF00D0F64F /* API.swift */; };
 		58FC38F621DBAA8000D85A5B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58FC38F521DBAA8000D85A5B /* AppDelegate.swift */; };
 		58FC38F821DBAA8000D85A5B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58FC38F721DBAA8000D85A5B /* ViewController.swift */; };
 		58FC38FB21DBAA8000D85A5B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 58FC38F921DBAA8000D85A5B /* Main.storyboard */; };
 		58FC38FD21DBAA8000D85A5B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 58FC38FC21DBAA8000D85A5B /* Assets.xcassets */; };
 		58FC390021DBAA8000D85A5B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 58FC38FE21DBAA8000D85A5B /* LaunchScreen.storyboard */; };
+		D966E0AD2B4DE0C45FC91435 /* Pods_iOS_viaPatron.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB825579FA7D3E685EBC5F16 /* Pods_iOS_viaPatron.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		58B95FA721DBC4F600D0F64F /* awsconfiguration.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = awsconfiguration.json; sourceTree = SOURCE_ROOT; };
+		58B95FA921DBC4FF00D0F64F /* API.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = SOURCE_ROOT; };
 		58FC38F221DBAA8000D85A5B /* iOS-viaPatron.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "iOS-viaPatron.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		58FC38F521DBAA8000D85A5B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		58FC38F721DBAA8000D85A5B /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -22,6 +27,9 @@
 		58FC38FC21DBAA8000D85A5B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		58FC38FF21DBAA8000D85A5B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		58FC390121DBAA8000D85A5B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5BE7C6CC173B982D89B8C02B /* Pods-iOS-viaPatron.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iOS-viaPatron.debug.xcconfig"; path = "Pods/Target Support Files/Pods-iOS-viaPatron/Pods-iOS-viaPatron.debug.xcconfig"; sourceTree = "<group>"; };
+		7B1C61C692BF4611CC537AAC /* Pods-iOS-viaPatron.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iOS-viaPatron.release.xcconfig"; path = "Pods/Target Support Files/Pods-iOS-viaPatron/Pods-iOS-viaPatron.release.xcconfig"; sourceTree = "<group>"; };
+		DB825579FA7D3E685EBC5F16 /* Pods_iOS_viaPatron.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_iOS_viaPatron.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -29,6 +37,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D966E0AD2B4DE0C45FC91435 /* Pods_iOS_viaPatron.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -40,6 +49,8 @@
 			children = (
 				58FC38F421DBAA8000D85A5B /* iOS-viaPatron */,
 				58FC38F321DBAA8000D85A5B /* Products */,
+				EF71EA070BE7EC5143D444CA /* Pods */,
+				DB8B416EFEE2579240633EE4 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -54,6 +65,8 @@
 		58FC38F421DBAA8000D85A5B /* iOS-viaPatron */ = {
 			isa = PBXGroup;
 			children = (
+				58B95FA921DBC4FF00D0F64F /* API.swift */,
+				58B95FA721DBC4F600D0F64F /* awsconfiguration.json */,
 				58FC38F521DBAA8000D85A5B /* AppDelegate.swift */,
 				58FC38F721DBAA8000D85A5B /* ViewController.swift */,
 				58FC38F921DBAA8000D85A5B /* Main.storyboard */,
@@ -64,6 +77,23 @@
 			path = "iOS-viaPatron";
 			sourceTree = "<group>";
 		};
+		DB8B416EFEE2579240633EE4 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				DB825579FA7D3E685EBC5F16 /* Pods_iOS_viaPatron.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		EF71EA070BE7EC5143D444CA /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				5BE7C6CC173B982D89B8C02B /* Pods-iOS-viaPatron.debug.xcconfig */,
+				7B1C61C692BF4611CC537AAC /* Pods-iOS-viaPatron.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -71,9 +101,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 58FC390421DBAA8000D85A5B /* Build configuration list for PBXNativeTarget "iOS-viaPatron" */;
 			buildPhases = (
+				5D7DD23684A6A8F284A6F4F1 /* [CP] Check Pods Manifest.lock */,
 				58FC38EE21DBAA8000D85A5B /* Sources */,
 				58FC38EF21DBAA8000D85A5B /* Frameworks */,
 				58FC38F021DBAA8000D85A5B /* Resources */,
+				B64B6A4F29D52F2E2A1F69AC /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -122,6 +154,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				58B95FA821DBC4F600D0F64F /* awsconfiguration.json in Resources */,
 				58FC390021DBAA8000D85A5B /* LaunchScreen.storyboard in Resources */,
 				58FC38FD21DBAA8000D85A5B /* Assets.xcassets in Resources */,
 				58FC38FB21DBAA8000D85A5B /* Main.storyboard in Resources */,
@@ -130,12 +163,66 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		5D7DD23684A6A8F284A6F4F1 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-iOS-viaPatron-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B64B6A4F29D52F2E2A1F69AC /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-iOS-viaPatron/Pods-iOS-viaPatron-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/AWSAppSync/AWSAppSync.framework",
+				"${BUILT_PRODUCTS_DIR}/AWSCore/AWSCore.framework",
+				"${BUILT_PRODUCTS_DIR}/ReachabilitySwift/Reachability.framework",
+				"${BUILT_PRODUCTS_DIR}/SQLite.swift/SQLite.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AWSAppSync.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AWSCore.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Reachability.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SQLite.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-iOS-viaPatron/Pods-iOS-viaPatron-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		58FC38EE21DBAA8000D85A5B /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				58FC38F821DBAA8000D85A5B /* ViewController.swift in Sources */,
+				58B95FAA21DBC4FF00D0F64F /* API.swift in Sources */,
 				58FC38F621DBAA8000D85A5B /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -280,6 +367,7 @@
 		};
 		58FC390521DBAA8000D85A5B /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5BE7C6CC173B982D89B8C02B /* Pods-iOS-viaPatron.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -298,6 +386,7 @@
 		};
 		58FC390621DBAA8000D85A5B /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7B1C61C692BF4611CC537AAC /* Pods-iOS-viaPatron.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
