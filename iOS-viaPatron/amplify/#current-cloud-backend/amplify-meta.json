@@ -25,8 +25,29 @@
 				"s3TemplateURL": "https://s3.amazonaws.com/iviaatron-20190101233931-deployment/amplify-cfn-templates/api/cloudformation-template.json",
 				"logicalId": "apiiosviapatron"
 			},
-			"lastPushTimeStamp": "2019-01-01T15:50:51.952Z",
+			"lastPushTimeStamp": "2019-01-05T16:03:34.348Z",
 			"lastPushDirHash": "+PHPOUdZnRNjBuBJq4Axjj/SwOc="
+		}
+	},
+	"auth": {
+		"cognitoc83cd800": {
+			"service": "Cognito",
+			"providerPlugin": "awscloudformation",
+			"providerMetadata": {
+				"s3TemplateURL": "https://s3.amazonaws.com/iviaatron-20190101233931-deployment/amplify-cfn-templates/auth/cognitoc83cd800-cloudformation-template.yml",
+				"logicalId": "authcognitoc83cd800"
+			},
+			"lastPushTimeStamp": "2019-01-05T16:03:34.352Z",
+			"output": {
+				"AppClientSecret": "446kv78k12scjrljaorn25bh121eobmuv8uspankdjhc80blim3",
+				"UserPoolId": "ap-southeast-1_2bratcRId",
+				"AppClientIDWeb": "6q8n7nc0thrq6shpo5i7vhmpqn",
+				"AppClientID": "4ofdd7rt6a8vh6od3fnu3pi42l",
+				"IdentityPoolId": "ap-southeast-1:eb16d13d-8b62-48c1-8d82-254edebfa59b",
+				"IdentityPoolName": "cognitoc83cd800_identitypool_c83cd800",
+				"UserPoolName": "cognitoc83cd800_userpool_c83cd800"
+			},
+			"lastPushDirHash": "c7qVTVuEr2zCGwsIC/ENB/m/LDQ="
 		}
 	}
 }

@@ -7,10 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		58B95FA821DBC4F600D0F64F /* awsconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = 58B95FA721DBC4F600D0F64F /* awsconfiguration.json */; };
 		58B95FAA21DBC4FF00D0F64F /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58B95FA921DBC4FF00D0F64F /* API.swift */; };
+		58B95FB121E102C200D0F64F /* TestingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58B95FB021E102C200D0F64F /* TestingViewController.swift */; };
+		58B95FB321E10B7F00D0F64F /* awsconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = 58B95FB221E10B7F00D0F64F /* awsconfiguration.json */; };
 		58FC38F621DBAA8000D85A5B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58FC38F521DBAA8000D85A5B /* AppDelegate.swift */; };
-		58FC38F821DBAA8000D85A5B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58FC38F721DBAA8000D85A5B /* ViewController.swift */; };
+		58FC38F821DBAA8000D85A5B /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58FC38F721DBAA8000D85A5B /* MainViewController.swift */; };
 		58FC38FB21DBAA8000D85A5B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 58FC38F921DBAA8000D85A5B /* Main.storyboard */; };
 		58FC38FD21DBAA8000D85A5B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 58FC38FC21DBAA8000D85A5B /* Assets.xcassets */; };
 		58FC390021DBAA8000D85A5B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 58FC38FE21DBAA8000D85A5B /* LaunchScreen.storyboard */; };
@@ -18,11 +19,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		58B95FA721DBC4F600D0F64F /* awsconfiguration.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = awsconfiguration.json; sourceTree = SOURCE_ROOT; };
 		58B95FA921DBC4FF00D0F64F /* API.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = SOURCE_ROOT; };
+		58B95FB021E102C200D0F64F /* TestingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestingViewController.swift; sourceTree = "<group>"; };
+		58B95FB221E10B7F00D0F64F /* awsconfiguration.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = awsconfiguration.json; sourceTree = SOURCE_ROOT; };
 		58FC38F221DBAA8000D85A5B /* iOS-viaPatron.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "iOS-viaPatron.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		58FC38F521DBAA8000D85A5B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		58FC38F721DBAA8000D85A5B /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		58FC38F721DBAA8000D85A5B /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		58FC38FA21DBAA8000D85A5B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		58FC38FC21DBAA8000D85A5B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		58FC38FF21DBAA8000D85A5B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -44,6 +46,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		58B95FAB21DCDE7800D0F64F /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				58FC38F721DBAA8000D85A5B /* MainViewController.swift */,
+				58B95FB021E102C200D0F64F /* TestingViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
 		58FC38E921DBAA8000D85A5B = {
 			isa = PBXGroup;
 			children = (
@@ -65,10 +76,10 @@
 		58FC38F421DBAA8000D85A5B /* iOS-viaPatron */ = {
 			isa = PBXGroup;
 			children = (
+				58B95FB221E10B7F00D0F64F /* awsconfiguration.json */,
+				58B95FAB21DCDE7800D0F64F /* ViewControllers */,
 				58B95FA921DBC4FF00D0F64F /* API.swift */,
-				58B95FA721DBC4F600D0F64F /* awsconfiguration.json */,
 				58FC38F521DBAA8000D85A5B /* AppDelegate.swift */,
-				58FC38F721DBAA8000D85A5B /* ViewController.swift */,
 				58FC38F921DBAA8000D85A5B /* Main.storyboard */,
 				58FC38FC21DBAA8000D85A5B /* Assets.xcassets */,
 				58FC38FE21DBAA8000D85A5B /* LaunchScreen.storyboard */,
@@ -154,7 +165,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				58B95FA821DBC4F600D0F64F /* awsconfiguration.json in Resources */,
+				58B95FB321E10B7F00D0F64F /* awsconfiguration.json in Resources */,
 				58FC390021DBAA8000D85A5B /* LaunchScreen.storyboard in Resources */,
 				58FC38FD21DBAA8000D85A5B /* Assets.xcassets in Resources */,
 				58FC38FB21DBAA8000D85A5B /* Main.storyboard in Resources */,
@@ -196,7 +207,13 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-iOS-viaPatron/Pods-iOS-viaPatron-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/AWSAppSync/AWSAppSync.framework",
+				"${BUILT_PRODUCTS_DIR}/AWSAuthCore/AWSAuthCore.framework",
+				"${BUILT_PRODUCTS_DIR}/AWSAuthUI/AWSAuthUI.framework",
+				"${BUILT_PRODUCTS_DIR}/AWSCognitoIdentityProvider/AWSCognitoIdentityProvider.framework",
+				"${BUILT_PRODUCTS_DIR}/AWSCognitoIdentityProviderASF/AWSCognitoIdentityProviderASF.framework",
 				"${BUILT_PRODUCTS_DIR}/AWSCore/AWSCore.framework",
+				"${BUILT_PRODUCTS_DIR}/AWSMobileClient/AWSMobileClient.framework",
+				"${BUILT_PRODUCTS_DIR}/AWSUserPoolsSignIn/AWSUserPoolsSignIn.framework",
 				"${BUILT_PRODUCTS_DIR}/ReachabilitySwift/Reachability.framework",
 				"${BUILT_PRODUCTS_DIR}/SQLite.swift/SQLite.framework",
 			);
@@ -205,7 +222,13 @@
 			);
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AWSAppSync.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AWSAuthCore.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AWSAuthUI.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AWSCognitoIdentityProvider.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AWSCognitoIdentityProviderASF.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AWSCore.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AWSMobileClient.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AWSUserPoolsSignIn.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Reachability.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SQLite.framework",
 			);
@@ -221,9 +244,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				58FC38F821DBAA8000D85A5B /* ViewController.swift in Sources */,
+				58FC38F821DBAA8000D85A5B /* MainViewController.swift in Sources */,
 				58B95FAA21DBC4FF00D0F64F /* API.swift in Sources */,
 				58FC38F621DBAA8000D85A5B /* AppDelegate.swift in Sources */,
+				58B95FB121E102C200D0F64F /* TestingViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

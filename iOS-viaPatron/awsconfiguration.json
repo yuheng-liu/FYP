@@ -11,5 +11,21 @@
             "AuthMode": "API_KEY",
             "ApiKey": "da2-sa26ufsm3ncwhhnzwxbwv75jju"
         }
+    },
+    "CredentialsProvider": {
+        "CognitoIdentity": {
+            "Default": {
+                "PoolId": "ap-southeast-1:eb16d13d-8b62-48c1-8d82-254edebfa59b",
+                "Region": "ap-southeast-1"
+            }
+        }
+    },
+    "CognitoUserPool": {
+        "Default": {
+            "PoolId": "ap-southeast-1_2bratcRId",
+            "AppClientId": "4ofdd7rt6a8vh6od3fnu3pi42l",
+            "AppClientSecret": "446kv78k12scjrljaorn25bh121eobmuv8uspankdjhc80blim3",
+            "Region": "ap-southeast-1"
+        }
     }
 }
