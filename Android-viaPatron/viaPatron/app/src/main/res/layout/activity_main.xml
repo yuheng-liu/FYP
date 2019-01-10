@@ -1,99 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".MainActivity" android:id="@+id/loginScreen" android:minHeight="2048dp"
-        android:maxHeight="2048dp" android:minWidth="1480dp" android:maxWidth="1480dp">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
 
-    <EditText
-            android:layout_width="0dp"
-            android:layout_height="40dp"
-            android:text="@string/phone_number"
-            android:ems="10"
-            android:id="@+id/phone_number"
-            android:hint="@string/phone_number"
-            android:textAppearance="@android:style/TextAppearance" android:textSize="18sp"
-            android:textColor="@android:color/darker_gray" android:textAlignment="center"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/Porter"
-            app:layout_constraintEnd_toEndOf="parent" android:autofillHints="" tools:targetApi="o"
-            android:inputType="phone"/>
-    <EditText
-            android:layout_width="0dp"
-            android:layout_height="51dp"
-            android:text="@string/password"
-            android:ems="10"
-            app:layout_constraintStart_toStartOf="@id/phone_number"
-            app:layout_constraintEnd_toEndOf="@+id/phone_number" android:id="@+id/password"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintTop_toBottomOf="@+id/phone_number" android:hint="@string/password"
-            android:textAppearance="@android:style/TextAppearance" android:textSize="18sp"
-            android:textColor="@android:color/darker_gray" android:textAlignment="center"
-            android:autofillHints="" tools:targetApi="o" android:inputType="textPassword"/>
-    <TextView
-            android:text="@string/app_name"
-            android:layout_width="0dp"
-            android:layout_height="43dp"
-            app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"
-            android:id="@+id/Porter" app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintTop_toTopOf="parent" app:layout_constraintBottom_toTopOf="@+id/phone_number"
-            android:textAppearance="@android:style/TextAppearance" android:textSize="30sp"
-            android:textColor="@android:color/black" android:textAlignment="center"
-            app:layout_constraintVertical_bias="1.0" app:layout_constraintVertical_chainStyle="spread_inside"/>
-    <Button
-            android:text="@string/sign_in"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="@+id/password" app:layout_constraintEnd_toEndOf="@+id/password"
-            android:id="@+id/sign_in" app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintTop_toBottomOf="@+id/password"
-            style="@android:style/Widget.Button"
-            android:textAppearance="@android:style/TextAppearance" android:textSize="14sp"
-            android:textColor="@android:color/background_light" android:textAlignment="center"
-            android:backgroundTint="@android:color/black" tools:targetApi="lollipop"
-            android:onClick="goToPorterMainScreenFromMainActivityScreenViaSignInButton"/>
-    <Button
-            android:text="@string/forgot_password"
-            android:layout_width="129dp"
-            android:layout_height="34dp"
-            android:id="@+id/forgot_password" app:layout_constraintStart_toStartOf="@+id/sign_in"
-            app:layout_constraintHorizontal_bias="0.503" app:layout_constraintEnd_toEndOf="@+id/sign_in"
-            app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintTop_toBottomOf="@+id/sign_in"
-            app:layout_constraintVertical_bias="0.0" style="@android:style/Widget.Button"
-            android:backgroundTint="@android:color/transparent"
-            android:textAppearance="@android:style/TextAppearance" android:textSize="12sp"
-            android:textColor="@android:color/holo_blue_dark" android:textAlignment="center"
-            android:onClick="goToResetPasswordScreenFromMainActivityScreenViaForgotPasswordButton"
-            tools:targetApi="lollipop" android:background="@android:color/transparent"/>
-    <TextView
-            android:text="@string/dont_have_an_account_sign_up"
-            android:layout_width="0dp"
-            android:layout_height="36dp"
-            android:id="@+id/dont_have_an_account_sign_up" app:layout_constraintStart_toStartOf="@+id/sign_in"
-            app:layout_constraintHorizontal_bias="0.0" app:layout_constraintEnd_toEndOf="@+id/sign_in"
-            app:layout_constraintTop_toBottomOf="@+id/forgot_password" app:layout_constraintBottom_toBottomOf="@id/here"
-            android:textAppearance="@android:style/TextAppearance" android:textSize="14sp"
-            android:textColor="@android:color/black" android:textAlignment="center"
-            app:layout_constraintVertical_bias="0.0"
-            android:layout_marginBottom="4dp" android:layout_marginTop="3dp" android:layout_marginEnd="32dp"/>
-    <Button
-            android:text="@string/here"
-            android:layout_width="wrap_content"
-            android:layout_height="61dp"
-            android:id="@+id/here"
-            style="@android:style/Widget.Button"
-            android:backgroundTint="@android:color/transparent"
-            android:textAppearance="@android:style/TextAppearance" android:textSize="14sp"
-            android:textColor="@android:color/holo_blue_dark"
-            android:textAlignment="viewStart"
-            app:layout_constraintTop_toBottomOf="@+id/sign_in"
-            app:layout_constraintStart_toEndOf="@+id/forgot_password"
-            android:onClick="goToSignUpScreenFromMainActivityScreenViaHereText"
-            tools:targetApi="lollipop" app:layout_constraintEnd_toEndOf="parent"
-            android:background="@android:color/transparent"
-            app:layout_constraintHorizontal_bias="0.263" android:layout_marginTop="17dp"
-            android:layout_marginStart="20dp"/>
-</android.support.constraint.ConstraintLayout>
+    <FrameLayout
+            android:id="@+id/activity_main"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+    </FrameLayout>
+
+</LinearLayout>

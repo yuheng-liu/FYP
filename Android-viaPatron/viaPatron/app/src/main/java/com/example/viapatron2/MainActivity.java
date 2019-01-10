@@ -2,38 +2,49 @@ package com.example.viapatron2;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 
 public class MainActivity extends AppCompatActivity {
-    // --Commented out by Inspection (01-Nov-18 10:29 PM):public static final String EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE";
+
+
+    private static final String TAG = "MainActivity";
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+        Log.i(TAG, "onCreate");
+
+        // Create first view
+        SignInFragment signInFragment = (SignInFragment) getSupportFragmentManager().findFragmentByTag("SignInFragment");
+
+        // Check if first view is already created
+        if (signInFragment != null) {
+            return;
+        } else {
+            SignInFragment newSignInFragment = new SignInFragment();
+
+            FragmentTransaction ft = this.getSupportFragmentManager().beginTransaction();
+            // Add tag for searching purposes
+            ft.replace(R.id.activity_main, newSignInFragment, "SignInFragment");
+            ft.commit();
+        }
     }
 
-    public void goToResetPasswordScreenFromMainActivityScreenViaForgotPasswordButton(View view){
-        Intent intent = new Intent(this, ResetPassword.class);
-        //EditText editText = (EditText) findViewById(R.id.editText);
-        //String message = editText.getText().toString();
-        //intent.putExtra(EXTRA_MESSAGE, message);
-        startActivity(intent);
+    @Override
+    public void onResume() {
+        super.onResume();
     }
 
-    public void goToSignUpScreenFromMainActivityScreenViaHereText(View view){
-        Intent intent = new Intent(this, SignUp.class);
-        //EditText editText = (EditText) findViewById(R.id.editText);
-        //String message = editText.getText().toString();
-        //intent.putExtra(EXTRA_MESSAGE, message);
-        startActivity(intent);
+    @Override
+    public void onPause() {
+        super.onPause();
     }
 
-    public void goToPorterMainScreenFromMainActivityScreenViaSignInButton(View view){
-        Intent intent = new Intent(this, PorterMain.class);
-        //EditText editText = (EditText) findViewById(R.id.editText);
-        //String message = editText.getText().toString();
-        //intent.putExtra(EXTRA_MESSAGE, message);
-        startActivity(intent);
-    }
 }

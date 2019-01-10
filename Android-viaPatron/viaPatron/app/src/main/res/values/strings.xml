@@ -1,15 +1,18 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
+
+    <string name="name_hint">Name</string>
+    <string name="password_hint">Password</string>
+    <string name="sign_in_hint">Sign In</string>
+    <string name="forgot_password">Forgot password?</string>
+    <string name="email_address_hint">Email Address</string>
+    <string name="reset_your_password">Reset your password</string>
+
     <string name="app_name">viaPatron</string>
     <string name="porter">Porter</string>
-    <string name="email_address">Email Address</string>
-    <string name="sign_in">Sign In</string>
-    <string name="forgot_password">Forgot password?</string>
     <string name="dont_have_an_account_sign_up">Don\'t have an account? Sign up</string>
     <string name="here">here!</string>
-    <string name="password">Password</string>
     <string name="back">Back</string>
     <string name="reset_password">Reset Password</string>
-    <string name="reset_your_password">Reset your password</string>
     <string name="sign_up">SIGN UP</string>
     <string name="first_name">First Name</string>
     <string name="last_name">Last Name</string>
