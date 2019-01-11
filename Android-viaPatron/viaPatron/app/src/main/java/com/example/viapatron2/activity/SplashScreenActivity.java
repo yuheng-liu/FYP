@@ -3,10 +3,8 @@ package com.example.viapatron2.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-
-import com.example.viapatron2.core.models.StatusResponse;
-import io.reactivex.functions.Action;
-import io.reactivex.functions.Consumer;
+import com.example.viapatron2.R;
+import com.example.viapatron2.service.viaPatronWorkerService;
 
 public class SplashScreenActivity extends AppActivity {
 
@@ -23,12 +21,14 @@ public class SplashScreenActivity extends AppActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Todo : create layout for viaPatron spash screen
-        //setContentView(R.layout.activity_splash_screen);
+        // Todo : update picture of layout for viaPatron spash screen
+        setContentView(R.layout.activity_splash_screen);
 
         // Todo : find out the use of AutoWorkerService and implement it for viaPatron
         // start worker service
-        //startService(new Intent(this, AutoWorkerService.class));
+        startService(new Intent(this, viaPatronWorkerService.class));
+
+//        openActivity();
     }
 
 

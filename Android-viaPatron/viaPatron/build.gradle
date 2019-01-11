@@ -8,6 +8,10 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.2.1'
+        // (hint: you can specify 2.+ or 2.x.+ to automatically get the latest version where the + is specified.
+        // Remember for version 2.X.Y an increase in X may indicate a breaking change or new features,
+        // while increases in Y are likely bug fixes, or small feature improvements)
+        classpath 'com.amazonaws:aws-android-sdk-appsync-gradle-plugin:2.7.+'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
 
         // NOTE: Do not place your application dependencies here; they belong
