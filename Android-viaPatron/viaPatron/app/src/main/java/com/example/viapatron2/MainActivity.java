@@ -32,13 +32,11 @@ public class MainActivity extends AppCompatActivity {
                     // todo: create alert dialog popup
 
                     try {
-
                         // Log out
                         Log.d(TAG, "attempting to log out.");
                         AWSMobileClient.getInstance().signOut();
 
                         // go back to authentication screen
-                        // todo URGENT: currently returning to blank screen. need to fix this
                         Intent authIntent = new Intent(MainActivity.this, AuthenticationActivity.class);
                         finish();
                         startActivity(authIntent);
@@ -51,15 +49,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
     @Override
     public void onResume() {
         super.onResume();
 
         Log.d(TAG, "onResume");
-//        if (AWSMobileClient.getInstance().isSignedIn()) {
-//        }
-
     }
 
     @Override

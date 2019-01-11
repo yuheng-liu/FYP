@@ -30,11 +30,13 @@ public class AuthenticationActivity extends AppCompatActivity {
         if(AWSMobileClient.getInstance().getConfiguration() != null) {
             Log.d(TAG, "onCreate, getConfiguration != null");
 
+            // For users who logged out after signing in
             UserStateDetails userStateDetails = AWSMobileClient.getInstance().currentUserState();
             showSignInForUser(userStateDetails);
         } else {
             Log.d(TAG, "onCreate, getConfiguration == null");
 
+            // First time signing in
             AWSMobileClient.getInstance().initialize(getApplicationContext(), new Callback<UserStateDetails>() {
 
                 @Override
@@ -68,29 +70,22 @@ public class AuthenticationActivity extends AppCompatActivity {
         }
     }
 
-    // Old method
-//    private void showSignIn() {
-//        try {
-//
-//            Log.d(TAG, "showSignIn");
-//
-//            // todo: FINETUNE UI
-//            AWSMobileClient.getInstance().showSignIn(this,
-//                    SignInUIOptions.builder()
-//                            .nextActivity(MainActivity.class)
-//                            .logo(R.drawable.screen1_banner)
-//                            .backgroundColor(R.color.colorPrimary)
-//                            .canCancel(false)
-//                            .build());
-//        } catch (Exception e) {
-//            Log.e(TAG, "onError : ", e);
-//        }
-//    }
-
+    /*
+     * A private method adapted from AWS API to build the UI for us
+     * todo: fine tune the UI to mimic actual viaPatron designs
+     */
     private void showSignIn() {
+
+        Log.d(TAG, "showSignIn");
+
         try {
             AWSMobileClient.getInstance().showSignIn(this,
-                    SignInUIOptions.builder().nextActivity(MainActivity.class).build(),
+                    SignInUIOptions.builder()
+                            .nextActivity(MainActivity.class)
+                            .logo(R.drawable.screen1_banner)
+                            .backgroundColor(R.color.colorPrimary)
+                            .canCancel(false)
+                            .build(),
                     new Callback<UserStateDetails>() {
                         @Override
                         public void onResult(UserStateDetails result) {
