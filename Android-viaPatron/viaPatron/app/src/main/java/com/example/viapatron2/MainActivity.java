@@ -1,23 +1,33 @@
 package com.example.viapatron2;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ImageButton;
-import com.amazonaws.mobile.client.AWSMobileClient;
-import com.example.viapatron2.activity.AuthenticationActivity;
+import com.example.viapatron2.fragment.ChatFragment;
+import com.example.viapatron2.fragment.HomeFragment;
+import com.example.viapatron2.fragment.ProfileFragment;
 
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "viaPatron.MainActivity";
 
     private ImageButton logoutButton;
+    private BottomNavigationView bottomNavigation;
+    private PatronFragmentStatePagerAdapter mFragmentStatePagerAdapter;
+    private ViewPager mPager;
+
+    public Fragment homeFragment;
+    private Fragment chatFragment;
+    private Fragment profileFragment;
+    private Fragment activeFragment;
+    final FragmentManager mFragmentManager = getSupportFragmentManager();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,34 +37,12 @@ public class MainActivity extends AppCompatActivity {
 
         Log.i(TAG, "onCreate");
 
-        logoutButton = findViewById(R.id.main_test_log_out);
+        bottomNavigation = (BottomNavigationView) findViewById(R.id.bot_navigation_view);
+        bottomNavigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
-        if (logoutButton != null) {
-            logoutButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    // todo: create alert dialog popup
-
-                    try {
-                        // Log out
-                        Log.d(TAG, "attempting to log out.");
-                        AWSMobileClient.getInstance().signOut();
-
-                        // go back to authentication screen
-                        Intent authIntent = new Intent(MainActivity.this, AuthenticationActivity.class);
-                        finish();
-                        startActivity(authIntent);
-                    } catch (Exception e) {
-                        Log.d(TAG, "error on log out.");
-                    }
-                }
-            });
-        }
-
-
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.bot_navigation_view);
-        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-
+//        setUpViewPager();
+        setUpFragments();
+//        setUpButtons();
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -62,24 +50,120 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            Fragment fragment;
+
             switch (item.getItemId()) {
                 case R.id.navigation_trip:
-//                    toolbar.setTitle("Shop");
+//                    toolbar.setTitle("Trip");
                     Log.d(TAG, "selected trip");
+
+                    mFragmentManager.beginTransaction().hide(activeFragment).show(homeFragment).commit();
+                    activeFragment = homeFragment;
                     return true;
                 case R.id.navigation_chats:
-//                    toolbar.setTitle("My Gifts");
+//                    toolbar.setTitle("Chat");
                     Log.d(TAG, "selected chat");
+
+                    mFragmentManager.beginTransaction().hide(activeFragment).show(chatFragment).commit();
+                    activeFragment = chatFragment;
                     return true;
                 case R.id.navigation_profile:
-//                    toolbar.setTitle("Cart");
+//                    toolbar.setTitle("Profile");
                     Log.d(TAG, "selected profile");
+
+                    mFragmentManager.beginTransaction().hide(activeFragment).show(profileFragment).commit();
+                    activeFragment = profileFragment;
                     return true;
             }
             return false;
         }
     };
+
+//    private void setUpViewPager() {
+//
+//        Log.d(TAG, "setUpViewPager");
+//
+//        mPager = (ViewPager) findViewById(R.id.view_pager);
+//
+//        mFragmentStatePagerAdapter = new PatronFragmentStatePagerAdapter(mFragmentManager) {
+//            @Override
+//            public void destroyItem(ViewGroup container, int position, Object object) {
+//                super.destroyItem(container, position, object);
+//            }
+//
+//            @Override
+//            public Fragment getRegisteredFragment(int position) {
+//                return super.getRegisteredFragment(position);
+//            }
+//
+//            @Override
+//            public void addFragments(Fragment fragment) {
+//                super.addFragments(fragment);
+//            }
+//
+//            @Override
+//            public Fragment getItem(int position) {
+//                return super.getItem(position);
+//            }
+//
+//            @Override
+//            public int getCount() {
+//                return super.getCount();
+//            }
+//        };
+//
+//        // Disable swiping
+//        mFragmentStatePagerAdapter.setPagingEnabled(false);
+//
+//    }
+
+
+    private void setUpFragments() {
+
+        Log.d(TAG, "setUpFragments");
+
+        homeFragment = new HomeFragment();
+        chatFragment = new ChatFragment();
+        profileFragment = new ProfileFragment();
+        activeFragment = homeFragment;
+
+//        mPager.setAdapter(mFragmentStatePagerAdapter);
+
+        try {
+            mFragmentManager.beginTransaction().add(R.id.main_container, homeFragment, "1").commit();
+            mFragmentManager.beginTransaction().add(R.id.main_container, chatFragment, "2").hide(chatFragment).commit();
+            mFragmentManager.beginTransaction().add(R.id.main_container, profileFragment, "3").hide(profileFragment).commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Include logout button testing
+//    private void setUpButtons() {
+//
+//        logoutButton = findViewById(R.id.main_test_log_out);
+//
+//        if (logoutButton != null) {
+//            logoutButton.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    // todo: create alert dialog popup
+//
+//                    try {
+//                        // Log out
+//                        Log.d(TAG, "attempting to log out.");
+//                        AWSMobileClient.getInstance().signOut();
+//
+//                        // go back to authentication screen
+//                        Intent authIntent = new Intent(MainActivity.this, AuthenticationActivity.class);
+//                        finish();
+//                        startActivity(authIntent);
+//                    } catch (Exception e) {
+//                        Log.d(TAG, "error on log out.");
+//                    }
+//                }
+//            });
+//        }
+//    }
 
 
     @Override
