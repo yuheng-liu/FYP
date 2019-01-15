@@ -10,6 +10,8 @@
     <string name="bot_nav_title_chats">Chats</string>
     <string name="bot_nav_title_profile">Profile</string>
     <string name="bot_nav">Bottom Navigation</string>
+    <string name="sign_out">Sign Out</string>
+
 
     <string name="app_name">viaPatron</string>
     <string name="porter">Porter</string>
@@ -48,7 +50,6 @@
     <string name="units">Units</string>
     <string name="imperial">Imperial</string>
     <string name="privacy_policy">Privacy Policy</string>
-    <string name="sign_out">Sign Out</string>
     <string name="max">Max</string>
     <string name="singapore">Singapore</string>
     <string name="thesgwayfareratgmail_com">thesgwayfarer@gmail.com</string>

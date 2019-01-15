@@ -1,5 +1,6 @@
 package com.example.viapatron2.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -8,13 +9,15 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
+import android.widget.Button;
+import com.amazonaws.mobile.client.AWSMobileClient;
 import com.example.viapatron2.R;
+import com.example.viapatron2.activity.AuthenticationActivity;
 
 public class ProfileFragment extends Fragment {
 
     private static final String TAG = "ProfileFragment";
-    private LinearLayout fragmentContainer;
+    private Button logoutButton;
 
     public ProfileFragment () {
         // Empty Constructor
@@ -27,7 +30,9 @@ public class ProfileFragment extends Fragment {
         Log.d(TAG, "onCreateView");
 
         View v = inflater.inflate(R.layout.profile_fragment, container, false);
-//        fragmentContainer = (LinearLayout) getActivity().findViewById(R.id.profile_fragment);
+        logoutButton = (Button) getActivity().findViewById(R.id.logout_button);
+
+        setUpButtons();
 
         return v;
     }
@@ -61,25 +66,31 @@ public class ProfileFragment extends Fragment {
     public void onDestroy() {
         super.onDestroy();
     }
-//
-//    /**
-//     * Called when a fragment will be displayed
-//     */
-//    public void willBeDisplayed() {
-//        // Do what you want here, for example animate the content
-//        if (fragmentContainer != null) {
-//            Animation fadeIn = AnimationUtils.loadAnimation(getActivity(), android.R.anim.fade_in);
-//            fragmentContainer.startAnimation(fadeIn);
-//        }
-//    }
-//
-//    /**
-//     * Called when a fragment will be hidden
-//     */
-//    public void willBeHidden() {
-//        if (fragmentContainer != null) {
-//            Animation fadeOut = AnimationUtils.loadAnimation(getActivity(), android.R.anim.fade_out);
-//            fragmentContainer.startAnimation(fadeOut);
-//        }
-//    }
+
+
+    //Include logout button testing
+    private void setUpButtons() {
+
+        if (logoutButton != null) {
+            logoutButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // todo: create alert dialog popup
+
+                    try {
+                        // Log out
+                        Log.d(TAG, "attempting to log out.");
+                        AWSMobileClient.getInstance().signOut();
+
+                        // go back to authentication screen
+                        Intent authIntent = new Intent(getActivity(), AuthenticationActivity.class);
+                        getActivity().finish();
+                        startActivity(authIntent);
+                    } catch (Exception e) {
+                        Log.d(TAG, "error on log out.");
+                    }
+                }
+            });
+        }
+    }
 }

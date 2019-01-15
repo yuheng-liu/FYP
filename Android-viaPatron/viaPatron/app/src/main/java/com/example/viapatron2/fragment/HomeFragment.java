@@ -8,13 +8,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import com.example.viapatron2.R;
 
 public class HomeFragment extends Fragment {
 
     private static final String TAG = "HomeFragment";
-    private LinearLayout fragmentContainer;
 
     public HomeFragment() {
         // Empty constructor
@@ -27,8 +25,6 @@ public class HomeFragment extends Fragment {
         Log.d(TAG, "onCreateView");
 
         View v = inflater.inflate(R.layout.home_fragment, container, false);
-
-//        fragmentContainer = (FrameLayout) getActivity().findViewById(R.id.home_fragment);
 
         return v;
     }
@@ -63,24 +59,5 @@ public class HomeFragment extends Fragment {
         super.onDestroy();
     }
 
-//    /**
-//     * Called when a fragment will be displayed
-//     */
-//    public void willBeDisplayed() {
-//        // Do what you want here, for example animate the content
-//        if (fragmentContainer != null) {
-//            Animation fadeIn = AnimationUtils.loadAnimation(getActivity(), android.R.anim.fade_in);
-//            fragmentContainer.startAnimation(fadeIn);
-//        }
-//    }
-//
-//    /**
-//     * Called when a fragment will be hidden
-//     */
-//    public void willBeHidden() {
-//        if (fragmentContainer != null) {
-//            Animation fadeOut = AnimationUtils.loadAnimation(getActivity(), android.R.anim.fade_out);
-//            fragmentContainer.startAnimation(fadeOut);
-//        }
-//    }
+
 }
