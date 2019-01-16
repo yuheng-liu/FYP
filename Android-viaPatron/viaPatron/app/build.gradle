@@ -68,6 +68,9 @@ dependencies {
     // Sign in UI Library
     implementation('com.amazonaws:aws-android-sdk-auth-ui:2.8.+@aar') { transitive = true }
 
+    // ViewModel and LiveData
+    def lifecycle_version = "1.1.1"
+    implementation "android.arch.lifecycle:extensions:$lifecycle_version"
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'

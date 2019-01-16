@@ -1,27 +1,27 @@
 package com.example.viapatron2;
 
+import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
-import android.widget.ImageButton;
+import com.amazonaws.mobile.client.AWSMobileClient;
+import com.example.viapatron2.activity.AuthenticationActivity;
+import com.example.viapatron2.core.models.MyViewModel;
 import com.example.viapatron2.fragment.ChatFragment;
 import com.example.viapatron2.fragment.HomeFragment;
 import com.example.viapatron2.fragment.ProfileFragment;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements ProfileFragment.MyProfileFragmentListener {
 
     private static final String TAG = "viaPatron.MainActivity";
 
-    private ImageButton logoutButton;
     private BottomNavigationView bottomNavigation;
-    private PatronFragmentStatePagerAdapter mFragmentStatePagerAdapter;
-    private ViewPager mPager;
 
     public Fragment homeFragment;
     private Fragment chatFragment;
@@ -40,8 +40,8 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigation = (BottomNavigationView) findViewById(R.id.bot_navigation_view);
         bottomNavigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
+        setUpViewModel();
         setUpFragments();
-//        setUpButtons();
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -76,6 +76,20 @@ public class MainActivity extends AppCompatActivity {
             return false;
         }
     };
+
+    private void setUpViewModel() {
+
+        Log.d(TAG, "setUpViewModel");
+
+        // Create a ViewModel the first time the system calls an activity's onCreate() method.
+        // Re-created activities receive the same MyViewModel instance created by the first activity.
+
+        // Todo: set up protocol between MainActivity and the child fragments
+        MyViewModel model = ViewModelProviders.of(this).get(MyViewModel.class);
+        model.getUserInfo().observe(this, users -> {
+            // update UI
+        });
+    }
 
     private void setUpFragments() {
 
@@ -115,5 +129,27 @@ public class MainActivity extends AppCompatActivity {
         super.onDestroy();
 
         Log.d(TAG, "onDestroy");
+    }
+
+    /*
+     * Method from ProfileFragment: Used to activate logout functionality.
+     * Upon logging out, MainActivity will be destroyed
+     */
+    @Override
+    public void onLogoutButtonSelected() {
+
+        Log.d(TAG, "onLogoutButtonSelected");
+
+        try {
+            AWSMobileClient.getInstance().signOut();
+
+            // Tips: Intents should be created and activated within activities
+            // go back to authentication screen
+            Intent authIntent = new Intent(this, AuthenticationActivity.class);
+            this.finish();
+            startActivity(authIntent);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

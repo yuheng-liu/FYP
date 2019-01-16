@@ -12,7 +12,7 @@ import com.example.viapatron2.R;
 
 public class HomeFragment extends Fragment {
 
-    private static final String TAG = "HomeFragment";
+    private static final String TAG = "viaPatron.HomeFragment";
 
     public HomeFragment() {
         // Empty constructor
