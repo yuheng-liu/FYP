@@ -1,7 +1,0 @@
-{
-    "AppSyncApiName": "iosviapatron",
-    "schemaGraphql": "s3://iviaatron-20190101233931-deployment/amplify-appsync-files/schema.graphql.1546357707607",
-    "ResolverBucket": "iviaatron-20190101233931-deployment",
-    "ResolverRootKey": "amplify-appsync-files",
-    "DeploymentTimestamp": "1546357707607"
-}

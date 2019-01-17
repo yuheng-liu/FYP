@@ -7,11 +7,21 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		58B95FAA21DBC4FF00D0F64F /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58B95FA921DBC4FF00D0F64F /* API.swift */; };
-		58B95FB121E102C200D0F64F /* TestingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58B95FB021E102C200D0F64F /* TestingViewController.swift */; };
+		5808F7B121EF483E006EFC1B /* AWSAuthenticationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5808F7B021EF483E006EFC1B /* AWSAuthenticationManager.swift */; };
+		5808F7B321EF4EBB006EFC1B /* UIApplicationExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5808F7B221EF4EBB006EFC1B /* UIApplicationExtension.swift */; };
+		5808F7BA21F06BCA006EFC1B /* AWSAPIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5808F7B921F06BCA006EFC1B /* AWSAPIManager.swift */; };
+		58A60D5621E7731200B7D822 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58A60D5521E7731200B7D822 /* API.swift */; };
+		58B95FB121E102C200D0F64F /* TestingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58B95FB021E102C200D0F64F /* TestingVC.swift */; };
 		58B95FB321E10B7F00D0F64F /* awsconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = 58B95FB221E10B7F00D0F64F /* awsconfiguration.json */; };
+		58B95FB521E4AAD600D0F64F /* MainScreenVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58B95FB421E4AAD600D0F64F /* MainScreenVC.swift */; };
+		58B95FB721E4AAF500D0F64F /* ProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58B95FB621E4AAF500D0F64F /* ProfileVC.swift */; };
+		58B95FB921E4AB0A00D0F64F /* TripSearchDestinationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58B95FB821E4AB0A00D0F64F /* TripSearchDestinationVC.swift */; };
+		58B95FBB21E4AB1C00D0F64F /* TripRequestVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58B95FBA21E4AB1C00D0F64F /* TripRequestVC.swift */; };
+		58B95FBD21E4AB3000D0F64F /* TripRequestConfirmationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58B95FBC21E4AB3000D0F64F /* TripRequestConfirmationVC.swift */; };
+		58B95FBF21E4AB7B00D0F64F /* TripRequestBiddingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58B95FBE21E4AB7B00D0F64F /* TripRequestBiddingVC.swift */; };
+		58B95FC121E4ACB400D0F64F /* TripNavigationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58B95FC021E4ACB400D0F64F /* TripNavigationVC.swift */; };
 		58FC38F621DBAA8000D85A5B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58FC38F521DBAA8000D85A5B /* AppDelegate.swift */; };
-		58FC38F821DBAA8000D85A5B /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58FC38F721DBAA8000D85A5B /* MainViewController.swift */; };
+		58FC38F821DBAA8000D85A5B /* IntroScreenVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58FC38F721DBAA8000D85A5B /* IntroScreenVC.swift */; };
 		58FC38FB21DBAA8000D85A5B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 58FC38F921DBAA8000D85A5B /* Main.storyboard */; };
 		58FC38FD21DBAA8000D85A5B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 58FC38FC21DBAA8000D85A5B /* Assets.xcassets */; };
 		58FC390021DBAA8000D85A5B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 58FC38FE21DBAA8000D85A5B /* LaunchScreen.storyboard */; };
@@ -19,12 +29,22 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		58B95FA921DBC4FF00D0F64F /* API.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = SOURCE_ROOT; };
-		58B95FB021E102C200D0F64F /* TestingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestingViewController.swift; sourceTree = "<group>"; };
+		5808F7B021EF483E006EFC1B /* AWSAuthenticationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AWSAuthenticationManager.swift; sourceTree = "<group>"; };
+		5808F7B221EF4EBB006EFC1B /* UIApplicationExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIApplicationExtension.swift; sourceTree = "<group>"; };
+		5808F7B921F06BCA006EFC1B /* AWSAPIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AWSAPIManager.swift; sourceTree = "<group>"; };
+		58A60D5521E7731200B7D822 /* API.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = SOURCE_ROOT; };
+		58B95FB021E102C200D0F64F /* TestingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestingVC.swift; sourceTree = "<group>"; };
 		58B95FB221E10B7F00D0F64F /* awsconfiguration.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = awsconfiguration.json; sourceTree = SOURCE_ROOT; };
+		58B95FB421E4AAD600D0F64F /* MainScreenVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreenVC.swift; sourceTree = "<group>"; };
+		58B95FB621E4AAF500D0F64F /* ProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileVC.swift; sourceTree = "<group>"; };
+		58B95FB821E4AB0A00D0F64F /* TripSearchDestinationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripSearchDestinationVC.swift; sourceTree = "<group>"; };
+		58B95FBA21E4AB1C00D0F64F /* TripRequestVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripRequestVC.swift; sourceTree = "<group>"; };
+		58B95FBC21E4AB3000D0F64F /* TripRequestConfirmationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripRequestConfirmationVC.swift; sourceTree = "<group>"; };
+		58B95FBE21E4AB7B00D0F64F /* TripRequestBiddingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripRequestBiddingVC.swift; sourceTree = "<group>"; };
+		58B95FC021E4ACB400D0F64F /* TripNavigationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripNavigationVC.swift; sourceTree = "<group>"; };
 		58FC38F221DBAA8000D85A5B /* iOS-viaPatron.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "iOS-viaPatron.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		58FC38F521DBAA8000D85A5B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		58FC38F721DBAA8000D85A5B /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		58FC38F721DBAA8000D85A5B /* IntroScreenVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroScreenVC.swift; sourceTree = "<group>"; };
 		58FC38FA21DBAA8000D85A5B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		58FC38FC21DBAA8000D85A5B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		58FC38FF21DBAA8000D85A5B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -46,13 +66,37 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		58B95FAB21DCDE7800D0F64F /* ViewControllers */ = {
+		5808F7AF21EF4800006EFC1B /* Managers */ = {
 			isa = PBXGroup;
 			children = (
-				58FC38F721DBAA8000D85A5B /* MainViewController.swift */,
-				58B95FB021E102C200D0F64F /* TestingViewController.swift */,
+				5808F7B021EF483E006EFC1B /* AWSAuthenticationManager.swift */,
+				5808F7B921F06BCA006EFC1B /* AWSAPIManager.swift */,
 			);
-			path = ViewControllers;
+			path = Managers;
+			sourceTree = "<group>";
+		};
+		5808F7B421EF533A006EFC1B /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				5808F7B221EF4EBB006EFC1B /* UIApplicationExtension.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		58B95FAB21DCDE7800D0F64F /* UIViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				58FC38F721DBAA8000D85A5B /* IntroScreenVC.swift */,
+				58B95FB021E102C200D0F64F /* TestingVC.swift */,
+				58B95FB421E4AAD600D0F64F /* MainScreenVC.swift */,
+				58B95FB621E4AAF500D0F64F /* ProfileVC.swift */,
+				58B95FB821E4AB0A00D0F64F /* TripSearchDestinationVC.swift */,
+				58B95FBA21E4AB1C00D0F64F /* TripRequestVC.swift */,
+				58B95FBC21E4AB3000D0F64F /* TripRequestConfirmationVC.swift */,
+				58B95FBE21E4AB7B00D0F64F /* TripRequestBiddingVC.swift */,
+				58B95FC021E4ACB400D0F64F /* TripNavigationVC.swift */,
+			);
+			path = UIViewControllers;
 			sourceTree = "<group>";
 		};
 		58FC38E921DBAA8000D85A5B = {
@@ -76,10 +120,12 @@
 		58FC38F421DBAA8000D85A5B /* iOS-viaPatron */ = {
 			isa = PBXGroup;
 			children = (
-				58B95FB221E10B7F00D0F64F /* awsconfiguration.json */,
-				58B95FAB21DCDE7800D0F64F /* ViewControllers */,
-				58B95FA921DBC4FF00D0F64F /* API.swift */,
+				5808F7B421EF533A006EFC1B /* Extensions */,
+				5808F7AF21EF4800006EFC1B /* Managers */,
+				58B95FAB21DCDE7800D0F64F /* UIViewControllers */,
 				58FC38F521DBAA8000D85A5B /* AppDelegate.swift */,
+				58A60D5521E7731200B7D822 /* API.swift */,
+				58B95FB221E10B7F00D0F64F /* awsconfiguration.json */,
 				58FC38F921DBAA8000D85A5B /* Main.storyboard */,
 				58FC38FC21DBAA8000D85A5B /* Assets.xcassets */,
 				58FC38FE21DBAA8000D85A5B /* LaunchScreen.storyboard */,
@@ -244,10 +290,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				58FC38F821DBAA8000D85A5B /* MainViewController.swift in Sources */,
-				58B95FAA21DBC4FF00D0F64F /* API.swift in Sources */,
+				58A60D5621E7731200B7D822 /* API.swift in Sources */,
+				58FC38F821DBAA8000D85A5B /* IntroScreenVC.swift in Sources */,
+				58B95FB521E4AAD600D0F64F /* MainScreenVC.swift in Sources */,
+				5808F7B121EF483E006EFC1B /* AWSAuthenticationManager.swift in Sources */,
+				58B95FBD21E4AB3000D0F64F /* TripRequestConfirmationVC.swift in Sources */,
+				58B95FBF21E4AB7B00D0F64F /* TripRequestBiddingVC.swift in Sources */,
+				58B95FBB21E4AB1C00D0F64F /* TripRequestVC.swift in Sources */,
 				58FC38F621DBAA8000D85A5B /* AppDelegate.swift in Sources */,
-				58B95FB121E102C200D0F64F /* TestingViewController.swift in Sources */,
+				58B95FB721E4AAF500D0F64F /* ProfileVC.swift in Sources */,
+				5808F7B321EF4EBB006EFC1B /* UIApplicationExtension.swift in Sources */,
+				5808F7BA21F06BCA006EFC1B /* AWSAPIManager.swift in Sources */,
+				58B95FB921E4AB0A00D0F64F /* TripSearchDestinationVC.swift in Sources */,
+				58B95FC121E4ACB400D0F64F /* TripNavigationVC.swift in Sources */,
+				58B95FB121E102C200D0F64F /* TestingVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -1,0 +1,13 @@
+{
+    "AppSyncApiName": "iOSTestApi",
+    "AuthCognitoUserPoolId": {
+        "Fn::GetAtt": [
+            "authviaPorterTestPool",
+            "Outputs.UserPoolId"
+        ]
+    },
+    "schemaGraphql": "s3://iviaatron-20190110165523-deployment/amplify-appsync-files/schema.graphql.1547122176356",
+    "ResolverBucket": "iviaatron-20190110165523-deployment",
+    "ResolverRootKey": "amplify-appsync-files",
+    "DeploymentTimestamp": "1547122176356"
+}

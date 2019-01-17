@@ -1,5 +1,5 @@
 projects:
-  iosviapatron:
+  iOSTestApi:
     schemaPath: graphql/schema.json
     includes:
       - graphql/**/*.graphql
@@ -10,7 +10,7 @@ projects:
         codeGenTarget: swift
         generatedFileName: API.swift
         docsFilePath: graphql
-        graphQLApiId: e3px6n7xibfwba3e5eej4corgu
+        graphQLApiId: o6gebir2sjhtloodzchhjm23ke
       endpoints:
         prod: >-
-          https://vfsycdf2qjaqtoz6nf3yixkd4i.appsync-api.ap-southeast-1.amazonaws.com/graphql
+          https://rnvbkdvgnvbulgrejxpjk4ycn4.appsync-api.ap-southeast-1.amazonaws.com/graphql

@@ -1,14 +1,14 @@
 {
     "providers": {
         "awscloudformation": {
-            "AuthRoleName": "iviaatron-20190101233931-authRole",
-            "UnauthRoleArn": "arn:aws:iam::573611429528:role/iviaatron-20190101233931-unauthRole",
-            "AuthRoleArn": "arn:aws:iam::573611429528:role/iviaatron-20190101233931-authRole",
+            "AuthRoleName": "iviaatron-20190110165523-authRole",
+            "UnauthRoleArn": "arn:aws:iam::573611429528:role/iviaatron-20190110165523-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::573611429528:role/iviaatron-20190110165523-authRole",
             "Region": "ap-southeast-1",
-            "DeploymentBucketName": "iviaatron-20190101233931-deployment",
-            "UnauthRoleName": "iviaatron-20190101233931-unauthRole",
-            "StackName": "iviaatron-20190101233931",
-            "StackId": "arn:aws:cloudformation:ap-southeast-1:573611429528:stack/iviaatron-20190101233931/6ea13b90-0ddb-11e9-a4c6-02f6be1377fa"
+            "DeploymentBucketName": "iviaatron-20190110165523-deployment",
+            "UnauthRoleName": "iviaatron-20190110165523-unauthRole",
+            "StackName": "iviaatron-20190110165523",
+            "StackId": "arn:aws:cloudformation:ap-southeast-1:573611429528:stack/iviaatron-20190110165523/773c56f0-14b5-11e9-8c4f-0a14ee878cf4"
         }
     }
 }
