@@ -11,6 +11,16 @@
     <string name="bot_nav_title_profile">Profile</string>
     <string name="bot_nav">Bottom Navigation</string>
     <string name="sign_out">Sign Out</string>
+    <string name="where_to">Where to?</string>
+
+    <string-array name="stations_array">
+        <item>Mumbai Central</item>
+        <item>Chennai Central</item>
+        <item>New Delhi</item>
+    </string-array>
+
+    <string name="next">Next</string>
+
 
 
     <string name="app_name">viaPatron</string>
@@ -35,7 +45,6 @@
     <string name="chandra">Chandra</string>
     <string name="eighteen">18</string>
     <string name="today">Today</string>
-    <string name="where_to">Where to?</string>
     <string name="Porters_Currently_Active">Porters Currently Active</string>
     <string name="eighty_seven">87</string>
     <string name="bookings">Bookings</string>
@@ -69,7 +78,6 @@
     <string name="sixteen_point_five">16.5</string>
     <string name="weight_of_2nd_luggage_in_kg">WEIGHT OF 2ND LUGGAGE (IN KG)</string>
     <string name="enter_weight">Enter Weight</string>
-    <string name="next">Next</string>
     <string name="aug">Aug</string>
     <string name="enter_location">Enter Location</string>
     <string name="two_luggages">2 Luggages</string>

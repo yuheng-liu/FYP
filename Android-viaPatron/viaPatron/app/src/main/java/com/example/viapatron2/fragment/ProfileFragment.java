@@ -9,13 +9,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.FrameLayout;
 import com.example.viapatron2.R;
 
 public class ProfileFragment extends Fragment {
 
     private static final String TAG = "viaPatron.ProfFragment";
-    private Button logoutButton;
+    private FrameLayout logoutButton;
     private MyProfileFragmentListener profileListener;
 
     // Define the events that the fragment will use to communicate
@@ -60,7 +60,7 @@ public class ProfileFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        logoutButton = (Button) getActivity().findViewById(R.id.logout_button);
+        logoutButton = (FrameLayout) getActivity().findViewById(R.id.logout_button);
 
         setUpButtons();
     }

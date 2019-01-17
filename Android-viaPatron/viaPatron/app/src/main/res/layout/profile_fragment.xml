@@ -9,7 +9,8 @@
     <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="top">
+            android:layout_gravity="top"
+            android:padding="10dp">
 
         <TextView
                 android:layout_width="wrap_content"
@@ -19,22 +20,43 @@
                 android:textSize="30sp"/>
     </FrameLayout>
 
-
     <FrameLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:background="@color/colorAccent"
-            android:alpha="0.5">
-        <Button
+            android:padding="10dp"
+            android:paddingStart="20dp">
+
+        <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/logout_button"
-                android:padding="1sp"
-                android:textSize="14sp"
+                android:text="Profile Pic here"
+                android:textSize="14sp"/>
+
+    </FrameLayout>
+
+    <FrameLayout
+            android:id="@+id/logout_button"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="4dp"
+            android:clickable="true"
+            android:focusable="true">
+
+        <TextView
+                android:id="@+id/screen1_tv_signIn"
+                android:layout_width="335dp"
+                android:layout_height="46dp"
+                android:background="@drawable/rounded_corner_black"/>
+
+        <TextView
+                android:id="@+id/screen1_tv_signIn_hint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|center_vertical"
                 android:text="@string/sign_out"
-                android:clickable="true"
-                android:focusable="true"/>
+                android:textSize="20sp"
+                android:textColor="@color/colorWhite"/>
 
     </FrameLayout>
 </LinearLayout>
