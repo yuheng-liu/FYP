@@ -12,6 +12,8 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import com.example.viapatron2.R;
 
 public class HomeFragment extends Fragment {
@@ -20,6 +22,7 @@ public class HomeFragment extends Fragment {
 
     private AppCompatSpinner stationSpinner;
     private Button nextButton;
+    private NavController navController;
 
     public HomeFragment() {
         // Empty constructor
@@ -46,6 +49,8 @@ public class HomeFragment extends Fragment {
         nextButton = (Button) getActivity().findViewById(R.id.stations_spinner_next);
 
         setUpClickable();
+
+        navController = Navigation.findNavController(getActivity(), R.id.my_nav_host_fragment);
     }
 
     @Override
@@ -95,7 +100,8 @@ public class HomeFragment extends Fragment {
             nextButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Log.d(TAG, "onClick, going to next screen");
+                    Log.d(TAG, "onClick, navigating to tripRequestFragment");
+                    navController.navigate(R.id.tripRequestFragment);
                 }
             });
         }

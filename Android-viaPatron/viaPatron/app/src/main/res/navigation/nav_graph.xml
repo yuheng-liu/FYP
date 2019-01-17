@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/nav_graph"
+        app:startDestination="@id/navigation_trip">
+
+
+    <fragment
+            android:id="@+id/navigation_trip"
+            android:name="com.example.viapatron2.fragment.HomeFragment"
+            android:label="home_fragment"
+            tools:layout="@layout/home_fragment">
+        <action
+                android:id="@+id/action_homeFragment_to_tripRequestFragment"
+                app:destination="@id/tripRequestFragment"
+        />
+    </fragment>
+
+    <fragment
+            android:id="@+id/tripRequestFragment"
+            android:name="com.example.viapatron2.fragment.TripRequestFragment"
+            android:label="trip_request_fragment"
+            tools:layout="@layout/trip_request_fragment"/>
+
+    <fragment android:id="@+id/navigation_chats"
+              android:name="com.example.viapatron2.fragment.ChatFragment"
+              android:label="chat_fragment"
+              tools:layout="@layout/chat_fragment"/>
+
+    <fragment android:id="@+id/navigation_profile"
+              android:name="com.example.viapatron2.fragment.ProfileFragment"
+              android:label="profile_fragment"
+              tools:layout="@layout/profile_fragment"/>
+
+</navigation>

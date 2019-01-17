@@ -7,7 +7,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.2.1'
+        classpath 'com.android.tools.build:gradle:3.3.0'
         // (hint: you can specify 2.+ or 2.x.+ to automatically get the latest version where the + is specified.
         // Remember for version 2.X.Y an increase in X may indicate a breaking change or new features,
         // while increases in Y are likely bug fixes, or small feature improvements)

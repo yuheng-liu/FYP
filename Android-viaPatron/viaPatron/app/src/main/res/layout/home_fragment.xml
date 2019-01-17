@@ -38,21 +38,5 @@
                 android:background="@drawable/rounded_corner_accent"
                 android:text="@string/next"
                 android:textColor="@color/colorPrimary"/>
-
-        <!--<TextView-->
-        <!--android:id="@+id/where_to_container"-->
-        <!--android:layout_width="335dp"-->
-        <!--android:layout_height="46dp"-->
-        <!--android:background="@drawable/rounded_corner"/>-->
-
-        <!--<EditText-->
-        <!--android:id="@+id/where_to_field"-->
-        <!--android:layout_width="300dp"-->
-        <!--android:layout_height="46dp"-->
-        <!--android:background="@android:color/transparent"-->
-        <!--android:gravity="center"-->
-        <!--android:layout_gravity="center"-->
-        <!--android:inputType="text"-->
-        <!--android:hint="@string/where_to"/>-->
     </FrameLayout>
 </LinearLayout>

@@ -10,10 +10,18 @@
         android:clipChildren="false">
 
     <!-- Fragments Container for the 3 tabs -->
-    <include
-            layout="@layout/content_main"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+    <!--<include-->
+            <!--layout="@layout/content_main"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"/>-->
+
+    <fragment
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/my_nav_host_fragment"
+            android:name="androidx.navigation.fragment.NavHostFragment"
+            app:navGraph="@navigation/nav_graph"
+            app:defaultNavHost="true"/>
 
     <android.support.design.widget.BottomNavigationView
             android:id="@+id/bot_navigation_view"
