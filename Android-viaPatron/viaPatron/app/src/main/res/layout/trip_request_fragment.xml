@@ -3,23 +3,114 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:background="@color/colorPrimary">
 
 
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Trip Request"
+            android:text="@string/trip_request_main_title"
             android:textSize="20sp"
             android:layout_gravity="center"
-            android:paddingTop="20dp"/>
+            android:layout_marginTop="24dp"/>
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/trip_request_station_title"
+            android:text="STATION (TEMP)"
+            android:textSize="24sp"
+            android:paddingTop="40dp"
+            android:paddingBottom="20dp"
+            android:layout_gravity="center"/>
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/trip_request_date_title"
+            android:text="DATE (TEMP)"
+            android:textSize="14sp"
+            android:textColor="@color/colorWhite"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:paddingStart="40dp"
+            android:paddingEnd="40dp"
+            android:layout_gravity="center"
+            android:background="@drawable/rounded_corner_accent_small"/>
+
+
+    <FrameLayout
+            android:layout_width="330dp"
+            android:layout_height="46dp"
+            android:layout_marginTop="20dp"
+            android:layout_gravity="center"
+            android:background="@drawable/rounded_corner_white_small">
+
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/trip_request_from"
+                android:textSize="12sp"/>
+
+        <EditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clickable="true"
+                android:focusable="true"/>
+
+    </FrameLayout>
+
+    <FrameLayout
+            android:layout_width="330dp"
+            android:layout_height="46dp"
+            android:layout_marginTop="20dp"
+            android:layout_gravity="center"
+            android:background="@drawable/rounded_corner_white_small">
+
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/trip_request_to"
+                android:textSize="12sp"/>
+
+        <EditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clickable="true"
+                android:focusable="true"/>
+
+    </FrameLayout>
+
+    <FrameLayout
+            android:layout_width="330dp"
+            android:layout_height="46dp"
+            android:layout_marginTop="20dp"
+            android:layout_gravity="center"
+            android:background="@drawable/rounded_corner_white_small">
+
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/trip_request_luggages"
+                android:textSize="12sp"/>
+
+        <EditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clickable="true"
+                android:focusable="true"/>
+
+    </FrameLayout>
 
     <FrameLayout
             android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:paddingTop="20dp">
+            android:layout_marginTop="20dp">
 
         <Button
                 android:layout_width="200dp"

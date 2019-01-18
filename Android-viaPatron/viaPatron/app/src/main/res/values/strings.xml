@@ -20,6 +20,12 @@
     </string-array>
 
     <string name="next">Next</string>
+    <string name="trip_request_main_title">Trip Request</string>
+    <string name="trip_request_from">FROM</string>
+    <string name="trip_request_to">TO</string>
+    <string name="trip_request_luggages">LUGGAGES</string>
+
+
 
 
 
@@ -68,11 +74,7 @@
     <string name="mum">Mum</string>
     <string name="enter" tools:keep="@string/enter">Enter</string>
     <string name="search">Search</string>
-    <string name="trip_request">Trip Request</string>
-    <string name="from">FROM</string>
     <string name="exit_3">Exit 3</string>
-    <string name="to">To</string>
-    <string name="luggages">LUGGAGES</string>
     <string name="weight_of_1st_luggage_in_kg">WEIGHT OF 1ST LUGGAGE (IN KG)</string>
     <string name="luggages_small_text" tools:keep="@string/luggages_small_text">Luggages</string>
     <string name="sixteen_point_five">16.5</string>

@@ -44,6 +44,8 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        Log.d(TAG, "onViewCreated");
+
         // Todo: used to created mActivity back when i was in Creative. Next time can find out how to prevent null Activity warning.
         stationSpinner = (AppCompatSpinner) getActivity().findViewById(R.id.stations_spinner);
         nextButton = (Button) getActivity().findViewById(R.id.stations_spinner_next);
@@ -56,6 +58,9 @@ public class HomeFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        Log.d(TAG, "onActivityCreated");
+
     }
 
     @Override

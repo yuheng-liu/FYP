@@ -43,22 +43,25 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.M
 
         Log.i(TAG, "onCreate");
 
-        bottomNavigation = (BottomNavigationView) findViewById(R.id.bot_navigation_view);
-        bottomNavigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-
-        navHostFragment = NavHostFragment.create(R.navigation.nav_graph);
-//        NavigationUI.setupWithNavController(bottomNavigation, navHostFragment.getNavController());
-
-        navController = Navigation.findNavController(findViewById(R.id.my_nav_host_fragment));
-
 //        setUpViewModel();
-        setUpFragments();
+//        setUpFragments();
         setupViews();
     }
 
     private void setupViews() {
         Log.d(TAG, "setupViews");
 
+        // Initialise the bottom navigation bar
+        bottomNavigation = (BottomNavigationView) findViewById(R.id.bot_navigation_view);
+        bottomNavigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
+        // Initialise a navHostFragment containing the navigation graph chart
+        navHostFragment = NavHostFragment.create(R.navigation.nav_graph);
+
+        // Initialise a navigation controller for controlling navigation
+        navController = Navigation.findNavController(findViewById(R.id.my_nav_host_fragment));
+
+        // Pair navigation controller with the bottom navigation bar
         NavigationUI.setupWithNavController(bottomNavigation, navController);
     }
 
