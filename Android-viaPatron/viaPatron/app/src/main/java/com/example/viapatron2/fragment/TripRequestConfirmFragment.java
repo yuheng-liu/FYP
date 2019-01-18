@@ -13,14 +13,14 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import com.example.viapatron2.R;
 
-public class TripRequestFragment extends Fragment {
+public class TripRequestConfirmFragment extends Fragment {
 
-    private static final String TAG = "viaPatron.TRFragment";
+    private static final String TAG = "viaPatron.TRCFragment";
 
     private NavController navController;
-    private Button nextButton;
+    private Button confirmButton;
 
-    public TripRequestFragment() {
+    public TripRequestConfirmFragment() {
         // Empty constructor
     }
 
@@ -29,7 +29,7 @@ public class TripRequestFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Log.d(TAG, "onCreateView");
 
-        return inflater.inflate(R.layout.trip_request_fragment, container, false);
+        return inflater.inflate(R.layout.trip_request_confirm_fragment, container, false);
     }
 
     @Override
@@ -37,16 +37,16 @@ public class TripRequestFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         navController = Navigation.findNavController(getActivity(), R.id.my_nav_host_fragment);
-        nextButton = getActivity().findViewById(R.id.trip_request_next_button);
+        confirmButton = getActivity().findViewById(R.id.trip_request_confirm_button);
 
-        if (nextButton != null) {
-            nextButton.setOnClickListener(new View.OnClickListener() {
+        if (confirmButton != null) {
+            confirmButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Log.d(TAG, "nextButton onClick");
+                    Log.d(TAG, "confirmButton onClick");
 
-                    // Todo: save data for next fragemnt
-                    navController.navigate(R.id.navigation_trip_request_confirm);
+                    // todo: save data and navigate to bidding screen
+                    navController.navigate(R.id.navigation_trip_bidding);
                 }
             });
         }

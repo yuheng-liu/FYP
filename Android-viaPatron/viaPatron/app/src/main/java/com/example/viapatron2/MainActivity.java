@@ -17,8 +17,6 @@ import androidx.navigation.ui.NavigationUI;
 import com.amazonaws.mobile.client.AWSMobileClient;
 import com.example.viapatron2.activity.AuthenticationActivity;
 import com.example.viapatron2.core.models.MyViewModel;
-import com.example.viapatron2.fragment.ChatFragment;
-import com.example.viapatron2.fragment.HomeFragment;
 import com.example.viapatron2.fragment.ProfileFragment;
 
 public class MainActivity extends AppCompatActivity implements ProfileFragment.MyProfileFragmentListener {
@@ -44,7 +42,6 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.M
         Log.i(TAG, "onCreate");
 
 //        setUpViewModel();
-//        setUpFragments();
         setupViews();
     }
 
@@ -75,7 +72,6 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.M
                 case R.id.navigation_trip:
 //                    toolbar.setTitle("Trip");
                     Log.d(TAG, "selected trip");
-//                    navHostFragment.getNavController().navigate(R.id.navigation_trip);
                     navController.navigate(R.id.navigation_trip);
 
 //                    mFragmentManager.beginTransaction().hide(activeFragment).show(homeFragment).commit();
@@ -116,23 +112,23 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.M
         });
     }
 
-    private void setUpFragments() {
-
-        Log.d(TAG, "setUpFragments");
-
-        homeFragment = new HomeFragment();
-        chatFragment = new ChatFragment();
-        profileFragment = new ProfileFragment();
-//        activeFragment = homeFragment;
-
-        try {
-            mFragmentManager.beginTransaction().add(R.id.home_fragment, homeFragment, "1").commit();
-//            mFragmentManager.beginTransaction().add(R.id.chat_fragment, chatFragment, "2").hide(chatFragment).commit();
-//            mFragmentManager.beginTransaction().add(R.id.profile_fragment, profileFragment, "3").hide(profileFragment).commit();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+//    private void setUpFragments() {
+//
+//        Log.d(TAG, "setUpFragments");
+//
+//        homeFragment = new HomeFragment();
+//        chatFragment = new ChatFragment();
+//        profileFragment = new ProfileFragment();
+////        activeFragment = homeFragment;
+//
+//        try {
+//            mFragmentManager.beginTransaction().add(R.id.home_fragment, homeFragment, "1").commit();
+////            mFragmentManager.beginTransaction().add(R.id.chat_fragment, chatFragment, "2").hide(chatFragment).commit();
+////            mFragmentManager.beginTransaction().add(R.id.profile_fragment, profileFragment, "3").hide(profileFragment).commit();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
 
 
     @Override

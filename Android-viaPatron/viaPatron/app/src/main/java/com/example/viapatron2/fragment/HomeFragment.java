@@ -46,7 +46,6 @@ public class HomeFragment extends Fragment {
 
         Log.d(TAG, "onViewCreated");
 
-        // Todo: used to created mActivity back when i was in Creative. Next time can find out how to prevent null Activity warning.
         stationSpinner = (AppCompatSpinner) getActivity().findViewById(R.id.stations_spinner);
         nextButton = (Button) getActivity().findViewById(R.id.stations_spinner_next);
 
@@ -106,7 +105,9 @@ public class HomeFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     Log.d(TAG, "onClick, navigating to tripRequestFragment");
-                    navController.navigate(R.id.tripRequestFragment);
+
+                    // todo: save data for next fragment i.e. station selected
+                    navController.navigate(R.id.navigation_trip_request);
                 }
             });
         }

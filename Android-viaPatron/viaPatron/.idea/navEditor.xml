@@ -53,25 +53,46 @@
                       </LayoutPositions>
                     </value>
                   </entry>
-                  <entry key="placeholder">
-                    <value>
-                      <LayoutPositions>
-                        <option name="myPosition">
-                          <Point>
-                            <option name="x" value="-162" />
-                            <option name="y" value="-24" />
-                          </Point>
-                        </option>
-                      </LayoutPositions>
-                    </value>
-                  </entry>
-                  <entry key="tripRequestFragment">
+                  <entry key="navigation_trip_request">
                     <value>
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
                             <option name="x" value="270" />
                             <option name="y" value="-31" />
+                          </Point>
+                        </option>
+                        <option name="myPositions">
+                          <map>
+                            <entry key="action_tripRequestFragment_to_tripRequestConfirmFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                          </map>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="navigation_trip_request_confirm">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="490" />
+                            <option name="y" value="-32" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="tripBiddingFragment">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="696" />
+                            <option name="y" value="-30" />
                           </Point>
                         </option>
                       </LayoutPositions>

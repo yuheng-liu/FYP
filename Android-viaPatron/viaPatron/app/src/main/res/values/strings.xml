@@ -24,6 +24,9 @@
     <string name="trip_request_from">FROM</string>
     <string name="trip_request_to">TO</string>
     <string name="trip_request_luggages">LUGGAGES</string>
+    <string name="trip_request_confirm">Confirm</string>
+    <string name="trip_request_bidding_main_title">Trip Request Bidding</string>
+    <string name="trip_request_bidding_cancel">CANCEL REQUEST</string>
 
 
 
@@ -90,14 +93,11 @@
     <string name="ten">10</string>
     <string name="twenty">20</string>
     <string name="platform_b">Platform B</string>
-    <string name="confirm">Confirm</string>
     <string name="total">Total</string>
-    <string name="trip_request_bidding">Trip Request Bidding</string>
     <string name="bidding_ends_in">Bidding ends in</string>
     <string name="zero_two">02</string>
     <string name="colon">:</string>
     <string name="fifty_nine">59</string>
-    <string name="cancel_request">Cancel Request</string>
     <string name="one">1</string>
     <string name="two">2</string>
     <string name="vishnu">Vishnu</string>
