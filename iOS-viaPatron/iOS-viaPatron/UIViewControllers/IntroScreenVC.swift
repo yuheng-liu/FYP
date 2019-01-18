@@ -10,8 +10,12 @@ import UIKit
 
 class IntroScreenVC: UIViewController {
     
+    @IBAction func toMainScreen(_ sender: Any) {
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         
         AWSAuthenticationManager.sharedInstance.showSignIn()
     }
