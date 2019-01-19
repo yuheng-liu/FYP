@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/colorPrimary">
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/trip_request_main_title"
+            android:textSize="20sp"
+            android:layout_gravity="center"
+            android:layout_marginTop="24dp"/>
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/trip_request_confirm_station_title"
+            android:text="STATION (TEMP)"
+            android:textSize="24sp"
+            android:paddingTop="40dp"
+            android:paddingBottom="20dp"
+            android:layout_gravity="center"/>
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/trip_request_confirm_date_title"
+            android:text="DATE (TEMP)"
+            android:textSize="14sp"
+            android:textColor="@color/colorWhite"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:paddingStart="40dp"
+            android:paddingEnd="40dp"
+            android:layout_gravity="center"
+            android:background="@drawable/rounded_corner_accent_small"/>
+
+    <FrameLayout
+            android:layout_width="330dp"
+            android:layout_height="120dp"
+            android:layout_marginTop="40dp"
+            android:layout_gravity="center"
+            android:background="@drawable/rounded_corner_white_small">
+
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="STATION (TEMP)"
+                android:textSize="12sp"
+                android:paddingStart="10dp"
+                android:paddingTop="10dp"/>
+
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+    </FrameLayout>
+
+    <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="50dp">
+
+    <Button
+            android:layout_width="200dp"
+            android:layout_height="46dp"
+            android:id="@+id/trip_request_confirm_button"
+            android:background="@drawable/rounded_corner_accent"
+            android:text="@string/trip_request_confirm"
+            android:textColor="@color/colorPrimary"/>
+    </FrameLayout>
+
+
+</LinearLayout>

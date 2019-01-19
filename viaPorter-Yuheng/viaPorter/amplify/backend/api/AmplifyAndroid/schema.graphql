@@ -1,0 +1,5 @@
+type Patron @model {
+  id: ID!
+  name: String!
+  description: String
+}
