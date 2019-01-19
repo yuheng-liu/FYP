@@ -1,6 +1,6 @@
 package com.example.viapatron2.app.managers;
 
-import com.example.viapatron2.core.models.UserSession;
+import com.example.viapatron2.core.models.UserTripRequestSession;
 
 /**
  * Created by Lim Zhiming on 10/1/19.
@@ -9,7 +9,7 @@ public class DataManager {
 
     private static final String TAG = "DataManager";
 
-    private UserSession userSession;
+    private UserTripRequestSession userTripRequestSession;
 
     public DataManager() {
         // init GeoApiContext
@@ -22,13 +22,13 @@ public class DataManager {
 //        currentContext = UserContext.HOME;
     }
 
-    public UserSession getUserSession() {
+    public UserTripRequestSession getUserTripRequestSession() {
         // todo: possible alternatives to realm in the works
-//        if (userSession == null || userSession.isValid()) {
+//        if (userTripRequestSession == null || userTripRequestSession.isValid()) {
 //            synchronized (this) {
-//                userSession = realm.where(UserSession.class).findFirst();
+//                userTripRequestSession = realm.where(UserTripRequestSession.class).findFirst();
 //            }
 //        }
-        return userSession;
+        return userTripRequestSession;
     }
 }

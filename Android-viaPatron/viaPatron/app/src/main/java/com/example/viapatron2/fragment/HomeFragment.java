@@ -1,5 +1,6 @@
 package com.example.viapatron2.fragment;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -15,6 +16,8 @@ import android.widget.Button;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import com.example.viapatron2.R;
+import com.example.viapatron2.core.models.MyViewModel;
+import com.example.viapatron2.core.models.UserTripRequestSession;
 
 public class HomeFragment extends Fragment {
 
@@ -23,6 +26,9 @@ public class HomeFragment extends Fragment {
     private AppCompatSpinner stationSpinner;
     private Button nextButton;
     private NavController navController;
+    private MyViewModel model;
+    private UserTripRequestSession userTripRequestSession;
+    private ArrayAdapter<CharSequence> adapter;
 
     public HomeFragment() {
         // Empty constructor
@@ -49,6 +55,7 @@ public class HomeFragment extends Fragment {
         stationSpinner = (AppCompatSpinner) getActivity().findViewById(R.id.stations_spinner);
         nextButton = (Button) getActivity().findViewById(R.id.stations_spinner_next);
 
+        setUpViewModel();
         setUpClickable();
 
         navController = Navigation.findNavController(getActivity(), R.id.my_nav_host_fragment);
@@ -62,9 +69,20 @@ public class HomeFragment extends Fragment {
 
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
+    private void setUpViewModel() {
+
+        Log.d(TAG, "setUpViewModel");
+
+        // Re-created activities receive the same MyViewModel instance created by the first activity.
+        model = ViewModelProviders.of(getActivity()).get(MyViewModel.class);
+
+        if (!model.getRequestSession().hasObservers()) {
+            Log.d(TAG, "no observers yet");
+
+            model.getRequestSession().observe(this, users -> {
+                // update UI
+            });
+        }
     }
 
     private void setUpClickable() {
@@ -74,7 +92,7 @@ public class HomeFragment extends Fragment {
         if (stationSpinner != null) {
 
             // Create an ArrayAdapter using the string array and a default spinner layout
-            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
+            adapter = ArrayAdapter.createFromResource(getActivity(),
                     R.array.stations_array, android.R.layout.simple_spinner_item);
 
             // Specify the layout to use when the list of choices appears
@@ -87,8 +105,10 @@ public class HomeFragment extends Fragment {
             stationSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    Log.d(TAG, "onItemSelected, position = " + position);
 
+                    userTripRequestSession = new UserTripRequestSession();
+                    userTripRequestSession.setStation(parent.getSelectedItem().toString());
+                    model.setRequestSession(userTripRequestSession);
                 }
 
                 @Override
@@ -106,22 +126,31 @@ public class HomeFragment extends Fragment {
                 public void onClick(View v) {
                     Log.d(TAG, "onClick, navigating to tripRequestFragment");
 
-                    // todo: save data for next fragment i.e. station selected
                     navController.navigate(R.id.navigation_trip_request);
                 }
             });
         }
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+    }
 
     @Override
     public void onResume() {
         super.onResume();
+
+        Log.d(TAG, "onResume");
     }
 
     @Override
     public void onPause() {
         super.onPause();
+
+        Log.d(TAG, "onPause");
+
+        //todo: find a way to save the current state as there is a problem of creating a new HomeFragment everytime reclicking into trip tab in bottom navigation
     }
 
     @Override
@@ -132,6 +161,8 @@ public class HomeFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
+
+        Log.d(TAG, "onDestroy");
     }
 
 

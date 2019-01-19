@@ -4,22 +4,20 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 
-import java.util.List;
-
 public class MyViewModel extends ViewModel {
 
-    private MutableLiveData<List<String>> userInfo;
+    private MutableLiveData<UserTripRequestSession> requestSession;
 
-    public LiveData<List<String>> getUserInfo() {
+    public LiveData<UserTripRequestSession> getRequestSession() {
 
-        if (userInfo == null) {
-            userInfo = new MutableLiveData<List<String>>();
+        if (requestSession == null) {
+            requestSession = new MutableLiveData<UserTripRequestSession>();
         }
-
-        return userInfo;
+        return requestSession;
     }
 
-    private void loadUserInfo() {
-        // Todo: Do an asynchronous operation to fetch users.
+    public void setRequestSession(UserTripRequestSession updatedRequestSession) {
+
+        requestSession.setValue(updatedRequestSession);
     }
 }

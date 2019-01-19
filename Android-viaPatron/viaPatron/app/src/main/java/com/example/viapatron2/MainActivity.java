@@ -5,8 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
@@ -25,11 +23,6 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.M
 
     private BottomNavigationView bottomNavigation;
 
-    public Fragment homeFragment;
-    private Fragment chatFragment;
-    private Fragment profileFragment;
-    private Fragment activeFragment;
-    final FragmentManager mFragmentManager = getSupportFragmentManager();
     private NavHostFragment navHostFragment;
     private NavController navController;
 
@@ -41,7 +34,7 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.M
 
         Log.i(TAG, "onCreate");
 
-//        setUpViewModel();
+        setUpViewModel();
         setupViews();
     }
 
@@ -72,26 +65,25 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.M
                 case R.id.navigation_trip:
 //                    toolbar.setTitle("Trip");
                     Log.d(TAG, "selected trip");
+
+                    // todo: save fragments if exit trip ui flow halfway
+                    // todo: currently these methods are not executing. Suspect due to setupWithNavController (betw botNav and NavController)
                     navController.navigate(R.id.navigation_trip);
 
-//                    mFragmentManager.beginTransaction().hide(activeFragment).show(homeFragment).commit();
-//                    activeFragment = homeFragment;
                     return true;
                 case R.id.navigation_chats:
 //                    toolbar.setTitle("Chat");
                     Log.d(TAG, "selected chat");
-                    navHostFragment.getNavController().navigate(R.id.navigation_chats);
 
-//                    mFragmentManager.beginTransaction().hide(activeFragment).show(chatFragment).commit();
-//                    activeFragment = chatFragment;
+                    navController.navigate(R.id.navigation_chats);
+
                     return true;
                 case R.id.navigation_profile:
 //                    toolbar.setTitle("Profile");
                     Log.d(TAG, "selected profile");
-                    navHostFragment.getNavController().navigate(R.id.navigation_profile);
 
-//                    mFragmentManager.beginTransaction().hide(activeFragment).show(profileFragment).commit();
-//                    activeFragment = profileFragment;
+                    navController.navigate(R.id.navigation_profile);
+
                     return true;
             }
             return false;
@@ -107,7 +99,7 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.M
 
         // Todo: set up protocol between MainActivity and the child fragments
         MyViewModel model = ViewModelProviders.of(this).get(MyViewModel.class);
-        model.getUserInfo().observe(this, users -> {
+        model.getRequestSession().observe(this, users -> {
             // update UI
         });
     }
@@ -192,9 +184,6 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.M
         super.onSaveInstanceState(outState);
 
         Log.d(TAG, "onSaveInstanceState");
-
-//        mFragmentManager.putFragment(outState, "newFragment", new TripRequestFragment());
-
     }
 
     @Override
