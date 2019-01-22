@@ -77,6 +77,8 @@ dependencies {
     implementation "android.arch.navigation:navigation-fragment:$nav_version" // use -ktx for Kotlin
     implementation "android.arch.navigation:navigation-ui:$nav_version" // use -ktx for Kotlin
 
+    // Socket for client server
+    implementation "com.github.nkzawa:socket.io-client:0.3.0"
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
