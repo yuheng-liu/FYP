@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           xmlns:tools="http://schemas.android.com/tools"
-          package="com.example.viapatron2">
+          package="com.example.viaporter">
 
     <!--FOR AWS SUPPORT-->
     <uses-permission android:name="android.permission.INTERNET"/>
@@ -26,12 +26,12 @@
         <service android:name="org.eclipse.paho.android.service.MqttService" />
 
         <activity
-                android:name=".MainActivity"
+                android:name="com.example.viaporter.activity.MainActivity"
                 android:label="@string/app_name">
         </activity>
 
         <activity
-                android:name=".activity.AuthenticationActivity"
+                android:name="com.example.viaporter.activity.AuthenticationActivity"
                 android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

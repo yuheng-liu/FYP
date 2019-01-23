@@ -1,0 +1,22 @@
+package com.example.viaporter.core.models
+
+/**
+ * Created by Lim Zhiming on 10/1/19.
+ * Adapting from Auto
+ */
+enum class StatusCode {
+    DATA_ERROR,
+    USER_NOT_EXISTS,
+    INVALID_PASSWORD,
+    INVALID_SESSION,
+    INVALID_SIGN_UP_FORMAT,
+    EMAIL_ALREADY_EXISTS,
+    WRONG_VERIFICATION_CODE,
+    PHONE_ALREADY_USED,
+    GOOGLE_EMAIL_NOT_EXISTS,
+    FB_EMAIL_NOT_EXISTS,
+    CANNOT_VERIFY_GOOGLE_TOKEN,
+    CANNOT_VERIFY_FACEBOOK_TOKEN,
+    LOGIN_ON_ANOTHER_DEVICE,
+    SERVER_ERROR
+}

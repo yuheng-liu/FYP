@@ -6,6 +6,8 @@
     <string name="forgot_password">Forgot password?</string>
     <string name="email_address_hint">Email Address</string>
     <string name="reset_your_password">Reset your password</string>
+    <string name="bot_nav_title_home">Home</string>
+    <string name="bot_nav_title_jobs">Jobs</string>
     <string name="bot_nav_title_trip">Trip</string>
     <string name="bot_nav_title_chats">Chats</string>
     <string name="bot_nav_title_profile">Profile</string>
@@ -28,11 +30,13 @@
     <string name="trip_request_bidding_main_title">Trip Request Bidding</string>
     <string name="trip_request_bidding_cancel">CANCEL REQUEST</string>
 
+    <!--Section for viaPorter-->
+    <string name="app_name">viaPorter</string>
+    <string name="trip_request_broadcasted_title">Broadcasted Trip Requests</string>
+    <string name="trip_request_current_bids_title">Current Bids</string>
 
 
-
-
-    <string name="app_name">viaPatron</string>
+    <!--Added by Jiong Hao-->
     <string name="porter">Porter</string>
     <string name="dont_have_an_account_sign_up">Don\'t have an account? Sign up</string>
     <string name="here">here!</string>

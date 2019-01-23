@@ -6,7 +6,7 @@ apply plugin: 'com.amazonaws.appsync'
 android {
     compileSdkVersion 28
     defaultConfig {
-        applicationId "com.example.viapatron"
+        applicationId "com.example.viaporter"
         minSdkVersion 23
         targetSdkVersion 28
         versionCode 1
@@ -51,13 +51,15 @@ dependencies {
     implementation 'io.reactivex.rxjava2:rxjava:2.2.5'
     implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
 
-    // AWS Support
+    /* AWS Support start */
     //Base SDK
-    implementation 'com.amazonaws:aws-android-sdk-core:2.9.+'
+    implementation 'com.amazonaws:aws-android-sdk-core:2.11.+'
     //AppSync SDK
     implementation 'com.amazonaws:aws-android-sdk-appsync:2.7.+'
     implementation 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.0'
     implementation 'org.eclipse.paho:org.eclipse.paho.android.service:1.1.1'
+    /* AWS Support end */
+
     // Bottom Nav Bar
     implementation 'com.android.support:design:28.0.0'
 
@@ -74,8 +76,8 @@ dependencies {
 
     // Navigation Support
     def nav_version = "1.0.0-alpha09"
-    implementation "android.arch.navigation:navigation-fragment:$nav_version" // use -ktx for Kotlin
-    implementation "android.arch.navigation:navigation-ui:$nav_version" // use -ktx for Kotlin
+    implementation "android.arch.navigation:navigation-fragment-ktx:$nav_version" // use -ktx for Kotlin
+    implementation "android.arch.navigation:navigation-ui-ktx:$nav_version" // use -ktx for Kotlin
 
 
     testImplementation 'junit:junit:4.12'

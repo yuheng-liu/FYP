@@ -8,35 +8,18 @@
         android:orientation="vertical">
 
     <FrameLayout
-            android:layout_width="335dp"
+            android:layout_width="match_parent"
             android:layout_height="46dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="150dp"
+            android:layout_gravity="top"
             android:background="@drawable/rounded_corner">
 
-        <android.support.v7.widget.AppCompatSpinner
-                android:layout_width="300dp"
-                android:layout_height="46dp"
-                android:entries="@array/stations_array"
-                android:prompt="@string/where_to"
-                android:id="@+id/stations_spinner"
-                android:layout_gravity="center">
+        <TextView
+                android:id="@+id/text_view_id"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Porter"
+                android:textAlignment="center"
+                android:textSize="30sp"/>
 
-        </android.support.v7.widget.AppCompatSpinner>
-    </FrameLayout>
-
-    <FrameLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:paddingTop="20dp">
-
-        <Button
-                android:layout_width="200dp"
-                android:layout_height="46dp"
-                android:id="@+id/stations_spinner_next"
-                android:background="@drawable/rounded_corner_accent"
-                android:text="@string/next"
-                android:textColor="@color/colorPrimary"/>
     </FrameLayout>
 </LinearLayout>
