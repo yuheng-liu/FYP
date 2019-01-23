@@ -1,5 +1,6 @@
 package com.example.viapatron2.app.managers;
 
+import com.example.viapatron2.BidderInfo;
 import com.example.viapatron2.core.models.UserTripRequestSession;
 
 /**
@@ -10,6 +11,7 @@ public class DataManager {
     private static final String TAG = "DataManager";
 
     private UserTripRequestSession userTripRequestSession;
+    private BidderInfo bidderInfo;
 
     public DataManager() {
         // init GeoApiContext
@@ -20,6 +22,11 @@ public class DataManager {
 //        currentTripStatus = TripStatus.NOT_STARTED;
 //        riderInfo = new RiderInfo();
 //        currentContext = UserContext.HOME;
+    }
+
+    public void importData() {
+//        realm = Realm.getDefaultInstance();
+//        userSession = realm.where(UserSession.class).findFirst();
     }
 
     public UserTripRequestSession getUserTripRequestSession() {

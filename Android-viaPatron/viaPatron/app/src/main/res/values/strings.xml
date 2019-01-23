@@ -27,6 +27,7 @@
     <string name="trip_request_confirm">Confirm</string>
     <string name="trip_request_bidding_main_title">Trip Request Bidding</string>
     <string name="trip_request_bidding_cancel">CANCEL REQUEST</string>
+    <string name="bidding_ends_in">Bidding ends in</string>
 
 
 
@@ -94,7 +95,6 @@
     <string name="twenty">20</string>
     <string name="platform_b">Platform B</string>
     <string name="total">Total</string>
-    <string name="bidding_ends_in">Bidding ends in</string>
     <string name="zero_two">02</string>
     <string name="colon">:</string>
     <string name="fifty_nine">59</string>

@@ -39,5 +39,10 @@
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>
         </activity>
+
+
+        <service
+                android:name=".service.ViaPatronWorkerService"
+                android:exported="true" />
     </application>
 </manifest>

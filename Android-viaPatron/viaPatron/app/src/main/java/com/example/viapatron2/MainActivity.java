@@ -1,8 +1,12 @@
 package com.example.viapatron2;
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
@@ -16,13 +20,16 @@ import com.amazonaws.mobile.client.AWSMobileClient;
 import com.example.viapatron2.activity.AuthenticationActivity;
 import com.example.viapatron2.core.models.MyViewModel;
 import com.example.viapatron2.fragment.ProfileFragment;
+import com.example.viapatron2.service.ViaPatronWorkerService;
 
 public class MainActivity extends AppCompatActivity implements ProfileFragment.MyProfileFragmentListener {
 
     private static final String TAG = "viaPatron.MainActivity";
 
-    private BottomNavigationView bottomNavigation;
+    private ViaPatronWorkerService mService;
+    private boolean mServiceBounded = false, mServiceConnected = false;
 
+    private BottomNavigationView bottomNavigation;
     private NavHostFragment navHostFragment;
     private NavController navController;
 
@@ -38,6 +45,38 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.M
         setupViews();
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        // Bind to LocalService
+        Intent intent = new Intent(this, ViaPatronWorkerService.class);
+        bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
+    }
+
+    private ServiceConnection mConnection = new ServiceConnection() {
+
+        @Override
+        public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
+            ViaPatronWorkerService.LocalBinder binder = (ViaPatronWorkerService.LocalBinder) iBinder;
+            mService = binder.getService();
+            if (!mServiceConnected) {
+                MainActivity.this.onServiceConnected();
+            }
+            mServiceBounded = true;
+            mServiceConnected = true;
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName componentName) {
+            mServiceBounded = false;
+        }
+    };
+
+    protected void onServiceConnected() {
+
+    }
+
     private void setupViews() {
         Log.d(TAG, "setupViews");
 
@@ -50,6 +89,9 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.M
 
         // Initialise a navigation controller for controlling navigation
         navController = Navigation.findNavController(findViewById(R.id.my_nav_host_fragment));
+
+        // todo: implement custom navigator here to fix fragment back stack reset bug
+        //navController.getNavigatorProvider();
 
         // Pair navigation controller with the bottom navigation bar
         NavigationUI.setupWithNavController(bottomNavigation, navController);
@@ -138,6 +180,12 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.M
     }
 
     @Override
+    protected void onStop() {
+        super.onStop();
+        unbindService(mConnection);
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
 
@@ -191,5 +239,9 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.M
         super.onBackPressed();
 
         Log.d(TAG, "onBackPressed");
+    }
+
+    public ViaPatronWorkerService getService() {
+        return mService;
     }
 }

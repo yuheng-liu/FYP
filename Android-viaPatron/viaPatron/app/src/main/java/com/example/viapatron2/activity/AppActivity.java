@@ -8,7 +8,7 @@ import com.example.viapatron2.app.managers.APIManager;
 import com.example.viapatron2.app.managers.DataManager;
 import io.reactivex.disposables.Disposable;
 
-import com.example.viapatron2.service.viaPatronWorkerService;
+import com.example.viapatron2.service.ViaPatronWorkerService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +20,7 @@ import java.util.List;
 public class AppActivity extends AppCompatActivity {
 
     private List<Disposable> disposables;
-    private viaPatronWorkerService mService;
+    private ViaPatronWorkerService mService;
     private boolean mServiceBounded, mServiceConnected;
 
     @Override
