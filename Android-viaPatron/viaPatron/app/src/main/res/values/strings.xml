@@ -28,8 +28,11 @@
     <string name="trip_request_bidding_main_title">Trip Request Bidding</string>
     <string name="trip_request_bidding_cancel">CANCEL REQUEST</string>
     <string name="bidding_ends_in">Bidding ends in</string>
+    <string name="trip_bidding_cancel_msg">Are you sure you want to cancel?</string>
+    <string name="trip_bidding_cancel_title">Cancel Trip Request</string>
 
-
+    <string name="button_cancel">Cancel</string>
+    <string name="button_ok">OK</string>
 
 
 
@@ -113,7 +116,6 @@
     <string name="zero_one">01</string>
     <string name="confirm_porter">Confirm Porter</string>
     <string name="would_you_like_to_confirm_your_porter_for">Would you like to confirm your porter for</string>
-    <string name="cancel">Cancel</string>
     <string name="question_mark">\?</string>
     <string name="number_of_luggages">Number of luggages</string>
     <string name="trip_confirmed">Trip Confirmed</string>

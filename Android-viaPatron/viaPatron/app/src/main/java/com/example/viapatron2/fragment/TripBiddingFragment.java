@@ -1,10 +1,12 @@
 package com.example.viapatron2.fragment;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -34,6 +36,7 @@ public class TripBiddingFragment extends Fragment {
     // Views
     private Button cancelBidButton;
     private TextView timeLeftTv;
+    private AlertDialog warningDialog;
 
     // items
     private CountDownTimer countDownTimer;
@@ -65,6 +68,7 @@ public class TripBiddingFragment extends Fragment {
 
         Log.d(TAG, "setViews");
 
+        timeLeftTv = getActivity().findViewById(R.id.trip_request_bidding_time_left);
         navController = Navigation.findNavController(getActivity(), R.id.my_nav_host_fragment);
         cancelBidButton = getActivity().findViewById(R.id.trip_request_bidding_cancel_button);
 
@@ -72,14 +76,33 @@ public class TripBiddingFragment extends Fragment {
             cancelBidButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Log.d(TAG, "cancelBidButton onClick");
-
-                    // todo: create popup confirmation and navigate accordingly
+                    warningDialog.show();
                 }
             });
         }
 
-        timeLeftTv = getActivity().findViewById(R.id.trip_request_bidding_time_left);
+
+        // Create alert dialog for when user clicks cancel button
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setMessage(R.string.trip_bidding_cancel_msg)
+                .setTitle(R.string.trip_bidding_cancel_title)
+                .setPositiveButton(R.string.button_ok, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // User clicked OK button
+
+                        Log.d(TAG, "User clicked OK");
+                        navController.navigateUp();
+                    }
+                })
+                .setNegativeButton(R.string.button_cancel, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // User cancelled the dialog
+
+                        Log.d(TAG, "User clicked cancel");
+                    }
+                });
+
+        warningDialog = builder.create();
     }
 
     private void createAdapter() {
@@ -116,13 +139,11 @@ public class TripBiddingFragment extends Fragment {
                 });
             }
 
-
             @Override
             public void onFinish() {
                 // todo: upon timer end, end bidding appropriately
                 //getSocketManager().stopBidding(currentRideRequest.getRideRequestId());
             }
-
         };
 
         countDownTimer.start();
