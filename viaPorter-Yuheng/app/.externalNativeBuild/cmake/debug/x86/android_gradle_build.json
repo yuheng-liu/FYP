@@ -1,0 +1,41 @@
+
+{
+	"buildFiles" : 
+	[
+		"/Yuheng/FYP/Developement/viaPorter/FYP/viaPorter-Yuheng/app/CMakeLists.txt"
+	],
+	"cleanCommands" : 
+	[
+		"/Users/yuheng/Library/Android/sdk/cmake/3.6.4111459/bin/cmake --build /Yuheng/FYP/Developement/viaPorter/FYP/viaPorter-Yuheng/app/.externalNativeBuild/cmake/debug/x86 --target clean"
+	],
+	"cppFileExtensions" : [ "cpp" ],
+	"libraries" : 
+	{
+		"native-lib-Debug-x86" : 
+		{
+			"abi" : "x86",
+			"artifactName" : "native-lib",
+			"buildCommand" : "/Users/yuheng/Library/Android/sdk/cmake/3.6.4111459/bin/cmake --build /Yuheng/FYP/Developement/viaPorter/FYP/viaPorter-Yuheng/app/.externalNativeBuild/cmake/debug/x86 --target native-lib",
+			"buildType" : "debug",
+			"files" : 
+			[
+				
+				{
+					"flags" : "  --target=i686-none-linux-android23 --gcc-toolchain=/Users/yuheng/Library/Android/sdk/ndk-bundle/toolchains/llvm/prebuilt/darwin-x86_64  -Dnative_lib_EXPORTS  --sysroot /Users/yuheng/Library/Android/sdk/ndk-bundle/toolchains/llvm/prebuilt/darwin-x86_64/sysroot -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -mstackrealign -fno-addrsig -Wa,--noexecstack -Wformat -Werror=format-security -stdlib=libc++ -frtti -fexceptions -O0 -fno-limit-debug-info  -fPIC    -c ",
+					"src" : "/Yuheng/FYP/Developement/viaPorter/FYP/viaPorter-Yuheng/app/src/main/cpp/native-lib.cpp",
+					"workingDirectory" : "/Yuheng/FYP/Developement/viaPorter/FYP/viaPorter-Yuheng/app/.externalNativeBuild/cmake/debug/x86"
+				}
+			],
+			"output" : "/Yuheng/FYP/Developement/viaPorter/FYP/viaPorter-Yuheng/app/build/intermediates/cmake/debug/obj/x86/libnative-lib.so",
+			"toolchain" : "5770390421662485477"
+		}
+	},
+	"toolchains" : 
+	{
+		"5770390421662485477" : 
+		{
+			"cCompilerExecutable" : "/Users/yuheng/Library/Android/sdk/ndk-bundle/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang",
+			"cppCompilerExecutable" : "/Users/yuheng/Library/Android/sdk/ndk-bundle/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang++"
+		}
+	}
+}
