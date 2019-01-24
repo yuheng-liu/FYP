@@ -20,4 +20,8 @@ public class MyViewModel extends ViewModel {
 
         requestSession.setValue(updatedRequestSession);
     }
+
+    public UserTripRequestSession getUserRequestSession() {
+        return requestSession.getValue();
+    }
 }

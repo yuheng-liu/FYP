@@ -1,5 +1,6 @@
 package com.example.viapatron2.fragment;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -9,16 +10,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import com.example.viapatron2.R;
+import com.example.viapatron2.core.models.MyViewModel;
 
 public class TripRequestConfirmFragment extends Fragment {
 
     private static final String TAG = "viaPatron.TRCFragment";
 
     private NavController navController;
+    private MyViewModel model;
+
     private Button confirmButton;
+    private TextView stationTitle;
+    private TextView dateTitle;
 
     public TripRequestConfirmFragment() {
         // Empty constructor
@@ -38,6 +45,8 @@ public class TripRequestConfirmFragment extends Fragment {
 
         navController = Navigation.findNavController(getActivity(), R.id.my_nav_host_fragment);
         confirmButton = getActivity().findViewById(R.id.trip_request_confirm_button);
+        stationTitle = getActivity().findViewById(R.id.trip_request_confirm_station_title);
+        dateTitle = getActivity().findViewById(R.id.trip_request_confirm_date_title);
 
         if (confirmButton != null) {
             confirmButton.setOnClickListener(new View.OnClickListener() {
@@ -50,6 +59,32 @@ public class TripRequestConfirmFragment extends Fragment {
                 }
             });
         }
+
+        setUpViewModel();
+    }
+
+    private void setUpViewModel() {
+
+        Log.d(TAG, "setUpViewModel");
+
+        // Re-created activities receive the same MyViewModel instance created by the first activity.
+        model = ViewModelProviders.of(getActivity()).get(MyViewModel.class);
+        model.getRequestSession().observe(this, users -> {
+
+            // update UI
+            if (stationTitle != null) {
+                String stationName = model.getRequestSession().getValue().getStation();
+
+                if (stationName != null) {
+                    stationTitle.setText(model.getRequestSession().getValue().getStation());
+                }
+            }
+
+            if (dateTitle != null) {
+                String date = model.getRequestSession().getValue().getDate();
+                dateTitle.setText(date);
+            }
+        });
     }
 
     @Override
