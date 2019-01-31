@@ -1,7 +1,7 @@
 package com.example.viapatron2.app.managers;
 
 import android.util.Log;
-import com.example.viapatron2.app.constants.APIEndpoints;
+import com.example.viapatron2.app.constants.AppConstants;
 import com.example.viapatron2.core.models.UserContext;
 import com.example.viapatron2.core.models.UserTripRequestSession;
 import com.github.nkzawa.emitter.Emitter;
@@ -53,7 +53,7 @@ public class SocketManager {
         }
 
         try {
-            socket = IO.socket(APIEndpoints.API_BASE_URL);
+            socket = IO.socket(AppConstants.LOCAL_HOST_URL);
             socket.connect();
         } catch (URISyntaxException e) {
             e.printStackTrace();

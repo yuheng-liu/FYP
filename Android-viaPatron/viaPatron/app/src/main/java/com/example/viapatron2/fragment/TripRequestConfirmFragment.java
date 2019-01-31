@@ -15,7 +15,7 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import com.example.viapatron2.R;
 import com.example.viapatron2.activity.MainActivity;
-import com.example.viapatron2.app.constants.APIEndpoints;
+import com.example.viapatron2.app.constants.AppConstants;
 import com.example.viapatron2.core.models.MyViewModel;
 import com.example.viapatron2.core.models.UserTripRequestSession;
 import com.github.nkzawa.socketio.client.Socket;
@@ -72,8 +72,8 @@ public class TripRequestConfirmFragment extends Fragment {
                     Socket socket;
 
                     try {
-                        Log.d(TAG, "getting URL " + APIEndpoints.API_BASE_URL);
-                        socket = IO.socket(APIEndpoints.API_BASE_URL);
+                        Log.d(TAG, "getting URL " + AppConstants.LOCAL_HOST_URL);
+                        socket = IO.socket(AppConstants.LOCAL_HOST_URL);
                         socket.connect();
                         socket.emit("join", "testuser");
 

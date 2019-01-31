@@ -21,7 +21,7 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 import com.amazonaws.mobile.client.AWSMobileClient;
 import com.example.viapatron2.R;
-import com.example.viapatron2.app.constants.APIEndpoints;
+import com.example.viapatron2.app.constants.AppConstants;
 import com.example.viapatron2.core.models.MyViewModel;
 import com.example.viapatron2.fragment.ProfileFragment;
 import com.example.viapatron2.service.ViaPatronWorkerService;
@@ -29,7 +29,7 @@ import com.example.viapatron2.service.ViaPatronWorkerService;
 public class MainActivity extends AppCompatActivity implements ProfileFragment.MyProfileFragmentListener {
 
     private static final String TAG = "viaPatron.MainActivity";
-    private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = APIEndpoints.PERMISSION_FINE_LOCATION;
+    private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = AppConstants.PERMISSION_FINE_LOCATION;
 
     private ViaPatronWorkerService mService;
     private boolean mServiceBounded = false, mServiceConnected = false;
@@ -47,12 +47,12 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.M
 
         Log.i(TAG, "onCreate");
 
-        getLocationPermission();
+        checkAppLocationPermission();
         setUpViewModel();
         setupViews();
     }
 
-    private void getLocationPermission() {
+    private void checkAppLocationPermission() {
         /*
          * Request location permission, so that we can get the location of the
          * device. The result of the permission request is handled by a callback,

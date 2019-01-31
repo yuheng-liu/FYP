@@ -6,13 +6,14 @@ package com.example.viapatron2.app.constants;
  * Configs for debug.
  */
 
-public final class APIEndpoints {
+public final class AppConstants {
     /* Base URL */
-//    public static final String API_BASE_URL = "https://server.autoapp.io/"; // aws prod
-//    public static final String API_BASE_URL = "http://54.169.55.80/"; // aws dev
-//    public static final String API_BASE_URL = "http://139.59.244.233:5000"; // digital ocean
-//    public static final String API_BASE_URL = "http://10.0.2.2:5000"; // localhost
-    public static final String API_BASE_URL = "http://172.17.203.32:3000"; // localhost
+//    public static final String LOCAL_HOST_URL = "https://server.autoapp.io/"; // aws prod
+//    public static final String LOCAL_HOST_URL = "http://54.169.55.80/"; // aws dev
+//    public static final String LOCAL_HOST_URL = "http://139.59.244.233:5000"; // digital ocean
+//    public static final String LOCAL_HOST_URL = "http://10.0.2.2:5000"; // localhost
+    
+    public static final String LOCAL_HOST_URL = "http://172.17.203.32:3000"; // localhost
 
     public static final int PERMISSION_FINE_LOCATION = 111;
 
