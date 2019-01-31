@@ -34,10 +34,12 @@
     <string name="button_cancel">Cancel</string>
     <string name="button_ok">OK</string>
 
+    <string name="page_title_porter">Porter</string>
+
+
 
 
     <string name="app_name">viaPatron</string>
-    <string name="porter">Porter</string>
     <string name="dont_have_an_account_sign_up">Don\'t have an account? Sign up</string>
     <string name="here">here!</string>
     <string name="back">Back</string>

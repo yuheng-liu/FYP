@@ -7,11 +7,19 @@
         android:background="@color/colorPrimary"
         android:orientation="vertical">
 
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/page_title_porter"
+            android:textSize="20sp"
+            android:layout_gravity="center"
+            android:layout_marginTop="24dp"/>
+
     <FrameLayout
             android:layout_width="335dp"
             android:layout_height="46dp"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="150dp"
+            android:layout_marginTop="100dp"
             android:background="@drawable/rounded_corner">
 
         <android.support.v7.widget.AppCompatSpinner
