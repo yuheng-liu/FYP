@@ -2,6 +2,9 @@ package com.example.viapatron2.core.models;
 
 
 import androidx.navigation.NavDestination;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
 /**
  * Created by Lim Zhiming on 10/1/19.
@@ -10,14 +13,44 @@ import androidx.navigation.NavDestination;
 
 // Originally extends RealmObject (in Auto)
 public class UserTripRequestSession {
+
+    @SerializedName("start")
+    @Expose
+    private LatLng start;
+
+    @SerializedName("end")
+    @Expose
+    private LatLng end;
+
+    @SerializedName("station")
+    @Expose
     private String station;
+
+    @SerializedName("station_id")
+    @Expose
     private long stationId;
+
     private String date;
     private String startLocation;
     private String endLocation;
     private String noOfLuggages;
     private NavDestination currentDest;
 
+    public LatLng getStart() {
+        return start;
+    }
+
+    public void setStart(LatLng start) {
+        this.start = start;
+    }
+
+    public LatLng getEnd() {
+        return end;
+    }
+
+    public void setEnd(LatLng end) {
+        this.end = end;
+    }
 
     public String getStation() {
         return station;

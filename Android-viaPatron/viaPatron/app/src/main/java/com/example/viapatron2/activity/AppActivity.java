@@ -4,11 +4,9 @@ package com.example.viapatron2.activity;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import com.example.viapatron2.app.managers.APIManager;
 import com.example.viapatron2.app.managers.DataManager;
-import io.reactivex.disposables.Disposable;
-
 import com.example.viapatron2.service.ViaPatronWorkerService;
+import io.reactivex.disposables.Disposable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,10 +33,6 @@ public class AppActivity extends AppCompatActivity {
 
     public DataManager getDataManager() {
         return mService.getDataManager();
-    }
-
-    public APIManager getApiManager() {
-        return mService.getApiManager();
     }
 
 //    public SocketManager getSocketManager() {

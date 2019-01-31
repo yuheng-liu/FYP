@@ -18,7 +18,7 @@ import android.widget.TextView;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import com.example.viapatron2.BidderAdapter;
-import com.example.viapatron2.MainActivity;
+import com.example.viapatron2.activity.MainActivity;
 import com.example.viapatron2.R;
 
 import java.util.Locale;
@@ -58,7 +58,7 @@ public class TripBiddingFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        mActivity = (MainActivity) getActivity();
+        mActivity = (MainActivity) requireActivity();
 
         setViews();
         createAdapter();
@@ -68,9 +68,9 @@ public class TripBiddingFragment extends Fragment {
 
         Log.d(TAG, "setViews");
 
-        timeLeftTv = getActivity().findViewById(R.id.trip_request_bidding_time_left);
-        navController = Navigation.findNavController(getActivity(), R.id.my_nav_host_fragment);
-        cancelBidButton = getActivity().findViewById(R.id.trip_request_bidding_cancel_button);
+        timeLeftTv = mActivity.findViewById(R.id.trip_request_bidding_time_left);
+        navController = Navigation.findNavController(mActivity, R.id.my_nav_host_fragment);
+        cancelBidButton = mActivity.findViewById(R.id.trip_request_bidding_cancel_button);
 
         if (cancelBidButton != null) {
             cancelBidButton.setOnClickListener(new View.OnClickListener() {

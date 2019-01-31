@@ -1,7 +1,9 @@
 package com.example.viapatron2.app.managers;
 
 import com.example.viapatron2.BidderInfo;
+import com.example.viapatron2.core.models.UserSession;
 import com.example.viapatron2.core.models.UserTripRequestSession;
+import io.realm.Realm;
 
 /**
  * Created by Lim Zhiming on 10/1/19.
@@ -10,8 +12,11 @@ public class DataManager {
 
     private static final String TAG = "DataManager";
 
+    private Realm realm;
+
     private UserTripRequestSession userTripRequestSession;
     private BidderInfo bidderInfo;
+    private UserSession userSession;
 
     public DataManager() {
         // init GeoApiContext
@@ -37,5 +42,32 @@ public class DataManager {
 //            }
 //        }
         return userTripRequestSession;
+    }
+
+    public void createSession(String sessionId) {
+        realm.beginTransaction();
+        if (userSession == null) {
+            userSession = realm.createObject(UserSession.class);
+        }
+        userSession.setSessionId(sessionId);
+        realm.commitTransaction();
+    }
+
+    public UserSession getUserSession() {
+        if (userSession == null || userSession.isValid()) {
+            synchronized (this) {
+                userSession = realm.where(UserSession.class).findFirst();
+            }
+        }
+        return userSession;
+    }
+
+    public void removeCurrentSession() {
+        if (getUserSession() != null) {
+            realm.beginTransaction();
+            userSession.deleteFromRealm();
+            realm.commitTransaction();
+            userSession = null;
+        }
     }
 }

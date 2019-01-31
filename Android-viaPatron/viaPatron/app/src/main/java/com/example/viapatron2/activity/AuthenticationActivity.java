@@ -8,7 +8,6 @@ import com.amazonaws.mobile.client.AWSMobileClient;
 import com.amazonaws.mobile.client.Callback;
 import com.amazonaws.mobile.client.SignInUIOptions;
 import com.amazonaws.mobile.client.UserStateDetails;
-import com.example.viapatron2.MainActivity;
 import com.example.viapatron2.R;
 
 /**

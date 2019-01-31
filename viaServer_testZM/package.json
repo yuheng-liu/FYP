@@ -1,0 +1,9 @@
+{
+  "name": "viaserver_test",
+  "version": "0.0.1",
+  "description": "Test Server for Via",
+  "dependencies": {
+    "express": "^4.16.4",
+    "socket.io": "^2.2.0"
+  }
+}

@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Binder;
 import android.os.IBinder;
 import android.util.Log;
-import com.example.viapatron2.app.managers.APIManager;
 import com.example.viapatron2.app.managers.DataManager;
 import com.example.viapatron2.app.managers.SocketManager;
 import io.reactivex.disposables.Disposable;
@@ -25,7 +24,6 @@ public class ViaPatronWorkerService extends Service {
 
     // todo: create classes for below managers
     private DataManager dataManager;
-    private APIManager apiManager;
     private SocketManager socketManager;
 
     // disposables
@@ -42,7 +40,6 @@ public class ViaPatronWorkerService extends Service {
         // todo: edit instances of managers and importData in DataManager
         dataManager = new DataManager();
         dataManager.importData();
-        apiManager = new APIManager(dataManager);
         socketManager = new SocketManager(dataManager);
 
 //        disposables = new ArrayList<>();
@@ -58,10 +55,6 @@ public class ViaPatronWorkerService extends Service {
     // getters
     public DataManager getDataManager() {
         return dataManager;
-    }
-
-    public APIManager getApiManager() {
-        return apiManager;
     }
 
     public SocketManager getSocketManager() {
