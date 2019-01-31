@@ -18,6 +18,7 @@ import androidx.navigation.Navigation;
 import com.example.viapatron2.R;
 import com.example.viapatron2.core.models.MyViewModel;
 import com.example.viapatron2.core.models.UserTripRequestSession;
+import com.google.android.gms.maps.SupportMapFragment;
 
 public class HomeFragment extends Fragment {
 
@@ -29,6 +30,7 @@ public class HomeFragment extends Fragment {
     private MyViewModel model;
     private UserTripRequestSession userTripRequestSession;
     private ArrayAdapter<CharSequence> adapter;
+    private SupportMapFragment mapFragment;
 
     public HomeFragment() {
         // Empty constructor
@@ -37,8 +39,6 @@ public class HomeFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
-        Log.d(TAG, "onCreateView");
 
         return inflater.inflate(R.layout.home_fragment, container, false);
     }
@@ -54,6 +54,7 @@ public class HomeFragment extends Fragment {
 
         stationSpinner = (AppCompatSpinner) getActivity().findViewById(R.id.stations_spinner);
         nextButton = (Button) getActivity().findViewById(R.id.stations_spinner_next);
+        mapFragment = (SupportMapFragment) getFragmentManager().findFragmentById(R.id.google_map);
 
         setUpViewModel();
         setUpClickable();
@@ -65,13 +66,11 @@ public class HomeFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        Log.d(TAG, "onActivityCreated");
-
     }
 
     private void setUpViewModel() {
 
-        Log.d(TAG, "setUpViewModel");
+//        Log.d(TAG, "setUpViewModel");
 
         // Re-created activities receive the same MyViewModel instance created by the first activity.
         model = ViewModelProviders.of(getActivity()).get(MyViewModel.class);
@@ -86,8 +85,6 @@ public class HomeFragment extends Fragment {
     }
 
     private void setUpClickable() {
-
-        Log.d(TAG, "setUpClickable");
 
         if (stationSpinner != null) {
 

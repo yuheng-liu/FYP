@@ -14,6 +14,8 @@ public final class APIEndpoints {
 //    public static final String API_BASE_URL = "http://10.0.2.2:5000"; // localhost
     public static final String API_BASE_URL = "http://172.17.203.32:3000"; // localhost
 
+    public static final int PERMISSION_FINE_LOCATION = 111;
+
     /* Help URLs */
 //    public static final String TC_URL = "http://autoapp.io/terms-riders/";
 //    public static final String FAQ_URL = "http://autoapp.io/faq-riders/";

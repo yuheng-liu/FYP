@@ -5,10 +5,13 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
@@ -18,6 +21,7 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 import com.amazonaws.mobile.client.AWSMobileClient;
 import com.example.viapatron2.R;
+import com.example.viapatron2.app.constants.APIEndpoints;
 import com.example.viapatron2.core.models.MyViewModel;
 import com.example.viapatron2.fragment.ProfileFragment;
 import com.example.viapatron2.service.ViaPatronWorkerService;
@@ -25,6 +29,7 @@ import com.example.viapatron2.service.ViaPatronWorkerService;
 public class MainActivity extends AppCompatActivity implements ProfileFragment.MyProfileFragmentListener {
 
     private static final String TAG = "viaPatron.MainActivity";
+    private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = APIEndpoints.PERMISSION_FINE_LOCATION;
 
     private ViaPatronWorkerService mService;
     private boolean mServiceBounded = false, mServiceConnected = false;
@@ -32,6 +37,7 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.M
     private BottomNavigationView bottomNavigation;
     private NavHostFragment navHostFragment;
     private NavController navController;
+    private boolean mLocationPermissionGranted = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,8 +47,46 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.M
 
         Log.i(TAG, "onCreate");
 
+        getLocationPermission();
         setUpViewModel();
         setupViews();
+    }
+
+    private void getLocationPermission() {
+        /*
+         * Request location permission, so that we can get the location of the
+         * device. The result of the permission request is handled by a callback,
+         * onRequestPermissionsResult.
+         */
+        if (ContextCompat.checkSelfPermission(this.getApplicationContext(),
+                android.Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+            mLocationPermissionGranted = true;
+
+            Log.d(TAG, "user has granted location permissions");
+        } else {
+            Log.d(TAG, "user has not granted location permissions");
+
+            ActivityCompat.requestPermissions(this,
+                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
+                    PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String permissions[],
+                                           @NonNull int[] grantResults) {
+        mLocationPermissionGranted = false;
+        switch (requestCode) {
+            case PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    mLocationPermissionGranted = true;
+                }
+            }
+        }
     }
 
     @Override
@@ -134,7 +178,7 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.M
 
     private void setUpViewModel() {
 
-        Log.d(TAG, "setUpViewModel");
+//        Log.d(TAG, "setUpViewModel");
 
         // Create a ViewModel the first time the system calls an activity's onCreate() method.
         // Re-created activities receive the same MyViewModel instance created by the first activity.
