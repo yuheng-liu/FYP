@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "VIA Pte. Ltd.",
+  "author": "Yuheng",
   "license": "ISC",
   "dependencies": {
     "express": "^4.16.4",

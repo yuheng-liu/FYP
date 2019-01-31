@@ -75,10 +75,12 @@ dependencies {
     implementation "android.arch.lifecycle:extensions:$lifecycle_version"
 
     // Navigation Support
-    def nav_version = "1.0.0-alpha09"
+    def nav_version = "1.0.0-alpha11"
     implementation "android.arch.navigation:navigation-fragment-ktx:$nav_version" // use -ktx for Kotlin
     implementation "android.arch.navigation:navigation-ui-ktx:$nav_version" // use -ktx for Kotlin
 
+    // Socket IO support
+    implementation "io.socket:socket.io-client:0.6.2"
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'

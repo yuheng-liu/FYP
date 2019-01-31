@@ -1,6 +1,5 @@
 package com.example.viaporter.activity
 
-import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
@@ -13,12 +12,14 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import com.amazonaws.mobile.client.AWSMobileClient
 import com.example.viaporter.R
-import com.example.viaporter.core.models.MyViewModel
 import com.example.viaporter.fragment.ProfileFragment
+import io.socket.client.IO
+import io.socket.client.Socket
 
 class MainActivity : AppCompatActivity(), ProfileFragment.MyProfileFragmentListener {
 
     private var bottomNavigation: BottomNavigationView? = null
+    private var socket = IO.socket("http://172.25.103.88:3000")
 
     var homeFragment: Fragment? = null
     private val chatFragment: Fragment? = null
@@ -66,6 +67,7 @@ class MainActivity : AppCompatActivity(), ProfileFragment.MyProfileFragmentListe
         Log.i(TAG, "onCreate")
 
         setupViews()
+        setupSocket()
     }
 
     private fun setupViews() {
@@ -83,6 +85,14 @@ class MainActivity : AppCompatActivity(), ProfileFragment.MyProfileFragmentListe
 
         // Pair navigationbar_items controller with the bottom navigationbar_items bar
         NavigationUI.setupWithNavController(bottomNavigation!!, navController!!)
+    }
+
+    private fun setupSocket() {
+        try {
+            socket.connect()
+        } catch (e:Exception) {
+            println(e)
+        }
     }
 
     public override fun onResume() {
@@ -154,6 +164,6 @@ class MainActivity : AppCompatActivity(), ProfileFragment.MyProfileFragmentListe
 
     companion object {
 
-        private val TAG = "viaPatron.MainActivity"
+        private const val TAG = "viaPatron.MainActivity"
     }
 }
