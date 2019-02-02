@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/home_fragment"
@@ -9,17 +10,70 @@
 
     <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="46dp"
-            android:layout_gravity="top"
-            android:background="@drawable/rounded_corner">
+            android:layout_height="match_parent">
 
-        <TextView
-                android:id="@+id/text_view_id"
+        <fragment
+                xmlns:map="http://schemas.android.com/apk/res-auto"
+                android:name="com.google.android.gms.maps.SupportMapFragment"
+                android:id="@+id/google_map"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Porter"
-                android:textAlignment="center"
-                android:textSize="30sp"/>
+                android:layout_height="match_parent"
+                map:mapType="normal"
+                map:uiCompass="true"
+                tools:ignore="MissingPrefix"/>
 
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+            <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp">
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/page_title_porter"
+                        android:textSize="30sp"
+                        android:layout_gravity="center"
+                        />
+            </FrameLayout>
+
+            <FrameLayout
+                    android:layout_width="335dp"
+                    android:layout_height="46dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/rounded_corner">
+
+                <android.support.v7.widget.AppCompatSpinner
+                        android:layout_width="300dp"
+                        android:layout_height="46dp"
+                        android:entries="@array/stations_array"
+                        android:prompt="@string/where_to"
+                        android:id="@+id/stations_spinner"
+                        android:layout_gravity="center">
+
+                </android.support.v7.widget.AppCompatSpinner>
+            </FrameLayout>
+
+            <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:paddingTop="20dp">
+
+                <Button
+                        android:layout_width="200dp"
+                        android:layout_height="46dp"
+                        android:id="@+id/stations_spinner_next"
+                        android:background="@drawable/rounded_corner_accent"
+                        android:text="@string/next"
+                        android:textColor="@color/colorPrimary"/>
+            </FrameLayout>
+
+        </LinearLayout>
     </FrameLayout>
 </LinearLayout>

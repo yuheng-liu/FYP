@@ -8,27 +8,57 @@
 
 
     <fragment
-            android:id="@+id/navigation_trip"
-            android:name="com.example.viaporter.fragment.HomeFragment"
-            android:label="home_fragment"
-            tools:layout="@layout/home_fragment"/>
-
-    <fragment
-            android:id="@+id/navigation_jobs"
-            android:name="com.example.viaporter.fragment.TripRequestFragment"
-            android:label="trip_request_fragment"
-            tools:layout="@layout/trip_request_fragment"/>
-
-    <fragment
             android:id="@+id/navigation_chats"
-            android:name="com.example.viaporter.fragment.ChatFragment"
+            android:name="com.example.viapatron2.fragment.ChatFragment"
             android:label="chat_fragment"
             tools:layout="@layout/chat_fragment"/>
 
+
     <fragment
             android:id="@+id/navigation_profile"
-            android:name="com.example.viaporter.fragment.ProfileFragment"
+            android:name="com.example.viapatron2.fragment.ProfileFragment"
             android:label="profile_fragment"
             tools:layout="@layout/profile_fragment"/>
+
+
+    <navigation
+            android:id="@+id/navigation_trip"
+            app:startDestination="@id/navigation_trip_begin">
+
+        <fragment
+                android:id="@+id/navigation_trip_request"
+                android:name="com.example.viapatron2.fragment.TripRequestFragment"
+                android:label="trip_request_fragment"
+                tools:layout="@layout/trip_request_fragment">
+            <action
+                    android:id="@+id/action_navigation_trip_request_to_navigation_trip_request_confirm"
+                    app:destination="@id/navigation_trip_request_confirm"/>
+        </fragment>
+
+        <fragment
+                android:id="@+id/navigation_trip_request_confirm"
+                android:name="com.example.viapatron2.fragment.TripRequestConfirmFragment"
+                android:label="trip_request_confirm_fragment"
+                tools:layout="@layout/trip_request_confirm_fragment">
+            <action android:id="@+id/action_navigation_trip_request_confirm_to_navigation_trip_bidding"
+                    app:destination="@id/navigation_trip_bidding"/>
+        </fragment>
+
+        <fragment
+                android:id="@+id/navigation_trip_begin"
+                android:name="com.example.viapatron2.fragment.HomeFragment"
+                android:label="home_fragment"
+                tools:layout="@layout/home_fragment">
+            <action
+                    android:id="@+id/action_navigation_trip_begin_to_navigation_trip_request"
+                    app:destination="@id/navigation_trip_request"/>
+        </fragment>
+
+        <fragment
+                android:id="@+id/navigation_trip_bidding"
+                android:name="com.example.viapatron2.fragment.TripBiddingFragment"
+                android:label="trip_bidding_fragment"
+                tools:layout="@layout/trip_bidding_fragment"/>
+    </navigation>
 
 </navigation>
