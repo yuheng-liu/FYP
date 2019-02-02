@@ -31,12 +31,12 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof MyProfileFragmentListener) {
-            profileListener = (MyProfileFragmentListener) context;
-        } else {
-            throw new ClassCastException(context.toString()
-                    + " must implement ProfileFragment.MyProfileFragmentListener");
-        }
+//        if (context instanceof MyProfileFragmentListener) {
+//            profileListener = (MyProfileFragmentListener) context;
+//        } else {
+//            throw new ClassCastException(context.toString()
+//                    + " must implement ProfileFragment.MyProfileFragmentListener");
+//        }
     }
 
     // The onCreateView method is called when Fragment should create its View object hierarchy,
@@ -58,29 +58,29 @@ public class ProfileFragment extends Fragment {
 
         logoutButton = (FrameLayout) getActivity().findViewById(R.id.logout_button);
 
-        setUpButtons();
+//        setUpButtons();
     }
 
     //Include logout button testing
-    private void setUpButtons() {
-
-        Log.d(TAG, "setUpButtons");
-
-        if (logoutButton != null) {
-            logoutButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    // todo: create alert dialog popup
-
-                    try {
-                        Log.d(TAG, "attempting to log out.");
-                        profileListener.onLogoutButtonSelected();
-
-                    } catch (Exception e) {
-                        Log.d(TAG, "error on log out.");
-                    }
-                }
-            });
-        }
-    }
+//    private void setUpButtons() {
+//
+//        Log.d(TAG, "setUpButtons");
+//
+//        if (logoutButton != null) {
+//            logoutButton.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    // todo: create alert dialog popup
+//
+//                    try {
+//                        Log.d(TAG, "attempting to log out.");
+//                        profileListener.onLogoutButtonSelected();
+//
+//                    } catch (Exception e) {
+//                        Log.d(TAG, "error on log out.");
+//                    }
+//                }
+//            });
+//        }
+//    }
 }
