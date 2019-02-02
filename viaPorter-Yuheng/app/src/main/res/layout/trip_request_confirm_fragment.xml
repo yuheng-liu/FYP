@@ -18,7 +18,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/trip_request_confirm_station_title"
-            android:text=""
+            android:text="STATION (TEMP)"
             android:textSize="24sp"
             android:paddingTop="40dp"
             android:paddingBottom="20dp"

@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
+<LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
         tools:context=".activity.MainActivity"
         android:clipChildren="false">
 
     <fragment
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             android:id="@+id/my_nav_host_fragment"
             android:name="androidx.navigation.fragment.NavHostFragment"
             app:navGraph="@navigation/nav_graph"
@@ -25,6 +27,7 @@
             app:itemBackground="@color/colorPrimary"
             app:itemIconTint="@color/colorPrimaryDark"
             app:itemTextColor="@color/colorPrimaryGreyDark"
-            app:menu="@menu/navigation" />
+            app:labelVisibilityMode="labeled"
+            app:menu="@menu/navigationbar_items" />
 
-</android.support.design.widget.CoordinatorLayout>
+</LinearLayout>

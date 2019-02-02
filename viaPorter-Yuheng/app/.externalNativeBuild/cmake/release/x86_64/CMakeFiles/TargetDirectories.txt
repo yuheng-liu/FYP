@@ -1,3 +1,0 @@
-/Yuheng/FYP/Developement/viaPorter/FYP/viaPorter-Yuheng/app/.externalNativeBuild/cmake/release/x86_64/CMakeFiles/edit_cache.dir
-/Yuheng/FYP/Developement/viaPorter/FYP/viaPorter-Yuheng/app/.externalNativeBuild/cmake/release/x86_64/CMakeFiles/rebuild_cache.dir
-/Yuheng/FYP/Developement/viaPorter/FYP/viaPorter-Yuheng/app/.externalNativeBuild/cmake/release/x86_64/CMakeFiles/native-lib.dir

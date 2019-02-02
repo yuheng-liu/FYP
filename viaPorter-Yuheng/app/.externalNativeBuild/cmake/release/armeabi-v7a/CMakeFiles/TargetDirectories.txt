@@ -1,3 +1,0 @@
-/Yuheng/FYP/Developement/viaPorter/FYP/viaPorter-Yuheng/app/.externalNativeBuild/cmake/release/armeabi-v7a/CMakeFiles/edit_cache.dir
-/Yuheng/FYP/Developement/viaPorter/FYP/viaPorter-Yuheng/app/.externalNativeBuild/cmake/release/armeabi-v7a/CMakeFiles/rebuild_cache.dir
-/Yuheng/FYP/Developement/viaPorter/FYP/viaPorter-Yuheng/app/.externalNativeBuild/cmake/release/armeabi-v7a/CMakeFiles/native-lib.dir

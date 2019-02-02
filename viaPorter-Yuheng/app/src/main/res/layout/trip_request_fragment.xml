@@ -6,124 +6,61 @@
         android:orientation="vertical"
         android:background="@color/colorPrimary">
 
-
-    <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/trip_request_main_title"
-            android:textSize="20sp"
-            android:layout_gravity="center"
-            android:layout_marginTop="24dp"/>
-
-    <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/trip_request_station_title"
-            android:text="STATION (TEMP)"
-            android:textSize="24sp"
-            android:paddingTop="40dp"
-            android:paddingBottom="20dp"
-            android:layout_gravity="center"/>
-
-    <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/trip_request_date_title"
-            android:text="DATE (TEMP)"
-            android:textSize="14sp"
-            android:textColor="@color/colorWhite"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
-            android:paddingStart="40dp"
-            android:paddingEnd="40dp"
-            android:layout_gravity="center"
-            android:background="@drawable/rounded_corner_accent_small"/>
-
-
     <FrameLayout
-            android:layout_width="330dp"
-            android:layout_height="46dp"
             android:layout_marginTop="20dp"
-            android:layout_gravity="center"
-            android:background="@drawable/rounded_corner_white_small">
-
+            android:layout_width="match_parent"
+            android:layout_height="46dp"
+            android:layout_gravity="top"
+            android:background="@drawable/rounded_corner">
 
         <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/trip_request_from"
-                android:textSize="12sp"/>
-
-        <EditText
+                android:id="@+id/text_view_id"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/from_request_field"
-                android:inputType="text"
-                android:clickable="true"
-                android:focusable="true"/>
+                android:layout_height="wrap_content"
+                android:text="@string/trip_request_main_title"
+                android:textAlignment="center"
+                android:textSize="30sp"/>
+    </FrameLayout>
+
+    <FrameLayout
+            android:id="@+id/broadcasted_trip_requests"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#888">
+
+        <TextView
+                android:id="@+id/text_view_id2"
+                android:layout_width="match_parent"
+                android:layout_height="40sp"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:text="@string/trip_request_broadcasted_title"
+                android:textSize="25sp"
+                android:drawableStart="@drawable/ic_broadcasted_black_24dp"
+                android:drawableEnd="@drawable/ic_refresh_black_24dp"
+                android:drawablePadding="5dp"/>
+    </FrameLayout>
+
+    <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="250dp">
 
     </FrameLayout>
 
     <FrameLayout
-            android:layout_width="330dp"
-            android:layout_height="46dp"
-            android:layout_marginTop="20dp"
-            android:layout_gravity="center"
-            android:background="@drawable/rounded_corner_white_small">
-
-
-        <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/trip_request_to"
-                android:textSize="12sp"/>
-
-        <EditText
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/to_request_field"
-                android:inputType="text"
-                android:clickable="true"
-                android:focusable="true"/>
-
-    </FrameLayout>
-
-    <FrameLayout
-            android:layout_width="330dp"
-            android:layout_height="46dp"
-            android:layout_marginTop="20dp"
-            android:layout_gravity="center"
-            android:background="@drawable/rounded_corner_white_small">
-
-
-        <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/trip_request_luggages"
-                android:textSize="12sp"/>
-
-        <EditText
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/luggages_request_field"
-                android:inputType="number"
-                android:clickable="true"
-                android:focusable="true"/>
-
-    </FrameLayout>
-
-    <FrameLayout
-            android:layout_width="wrap_content"
+            android:id="@+id/Current_Bids"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="20dp">
+            android:background="#888">
 
-        <Button
-                android:layout_width="200dp"
-                android:layout_height="46dp"
-                android:id="@+id/trip_request_next_button"
-                android:background="@drawable/rounded_corner_accent"
-                android:text="@string/next"
-                android:textColor="@color/colorPrimary"/>
+        <TextView
+                android:id="@+id/text_view_id3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:text="@string/trip_request_current_bids_title"
+                android:textSize="25sp"
+                android:drawableStart="@drawable/ic_auction_black_24dp"
+                android:drawablePadding="5dp"/>
     </FrameLayout>
 </LinearLayout>
