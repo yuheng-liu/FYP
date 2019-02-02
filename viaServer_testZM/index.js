@@ -27,4 +27,11 @@ io.on('connection', (socket) => {
 
 		socket.broadcast.emit('userjoinedthechat' , userNickname + " : has joined the chat")
 	});
+
+	socket.on('disconnect', function(userNickname) {
+
+		console.log(userNickname +' has left')
+
+        socket.broadcast.emit( "userdisconnect" ,' user has left')
+	});
 });

@@ -35,6 +35,11 @@
     <string name="button_ok">OK</string>
 
     <string name="page_title_porter">Porter</string>
+    <string name="profile_language">Language</string>
+    <string name="profile_currency">Currency</string>
+    <string name="profile_reminders">Reminders</string>
+    <string name="profile_privacy_policy">Privacy Policy</string>
+
 
 
 
@@ -66,14 +71,10 @@
     <string name="comma">,</string>
     <string name="one_four_zero_zero">1400</string>
     <string name="my_profile">My Profile</string>
-    <string name="language">Language</string>
-    <string name="currency">Currency</string>
     <string name="usd">USD</string>
     <string name="right_arrow">-></string>
-    <string name="reminders">Reminders</string>
     <string name="units">Units</string>
     <string name="imperial">Imperial</string>
-    <string name="privacy_policy">Privacy Policy</string>
     <string name="max">Max</string>
     <string name="singapore">Singapore</string>
     <string name="thesgwayfareratgmail_com">thesgwayfarer@gmail.com</string>

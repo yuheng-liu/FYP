@@ -15,13 +15,9 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import com.example.viapatron2.R;
 import com.example.viapatron2.activity.MainActivity;
-import com.example.viapatron2.app.constants.AppConstants;
 import com.example.viapatron2.core.models.MyViewModel;
 import com.example.viapatron2.core.models.UserTripRequestSession;
 import com.github.nkzawa.socketio.client.Socket;
-import com.github.nkzawa.socketio.client.IO;
-
-import java.net.URISyntaxException;
 
 public class TripRequestConfirmFragment extends Fragment {
 
@@ -69,15 +65,15 @@ public class TripRequestConfirmFragment extends Fragment {
                     // todo: save data and navigate to bidding screen
 //                    mActivity.getService().getSocketManager().sendRideRequest(userTripRequestSession);
 
-                    Socket socket;
-
                     try {
-                        Log.d(TAG, "getting URL " + AppConstants.LOCAL_HOST_URL);
-                        socket = IO.socket(AppConstants.LOCAL_HOST_URL);
-                        socket.connect();
+//                        Log.d(TAG, "getting URL " + AppConstants.LOCAL_HOST_URL);
+//                        socket = IO.socket(AppConstants.LOCAL_HOST_URL);
+//                        socket.connect();
+
+                        Socket socket = mActivity.getmSocketManager().getSocket();
                         socket.emit("join", "testuser");
 
-                    } catch (URISyntaxException e) {
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
                     navController.navigate(R.id.navigation_trip_bidding);

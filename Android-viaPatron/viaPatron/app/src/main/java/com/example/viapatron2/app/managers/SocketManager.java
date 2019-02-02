@@ -33,7 +33,11 @@ public class SocketManager {
         gson = new Gson();
     }
 
-    private Socket getSocket() {
+    public SocketManager() {
+        gson = new Gson();
+    }
+
+    public Socket getSocket() {
         if (socket == null) {
             synchronized (this) {
                 openConnection();
@@ -59,7 +63,14 @@ public class SocketManager {
             e.printStackTrace();
         }
 
-        prepareListeners();
+//        prepareListeners();
+    }
+
+    public void closeConnection() {
+
+        if (socket != null) {
+            socket.disconnect();
+        }
     }
 
     private void prepareListeners() {

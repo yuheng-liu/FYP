@@ -22,6 +22,7 @@ import androidx.navigation.ui.NavigationUI;
 import com.amazonaws.mobile.client.AWSMobileClient;
 import com.example.viapatron2.R;
 import com.example.viapatron2.app.constants.AppConstants;
+import com.example.viapatron2.app.managers.SocketManager;
 import com.example.viapatron2.core.models.MyViewModel;
 import com.example.viapatron2.fragment.ProfileFragment;
 import com.example.viapatron2.service.ViaPatronWorkerService;
@@ -33,6 +34,8 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.M
 
     private ViaPatronWorkerService mService;
     private boolean mServiceBounded = false, mServiceConnected = false;
+
+    private SocketManager mSocketManager;
 
     private BottomNavigationView bottomNavigation;
     private NavHostFragment navHostFragment;
@@ -50,6 +53,8 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.M
         checkAppLocationPermission();
         setUpViewModel();
         setupViews();
+
+        mSocketManager = new SocketManager();
     }
 
     private void checkAppLocationPermission() {
@@ -70,6 +75,8 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.M
             ActivityCompat.requestPermissions(this,
                     new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
                     PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+
+            // todo: disable location services upon permission denial
         }
     }
 
@@ -149,7 +156,6 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.M
 
             switch (item.getItemId()) {
                 case R.id.navigation_trip:
-//                    toolbar.setTitle("Trip");
                     Log.d(TAG, "selected trip");
 
                     // todo: save fragments if exit trip ui flow halfway
@@ -158,14 +164,12 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.M
 
                     return true;
                 case R.id.navigation_chats:
-//                    toolbar.setTitle("Chat");
                     Log.d(TAG, "selected chat");
 
                     navController.navigate(R.id.navigation_chats);
 
                     return true;
                 case R.id.navigation_profile:
-//                    toolbar.setTitle("Profile");
                     Log.d(TAG, "selected profile");
 
                     navController.navigate(R.id.navigation_profile);
@@ -178,8 +182,6 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.M
 
     private void setUpViewModel() {
 
-//        Log.d(TAG, "setUpViewModel");
-
         // Create a ViewModel the first time the system calls an activity's onCreate() method.
         // Re-created activities receive the same MyViewModel instance created by the first activity.
 
@@ -189,25 +191,6 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.M
             // update UI
         });
     }
-
-//    private void setUpFragments() {
-//
-//        Log.d(TAG, "setUpFragments");
-//
-//        homeFragment = new HomeFragment();
-//        chatFragment = new ChatFragment();
-//        profileFragment = new ProfileFragment();
-////        activeFragment = homeFragment;
-//
-//        try {
-//            mFragmentManager.beginTransaction().add(R.id.home_fragment, homeFragment, "1").commit();
-////            mFragmentManager.beginTransaction().add(R.id.chat_fragment, chatFragment, "2").hide(chatFragment).commit();
-////            mFragmentManager.beginTransaction().add(R.id.profile_fragment, profileFragment, "3").hide(profileFragment).commit();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
-
 
     @Override
     public void onResume() {
@@ -287,5 +270,9 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.M
 
     public ViaPatronWorkerService getService() {
         return mService;
+    }
+
+    public SocketManager getmSocketManager() {
+        return mSocketManager;
     }
 }
