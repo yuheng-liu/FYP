@@ -1,6 +1,6 @@
-var app = require('express')();
-var http = require('http').Server(app);
-var io = require('socket.io')(http);
+const app = require('express')();
+const server = require('http').Server(app);
+const io = require('socket.io')(server);
 
 app.get('/', (req, res) => {
 	res.send('Chat Server is running on port 3000')
@@ -12,9 +12,9 @@ io.on('connection', function(socket) {
 
 	// Handle event 'Join'
 	socket.on('join', function(userNickname) {
-		console.log(userNickname +" : has joined the chat "  )
+		console.log(userNickname +" : has joined")
 
-		//socket.broadcast.emit('userjoinedthechat',userNickname +" : has joined the chat ")
+		socket.broadcast.emit('newMessage',userNickname +" : has joined the server")
 	})
 
 	// Handle event 'messagedetection'
@@ -27,12 +27,12 @@ io.on('connection', function(socket) {
 	})
 
 	// Handle event 'disconnect'
-	socket.on('disconnect', function() {
-    	console.log( 'user has left ')
-    	socket.broadcast.emit( "userdisconnect" ,' user has left')
+	socket.on('disconnect', function(userNickname) {
+    	console.log(userNickname +" : has left")
+    	// socket.broadcast.emit( "userdisconnect" ,userNickname +' user has left')
     })
 });
 
-http.listen(3000, function(){
-	console.log('Node app is listening on port 3000');
+server.listen(3000, function(){
+	console.log('Server is listening on port 3000');
 });

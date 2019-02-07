@@ -1,4 +1,4 @@
-package com.example.viaporter;
+package com.example.viaporter.adapters;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -6,6 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.example.viaporter.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,4 +64,8 @@ public class BroadcastAdapter extends RecyclerView.Adapter<BroadcastAdapter.View
     public int getItemCount() {
         return mBroadcastDataset.size();
     }
+
+//    public void addToDataset(String tempString) {
+//        mBroadcastDataset.add(tempString);
+//    }
 }
