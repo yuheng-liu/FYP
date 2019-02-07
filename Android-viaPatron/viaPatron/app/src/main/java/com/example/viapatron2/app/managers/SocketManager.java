@@ -22,7 +22,7 @@ public class SocketManager {
     private static final String TAG = "viaPatron.SocketManager";
 
     // private properties
-    private Socket socket;
+    private static Socket socket;
     private Gson gson;
 
     private DataManager mDataManager;
@@ -35,6 +35,7 @@ public class SocketManager {
 
     public SocketManager() {
         gson = new Gson();
+        socket = getSocket();
     }
 
     public Socket getSocket() {
@@ -70,6 +71,7 @@ public class SocketManager {
 
         if (socket != null) {
             socket.disconnect();
+            socket.close();
         }
     }
 

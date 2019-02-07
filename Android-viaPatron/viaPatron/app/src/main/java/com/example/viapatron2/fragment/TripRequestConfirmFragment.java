@@ -71,7 +71,7 @@ public class TripRequestConfirmFragment extends Fragment {
 //                        socket.connect();
 
                         Socket socket = mActivity.getmSocketManager().getSocket();
-                        socket.emit("join", "testuser");
+                        socket.emit("join", "viaPatron");
 
                     } catch (Exception e) {
                         e.printStackTrace();

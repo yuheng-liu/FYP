@@ -23,17 +23,17 @@ public class AuthenticationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Log.d(TAG, "onCreate");
+//        Log.d(TAG, "onCreate");
         setContentView(R.layout.activity_authentication);
 
         if(AWSMobileClient.getInstance().getConfiguration() != null) {
-            Log.d(TAG, "onCreate, getConfiguration != null");
+//            Log.d(TAG, "onCreate, getConfiguration != null");
 
             // For users who logged out after signing in
             UserStateDetails userStateDetails = AWSMobileClient.getInstance().currentUserState();
             showSignInForUser(userStateDetails);
         } else {
-            Log.d(TAG, "onCreate, getConfiguration == null");
+//            Log.d(TAG, "onCreate, getConfiguration == null");
 
             // First time signing in
             AWSMobileClient.getInstance().initialize(getApplicationContext(), new Callback<UserStateDetails>() {
@@ -52,7 +52,7 @@ public class AuthenticationActivity extends AppCompatActivity {
     }
 
     private void showSignInForUser(UserStateDetails userStateDetails) {
-        Log.i(TAG, "showSignInForUser " + userStateDetails.getUserState().toString());
+//        Log.i(TAG, "showSignInForUser " + userStateDetails.getUserState().toString());
 
         switch (userStateDetails.getUserState()){
             case SIGNED_IN:
@@ -75,7 +75,7 @@ public class AuthenticationActivity extends AppCompatActivity {
      */
     private void showSignIn() {
 
-        Log.d(TAG, "showSignIn");
+//        Log.d(TAG, "showSignIn");
 
         try {
             AWSMobileClient.getInstance().showSignIn(this,
@@ -88,12 +88,12 @@ public class AuthenticationActivity extends AppCompatActivity {
                     new Callback<UserStateDetails>() {
                         @Override
                         public void onResult(UserStateDetails result) {
-                            Log.d(TAG, "Showing Signin UI: ");
+//                            Log.d(TAG, "Showing Signin UI: ");
                         }
 
                         @Override
                         public void onError(Exception e) {
-                            Log.e(TAG, "onError: ", e);
+//                            Log.e(TAG, "onError: ", e);
                         }
                     });
         } catch (Exception e) {
@@ -105,20 +105,20 @@ public class AuthenticationActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
 
-        Log.d(TAG, "onPause");
+//        Log.d(TAG, "onPause");
     }
 
     @Override
     protected void onResume() {
         super.onResume();
 
-        Log.d(TAG, "onResume");
+//        Log.d(TAG, "onResume");
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
 
-        Log.d(TAG, "onDestroy");
+//        Log.d(TAG, "onDestroy");
     }
 }

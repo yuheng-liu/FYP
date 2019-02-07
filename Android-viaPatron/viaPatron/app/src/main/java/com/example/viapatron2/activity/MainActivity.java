@@ -57,6 +57,7 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.M
         mSocketManager = new SocketManager();
     }
 
+    // Google Maps
     private void checkAppLocationPermission() {
         /*
          * Request location permission, so that we can get the location of the

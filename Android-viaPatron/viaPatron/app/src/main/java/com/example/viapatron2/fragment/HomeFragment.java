@@ -1,7 +1,9 @@
 package com.example.viapatron2.fragment;
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.location.Location;
 import android.os.Bundle;
+import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -13,24 +15,53 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Toast;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import com.example.viapatron2.R;
+import com.example.viapatron2.activity.MainActivity;
 import com.example.viapatron2.core.models.MyViewModel;
 import com.example.viapatron2.core.models.UserTripRequestSession;
+import com.google.android.gms.location.*;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 
-public class HomeFragment extends Fragment {
+import java.util.List;
+
+public class HomeFragment extends Fragment
+        implements OnMapReadyCallback,
+        GoogleMap.OnMyLocationButtonClickListener,
+        GoogleMap.OnMyLocationClickListener {
 
     private static final String TAG = "viaPatron.HomeFragment";
 
-    private AppCompatSpinner stationSpinner;
+    // App
+    private MainActivity mActivity;
+
+    // Views
     private Button nextButton;
-    private NavController navController;
-    private MyViewModel model;
-    private UserTripRequestSession userTripRequestSession;
+    private AppCompatSpinner stationSpinner;
     private ArrayAdapter<CharSequence> adapter;
+
+    // Controllers
+    private MyViewModel model;
+    private NavController navController;
+    private UserTripRequestSession userTripRequestSession;
+
+    // Location Services variables
     private SupportMapFragment mapFragment;
+    private GoogleMap mGoogleMap;
+    private LocationRequest mLocationRequest;
+    private Location mLastLocation;
+    private Marker mCurrLocationMarker;
+    private FusedLocationProviderClient mFusedLocationClient;
+
 
     public HomeFragment() {
         // Empty constructor
@@ -52,13 +83,19 @@ public class HomeFragment extends Fragment {
 
         Log.d(TAG, "onViewCreated");
 
-        stationSpinner = (AppCompatSpinner) getActivity().findViewById(R.id.stations_spinner);
-        nextButton = (Button) getActivity().findViewById(R.id.stations_spinner_next);
-        mapFragment = (SupportMapFragment) getFragmentManager().findFragmentById(R.id.google_map);
+        mActivity = (MainActivity) requireActivity();
+
+        stationSpinner = (AppCompatSpinner) mActivity.findViewById(R.id.stations_spinner);
+        nextButton = (Button) mActivity.findViewById(R.id.stations_spinner_next);
+        mapFragment = (SupportMapFragment) this.getChildFragmentManager().findFragmentById(R.id.google_map);
 
         setUpViewModel();
         setUpClickable();
 
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(mActivity);
+        if (mapFragment != null) {
+            mapFragment.getMapAsync(this);
+        }
         navController = Navigation.findNavController(getActivity(), R.id.my_nav_host_fragment);
     }
 
@@ -73,7 +110,7 @@ public class HomeFragment extends Fragment {
 //        Log.d(TAG, "setUpViewModel");
 
         // Re-created activities receive the same MyViewModel instance created by the first activity.
-        model = ViewModelProviders.of(getActivity()).get(MyViewModel.class);
+        model = ViewModelProviders.of(mActivity).get(MyViewModel.class);
 
         if (!model.getRequestSession().hasObservers()) {
             Log.d(TAG, "no observers yet");
@@ -89,7 +126,7 @@ public class HomeFragment extends Fragment {
         if (stationSpinner != null) {
 
             // Create an ArrayAdapter using the string array and a default spinner layout
-            adapter = ArrayAdapter.createFromResource(getActivity(),
+            adapter = ArrayAdapter.createFromResource(mActivity,
                     R.array.stations_array, android.R.layout.simple_spinner_item);
 
             // Specify the layout to use when the list of choices appears
@@ -130,6 +167,63 @@ public class HomeFragment extends Fragment {
     }
 
     @Override
+    public void onMapReady(GoogleMap map) {
+
+        Log.d(TAG, "onMapReady");
+        mGoogleMap = map;
+
+        mLocationRequest = new LocationRequest();
+        mLocationRequest.setInterval(120000); // two minute interval
+        mLocationRequest.setFastestInterval(120000);
+        mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
+        mFusedLocationClient.requestLocationUpdates(mLocationRequest, mLocationCallback, Looper.myLooper());
+
+        mGoogleMap.setMyLocationEnabled(true);
+        mGoogleMap.setOnMyLocationButtonClickListener(this);
+        mGoogleMap.setOnMyLocationClickListener(this);
+    }
+
+    LocationCallback mLocationCallback = new LocationCallback() {
+        @Override
+        public void onLocationResult(LocationResult locationResult) {
+            List<Location> locationList = locationResult.getLocations();
+            if (locationList.size() > 0) {
+                //The last location in the list is the newest
+                Location location = locationList.get(locationList.size() - 1);
+                Log.i("MapsActivity", "Location: " + location.getLatitude() + " " + location.getLongitude());
+                mLastLocation = location;
+                if (mCurrLocationMarker != null) {
+                    mCurrLocationMarker.remove();
+                }
+
+                //Place current location marker
+                LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+                MarkerOptions markerOptions = new MarkerOptions();
+                markerOptions.position(latLng);
+                markerOptions.title("Current Position");
+                markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
+                mCurrLocationMarker = mGoogleMap.addMarker(markerOptions);
+
+                //move map camera
+                mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 11));
+            }
+        }
+    };
+
+    @Override
+    public void onMyLocationClick(@NonNull Location location) {
+        Toast.makeText(mActivity, "Current location:\n" + location, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public boolean onMyLocationButtonClick() {
+        Toast.makeText(mActivity, "Finding your location..", Toast.LENGTH_SHORT).show();
+        // Return false so that we don't consume the event and the default behavior still occurs
+        // (the camera animates to the user's current position).
+        return false;
+    }
+
+    @Override
     public void onStart() {
         super.onStart();
     }
@@ -144,8 +238,6 @@ public class HomeFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-
-        Log.d(TAG, "onPause");
 
         //todo: find a way to save the current state as there is a problem of creating a new HomeFragment everytime reclicking into trip tab in bottom navigation
     }

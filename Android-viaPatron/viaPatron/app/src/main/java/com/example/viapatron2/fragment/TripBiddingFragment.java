@@ -15,13 +15,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import com.example.viapatron2.BidderAdapter;
 import com.example.viapatron2.R;
 import com.example.viapatron2.activity.MainActivity;
-import com.github.nkzawa.emitter.Emitter;
 import com.github.nkzawa.socketio.client.Socket;
 
 import java.util.Locale;
@@ -95,22 +93,23 @@ public class TripBiddingFragment extends Fragment {
 
                         Log.d(TAG, "User clicked OK");
                         Socket socket = mActivity.getmSocketManager().getSocket();
+                        socket.emit("disconnect", "viaPatron");
 
-                        mActivity.getmSocketManager().closeConnection();
+//                        mActivity.getmSocketManager().closeConnection();
+//                        socket.on("userdisconnect", new Emitter.Listener() {
+//                            @Override
+//                            public void call(final Object... args) {
+//                                runOnUiThread(new Runnable() {
+//                                    @Override
+//                                    public void run() {
+//                                        String data = (String) args[0];
+//
+//                                        Toast.makeText(mActivity, data, Toast.LENGTH_SHORT).show();
+//                                    }
+//                                });
+//                            }
+//                        });
 
-                        socket.on("userdisconnect", new Emitter.Listener() {
-                            @Override
-                            public void call(final Object... args) {
-                                runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        String data = (String) args[0];
-
-                                        Toast.makeText(mActivity, data, Toast.LENGTH_SHORT).show();
-                                    }
-                                });
-                            }
-                        });
                         navController.navigateUp();
                     }
                 })
