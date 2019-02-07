@@ -133,3 +133,10 @@ fabric.properties
 !/gradle/wrapper/gradle-wrapper.jar
 
 # End of https://www.gitignore.io/api/androidstudio
+viaPorter-Yuheng/.gradle/4.10.1/fileHashes/fileHashes.bin
+viaPorter-Yuheng/.gradle/4.10.1/fileHashes/fileHashes.lock
+viaPorter-Yuheng/.gradle/4.10.1/javaCompile/javaCompile.lock
+viaPorter-Yuheng/.gradle/4.10.1/taskHistory/taskHistory.bin
+viaPorter-Yuheng/.gradle/4.10.1/taskHistory/taskHistory.lock
+viaPorter-Yuheng/.gradle/buildOutputCleanup/buildOutputCleanup.lock
+viaPorter-Yuheng/app/app.iml
