@@ -22,7 +22,7 @@
     <string name="trip_request_bidding_main_title">Trip Request Bidding</string>
     <string name="trip_request_bidding_cancel">CANCEL REQUEST</string>
     <string name="app_name">viaPorter</string>
-    <string name="trip_request_broadcasted_title">Broadcasted Trip Requests</string>
+    <string name="trip_request_broadcasted_title">Broadcasted Requests</string>
     <string name="trip_request_current_bids_title">Current Bids</string>
     <string name="profile_title">Profile</string>
 </resources>

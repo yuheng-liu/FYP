@@ -7,7 +7,6 @@
         android:background="@color/colorPrimary">
 
     <FrameLayout
-            android:layout_marginTop="20dp"
             android:layout_width="match_parent"
             android:layout_height="46dp"
             android:layout_gravity="top"
@@ -25,20 +24,34 @@
     <FrameLayout
             android:id="@+id/broadcasted_trip_requests"
             android:layout_width="match_parent"
+            android:layout_height="36dp"
+            android:background="@color/colorPrimaryGrey">
+
+        <ImageButton
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="#888">
+            android:layout_gravity="start|center"
+            android:layout_marginStart="10dp"
+            android:scaleX="1.2"
+            android:scaleY="1.2"
+            android:background="@drawable/ic_broadcasted_black_24dp"/>
 
         <TextView
                 android:id="@+id/text_view_id2"
-                android:layout_width="match_parent"
-                android:layout_height="40sp"
-                android:layout_marginStart="5dp"
-                android:layout_marginEnd="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:text="@string/trip_request_broadcasted_title"
-                android:textSize="25sp"
-                android:drawableStart="@drawable/ic_broadcasted_black_24dp"
-                android:drawableEnd="@drawable/ic_refresh_black_24dp"
-                android:drawablePadding="5dp"/>
+                android:textSize="24sp"/>
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|center"
+            android:layout_marginEnd="10dp"
+            android:scaleX="1.2"
+            android:scaleY="1.2"
+            android:background="@drawable/ic_refresh_black_24dp"/>
     </FrameLayout>
 
     <FrameLayout
@@ -50,17 +63,33 @@
     <FrameLayout
             android:id="@+id/Current_Bids"
             android:layout_width="match_parent"
+            android:layout_height="36dp"
+            android:background="@color/colorPrimaryGrey">
+
+        <ImageButton
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="#888">
+            android:layout_gravity="start|center"
+            android:layout_marginStart="10dp"
+            android:scaleX="1.2"
+            android:scaleY="1.2"
+            android:background="@drawable/ic_auction_black_24dp"/>
 
         <TextView
                 android:id="@+id/text_view_id3"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
+                android:layout_gravity="center"
                 android:text="@string/trip_request_current_bids_title"
-                android:textSize="25sp"
-                android:drawableStart="@drawable/ic_auction_black_24dp"
-                android:drawablePadding="5dp"/>
+                android:textSize="24sp"/>
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|center"
+            android:layout_marginEnd="10dp"
+            android:scaleX="1.2"
+            android:scaleY="1.2"
+            android:background="@drawable/ic_refresh_black_24dp"/>
     </FrameLayout>
 </LinearLayout>
