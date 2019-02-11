@@ -1,42 +1,66 @@
 package com.example.viaporter.managers;
 
+import com.example.viaporter.Constants.APIEndPoints;
+import com.example.viaporter.models.PatronTripRequest;
+
+import com.github.nkzawa.emitter.Emitter;
 import com.github.nkzawa.socketio.client.IO;
 import com.github.nkzawa.socketio.client.Socket;
 import com.google.gson.Gson;
+import com.jakewharton.rxrelay2.PublishRelay;
+
+import org.json.JSONObject;
 
 import java.net.URISyntaxException;
+
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
 
 public class SocketManager {
     private static final String TAG = "SocketManager";
 
-    // private properties
     private Socket socket;
     private Gson gson;
+    private DataManager dataManager;
 
-    public Socket getSocket() {
-        if (socket == null) {
-            synchronized (this) {
-                connectSocket();
-            }
-        }
-        return socket;
-    }
+    // Listen events
+    private PublishRelay<PatronTripRequest> patronTripRequestRelay;
 
-    public SocketManager() {
+    /*                                      *
+     * Use of Bill Pugh Singleton structure *
+     *                                      */
+    // Private constructor //
+    private SocketManager() {
         gson = new Gson();
+        dataManager = DataManager.getSharedInstance();
+        createPublishRelayObservers();
+    }
+    // Static inner class are not loaded until they are referenced
+    private static class socketManagerholder {
+        private static SocketManager manager = new SocketManager();
+    }
+    // Global excess point
+    public static SocketManager getSharedInstance() {
+        return socketManagerholder.manager;
+    }
+    /*                                      */
+
+    private void createPublishRelayObservers() {
+        patronTripRequestRelay = PublishRelay.create();
     }
 
     public void connectSocket() {
         try {
-            socket = IO.socket("http://172.25.106.233:3000");
+            socket = IO.socket(APIEndPoints.localhost_URL);
             socket.connect();
+            prepareListeners();
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
     }
 
     public void disconnectSocket() {
-        getSocket().disconnect();
+        socket.disconnect();
     }
 
     public void reconnectSocket() {
@@ -48,6 +72,24 @@ public class SocketManager {
     }
 
     public void emitString(String event, String msg) {
-        getSocket().emit(event, msg);
+        socket.emit(event, msg);
+    }
+
+    // listening methods
+    public Disposable addOnPatronTripRequest(Consumer<PatronTripRequest> onSuccess){
+        return patronTripRequestRelay.subscribe(onSuccess);
+    }
+
+    // socket listeners
+    private void prepareListeners() {
+        socket.on("patron_trip_request", new Emitter.Listener() {
+            @Override
+            public void call(final Object... args) {
+                JSONObject data = (JSONObject) args[0];
+                PatronTripRequest newRequest = gson.fromJson(data.toString(), PatronTripRequest.class);
+                dataManager.addPatronTripRequest(newRequest);
+                patronTripRequestRelay.accept(newRequest);
+            }
+        });
     }
 }

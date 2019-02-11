@@ -14,9 +14,10 @@ import android.view.ViewGroup;
 import com.example.viaporter.MainActivity;
 import com.example.viaporter.adapters.BroadcastAdapter;
 import com.example.viaporter.R;
+import com.example.viaporter.managers.DataManager;
 import com.example.viaporter.managers.SocketManager;
 import com.github.nkzawa.emitter.Emitter;
-import com.github.nkzawa.emitter.Emitter;
+
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
@@ -27,6 +28,7 @@ public class TripRequestFragment extends Fragment {
     private NavController navController;
     private BroadcastAdapter mBroadcastAdapter;
     private SocketManager socketManager;
+    private DataManager dataManager;
 
     private RecyclerView mBidderView;
 
@@ -39,7 +41,8 @@ public class TripRequestFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Log.d(TAG, "onCreateView");
 
-        socketManager = new SocketManager();
+        socketManager = SocketManager.getSharedInstance();
+        dataManager = DataManager.getSharedInstance();
 
         return inflater.inflate(R.layout.trip_request_fragment, container, false);
     }
