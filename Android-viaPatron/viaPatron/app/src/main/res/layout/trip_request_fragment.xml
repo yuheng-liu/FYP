@@ -19,7 +19,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/trip_request_station_title"
-            android:text="STATION (TEMP)"
+            android:text=""
             android:textSize="24sp"
             android:paddingTop="40dp"
             android:paddingBottom="20dp"
@@ -29,7 +29,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/trip_request_date_title"
-            android:text="DATE (TEMP)"
+            android:text=""
             android:textSize="14sp"
             android:textColor="@color/colorWhite"
             android:paddingTop="10dp"
@@ -42,7 +42,7 @@
 
     <FrameLayout
             android:layout_width="330dp"
-            android:layout_height="46dp"
+            android:layout_height="54dp"
             android:layout_marginTop="20dp"
             android:layout_gravity="center"
             android:background="@drawable/rounded_corner_white_small">
@@ -51,14 +51,22 @@
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
                 android:text="@string/trip_request_from"
                 android:textSize="12sp"/>
 
         <EditText
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="6dp"
                 android:id="@+id/from_request_field"
                 android:inputType="text"
+                android:textSize="18sp"
+                android:background="@null"
                 android:clickable="true"
                 android:focusable="true"/>
 
@@ -66,7 +74,7 @@
 
     <FrameLayout
             android:layout_width="330dp"
-            android:layout_height="46dp"
+            android:layout_height="54dp"
             android:layout_marginTop="20dp"
             android:layout_gravity="center"
             android:background="@drawable/rounded_corner_white_small">
@@ -75,14 +83,22 @@
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
                 android:text="@string/trip_request_to"
                 android:textSize="12sp"/>
 
         <EditText
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="6dp"
                 android:id="@+id/to_request_field"
                 android:inputType="text"
+                android:textSize="18sp"
+                android:background="@null"
                 android:clickable="true"
                 android:focusable="true"/>
 
@@ -90,7 +106,7 @@
 
     <FrameLayout
             android:layout_width="330dp"
-            android:layout_height="46dp"
+            android:layout_height="54dp"
             android:layout_marginTop="20dp"
             android:layout_gravity="center"
             android:background="@drawable/rounded_corner_white_small">
@@ -99,27 +115,34 @@
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
                 android:text="@string/trip_request_luggages"
                 android:textSize="12sp"/>
 
         <EditText
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="6dp"
                 android:id="@+id/luggages_request_field"
                 android:inputType="number"
+                android:textSize="18sp"
+                android:background="@null"
                 android:clickable="true"
                 android:focusable="true"/>
-
     </FrameLayout>
 
     <FrameLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="20dp">
+            android:layout_marginTop="24dp">
 
         <Button
-                android:layout_width="200dp"
+                android:layout_width="260dp"
                 android:layout_height="46dp"
                 android:id="@+id/trip_request_next_button"
                 android:background="@drawable/rounded_corner_accent"

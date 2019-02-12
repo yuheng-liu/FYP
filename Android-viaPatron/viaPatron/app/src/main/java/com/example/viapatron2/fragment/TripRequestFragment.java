@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,9 +14,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import androidx.navigation.NavController;
-import androidx.navigation.NavDestination;
 import androidx.navigation.Navigation;
 import com.example.viapatron2.R;
+import com.example.viapatron2.activity.MainActivity;
 import com.example.viapatron2.core.models.MyViewModel;
 import com.example.viapatron2.core.models.UserTripRequestSession;
 
@@ -29,9 +28,12 @@ public class TripRequestFragment extends Fragment {
 
     private static final String TAG = "viaPatron.TRFragment";
 
+    private MainActivity mActivity;
     private NavController navController;
     private MyViewModel model;
+    private UserTripRequestSession userTripRequestSession;
 
+    // Views
     private Button nextButton;
     private TextView stationTitle;
     private TextView dateTitle;
@@ -39,7 +41,12 @@ public class TripRequestFragment extends Fragment {
     private EditText toField;
     private EditText luggageField;
 
+    // For model tracking
+    private String fromFieldString;
+    private String toFieldString;
+    private int luggageFieldInt;
     private String dateString;
+
 
     public TripRequestFragment() {
         // Empty constructor
@@ -48,7 +55,6 @@ public class TripRequestFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        Log.d(TAG, "onCreateView");
 
         return inflater.inflate(R.layout.trip_request_fragment, container, false);
     }
@@ -57,6 +63,7 @@ public class TripRequestFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        mActivity = (MainActivity) requireActivity();
         setUpViews();
         setUpViewModel();
     }
@@ -85,15 +92,17 @@ public class TripRequestFragment extends Fragment {
                 public void onClick(View v) {
 
                     // debug
-                    NavDestination currentDest = navController.getCurrentDestination();
-                    if (currentDest != null) {
-                        Log.d(TAG, "currentDest.getId = " + currentDest.getId());
-                        Log.d(TAG, "currentDest.getLabel = " + currentDest.getLabel());
-                    }
+//                    NavDestination currentDest = navController.getCurrentDestination();
+//                    if (currentDest != null) {
+//                        Log.d(TAG, "currentDest.getId = " + currentDest.getId());
+//                        Log.d(TAG, "currentDest.getLabel = " + currentDest.getLabel());
+//                    }
 
-                    // Todo: save data for next fragment
-                    UserTripRequestSession userTripRequestSession = model.getUserRequestSession();
+                    // Todo: alert user for empty field (from, to, luggages)
                     userTripRequestSession.setDate(dateString);
+                    userTripRequestSession.setFromLocation(fromFieldString);
+                    userTripRequestSession.setToLocation(toFieldString);
+                    userTripRequestSession.setNoOfLuggages(luggageFieldInt);
                     model.setRequestSession(userTripRequestSession);
 
                     navController.navigate(R.id.navigation_trip_request_confirm);
@@ -106,12 +115,8 @@ public class TripRequestFragment extends Fragment {
                 @Override
                 public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                     if (actionId == EditorInfo.IME_ACTION_NEXT) {
-
-                        //todo: save text input to viewmodel
-                        Log.d(TAG, fromField.getText().toString());
-                        return true;
+                        fromFieldString = fromField.getText().toString();
                     }
-
                     return false;
                 }
             });
@@ -121,8 +126,9 @@ public class TripRequestFragment extends Fragment {
             toField.setOnEditorActionListener(new TextView.OnEditorActionListener() {
                 @Override
                 public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-
-                    // todo: update input
+                    if (actionId == EditorInfo.IME_ACTION_NEXT) {
+                        toFieldString = toField.getText().toString();
+                    }
                     return false;
                 }
             });
@@ -132,8 +138,10 @@ public class TripRequestFragment extends Fragment {
             luggageField.setOnEditorActionListener(new TextView.OnEditorActionListener() {
                 @Override
                 public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-
-                    // todo: update input
+                    if (actionId == EditorInfo.IME_ACTION_DONE) {
+                        String tempLuggageFieldString = luggageField.getText().toString();
+                        luggageFieldInt = Integer.parseInt(tempLuggageFieldString);
+                    }
                     return false;
                 }
             });
@@ -143,14 +151,18 @@ public class TripRequestFragment extends Fragment {
     private void setUpViewModel() {
 
         // Re-created activities receive the same MyViewModel instance created by the first activity.
-        model = ViewModelProviders.of(getActivity()).get(MyViewModel.class);
+        model = ViewModelProviders.of(mActivity).get(MyViewModel.class);
+
+        // Extract out the current UserTripRequestSession (initialised in HomeFragment)
+        userTripRequestSession = model.getUserTripRequestSession();
+
         model.getRequestSession().observe(this, users -> {
             // update UI
             if (stationTitle != null) {
-                String stationName = model.getRequestSession().getValue().getStation();
+                String modelStationName = model.getRequestSession().getValue().getStation();
 
-                if (stationName != null) {
-                    stationTitle.setText(model.getRequestSession().getValue().getStation());
+                if (modelStationName != null) {
+                    stationTitle.setText(modelStationName);
                 }
             }
         });

@@ -23,6 +23,7 @@
     <string name="trip_request_main_title">Trip Request</string>
     <string name="trip_request_from">FROM</string>
     <string name="trip_request_to">TO</string>
+    <string name="trip_request_hint_enter_location">Enter Location</string>
     <string name="trip_request_luggages">LUGGAGES</string>
     <string name="trip_request_confirm">Confirm</string>
     <string name="trip_request_bidding_main_title">Trip Request Bidding</string>
@@ -91,7 +92,6 @@
     <string name="weight_of_2nd_luggage_in_kg">WEIGHT OF 2ND LUGGAGE (IN KG)</string>
     <string name="enter_weight">Enter Weight</string>
     <string name="aug">Aug</string>
-    <string name="enter_location">Enter Location</string>
     <string name="two_luggages">2 Luggages</string>
     <string name="twenty_eight">28</string>
     <string name="kg">KG</string>

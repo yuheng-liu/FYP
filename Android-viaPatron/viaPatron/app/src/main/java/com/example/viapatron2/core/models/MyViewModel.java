@@ -21,7 +21,7 @@ public class MyViewModel extends ViewModel {
         requestSession.setValue(updatedRequestSession);
     }
 
-    public UserTripRequestSession getUserRequestSession() {
+    public UserTripRequestSession getUserTripRequestSession() {
         return requestSession.getValue();
     }
 }

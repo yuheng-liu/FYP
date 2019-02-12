@@ -30,6 +30,12 @@ public class TripRequestConfirmFragment extends Fragment {
     private Button confirmButton;
     private TextView stationTitle;
     private TextView dateTitle;
+    private TextView smallStationTitleLeft;
+    private TextView smallStationTitleRight;
+    private TextView toTitle;
+    private TextView fromTitle;
+    private TextView luggageTitle;
+    private TextView priceTitle;
 
     private UserTripRequestSession userTripRequestSession;
 
@@ -55,28 +61,25 @@ public class TripRequestConfirmFragment extends Fragment {
         confirmButton = mActivity.findViewById(R.id.trip_request_confirm_button);
         stationTitle = mActivity.findViewById(R.id.trip_request_confirm_station_title);
         dateTitle = mActivity.findViewById(R.id.trip_request_confirm_date_title);
+        smallStationTitleLeft = mActivity.findViewById(R.id.tv_trip_confirm_station_left_side);
+        smallStationTitleRight = mActivity.findViewById(R.id.tv_trip_confirm_station_right_side);
+        toTitle = mActivity.findViewById(R.id.tv_trip_confirm_to);
+        fromTitle = mActivity.findViewById(R.id.tv_trip_confirm_from);
+        luggageTitle = mActivity.findViewById(R.id.tv_trip_confirm_luggage);
+        priceTitle = mActivity.findViewById(R.id.trip_confirm_price);
 
         if (confirmButton != null) {
             confirmButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Log.d(TAG, "confirmButton onClick");
-
-                    // todo: save data and navigate to bidding screen
-//                    mActivity.getService().getSocketManager().sendRideRequest(userTripRequestSession);
-
                     try {
-//                        Log.d(TAG, "getting URL " + AppConstants.LOCAL_HOST_URL);
-//                        socket = IO.socket(AppConstants.LOCAL_HOST_URL);
-//                        socket.connect();
-
                         Socket socket = mActivity.getmSocketManager().getSocket();
                         socket.emit("join", "viaPatron");
 
+                        navController.navigate(R.id.navigation_trip_bidding);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-                    navController.navigate(R.id.navigation_trip_bidding);
                 }
             });
         }
@@ -90,20 +93,43 @@ public class TripRequestConfirmFragment extends Fragment {
 
         // Re-created activities receive the same MyViewModel instance created by the first activity.
         model = ViewModelProviders.of(getActivity()).get(MyViewModel.class);
+        userTripRequestSession = model.getUserTripRequestSession();
+
+        String modelStationName = userTripRequestSession.getStation();
+        String modelDate = userTripRequestSession.getDate();
+        String modelToLocation = userTripRequestSession.getToLocation();
+        String modelFromLocation = userTripRequestSession.getFromLocation();
+        int modelLuggageNo = userTripRequestSession.getNoOfLuggages();
+
         model.getRequestSession().observe(this, users -> {
 
             // update UI
             if (stationTitle != null) {
-                String stationName = model.getRequestSession().getValue().getStation();
+                stationTitle.setText(modelStationName);
+            }
 
-                if (stationName != null) {
-                    stationTitle.setText(model.getRequestSession().getValue().getStation());
-                }
+            if (smallStationTitleLeft != null) {
+                smallStationTitleLeft.setText(modelStationName);
+            }
+
+            if (smallStationTitleRight != null) {
+                smallStationTitleRight.setText(modelStationName);
             }
 
             if (dateTitle != null) {
-                String date = model.getRequestSession().getValue().getDate();
-                dateTitle.setText(date);
+                dateTitle.setText(modelDate);
+            }
+
+            if (toTitle != null) {
+                toTitle.setText(modelToLocation);
+            }
+
+            if (fromTitle != null) {
+                fromTitle.setText(modelFromLocation);
+            }
+
+            if (luggageTitle != null) {
+                luggageTitle.setText(String.valueOf(modelLuggageNo));
             }
         });
     }

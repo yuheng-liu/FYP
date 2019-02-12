@@ -28,7 +28,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/trip_request_confirm_date_title"
-            android:text="DATE (TEMP)"
+            android:text=""
             android:textSize="14sp"
             android:textColor="@color/colorWhite"
             android:paddingTop="10dp"
@@ -39,34 +39,98 @@
             android:background="@drawable/rounded_corner_accent_small"/>
 
     <FrameLayout
-            android:layout_width="330dp"
-            android:layout_height="120dp"
+            android:layout_width="320dp"
+            android:layout_height="140dp"
             android:layout_marginTop="40dp"
             android:layout_gravity="center"
             android:background="@drawable/rounded_corner_white_small">
 
+        <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical">
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tv_trip_confirm_station_left_side"
+                    android:textSize="14sp"
+                    android:text=""/>
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:id="@+id/tv_trip_confirm_from"
+                    android:textSize="16sp"
+                    android:text=""/>
+        </LinearLayout>
+
+        <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginEnd="14dp"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical">
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:id="@+id/tv_trip_confirm_station_right_side"
+                    android:textSize="14sp"
+                    android:text=""/>
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_marginTop="2dp"
+                    android:id="@+id/tv_trip_confirm_to"
+                    android:textSize="16sp"
+                    android:text=""/>
+        </LinearLayout>
 
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="STATION (TEMP)"
-                android:textSize="12sp"
-                android:paddingStart="10dp"
-                android:paddingTop="10dp"/>
+                android:layout_gravity="bottom|start"
+                android:layout_marginStart="16dp"
+                android:layout_marginBottom="10dp"
+                android:id="@+id/tv_trip_confirm_luggage"
+                android:textSize="16sp"/>
 
-        <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+        <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:layout_marginEnd="14dp"
+                android:layout_marginBottom="10dp">
+
+            <Button
+                    android:layout_width="80dp"
+                    android:layout_height="46dp"
+                    android:id="@+id/trip_confirm_price"
+                    android:background="@drawable/rounded_corner_accent"
+                    android:text="$3 - $4"
+                    android:textColor="@color/colorPrimary"/>
+        </FrameLayout>
+
+
     </FrameLayout>
 
     <FrameLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="50dp">
+            android:layout_marginTop="36dp">
 
     <Button
-            android:layout_width="200dp"
+            android:layout_width="260dp"
             android:layout_height="46dp"
             android:id="@+id/trip_request_confirm_button"
             android:background="@drawable/rounded_corner_accent"

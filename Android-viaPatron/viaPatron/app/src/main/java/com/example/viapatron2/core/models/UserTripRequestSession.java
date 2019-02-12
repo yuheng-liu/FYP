@@ -31,9 +31,9 @@ public class UserTripRequestSession {
     private long stationId;
 
     private String date;
-    private String startLocation;
-    private String endLocation;
-    private String noOfLuggages;
+    private String fromLocation;
+    private String toLocation;
+    private int noOfLuggages = 0;
     private NavDestination currentDest;
 
     public LatLng getStart() {
@@ -53,7 +53,11 @@ public class UserTripRequestSession {
     }
 
     public String getStation() {
-        return station;
+        if (station != null) {
+            return station;
+        } else {
+            return "";
+        }
     }
 
     public void setStation(String station) {
@@ -77,34 +81,38 @@ public class UserTripRequestSession {
     }
 
     public String getDate() {
-        return date;
+        if (date != null) {
+            return date;
+        } else {
+            return "";
+        }
     }
 
     public void setDate(String date) {
         this.date = date;
     }
 
-    public String getStartLocation() {
-        return startLocation;
+    public String getFromLocation() {
+        return fromLocation;
     }
 
-    public void setStartLocation(String startLocation) {
-        this.startLocation = startLocation;
+    public void setFromLocation(String startLocation) {
+        this.fromLocation = startLocation;
     }
 
-    public String getEndLocation() {
-        return endLocation;
+    public String getToLocation() {
+        return toLocation;
     }
 
-    public void setEndLocation(String endLocation) {
-        this.endLocation = endLocation;
+    public void setToLocation(String toLocation) {
+        this.toLocation = toLocation;
     }
 
-    public String getNoOfLuggages() {
+    public int getNoOfLuggages() {
         return noOfLuggages;
     }
 
-    public void setNoOfLuggages(String noOfLuggages) {
+    public void setNoOfLuggages(int noOfLuggages) {
         this.noOfLuggages = noOfLuggages;
     }
 }
