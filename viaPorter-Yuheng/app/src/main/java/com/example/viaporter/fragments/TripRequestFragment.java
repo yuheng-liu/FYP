@@ -16,25 +16,26 @@ import com.example.viaporter.adapters.BroadcastAdapter;
 import com.example.viaporter.R;
 import com.example.viaporter.managers.DataManager;
 import com.example.viaporter.managers.SocketManager;
-import com.github.nkzawa.emitter.Emitter;
+import com.example.viaporter.models.PatronTripRequest;
+
+import java.util.List;
 
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+import io.reactivex.functions.Consumer;
 
 public class TripRequestFragment extends Fragment {
     private static final String TAG = "viaPatron.TRFragment";
 
     private MainActivity mActivity;
     private NavController navController;
-    private BroadcastAdapter mBroadcastAdapter;
     private SocketManager socketManager;
     private DataManager dataManager;
 
     private RecyclerView mBidderView;
+    private BroadcastAdapter mBroadcastAdapter;
 
-    public TripRequestFragment() {
-        // Empty constructor
-    }
+    public TripRequestFragment() {} // Empty constructor
 
     @Nullable
     @Override
@@ -53,7 +54,6 @@ public class TripRequestFragment extends Fragment {
 
         mActivity = (MainActivity) requireActivity();
         setUpViews();
-        createAdapter("tempString");
         setupSocket();
         setupSocketListeners();
     }
@@ -63,6 +63,8 @@ public class TripRequestFragment extends Fragment {
 
         mBidderView = mActivity.findViewById(R.id.broadcast_request_table);
         mBidderView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mBroadcastAdapter = new BroadcastAdapter();
+        mBidderView.setAdapter(mBroadcastAdapter);
     }
 
     private void setupSocket() {
@@ -71,25 +73,18 @@ public class TripRequestFragment extends Fragment {
     }
 
     private void setupSocketListeners() {
-        socketManager.getSocket().on("newMessage", new Emitter.Listener() {
+        mActivity.addDisposable(socketManager.addOnPatronTripRequest(new Consumer<PatronTripRequest>() {
             @Override
-            public void call(final Object... args) {
-                requireActivity().runOnUiThread(new Runnable() {
+            public void accept(final PatronTripRequest tripRequest) {
+                mActivity.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        String message = args[0].toString();
-                        createAdapter(message);
+                        mBroadcastAdapter.addToDataSet(tripRequest);
                     }
                 });
+
             }
-        });
-    }
-
-    private void createAdapter(String str) {
-        Log.d(TAG, "createAdapter");
-
-        mBroadcastAdapter = new BroadcastAdapter(str);
-        mBidderView.setAdapter(mBroadcastAdapter);
+        }));
     }
 
     @Override

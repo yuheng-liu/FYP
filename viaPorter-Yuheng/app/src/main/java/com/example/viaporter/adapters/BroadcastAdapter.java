@@ -8,31 +8,41 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.viaporter.R;
+import com.example.viaporter.managers.DataManager;
+import com.example.viaporter.models.PatronTripRequest;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class BroadcastAdapter extends RecyclerView.Adapter<BroadcastAdapter.ViewHolder> {
+    private List<PatronTripRequest> mBroadcastDataSet;
 
+    public static class ViewHolder extends RecyclerView.ViewHolder {
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
-
-        public TextView patronName;
-        public TextView patronIndex;
+        public TextView stationName;
+        public TextView startLocation;
+        public TextView endLocation;
+        public TextView numLuggage;
 
         ViewHolder(View view) {
             super(view);
         }
     }
 
-    private List<String> mBroadcastDataset;
-
     // Provide a suitable constructor (depends on the kind of dataset)
-    public BroadcastAdapter(String tempString) {
-        if (mBroadcastDataset == null) {
-            mBroadcastDataset = new ArrayList<String>();
-        }
-        mBroadcastDataset.add(tempString);
+    public BroadcastAdapter() {
+        mBroadcastDataSet = DataManager.getSharedInstance().getPatronTripRequestList();
+    }
+
+    public void addToDataSet(PatronTripRequest tripRequest) {
+        mBroadcastDataSet.add(tripRequest);
+        notifyDataSetChanged();
+    }
+
+    public void resetDataSetWith(Collection<PatronTripRequest> tripRequests) {
+        mBroadcastDataSet.clear();
+        mBroadcastDataSet.addAll(tripRequests);
     }
 
     @NonNull
@@ -40,14 +50,16 @@ public class BroadcastAdapter extends RecyclerView.Adapter<BroadcastAdapter.View
     public BroadcastAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         // create a new view
-        View itemView = (View) LayoutInflater.from(parent.getContext())
+        View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.broadcast_request_item, parent, false);
 
         // set the view's size, margins, padding and layout parameters...
         ViewHolder vh = new ViewHolder(itemView);
 
-        vh.patronName = itemView.findViewById(R.id.broadcast_patron_name_item);
-        vh.patronIndex = itemView.findViewById(R.id.broadcast_request_index);
+        vh.stationName = itemView.findViewById(R.id.broadcast_station_name);
+        vh.startLocation = itemView.findViewById(R.id.broadcast_start_location);
+        vh.endLocation = itemView.findViewById(R.id.broadcast_end_location);
+        vh.numLuggage = itemView.findViewById(R.id.broadcast_number_of_luggage);
 
         return vh;
     }
@@ -55,17 +67,16 @@ public class BroadcastAdapter extends RecyclerView.Adapter<BroadcastAdapter.View
     // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        final PatronTripRequest itemData = mBroadcastDataSet.get(position);
 
-        holder.patronIndex.setText(String.valueOf(position + 1));
-        holder.patronName.setText(mBroadcastDataset.get(position));
+        holder.stationName.setText(itemData.getTrainStationName());
+        holder.startLocation.setText(itemData.getTrainStationName());
+        holder.endLocation.setText(itemData.getTripEndLocation());
+        holder.numLuggage.setText(String.valueOf(itemData.getNumberOfLuggage()));
     }
 
     @Override
     public int getItemCount() {
-        return mBroadcastDataset.size();
+        return mBroadcastDataSet.size();
     }
-
-//    public void addToDataset(String tempString) {
-//        mBroadcastDataset.add(tempString);
-//    }
 }

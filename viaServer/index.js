@@ -12,18 +12,24 @@ io.on('connection', function(socket) {
 
 	// Handle event 'Join'
 	socket.on('join', function(userNickname) {
-		console.log(userNickname +" : has joined")
-
-		socket.broadcast.emit('newMessage',userNickname +" : has joined the server")
+		console.log(userNickname +" : has joined");
+		// socket.broadcast.emit('newMessage',userNickname +" is connected");
 	})
 
 	// Handle event 'messagedetection'
 	socket.on('messagedetection', function(senderNickname,messageContent) {
-		console.log(senderNickname + " : " + messageContent)
+		console.log(senderNickname + " : " + messageContent);
 		
 		//create a message object and send the message to all users including the sender
-    	let  message = {"message":messageContent, "senderNickname":senderNickname}
-		socket.emit('message', message);
+    	let  message = {"patron_trip_request":messageContent, "senderNickname":senderNickname}
+		socket.broadcast.emit('message', message);
+	})
+
+	// Event for trip request
+	socket.on('trip_request', function(tripRequest){
+		console.log("tripRequest received");
+
+		socket.broadcast.emit('patron_trip_request', tripRequest);
 	})
 
 	// Handle event 'disconnect'

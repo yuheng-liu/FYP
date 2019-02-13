@@ -1,6 +1,8 @@
 package com.example.viaporter.managers;
 
-import com.example.viaporter.Constants.APIEndPoints;
+import android.util.Log;
+
+import com.example.viaporter.constants.APIEndPoints;
 import com.example.viaporter.models.PatronTripRequest;
 
 import com.github.nkzawa.emitter.Emitter;
@@ -89,6 +91,11 @@ public class SocketManager {
                 PatronTripRequest newRequest = gson.fromJson(data.toString(), PatronTripRequest.class);
                 dataManager.addPatronTripRequest(newRequest);
                 patronTripRequestRelay.accept(newRequest);
+                Log.d(TAG, "trip request received");
+                Log.d(TAG, newRequest.getTrainStationName());
+                Log.d(TAG, newRequest.getTripStartLocation());
+                Log.d(TAG, newRequest.getTripEndLocation());
+                Log.d(TAG, String.valueOf(newRequest.getNumberOfLuggage()));
             }
         });
     }

@@ -2,18 +2,30 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal">
+    android:orientation="vertical">
 
     <TextView
-        android:id="@+id/broadcast_request_index"
-        android:layout_width="30dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"/>
-
-    <TextView
+        android:id="@+id/broadcast_station_name"
         android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:id="@+id/broadcast_patron_name_item"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"/>
+
+    <TextView
+        android:id="@+id/broadcast_start_location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"/>
+
+    <TextView
+        android:id="@+id/broadcast_end_location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"/>
+
+    <TextView
+        android:id="@+id/broadcast_number_of_luggage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:textSize="16sp"/>
 
 </LinearLayout>

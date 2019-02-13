@@ -7,7 +7,7 @@ public class PatronTripRequest {
 
     @SerializedName("train_station_name")
     @Expose
-    private String TrainStationName;
+    private String trainStationName;
 
     @SerializedName("trip_start_location")
     @Expose
@@ -19,4 +19,9 @@ public class PatronTripRequest {
     @SerializedName("number_of_luggage")
     @Expose
     private int numberOfLuggage;
+
+    public String getTrainStationName() { return trainStationName; }
+    public String getTripStartLocation() { return tripStartLocation; }
+    public String getTripEndLocation() { return tripEndLocation; }
+    public int getNumberOfLuggage() { return numberOfLuggage; }
 }

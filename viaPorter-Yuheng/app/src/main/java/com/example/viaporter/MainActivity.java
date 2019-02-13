@@ -6,10 +6,15 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
+import io.reactivex.disposables.Disposable;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "viaPorter.MainActivity";
@@ -17,14 +22,28 @@ public class MainActivity extends AppCompatActivity {
     private BottomNavigationView bottomNavigation;
     private NavHostFragment navHostFragment;
     private NavController navController;
+    private List<Disposable> disposables;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        disposables = new ArrayList<>();
+
         setupViews();
         setupManagers();
+    }
+
+    @Override
+    protected void onDestroy() {
+        // clean disposable
+        for (Disposable disposable : disposables) {
+            if (!disposable.isDisposed()) {
+                disposable.dispose();
+            }
+        }
+        super.onDestroy();
     }
 
     private void setupViews() {
@@ -88,4 +107,9 @@ public class MainActivity extends AppCompatActivity {
             return false;
         }
     };
+
+    /* Utility methods */
+    public void addDisposable(Disposable disposable) {
+        disposables.add(disposable);
+    }
 }
