@@ -24,7 +24,7 @@
     <string name="trip_request_from">FROM</string>
     <string name="trip_request_to">TO</string>
     <string name="trip_request_hint_enter_location">Enter Location</string>
-    <string name="trip_request_luggages">LUGGAGES</string>
+    <string name="trip_request_luggages">NUMBER OF LUGGAGE</string>
     <string name="trip_request_confirm">Confirm</string>
     <string name="trip_request_bidding_main_title">Trip Request Bidding</string>
     <string name="trip_request_bidding_cancel">CANCEL REQUEST</string>

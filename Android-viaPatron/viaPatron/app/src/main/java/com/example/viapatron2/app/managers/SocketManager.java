@@ -2,9 +2,7 @@ package com.example.viapatron2.app.managers;
 
 import android.util.Log;
 import com.example.viapatron2.app.constants.AppConstants;
-import com.example.viapatron2.core.models.UserContext;
 import com.example.viapatron2.core.models.UserTripRequestSession;
-import com.github.nkzawa.emitter.Emitter;
 import com.github.nkzawa.socketio.client.IO;
 import com.github.nkzawa.socketio.client.Socket;
 import com.google.gson.Gson;
@@ -60,6 +58,7 @@ public class SocketManager {
         try {
             socket = IO.socket(AppConstants.LOCAL_HOST_URL);
             socket.connect();
+            socket.emit("join", "viaPatron");
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
@@ -76,37 +75,6 @@ public class SocketManager {
     }
 
     private void prepareListeners() {
-        // session_connected
-        socket.on("session_connected", new Emitter.Listener() {
-            @Override
-            public void call(Object... args) {
-                // read ride request data
-                JSONObject data = (JSONObject) args[0];
-                UserContext userContext = null;
-                try {
-                    userContext = UserContext.valueOf(data.getString("context"));
-                    switch (userContext) {
-//                        case ON_TRIP:
-//                            Trip trip = gson.fromJson(data.getString("context_data"), Trip.class);
-//                            mDataManager.setCurrentTrip(trip);
-//                            break;
-//                        case ON_BID:
-//                            RideRequest rideRequest = gson.fromJson(data.getString("context_data"), RideRequest.class);
-//                            mDataManager.setCurrentRideRequest(rideRequest);
-//                            break;
-                        default:
-                            break;
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                // run listener
-//                if (userContext != null) {
-//                    mDataManager.setSessionContext(userContext);
-//                    sessionConnectedObservable.accept(userContext);
-//                }
-            }
-        });
 
         // ride request created
 //        socket.on("ride_request_created", new Emitter.Listener() {
@@ -127,10 +95,7 @@ public class SocketManager {
     public void sendRideRequest(UserTripRequestSession tripRequestInfo) {
         try {
             JSONObject data = new JSONObject(gson.toJson(tripRequestInfo));
-
-            // test
-            getSocket().emit("join", "test send trip request");
-
+            getSocket().emit("trip_request", data);
         } catch (JSONException e) {
             e.printStackTrace();
         }

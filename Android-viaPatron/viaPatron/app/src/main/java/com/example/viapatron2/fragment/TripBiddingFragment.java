@@ -1,5 +1,6 @@
 package com.example.viapatron2.fragment;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -16,10 +17,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import androidx.navigation.NavController;
+import androidx.navigation.NavDestination;
 import androidx.navigation.Navigation;
 import com.example.viapatron2.BidderAdapter;
 import com.example.viapatron2.R;
 import com.example.viapatron2.activity.MainActivity;
+import com.example.viapatron2.core.models.MyViewModel;
+import com.example.viapatron2.core.models.UserTripRequestSession;
 import com.github.nkzawa.socketio.client.Socket;
 
 import java.util.Locale;
@@ -33,11 +37,20 @@ public class TripBiddingFragment extends Fragment {
     private NavController navController;
     private BidderAdapter mBidderAdapter;
     private MainActivity mActivity;
+    private MyViewModel model;
 
     // Views
     private Button cancelBidButton;
     private TextView timeLeftTv;
+    private TextView smallStationTitleLeft;
+    private TextView smallStationTitleRight;
+    private TextView toTitle;
+    private TextView fromTitle;
+    private TextView luggageTitle;
+    private TextView priceTitle;
     private AlertDialog warningDialog;
+
+    private UserTripRequestSession userTripRequestSession;
 
     // items
     private CountDownTimer countDownTimer;
@@ -62,6 +75,7 @@ public class TripBiddingFragment extends Fragment {
         mActivity = (MainActivity) requireActivity();
 
         setViews();
+        setUpViewModel();
         createAdapter();
     }
 
@@ -69,9 +83,15 @@ public class TripBiddingFragment extends Fragment {
 
         Log.d(TAG, "setViews");
 
-        timeLeftTv = mActivity.findViewById(R.id.trip_request_bidding_time_left);
         navController = Navigation.findNavController(mActivity, R.id.my_nav_host_fragment);
+        timeLeftTv = mActivity.findViewById(R.id.trip_request_bidding_time_left);
         cancelBidButton = mActivity.findViewById(R.id.trip_request_bidding_cancel_button);
+        smallStationTitleLeft = mActivity.findViewById(R.id.tv_trip_bidding_station_left_side);
+        smallStationTitleRight = mActivity.findViewById(R.id.tv_trip_bidding_station_right_side);
+        toTitle = mActivity.findViewById(R.id.tv_trip_bidding_to);
+        fromTitle = mActivity.findViewById(R.id.tv_trip_bidding_from);
+        luggageTitle = mActivity.findViewById(R.id.tv_trip_bidding_luggage);
+        priceTitle = mActivity.findViewById(R.id.trip_bidding_price);
 
         if (cancelBidButton != null) {
             cancelBidButton.setOnClickListener(new View.OnClickListener() {
@@ -81,6 +101,13 @@ public class TripBiddingFragment extends Fragment {
                 }
             });
         }
+
+        navController.addOnDestinationChangedListener(new NavController.OnDestinationChangedListener() {
+            @Override
+            public void onDestinationChanged(@NonNull NavController controller, @NonNull NavDestination destination, @Nullable Bundle arguments) {
+                Log.d(TAG, "onDestinationChanged " + destination.getLabel() + destination.getId());
+            }
+        });
 
 
         // Create alert dialog for when user clicks cancel button
@@ -122,6 +149,44 @@ public class TripBiddingFragment extends Fragment {
                 });
 
         warningDialog = builder.create();
+    }
+
+    private void setUpViewModel() {
+
+        Log.d(TAG, "setUpViewModel");
+
+        // Re-created activities receive the same MyViewModel instance created by the first activity.
+        model = ViewModelProviders.of(getActivity()).get(MyViewModel.class);
+        userTripRequestSession = model.getUserTripRequestSession();
+
+        String modelStationName = userTripRequestSession.getStation();
+        String modelToLocation = userTripRequestSession.getToLocation();
+        String modelFromLocation = userTripRequestSession.getFromLocation();
+        int modelLuggageNo = userTripRequestSession.getNoOfLuggage();
+
+        model.getRequestSession().observe(this, users -> {
+
+            // update UI
+            if (smallStationTitleLeft != null) {
+                smallStationTitleLeft.setText(modelStationName);
+            }
+
+            if (smallStationTitleRight != null) {
+                smallStationTitleRight.setText(modelStationName);
+            }
+
+            if (toTitle != null) {
+                toTitle.setText(modelToLocation);
+            }
+
+            if (fromTitle != null) {
+                fromTitle.setText(modelFromLocation);
+            }
+
+            if (luggageTitle != null) {
+                luggageTitle.setText(String.valueOf(modelLuggageNo));
+            }
+        });
     }
 
     private void createAdapter() {

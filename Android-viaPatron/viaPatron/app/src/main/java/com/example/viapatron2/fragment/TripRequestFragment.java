@@ -16,6 +16,7 @@ import android.widget.TextView;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import com.example.viapatron2.R;
+import com.example.viapatron2.TextValidator;
 import com.example.viapatron2.activity.MainActivity;
 import com.example.viapatron2.core.models.MyViewModel;
 import com.example.viapatron2.core.models.UserTripRequestSession;
@@ -64,19 +65,21 @@ public class TripRequestFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         mActivity = (MainActivity) requireActivity();
+
         setUpViews();
+        setUpListeners();
         setUpViewModel();
     }
 
     private void setUpViews() {
 
-        navController = Navigation.findNavController(getActivity(), R.id.my_nav_host_fragment);
-        nextButton = getActivity().findViewById(R.id.trip_request_next_button);
-        stationTitle = getActivity().findViewById(R.id.trip_request_station_title);
-        dateTitle = getActivity().findViewById(R.id.trip_request_date_title);
-        fromField = getActivity().findViewById(R.id.from_request_field);
-        toField = getActivity().findViewById(R.id.to_request_field);
-        luggageField = getActivity().findViewById(R.id.luggages_request_field);
+        navController = Navigation.findNavController(mActivity, R.id.my_nav_host_fragment);
+        nextButton = mActivity.findViewById(R.id.trip_request_next_button);
+        stationTitle = mActivity.findViewById(R.id.trip_request_station_title);
+        dateTitle = mActivity.findViewById(R.id.trip_request_date_title);
+        fromField = mActivity.findViewById(R.id.from_request_field);
+        toField = mActivity.findViewById(R.id.to_request_field);
+        luggageField = mActivity.findViewById(R.id.luggages_request_field);
 
         String pattern = "dd MMM";
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern, Locale.getDefault());
@@ -85,6 +88,9 @@ public class TripRequestFragment extends Fragment {
         if (dateTitle != null) {
             dateTitle.setText(dateString);
         }
+    }
+
+    private void setUpListeners() {
 
         if (nextButton != null) {
             nextButton.setOnClickListener(new View.OnClickListener() {
@@ -98,11 +104,40 @@ public class TripRequestFragment extends Fragment {
 //                        Log.d(TAG, "currentDest.getLabel = " + currentDest.getLabel());
 //                    }
 
-                    // Todo: alert user for empty field (from, to, luggages)
+                    /* Verify before confirmation that all inputs are entered accordingly. */
+                    if (fromField.getText().toString().length() <= 0) {
+                        fromField.setError("Enter Start Location");
+                        fromField.requestFocus();
+                        return;
+                    } else {
+                        // length() > 0
+                        fromFieldString = fromField.getText().toString();
+                    }
+
+                    if (toField.getText().toString().length() <= 0) {
+                        toField.setError("Enter End Location");
+                        toField.requestFocus();
+                        return;
+                    } else {
+                        // length() > 0
+                        toFieldString = toField.getText().toString();
+                    }
+
+                    if (luggageField.getText().toString().length() <= 0) {
+                        luggageField.setError("Enter Number of Luggage");
+                        luggageField.requestFocus();
+                        return;
+                    } else {
+                        // length() > 0
+                        String tempLuggageFieldString = luggageField.getText().toString();
+                        luggageFieldInt = Integer.parseInt(tempLuggageFieldString);
+                    }
+
+                    // Save all data if inputs are valid
                     userTripRequestSession.setDate(dateString);
                     userTripRequestSession.setFromLocation(fromFieldString);
                     userTripRequestSession.setToLocation(toFieldString);
-                    userTripRequestSession.setNoOfLuggages(luggageFieldInt);
+                    userTripRequestSession.setNoOfLuggage(luggageFieldInt);
                     model.setRequestSession(userTripRequestSession);
 
                     navController.navigate(R.id.navigation_trip_request_confirm);
@@ -120,6 +155,18 @@ public class TripRequestFragment extends Fragment {
                     return false;
                 }
             });
+
+            fromField.addTextChangedListener(new TextValidator(fromField) {
+                @Override
+                public void validate(TextView textView, String text) {
+                    /* Validation code here */
+                    if (fromField.getText().toString().length() <= 0) {
+                        fromField.setError("Enter Start Location");
+                    } else {
+                        fromField.setError(null);
+                    }
+                }
+            });
         }
 
         if (toField != null) {
@@ -132,6 +179,18 @@ public class TripRequestFragment extends Fragment {
                     return false;
                 }
             });
+
+            toField.addTextChangedListener(new TextValidator(toField) {
+                @Override
+                public void validate(TextView textView, String text) {
+                    /* Validation code here */
+                    if (toField.getText().toString().length() <= 0) {
+                        toField.setError("Enter End Location");
+                    } else {
+                        toField.setError(null);
+                    }
+                }
+            });
         }
 
         if (luggageField != null) {
@@ -139,10 +198,26 @@ public class TripRequestFragment extends Fragment {
                 @Override
                 public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                     if (actionId == EditorInfo.IME_ACTION_DONE) {
-                        String tempLuggageFieldString = luggageField.getText().toString();
-                        luggageFieldInt = Integer.parseInt(tempLuggageFieldString);
+                        try {
+                            String tempLuggageFieldString = luggageField.getText().toString();
+                            luggageFieldInt = Integer.parseInt(tempLuggageFieldString);
+                        } catch (NumberFormatException e) {
+                            luggageField.setError("Enter a Valid Number");
+                        }
                     }
                     return false;
+                }
+            });
+
+            luggageField.addTextChangedListener(new TextValidator(luggageField) {
+                @Override
+                public void validate(TextView textView, String text) {
+                    /* Validation code here */
+                    if (luggageField.getText().toString().length() <= 0) {
+                        luggageField.setError("Enter Number of Luggage");
+                    } else {
+                        luggageField.setError(null);
+                    }
                 }
             });
         }
@@ -159,7 +234,7 @@ public class TripRequestFragment extends Fragment {
         model.getRequestSession().observe(this, users -> {
             // update UI
             if (stationTitle != null) {
-                String modelStationName = model.getRequestSession().getValue().getStation();
+                String modelStationName = userTripRequestSession.getStation();
 
                 if (modelStationName != null) {
                     stationTitle.setText(modelStationName);

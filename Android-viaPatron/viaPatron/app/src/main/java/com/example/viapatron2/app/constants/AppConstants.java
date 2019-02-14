@@ -13,7 +13,7 @@ public final class AppConstants {
 //    public static final String LOCAL_HOST_URL = "http://139.59.244.233:5000"; // digital ocean
 //    public static final String LOCAL_HOST_URL = "http://10.0.2.2:5000"; // localhost
     
-    public static final String LOCAL_HOST_URL = "http://172.17.62.168:3000"; // localhost
+    public static final String LOCAL_HOST_URL = "http://172.25.102.25:3000"; // localhost
 
     public static final int PERMISSION_FINE_LOCATION = 111;
 

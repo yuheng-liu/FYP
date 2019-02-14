@@ -14,27 +14,38 @@ import com.google.gson.annotations.SerializedName;
 // Originally extends RealmObject (in Auto)
 public class UserTripRequestSession {
 
-    @SerializedName("start")
-    @Expose
+    //@SerializedName("start")
+    //@Expose
     private LatLng start;
 
-    @SerializedName("end")
-    @Expose
+    //@SerializedName("end")
+    //@Expose
     private LatLng end;
 
-    @SerializedName("station")
+    //@SerializedName("station_id")
+    //@Expose
+    private long stationId;
+    private String date;
+
+    @SerializedName("train_station_name")
     @Expose
     private String station;
 
-    @SerializedName("station_id")
+    @SerializedName("trip_start_location")
     @Expose
-    private long stationId;
-
-    private String date;
     private String fromLocation;
+
+    @SerializedName("trip_end_location")
+    @Expose
     private String toLocation;
-    private int noOfLuggages = 0;
+
+    @SerializedName("number_of_luggage")
+    @Expose
+    private int noOfLuggage = 0;
+
     private NavDestination currentDest;
+
+
 
     public LatLng getStart() {
         return start;
@@ -108,11 +119,11 @@ public class UserTripRequestSession {
         this.toLocation = toLocation;
     }
 
-    public int getNoOfLuggages() {
-        return noOfLuggages;
+    public int getNoOfLuggage() {
+        return noOfLuggage;
     }
 
-    public void setNoOfLuggages(int noOfLuggages) {
-        this.noOfLuggages = noOfLuggages;
+    public void setNoOfLuggage(int noOfLuggage) {
+        this.noOfLuggage = noOfLuggage;
     }
 }

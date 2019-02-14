@@ -17,7 +17,6 @@ import com.example.viapatron2.R;
 import com.example.viapatron2.activity.MainActivity;
 import com.example.viapatron2.core.models.MyViewModel;
 import com.example.viapatron2.core.models.UserTripRequestSession;
-import com.github.nkzawa.socketio.client.Socket;
 
 public class TripRequestConfirmFragment extends Fragment {
 
@@ -73,9 +72,7 @@ public class TripRequestConfirmFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     try {
-                        Socket socket = mActivity.getmSocketManager().getSocket();
-                        socket.emit("join", "viaPatron");
-
+                        mActivity.getmSocketManager().sendRideRequest(userTripRequestSession);
                         navController.navigate(R.id.navigation_trip_bidding);
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -99,7 +96,7 @@ public class TripRequestConfirmFragment extends Fragment {
         String modelDate = userTripRequestSession.getDate();
         String modelToLocation = userTripRequestSession.getToLocation();
         String modelFromLocation = userTripRequestSession.getFromLocation();
-        int modelLuggageNo = userTripRequestSession.getNoOfLuggages();
+        int modelLuggageNo = userTripRequestSession.getNoOfLuggage();
 
         model.getRequestSession().observe(this, users -> {
 
