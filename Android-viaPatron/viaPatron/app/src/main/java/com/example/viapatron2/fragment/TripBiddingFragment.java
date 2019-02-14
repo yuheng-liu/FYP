@@ -111,32 +111,15 @@ public class TripBiddingFragment extends Fragment {
 
 
         // Create alert dialog for when user clicks cancel button
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
         builder.setMessage(R.string.trip_bidding_cancel_msg)
                 .setTitle(R.string.trip_bidding_cancel_title)
                 .setPositiveButton(R.string.button_ok, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         // User clicked OK button
 
-                        Log.d(TAG, "User clicked OK");
                         Socket socket = mActivity.getmSocketManager().getSocket();
                         socket.emit("disconnect", "viaPatron");
-
-//                        mActivity.getmSocketManager().closeConnection();
-//                        socket.on("userdisconnect", new Emitter.Listener() {
-//                            @Override
-//                            public void call(final Object... args) {
-//                                runOnUiThread(new Runnable() {
-//                                    @Override
-//                                    public void run() {
-//                                        String data = (String) args[0];
-//
-//                                        Toast.makeText(mActivity, data, Toast.LENGTH_SHORT).show();
-//                                    }
-//                                });
-//                            }
-//                        });
-
                         navController.navigateUp();
                     }
                 })
@@ -156,7 +139,7 @@ public class TripBiddingFragment extends Fragment {
         Log.d(TAG, "setUpViewModel");
 
         // Re-created activities receive the same MyViewModel instance created by the first activity.
-        model = ViewModelProviders.of(getActivity()).get(MyViewModel.class);
+        model = ViewModelProviders.of(mActivity).get(MyViewModel.class);
         userTripRequestSession = model.getUserTripRequestSession();
 
         String modelStationName = userTripRequestSession.getStation();
@@ -193,7 +176,7 @@ public class TripBiddingFragment extends Fragment {
 
         Log.d(TAG, "createAdapter");
 
-        RecyclerView mBidderView = getActivity().findViewById(R.id.trip_request_bidding_table);
+        RecyclerView mBidderView = mActivity.findViewById(R.id.trip_request_bidding_table);
         RecyclerView.LayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         mBidderView.setLayoutManager(linearLayoutManager);
         mBidderAdapter = new BidderAdapter(mActivity.getService().getDataManager());
@@ -227,6 +210,9 @@ public class TripBiddingFragment extends Fragment {
             public void onFinish() {
                 // todo: upon timer end, end bidding appropriately
                 //getSocketManager().stopBidding(currentRideRequest.getRideRequestId());
+                Socket socket = mActivity.getmSocketManager().getSocket();
+                socket.emit("disconnect", "viaPatron");
+                navController.navigateUp();
             }
         };
 
