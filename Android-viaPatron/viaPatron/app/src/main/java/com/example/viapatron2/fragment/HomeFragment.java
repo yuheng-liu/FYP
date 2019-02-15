@@ -1,9 +1,10 @@
 package com.example.viapatron2.fragment;
 
-import android.Manifest;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -28,14 +29,9 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.*;
 import com.google.android.gms.location.places.Place;
-import com.google.android.gms.location.places.PlaceDetectionClient;
-import com.google.android.gms.location.places.PlaceLikelihoodBufferResponse;
-import com.google.android.gms.location.places.Places;
 import com.google.android.gms.maps.*;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 
 import static com.example.viapatron2.app.constants.AppConstants.MAP_CAMERA_ZOOM;
 import static com.example.viapatron2.app.constants.AppConstants.MAP_LOCATION_REQUEST_INTERVAL;
@@ -172,25 +168,41 @@ public class HomeFragment extends Fragment
 
         Log.d(TAG, "selectStartingPoint");
 
-        PlaceDetectionClient detectionClient = Places.getPlaceDetectionClient(mActivity);
-        if (ActivityCompat.checkSelfPermission(mActivity, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            detectionClient.getCurrentPlace(null).addOnCompleteListener(new OnCompleteListener<PlaceLikelihoodBufferResponse>() {
-                @Override
-                public void onComplete(@NonNull Task<PlaceLikelihoodBufferResponse> task) {
-                    try {
-                        Log.d(TAG, "onComplete");
+        try {
+            LocationManager locationManager = (LocationManager)mActivity.getSystemService(Context.LOCATION_SERVICE);
+            Location tempLoc = locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
+            Log.d(TAG, "Latitude = " + tempLoc.getLatitude());
+            Log.d(TAG, "Longitude = " + tempLoc.getLongitude());
 
-                        PlaceLikelihoodBufferResponse likelyPlaces = task.getResult();
-                        originPlace = likelyPlaces.iterator().next().getPlace().freeze();
-                        hasStartingPointChanged = true;
-//                    getSocketManager().setStartLocation(originPlace.getLatLng());
-                        likelyPlaces.release();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            });
+            currentLocation = new LatLng(tempLoc.getLatitude(), tempLoc.getLongitude());
+            CameraUpdate update = CameraUpdateFactory.newLatLngZoom(currentLocation, MAP_CAMERA_ZOOM);
+            mGoogleMap.moveCamera(update);
+            mMapView.setVisibility(View.VISIBLE);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+
+//        PlaceDetectionClient detectionClient = Places.getPlaceDetectionClient(mActivity);
+//        if (ActivityCompat.checkSelfPermission(mActivity, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+//            detectionClient.getCurrentPlace(null).addOnCompleteListener(new OnCompleteListener<PlaceLikelihoodBufferResponse>() {
+//                @Override
+//                public void onComplete(@NonNull Task<PlaceLikelihoodBufferResponse> task) {
+//                    try {
+//                        Log.d(TAG, "onComplete");
+//
+////                        Location currentLocation = LocationManager.
+//
+//                        PlaceLikelihoodBufferResponse likelyPlaces = task.getResult();
+//                        originPlace = likelyPlaces.iterator().next().getPlace().freeze();
+//                        hasStartingPointChanged = true;
+////                    getSocketManager().setStartLocation(originPlace.getLatLng());
+//                        likelyPlaces.release();
+//                    } catch (Exception e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//            });
+//        }
     }
 
     private void setMapUiSettings() {
