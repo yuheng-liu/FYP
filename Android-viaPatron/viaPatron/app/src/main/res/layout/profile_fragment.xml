@@ -56,20 +56,52 @@
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:padding="2dp"
+                    android:layout_marginBottom="10dp"
                     android:text="Max"
                     android:textSize="20sp"/>
 
-            <TextView
+            <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Singapore"
-                    android:textSize="16sp"/>
+                    android:layout_height="wrap_content">
 
-            <TextView
+                <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="wrap_content"
+                        android:scaleX="0.9"
+                        android:scaleY="0.9"
+                        android:padding="4dp"
+                        android:src="@drawable/ic_location_indication_profile"/>
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="Singapore"
+                        android:textSize="16sp"/>
+            </LinearLayout>
+
+
+            <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="thesgwayfarer@gmail.com"
-                    android:textSize="14sp"/>
+                    android:layout_height="wrap_content">
+
+                <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="wrap_content"
+                        android:scaleX="0.9"
+                        android:scaleY="0.9"
+                        android:padding="4dp"
+                        android:src="@drawable/ic_email_indication_profile"/>
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:maxLines="2"
+                        android:text="thesgwayfarer@gmail.com"
+                        android:textSize="16sp"/>
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 
@@ -83,47 +115,83 @@
             android:layout_marginEnd="10dp">
 
         <FrameLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="8dp">
 
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/profile_language"/>
+                    android:layout_gravity="center|start"
+                    android:text="@string/profile_language"
+                    android:textSize="18sp"/>
+
+            <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center|end"
+                    android:scaleY="0.9"
+                    android:scaleX="0.9"
+                    android:background="@null"
+                    android:src="@drawable/ic_chevron_right"/>
+
         </FrameLayout>
 
         <FrameLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="8dp">
 
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/profile_currency"/>
+                    android:layout_gravity="center|start"
+                    android:text="@string/profile_currency"
+                    android:textSize="18sp"/>
+
+            <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center|end"
+                    android:scaleY="0.9"
+                    android:scaleX="0.9"
+                    android:background="@null"
+                    android:src="@drawable/ic_chevron_right"/>
         </FrameLayout>
 
         <FrameLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="8dp">
 
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/profile_reminders"/>
+                    android:layout_gravity="center|start"
+                    android:text="@string/profile_reminders"
+                    android:textSize="18sp"/>
         </FrameLayout>
 
         <FrameLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="8dp">
 
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/profile_privacy_policy"/>
+                    android:layout_gravity="center|start"
+                    android:text="@string/profile_privacy_policy"
+                    android:textSize="18sp"/>
+
+            <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center|end"
+                    android:scaleY="0.9"
+                    android:scaleX="0.9"
+                    android:background="@null"
+                    android:src="@drawable/ic_chevron_right"/>
         </FrameLayout>
 
     </LinearLayout>
