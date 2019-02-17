@@ -3,4 +3,9 @@
 
     <dimen name="text_size_small">12dp</dimen>
 
+    <dimen name="trip_request_field_text_size">15sp</dimen>
+    <dimen name="trip_request_field_between_margin">16dp</dimen>
+    <dimen name="trip_request_station_title_padding_top">22dp</dimen>
+    <dimen name="trip_request_station_title_padding_bottom">14dp</dimen>
+
 </resources>

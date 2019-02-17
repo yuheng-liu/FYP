@@ -34,6 +34,7 @@ public class TripRequestConfirmFragment extends Fragment {
     private TextView toTitle;
     private TextView fromTitle;
     private TextView luggageTitle;
+    private TextView luggageWeightTitle;
     private TextView priceTitle;
 
     private UserTripRequestSession userTripRequestSession;
@@ -65,6 +66,7 @@ public class TripRequestConfirmFragment extends Fragment {
         toTitle = mActivity.findViewById(R.id.tv_trip_confirm_to);
         fromTitle = mActivity.findViewById(R.id.tv_trip_confirm_from);
         luggageTitle = mActivity.findViewById(R.id.tv_trip_confirm_luggage);
+        luggageWeightTitle = mActivity.findViewById(R.id.tv_trip_confirm_luggage_weight);
         priceTitle = mActivity.findViewById(R.id.trip_confirm_price);
 
         if (confirmButton != null) {
@@ -97,6 +99,7 @@ public class TripRequestConfirmFragment extends Fragment {
         String modelToLocation = userTripRequestSession.getToLocation();
         String modelFromLocation = userTripRequestSession.getFromLocation();
         int modelLuggageNo = userTripRequestSession.getNoOfLuggage();
+        int modelLuggageWeight = userTripRequestSession.getTotalLuggageWeight();
 
         model.getRequestSession().observe(this, users -> {
 
@@ -127,6 +130,10 @@ public class TripRequestConfirmFragment extends Fragment {
 
             if (luggageTitle != null) {
                 luggageTitle.setText(String.valueOf(modelLuggageNo));
+            }
+
+            if (luggageWeightTitle != null) {
+                luggageWeightTitle.setText(String.valueOf(modelLuggageWeight));
             }
         });
     }

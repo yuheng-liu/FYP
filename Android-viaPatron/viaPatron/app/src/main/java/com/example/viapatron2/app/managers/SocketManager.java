@@ -2,10 +2,15 @@ package com.example.viapatron2.app.managers;
 
 import android.util.Log;
 import com.example.viapatron2.app.constants.AppConstants;
+import com.example.viapatron2.core.models.PorterBidRequest;
 import com.example.viapatron2.core.models.UserTripRequestSession;
+import com.github.nkzawa.emitter.Emitter;
 import com.github.nkzawa.socketio.client.IO;
 import com.github.nkzawa.socketio.client.Socket;
 import com.google.gson.Gson;
+import com.jakewharton.rxrelay2.PublishRelay;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -25,10 +30,14 @@ public class SocketManager {
 
     private DataManager mDataManager;
 
+    // Listen events
+    private PublishRelay<PorterBidRequest> porterBidRequestPublishRelay;
+
     // constructor
     public SocketManager(DataManager dataManager) {
         this.mDataManager = dataManager;
         gson = new Gson();
+        createPublishRelayObservers();
     }
 
     public SocketManager() {
@@ -45,6 +54,10 @@ public class SocketManager {
         return socket;
     }
 
+    private void createPublishRelayObservers() {
+        porterBidRequestPublishRelay = PublishRelay.create();
+    }
+
     // public methods
     public void openConnection() {
 
@@ -58,12 +71,11 @@ public class SocketManager {
         try {
             socket = IO.socket(AppConstants.LOCAL_HOST_URL);
             socket.connect();
+            prepareListeners();
             socket.emit("join", "viaPatron");
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
-
-//        prepareListeners();
     }
 
     public void closeConnection() {
@@ -74,22 +86,26 @@ public class SocketManager {
         }
     }
 
-    private void prepareListeners() {
+    // public listening methods
+    public Disposable addOnPorterBidRequest(Consumer<PorterBidRequest> onSuccess){
+        return porterBidRequestPublishRelay.subscribe(onSuccess);
+    }
 
-        // ride request created
-//        socket.on("ride_request_created", new Emitter.Listener() {
-//            @Override
-//            public void call(Object... args) {
-//                // read ride request data
-//                JSONObject data = (JSONObject) args[0];
-//                Log.d(TAG, data.toString());
-//                RideRequest rideRequest = gson.fromJson(data.toString(), RideRequest.class);
-//                // set data
-//                mDataManager.setCurrentRideRequest(rideRequest);
-//                // run listener
-//                rideRequestCreatedObservable.accept(rideRequest);
-//            }
-//        });
+    private void prepareListeners() {
+        // bid request created
+        socket.on("porter_bid_request", new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                JSONObject data = (JSONObject) args[0];
+                PorterBidRequest newRequest = gson.fromJson(data.toString(), PorterBidRequest.class);
+                porterBidRequestPublishRelay.accept(newRequest);
+                Log.d(TAG, "bid request received");
+                Log.d(TAG, newRequest.getPorterName());
+                Log.d(TAG, newRequest.getBidAmount());
+            }
+        });
+
+
     }
 
     public void sendRideRequest(UserTripRequestSession tripRequestInfo) {

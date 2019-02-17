@@ -43,6 +43,10 @@ public class UserTripRequestSession {
     @Expose
     private int noOfLuggage = 0;
 
+    @SerializedName("total_luggage_weight")
+    @Expose
+    private int totalLuggageWeight = 0;
+
     private NavDestination currentDest;
 
 
@@ -125,5 +129,13 @@ public class UserTripRequestSession {
 
     public void setNoOfLuggage(int noOfLuggage) {
         this.noOfLuggage = noOfLuggage;
+    }
+
+    public int getTotalLuggageWeight() {
+        return totalLuggageWeight;
+    }
+
+    public void setTotalLuggageWeight(int totalLuggageWeight) {
+        this.totalLuggageWeight = totalLuggageWeight;
     }
 }

@@ -23,8 +23,10 @@ import com.example.viapatron2.BidderAdapter;
 import com.example.viapatron2.R;
 import com.example.viapatron2.activity.MainActivity;
 import com.example.viapatron2.core.models.MyViewModel;
+import com.example.viapatron2.core.models.PorterBidRequest;
 import com.example.viapatron2.core.models.UserTripRequestSession;
 import com.github.nkzawa.socketio.client.Socket;
+import io.reactivex.functions.Consumer;
 
 import java.util.Locale;
 
@@ -77,6 +79,7 @@ public class TripBiddingFragment extends Fragment {
         setViews();
         setUpViewModel();
         createAdapter();
+        setupSocketListeners();
     }
 
     private void setViews() {
@@ -181,6 +184,21 @@ public class TripBiddingFragment extends Fragment {
         mBidderView.setLayoutManager(linearLayoutManager);
         mBidderAdapter = new BidderAdapter(mActivity.getService().getDataManager());
         mBidderView.setAdapter(mBidderAdapter);
+    }
+
+    private void setupSocketListeners() {
+        mActivity.addDisposable(mActivity.getmSocketManager().addOnPorterBidRequest(new Consumer<PorterBidRequest>() {
+            @Override
+            public void accept(final PorterBidRequest bidRequest) {
+                mActivity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mBidderAdapter.addToDataSet(bidRequest);
+                    }
+                });
+
+            }
+        }));
     }
 
     @Override

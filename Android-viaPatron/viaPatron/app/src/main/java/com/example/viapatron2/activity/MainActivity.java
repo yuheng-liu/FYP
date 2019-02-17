@@ -26,6 +26,10 @@ import com.example.viapatron2.app.managers.SocketManager;
 import com.example.viapatron2.core.models.MyViewModel;
 import com.example.viapatron2.fragment.ProfileFragment;
 import com.example.viapatron2.service.ViaPatronWorkerService;
+import io.reactivex.disposables.Disposable;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements ProfileFragment.MyProfileFragmentListener {
 
@@ -36,6 +40,7 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.M
     private boolean mServiceBounded = false, mServiceConnected = false;
 
     private SocketManager mSocketManager;
+    private List<Disposable> disposables;
 
     private BottomNavigationView bottomNavigation;
     private NavHostFragment navHostFragment;
@@ -48,6 +53,8 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.M
         setContentView(R.layout.activity_main);
 
         Log.i(TAG, "onCreate");
+
+        disposables = new ArrayList<>();
 
         checkAppLocationPermission();
         setUpViewModel();
@@ -183,6 +190,11 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.M
         });
     }
 
+    /* Utility methods */
+    public void addDisposable(Disposable disposable) {
+        disposables.add(disposable);
+    }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -208,6 +220,14 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.M
         super.onDestroy();
 
         Log.d(TAG, "onDestroy");
+
+        // clean disposable
+        for (Disposable disposable : disposables) {
+            if (!disposable.isDisposed()) {
+                disposable.dispose();
+            }
+        }
+        super.onDestroy();
     }
 
     /*

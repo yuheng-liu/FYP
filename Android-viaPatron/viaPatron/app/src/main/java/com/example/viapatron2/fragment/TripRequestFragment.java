@@ -41,11 +41,13 @@ public class TripRequestFragment extends Fragment {
     private EditText fromField;
     private EditText toField;
     private EditText luggageField;
+    private EditText luggageWeightField;
 
     // For model tracking
     private String fromFieldString;
     private String toFieldString;
     private int luggageFieldInt;
+    private int luggageWeightFieldInt;
     private String dateString;
 
 
@@ -80,6 +82,7 @@ public class TripRequestFragment extends Fragment {
         fromField = mActivity.findViewById(R.id.from_request_field);
         toField = mActivity.findViewById(R.id.to_request_field);
         luggageField = mActivity.findViewById(R.id.luggages_request_field);
+        luggageWeightField = mActivity.findViewById(R.id.luggage_weight_field);
 
         String pattern = "dd MMM";
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern, Locale.getDefault());
@@ -138,6 +141,8 @@ public class TripRequestFragment extends Fragment {
                     userTripRequestSession.setFromLocation(fromFieldString);
                     userTripRequestSession.setToLocation(toFieldString);
                     userTripRequestSession.setNoOfLuggage(luggageFieldInt);
+                    userTripRequestSession.setTotalLuggageWeight(luggageWeightFieldInt);
+
                     model.setRequestSession(userTripRequestSession);
 
                     navController.navigate(R.id.navigation_trip_request_confirm);
@@ -197,7 +202,7 @@ public class TripRequestFragment extends Fragment {
             luggageField.setOnEditorActionListener(new TextView.OnEditorActionListener() {
                 @Override
                 public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                    if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    if (actionId == EditorInfo.IME_ACTION_NEXT) {
                         try {
                             String tempLuggageFieldString = luggageField.getText().toString();
                             luggageFieldInt = Integer.parseInt(tempLuggageFieldString);
@@ -217,6 +222,35 @@ public class TripRequestFragment extends Fragment {
                         luggageField.setError("Enter Number of Luggage");
                     } else {
                         luggageField.setError(null);
+                    }
+                }
+            });
+        }
+
+        if (luggageWeightField != null) {
+            luggageWeightField.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+                @Override
+                public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                    if (actionId == EditorInfo.IME_ACTION_DONE) {
+                        try {
+                            String tempLuggageWeightFieldString = luggageWeightField.getText().toString();
+                            luggageWeightFieldInt = Integer.parseInt(tempLuggageWeightFieldString);
+                        } catch (NumberFormatException e) {
+                            luggageWeightField.setError("Enter a Valid Number");
+                        }
+                    }
+                    return false;
+                }
+            });
+
+            luggageWeightField.addTextChangedListener(new TextValidator(luggageWeightField) {
+                @Override
+                public void validate(TextView textView, String text) {
+                    /* Validation code here */
+                    if (luggageWeightField.getText().toString().length() <= 0) {
+                        luggageWeightField.setError("Enter Total Luggage Weight");
+                    } else {
+                        luggageWeightField.setError(null);
                     }
                 }
             });

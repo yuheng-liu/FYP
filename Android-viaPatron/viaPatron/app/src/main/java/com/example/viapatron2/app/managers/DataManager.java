@@ -1,6 +1,5 @@
 package com.example.viapatron2.app.managers;
 
-import com.example.viapatron2.BidderInfo;
 import com.example.viapatron2.core.models.UserSession;
 import com.example.viapatron2.core.models.UserTripRequestSession;
 import io.realm.Realm;
