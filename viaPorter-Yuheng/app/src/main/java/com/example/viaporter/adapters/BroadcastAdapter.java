@@ -20,10 +20,12 @@ public class BroadcastAdapter extends RecyclerView.Adapter<BroadcastAdapter.View
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView stationName;
+        public TextView stationNameLeft;
+        public TextView stationNameRight;
         public TextView startLocation;
         public TextView endLocation;
         public TextView numLuggage;
+        public TextView totalLuggageWeight;
 
         ViewHolder(View view) {
             super(view);
@@ -56,10 +58,12 @@ public class BroadcastAdapter extends RecyclerView.Adapter<BroadcastAdapter.View
         // set the view's size, margins, padding and layout parameters...
         ViewHolder vh = new ViewHolder(itemView);
 
-        vh.stationName = itemView.findViewById(R.id.broadcast_station_name);
+        vh.stationNameLeft = itemView.findViewById(R.id.broadcast_station_name_left);
+        vh.stationNameRight = itemView.findViewById(R.id.broadcast_station_name_right);
         vh.startLocation = itemView.findViewById(R.id.broadcast_start_location);
         vh.endLocation = itemView.findViewById(R.id.broadcast_end_location);
         vh.numLuggage = itemView.findViewById(R.id.broadcast_number_of_luggage);
+        vh.totalLuggageWeight = itemView.findViewById(R.id.broadcast_total_luggage_weight);
 
         return vh;
     }
@@ -69,10 +73,12 @@ public class BroadcastAdapter extends RecyclerView.Adapter<BroadcastAdapter.View
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         final PatronTripRequest itemData = mBroadcastDataSet.get(position);
 
-        holder.stationName.setText(itemData.getTrainStationName());
-        holder.startLocation.setText(itemData.getTrainStationName());
+        holder.stationNameLeft.setText(itemData.getTrainStationName());
+        holder.stationNameRight.setText(itemData.getTrainStationName());
+        holder.startLocation.setText(itemData.getTripStartLocation());
         holder.endLocation.setText(itemData.getTripEndLocation());
         holder.numLuggage.setText(String.valueOf(itemData.getNumberOfLuggage()));
+        holder.totalLuggageWeight.setText(String.valueOf(itemData.getTotalLuggageWeight()));
     }
 
     @Override

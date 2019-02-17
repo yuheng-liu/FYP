@@ -20,8 +20,13 @@ public class PatronTripRequest {
     @Expose
     private int numberOfLuggage;
 
+    @SerializedName("total_luggage_weight")
+    @Expose
+    private int totalLuggageWeight;
+
     public String getTrainStationName() { return trainStationName; }
     public String getTripStartLocation() { return tripStartLocation; }
     public String getTripEndLocation() { return tripEndLocation; }
     public int getNumberOfLuggage() { return numberOfLuggage; }
+    public int getTotalLuggageWeight() { return totalLuggageWeight; }
 }

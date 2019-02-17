@@ -82,7 +82,6 @@ public class TripRequestFragment extends Fragment {
                         mBroadcastAdapter.addToDataSet(tripRequest);
                     }
                 });
-
             }
         }));
     }

@@ -91,11 +91,11 @@ public class SocketManager {
                 PatronTripRequest newRequest = gson.fromJson(data.toString(), PatronTripRequest.class);
                 dataManager.addPatronTripRequest(newRequest);
                 patronTripRequestRelay.accept(newRequest);
-                Log.d(TAG, "trip request received");
-                Log.d(TAG, newRequest.getTrainStationName());
-                Log.d(TAG, newRequest.getTripStartLocation());
-                Log.d(TAG, newRequest.getTripEndLocation());
-                Log.d(TAG, String.valueOf(newRequest.getNumberOfLuggage()));
+//                Log.d(TAG, "trip request received");
+//                Log.d(TAG, newRequest.getTrainStationName());
+//                Log.d(TAG, newRequest.getTripStartLocation());
+//                Log.d(TAG, newRequest.getTripEndLocation());
+//                Log.d(TAG, String.valueOf(newRequest.getNumberOfLuggage()));
             }
         });
     }

@@ -13,16 +13,13 @@ io.on('connection', function(socket) {
 	// Handle event 'Join'
 	socket.on('join', function(userNickname) {
 		console.log(userNickname +" : has joined");
-		// socket.broadcast.emit('newMessage',userNickname +" is connected");
 	})
 
-	// Handle event 'messagedetection'
-	socket.on('messagedetection', function(senderNickname,messageContent) {
-		console.log(senderNickname + " : " + messageContent);
+	// Event for trip accept
+	socket.on('trip_accept', function(tripAccept) {
+		console.log("tripAccept received");
 		
-		//create a message object and send the message to all users including the sender
-    	let  message = {"patron_trip_request":messageContent, "senderNickname":senderNickname}
-		socket.broadcast.emit('message', message);
+		socket.broadcast.emit('porter_trip_accept', tripAccept);
 	})
 
 	// Event for trip request
