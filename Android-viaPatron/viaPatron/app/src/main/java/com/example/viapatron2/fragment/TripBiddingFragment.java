@@ -20,6 +20,7 @@ import androidx.navigation.NavController;
 import androidx.navigation.NavDestination;
 import androidx.navigation.Navigation;
 import com.example.viapatron2.BidderAdapter;
+import com.example.viapatron2.CallbackListener;
 import com.example.viapatron2.R;
 import com.example.viapatron2.activity.MainActivity;
 import com.example.viapatron2.core.models.MyViewModel;
@@ -96,6 +97,13 @@ public class TripBiddingFragment extends Fragment {
         luggageTitle = mActivity.findViewById(R.id.tv_trip_bidding_luggage);
         priceTitle = mActivity.findViewById(R.id.trip_bidding_price);
 
+        navController.addOnDestinationChangedListener(new NavController.OnDestinationChangedListener() {
+            @Override
+            public void onDestinationChanged(@NonNull NavController controller, @NonNull NavDestination destination, @Nullable Bundle arguments) {
+                Log.d(TAG, "onDestinationChanged " + destination.getLabel() + destination.getId());
+            }
+        });
+
         if (cancelBidButton != null) {
             cancelBidButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -104,14 +112,6 @@ public class TripBiddingFragment extends Fragment {
                 }
             });
         }
-
-        navController.addOnDestinationChangedListener(new NavController.OnDestinationChangedListener() {
-            @Override
-            public void onDestinationChanged(@NonNull NavController controller, @NonNull NavDestination destination, @Nullable Bundle arguments) {
-                Log.d(TAG, "onDestinationChanged " + destination.getLabel() + destination.getId());
-            }
-        });
-
 
         // Create alert dialog for when user clicks cancel button
         AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
@@ -183,6 +183,33 @@ public class TripBiddingFragment extends Fragment {
         RecyclerView.LayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         mBidderView.setLayoutManager(linearLayoutManager);
         mBidderAdapter = new BidderAdapter(mActivity.getService().getDataManager());
+
+        mBidderAdapter.setOnPositiveButtonClicked(new CallbackListener<PorterBidRequest>() {
+            @Override
+            public void accept(PorterBidRequest data) {
+
+                String alertMsg = getString(R.string.trip_bidding_confirm_msg) + " " + data.getBidAmount() + "?";
+
+                new AlertDialog.Builder(mActivity)
+                        .setTitle(R.string.trip_bidding_confirm_title)
+                        .setMessage(alertMsg)
+                        .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+
+                                navController.navigate(R.id.navigation_trip_confirmed);
+                            }
+                        })
+                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                return;
+                            }
+                        })
+                        .create()
+                        .show();
+            }
+        });
         mBidderView.setAdapter(mBidderAdapter);
     }
 

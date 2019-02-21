@@ -20,6 +20,7 @@ public class BidderAdapter extends RecyclerView.Adapter<BidderAdapter.ViewHolder
 
         public TextView bidderName;
         public TextView bidAmount;
+        View mPositiveButton, mNegativeButton;
 
         ViewHolder(View view) {
             super(view);
@@ -28,8 +29,8 @@ public class BidderAdapter extends RecyclerView.Adapter<BidderAdapter.ViewHolder
 
     // Private properties
     private List<PorterBidRequest> mBidderDataset;
-//    private CallbackListener<BidRequest> mOnPositiveButtonClicked;
-//    private CallbackListener<BidRequest> mOnNegativeButtonClicked;
+    private CallbackListener<PorterBidRequest> mOnPositiveButtonClicked;
+    private CallbackListener<PorterBidRequest> mOnNegativeButtonClicked;
     private DataManager mDataManager;
     private UserTripRequestSession userTripRequestSession;
 
@@ -37,6 +38,15 @@ public class BidderAdapter extends RecyclerView.Adapter<BidderAdapter.ViewHolder
     public BidderAdapter(DataManager mDataManager) {
         mBidderDataset = new ArrayList<>();
         this.mDataManager = mDataManager;
+    }
+
+    // Positive and negative button handler
+    public void setOnPositiveButtonClicked(CallbackListener<PorterBidRequest> onPositiveButtonClicked) {
+        mOnPositiveButtonClicked = onPositiveButtonClicked;
+    }
+
+    public void setOnNegativeButtonClicked(CallbackListener<PorterBidRequest> onNegativeButtonClicked) {
+        mOnNegativeButtonClicked = onNegativeButtonClicked;
     }
 
     public void addToDataSet(PorterBidRequest bidRequest) {
@@ -62,6 +72,7 @@ public class BidderAdapter extends RecyclerView.Adapter<BidderAdapter.ViewHolder
 
         vh.bidderName = itemView.findViewById(R.id.bidding_porter_name);
         vh.bidAmount = itemView.findViewById(R.id.bid_amount);
+        vh.mPositiveButton = itemView.findViewById(R.id.positiveButton);
 
         return vh;
     }
@@ -72,7 +83,17 @@ public class BidderAdapter extends RecyclerView.Adapter<BidderAdapter.ViewHolder
         final PorterBidRequest itemData = mBidderDataset.get(position);
 
         holder.bidderName.setText(itemData.getPorterName());
-        holder.bidAmount.setText(String.valueOf(itemData.getPorterName()));
+        holder.bidAmount.setText(String.valueOf(itemData.getBidAmount()));
+
+        holder.mPositiveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (mOnPositiveButtonClicked == null) {
+                    return;
+                }
+                mOnPositiveButtonClicked.accept(itemData);
+            }
+        });
     }
 
     @Override
