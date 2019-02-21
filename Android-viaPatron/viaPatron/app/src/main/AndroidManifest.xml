@@ -43,7 +43,6 @@
             </intent-filter>
         </activity>
 
-
         <service
                 android:name=".service.ViaPatronWorkerService"
                 android:exported="true" />

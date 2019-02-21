@@ -43,6 +43,7 @@ public class SocketManager {
     public SocketManager() {
         gson = new Gson();
         socket = getSocket();
+        createPublishRelayObservers();
     }
 
     public Socket getSocket() {

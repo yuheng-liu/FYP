@@ -33,15 +33,23 @@
     <string name="bidding_ends_in">Bidding ends in</string>
     <string name="trip_bidding_cancel_msg">Are you sure you want to cancel?</string>
     <string name="trip_bidding_cancel_title">Cancel Trip Request</string>
+    <string name="trip_bidding_confirm_title">Confirm Porter</string>
+    <string name="trip_bidding_confirm_msg">Would you like to confirm your porter for</string>
+    <string name="trip_bidding_accept_porter">Accept</string>
 
     <string name="button_cancel">Cancel</string>
     <string name="button_ok">OK</string>
+
+    <string name="trip_confirmed_main_title">Trip Confirmed</string>
 
     <string name="page_title_porter">Porter</string>
     <string name="profile_language">Language</string>
     <string name="profile_currency">Currency</string>
     <string name="profile_reminders">Reminders</string>
     <string name="profile_privacy_policy">Privacy Policy</string>
+    <string name="profile_sign_out_msg">Are you sure you want to sign out?</string>
+
+
 
 
 
@@ -116,11 +124,8 @@
     <string name="eleven">11</string>
     <string name="star">Star</string>
     <string name="space"> </string>
-    <string name="accept">Accept</string>
     <string name="zero_three">03</string>
     <string name="zero_one">01</string>
-    <string name="confirm_porter">Confirm Porter</string>
-    <string name="would_you_like_to_confirm_your_porter_for">Would you like to confirm your porter for</string>
     <string name="question_mark">\?</string>
     <string name="number_of_luggages">Number of luggages</string>
     <string name="trip_confirmed">Trip Confirmed</string>

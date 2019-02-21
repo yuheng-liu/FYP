@@ -13,9 +13,10 @@ public final class AppConstants {
 //    public static final String LOCAL_HOST_URL = "http://139.59.244.233:5000"; // digital ocean
 //    public static final String LOCAL_HOST_URL = "http://10.0.2.2:5000"; // localhost
     
-    public static final String LOCAL_HOST_URL = "http://172.17.63.200:3000"; // localhost
+    public static final String LOCAL_HOST_URL = "http://172.17.183.10:3000"; // localhost
 
     public static final int PERMISSION_FINE_LOCATION = 111;
+    public static final int PERMISSION_MEDIA_ACCESS = 112;
 
     /* Map parameter */
     public static final int MAP_CAMERA_ZOOM = 17;

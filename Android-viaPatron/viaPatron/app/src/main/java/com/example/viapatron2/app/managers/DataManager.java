@@ -14,7 +14,6 @@ public class DataManager {
     private Realm realm;
 
     private UserTripRequestSession userTripRequestSession;
-    private BidderInfo bidderInfo;
     private UserSession userSession;
 
     public DataManager() {
