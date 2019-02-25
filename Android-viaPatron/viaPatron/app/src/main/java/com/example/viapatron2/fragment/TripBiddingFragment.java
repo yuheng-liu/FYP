@@ -51,6 +51,7 @@ public class TripBiddingFragment extends Fragment {
     private TextView toTitle;
     private TextView fromTitle;
     private TextView luggageTitle;
+    private TextView luggageWeightTitle;
     private TextView priceTitle;
     private AlertDialog warningDialog;
 
@@ -59,6 +60,7 @@ public class TripBiddingFragment extends Fragment {
     String modelToLocation;
     String modelFromLocation;
     int modelLuggageNo;
+    int modelLuggageWeight;
 
     private UserTripRequestSession userTripRequestSession;
 
@@ -103,6 +105,7 @@ public class TripBiddingFragment extends Fragment {
         toTitle = mActivity.findViewById(R.id.tv_trip_bidding_to);
         fromTitle = mActivity.findViewById(R.id.tv_trip_bidding_from);
         luggageTitle = mActivity.findViewById(R.id.tv_trip_bidding_luggage);
+        luggageWeightTitle = mActivity.findViewById(R.id.tv_trip_bidding_luggage_weight);
         priceTitle = mActivity.findViewById(R.id.trip_bidding_price);
 
         navController.addOnDestinationChangedListener(new NavController.OnDestinationChangedListener() {
@@ -157,6 +160,7 @@ public class TripBiddingFragment extends Fragment {
         modelToLocation = userTripRequestSession.getToLocation();
         modelFromLocation = userTripRequestSession.getFromLocation();
         modelLuggageNo = userTripRequestSession.getNoOfLuggage();
+        modelLuggageWeight = userTripRequestSession.getTotalLuggageWeight();
 
         model.getRequestSession().observe(this, users -> {
 
@@ -178,7 +182,13 @@ public class TripBiddingFragment extends Fragment {
             }
 
             if (luggageTitle != null) {
-                luggageTitle.setText(String.valueOf(modelLuggageNo));
+                String luggageNum = String.valueOf(modelLuggageNo) + " " + R.string.trip_request_confirm_luggage_KG_text;
+                luggageTitle.setText(luggageNum);
+            }
+
+            if (luggageWeightTitle != null) {
+                String luggageWeightText = String.valueOf(modelLuggageWeight) + " " + R.string.trip_request_confirm_luggage_text;
+                luggageWeightTitle.setText(String.valueOf(luggageWeightText));
             }
         });
     }

@@ -26,7 +26,11 @@
     <string name="trip_request_hint_enter_location">Enter Location</string>
     <string name="trip_request_luggages">NUMBER OF LUGGAGE</string>
     <string name="trip_request_luggage_weight">TOTAL WEIGHT OF ALL LUGGAGE (KG)</string>
+
     <string name="trip_request_confirm">Confirm</string>
+    <string name="trip_request_confirm_luggage_text">Luggages</string>
+    <string name="trip_request_confirm_luggage_KG_text">KG Total</string>
+
     <string name="trip_request_bidding_main_title">Trip Request Bidding</string>
     <string name="trip_request_bidding_cancel">CANCEL REQUEST</string>
     <string name="bidding_ends_in">Bidding ends in</string>
@@ -40,6 +44,11 @@
     <string name="button_ok">OK</string>
 
     <string name="trip_confirmed_main_title">Trip Confirmed</string>
+    <string name="trip_confirmed_porter_otw_msg">Your porter is on the way.</string>
+    <string name="trip_confirmed_porter_arrived_msg">Your porter has arrived.</string>
+    <string name="trip_confirmed_button_start_trip">Start Trip</string>
+    <string name="trip_confirmed_button_start_confirm_trip">Press again to confirm</string>
+    <string name="trip_confirmed_button_cancel_trip">Cancel Trip</string>
 
     <string name="page_title_porter">Porter</string>
     <string name="profile_language">Language</string>
@@ -127,12 +136,6 @@
     <string name="zero_one">01</string>
     <string name="question_mark">\?</string>
     <string name="number_of_luggages">Number of luggages</string>
-    <string name="trip_confirmed">Trip Confirmed</string>
-    <string name="start_trip">Start Trip</string>
-    <string name="your_porter_is_on_the_way">Your porter is on the way.</string>
-    <string name="your_porter_has_arrived">Your porter has arrived.</string>
-    <string name="press_again_to_confirm">Press again to confirm</string>
-    <string name="cancel_trip">Cancel Trip</string>
     <string name="trip_has_already_started_are_you_sure_you_want">Trip has already started. Are you sure you want
     </string>
     <string name="to_cancel">to cancel?</string>

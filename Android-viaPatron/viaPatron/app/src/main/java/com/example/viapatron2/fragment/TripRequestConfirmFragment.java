@@ -91,7 +91,7 @@ public class TripRequestConfirmFragment extends Fragment {
         Log.d(TAG, "setUpViewModel");
 
         // Re-created activities receive the same MyViewModel instance created by the first activity.
-        model = ViewModelProviders.of(getActivity()).get(MyViewModel.class);
+        model = ViewModelProviders.of(mActivity).get(MyViewModel.class);
         userTripRequestSession = model.getUserTripRequestSession();
 
         String modelStationName = userTripRequestSession.getStation();
@@ -129,11 +129,13 @@ public class TripRequestConfirmFragment extends Fragment {
             }
 
             if (luggageTitle != null) {
-                luggageTitle.setText(String.valueOf(modelLuggageNo));
+                String luggageNum = String.valueOf(modelLuggageNo) + " " + R.string.trip_request_confirm_luggage_KG_text;
+                luggageTitle.setText(luggageNum);
             }
 
             if (luggageWeightTitle != null) {
-                luggageWeightTitle.setText(String.valueOf(modelLuggageWeight));
+                String luggageWeightText = String.valueOf(modelLuggageWeight) + " " + R.string.trip_request_confirm_luggage_text;
+                luggageWeightTitle.setText(String.valueOf(luggageWeightText));
             }
         });
     }
