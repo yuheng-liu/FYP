@@ -39,9 +39,9 @@ public class ViaPatronWorkerService extends Service {
         // init manager classes
         // todo: edit instances of managers and importData in DataManager
         dataManager = new DataManager();
-        dataManager.importData();
         socketManager = new SocketManager(dataManager);
 
+//        dataManager.importData();
 //        disposables = new ArrayList<>();
         // add listener
 //        disposables.add(apiManager.addOnSessionCreated(new Consumer<String>() {

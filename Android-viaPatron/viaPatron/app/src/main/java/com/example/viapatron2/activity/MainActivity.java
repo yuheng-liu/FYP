@@ -22,6 +22,7 @@ import androidx.navigation.ui.NavigationUI;
 import com.amazonaws.mobile.client.AWSMobileClient;
 import com.example.viapatron2.R;
 import com.example.viapatron2.app.constants.AppConstants;
+import com.example.viapatron2.app.managers.DataManager;
 import com.example.viapatron2.app.managers.SocketManager;
 import com.example.viapatron2.core.models.MyViewModel;
 import com.example.viapatron2.fragment.ProfileFragment;
@@ -40,6 +41,7 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.M
     private boolean mServiceBounded = false, mServiceConnected = false;
 
     private SocketManager mSocketManager;
+    private DataManager mDataManager;
     private List<Disposable> disposables;
 
     private BottomNavigationView bottomNavigation;
@@ -61,6 +63,7 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.M
         setupViews();
 
         mSocketManager = new SocketManager();
+        mDataManager = new DataManager();
     }
 
     // Google Maps
@@ -230,7 +233,6 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.M
                 disposable.dispose();
             }
         }
-        super.onDestroy();
     }
 
     /*
@@ -288,5 +290,9 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.M
 
     public SocketManager getmSocketManager() {
         return mSocketManager;
+    }
+
+    public DataManager getmDataManager() {
+        return mDataManager;
     }
 }

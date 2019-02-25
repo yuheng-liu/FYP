@@ -15,9 +15,8 @@
     <string name="user_location_access_denied">User Location Access Denied</string>
 
     <string-array name="stations_array">
-        <item>Mumbai Central</item>
-        <item>Chennai Central</item>
-        <item>New Delhi</item>
+        <item>Utown</item>
+        <item>Faculty of Science</item>
     </string-array>
 
     <string name="next">Next</string>

@@ -28,18 +28,18 @@ import com.example.viapatron2.core.models.UserTripRequestSession;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.*;
-import com.google.android.gms.location.places.Place;
 import com.google.android.gms.maps.*;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.PointOfInterest;
 
-import static com.example.viapatron2.app.constants.AppConstants.MAP_CAMERA_ZOOM;
-import static com.example.viapatron2.app.constants.AppConstants.MAP_LOCATION_REQUEST_INTERVAL;
+import static com.example.viapatron2.app.constants.AppConstants.*;
 
 public class HomeFragment extends Fragment
         implements OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener {
+        GoogleApiClient.OnConnectionFailedListener,
+        GoogleMap.OnPoiClickListener {
 
     private static final String TAG = "viaPatron.HomeFragment";
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = AppConstants.PERMISSION_FINE_LOCATION;
@@ -66,9 +66,6 @@ public class HomeFragment extends Fragment
     private Location mLastLocation;
     private Marker mCurrLocationMarker;
     private FusedLocationProviderClient mFusedLocationClient;
-
-    // Google Places Variables
-    private Place originPlace, destPlace;
     private LocationRequest mLocationRequest;
     private boolean hasStartingPointChanged = false;
     private boolean hasEndingPointChanged = false;
@@ -151,6 +148,7 @@ public class HomeFragment extends Fragment
         selectStartingPoint();
 
         mGoogleMap.setMyLocationEnabled(true);
+        mGoogleMap.setOnPoiClickListener(this);
         setMapUiSettings();
 
         mGoogleApiClient = new GoogleApiClient.Builder(mActivity)
@@ -160,7 +158,6 @@ public class HomeFragment extends Fragment
                 .build();
 
         mGoogleApiClient.connect();
-        Log.d(TAG, "Client isConnecting = " + mGoogleApiClient.isConnecting());
         LocationServices.getFusedLocationProviderClient(mActivity).requestLocationUpdates(mLocationRequest, mLocationCallback, null);
     }
 
@@ -171,8 +168,6 @@ public class HomeFragment extends Fragment
         try {
             LocationManager locationManager = (LocationManager)mActivity.getSystemService(Context.LOCATION_SERVICE);
             Location tempLoc = locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
-            Log.d(TAG, "Latitude = " + tempLoc.getLatitude());
-            Log.d(TAG, "Longitude = " + tempLoc.getLongitude());
 
             currentLocation = new LatLng(tempLoc.getLatitude(), tempLoc.getLongitude());
             CameraUpdate update = CameraUpdateFactory.newLatLngZoom(currentLocation, MAP_CAMERA_ZOOM);
@@ -181,33 +176,21 @@ public class HomeFragment extends Fragment
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
 
-//        PlaceDetectionClient detectionClient = Places.getPlaceDetectionClient(mActivity);
-//        if (ActivityCompat.checkSelfPermission(mActivity, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-//            detectionClient.getCurrentPlace(null).addOnCompleteListener(new OnCompleteListener<PlaceLikelihoodBufferResponse>() {
-//                @Override
-//                public void onComplete(@NonNull Task<PlaceLikelihoodBufferResponse> task) {
-//                    try {
-//                        Log.d(TAG, "onComplete");
-//
-////                        Location currentLocation = LocationManager.
-//
-//                        PlaceLikelihoodBufferResponse likelyPlaces = task.getResult();
-//                        originPlace = likelyPlaces.iterator().next().getPlace().freeze();
-//                        hasStartingPointChanged = true;
-////                    getSocketManager().setStartLocation(originPlace.getLatLng());
-//                        likelyPlaces.release();
-//                    } catch (Exception e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-//            });
-//        }
+    private void moveToPoiPoint(double lat, double lng) {
+
+        try {
+            currentLocation = new LatLng(lat, lng);
+            CameraUpdate update = CameraUpdateFactory.newLatLngZoom(currentLocation, MAP_CAMERA_ZOOM);
+            mGoogleMap.moveCamera(update);
+            mMapView.setVisibility(View.VISIBLE);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void setMapUiSettings() {
-
-        Log.d(TAG, "setMapUiSettings");
 
         // Map UI settings
         UiSettings mUiSettings = mGoogleMap.getUiSettings();
@@ -220,9 +203,9 @@ public class HomeFragment extends Fragment
         RelativeLayout.LayoutParams rlp = (RelativeLayout.LayoutParams) locationButton.getLayoutParams();
 
         // position on right bottom
-        rlp.addRule(RelativeLayout.ALIGN_PARENT_TOP, 0);
-        rlp.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
-        rlp.setMargins(0, 0, 50, 50);
+        rlp.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, 0);
+        rlp.addRule(RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.TRUE);
+        rlp.setMargins(0, 50, 50, 50);
     }
 
     private LocationCallback mLocationCallback = new LocationCallback() {
@@ -236,15 +219,10 @@ public class HomeFragment extends Fragment
             for (Location location : locationResult.getLocations()) {
                 // update location
                 currentLocation = new LatLng(location.getLatitude(), location.getLongitude());
-//                if (isServiceBounded()) {
-//                    getDataManager().setCurrentLocation(currentLocation);
-//                }
+                mActivity.getmDataManager().setCurrentLocation(currentLocation);
 
                 // update camera
                 if (!mCameraUpdated) {
-//                    if (isServiceBounded()) {
-//                        getSocketManager().setStartLocation(currentLocation);
-//                    }
                     CameraUpdate update = CameraUpdateFactory.newLatLngZoom(currentLocation, MAP_CAMERA_ZOOM);
                     mGoogleMap.moveCamera(update);
                     mCameraUpdated = true;
@@ -257,7 +235,7 @@ public class HomeFragment extends Fragment
     @Override
     public void onConnected(@Nullable Bundle bundle) {
 
-        Log.d(TAG, "onConnected, clientConnected = " + mGoogleApiClient.isConnected());
+        Log.d(TAG, "onConnected");
 
         mLocationRequest = LocationRequest.create();
         mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
@@ -273,18 +251,25 @@ public class HomeFragment extends Fragment
     }
 
     @Override
-    public void onConnectionSuspended(int i) {
+    public void onPoiClick(PointOfInterest pointOfInterest) {
 
+        Log.d(TAG, "onPoiClick");
+
+        Toast.makeText(mActivity, "Clicked: " +
+                        pointOfInterest.name + "\nPlace ID:" + pointOfInterest.placeId +
+                        "\nLatitude:" + pointOfInterest.latLng.latitude +
+                        " Longitude:" + pointOfInterest.latLng.longitude,
+                Toast.LENGTH_SHORT).show();
     }
 
     @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+    public void onConnectionSuspended(int i) {}
 
-    }
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {}
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
-        Log.d(TAG, "onRequestPermissionsResult");
 
         switch (requestCode) {
             case PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION: {
@@ -297,16 +282,11 @@ public class HomeFragment extends Fragment
                     Toast.makeText(mActivity.getApplicationContext(), R.string.user_location_access_denied, Toast.LENGTH_SHORT).show();
                 }
             }
-
-            // other 'case' lines to check for other
-            // permissions this app might request
         }
     }
 
 
     private void setUpViewModel() {
-
-//        Log.d(TAG, "setUpViewModel");
 
         // Re-created activities receive the same MyViewModel instance created by the first activity.
         model = ViewModelProviders.of(mActivity).get(MyViewModel.class);
@@ -323,10 +303,8 @@ public class HomeFragment extends Fragment
     private void setUpClickable() {
 
         if (stationSpinner != null) {
-
             // Create an ArrayAdapter using the string array and a default spinner layout
-            adapter = ArrayAdapter.createFromResource(mActivity,
-                    R.array.stations_array, android.R.layout.simple_spinner_item);
+            adapter = ArrayAdapter.createFromResource(mActivity, R.array.stations_array, android.R.layout.simple_spinner_item);
 
             // Specify the layout to use when the list of choices appears
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -342,6 +320,18 @@ public class HomeFragment extends Fragment
                     userTripRequestSession = new UserTripRequestSession();
                     userTripRequestSession.setStation(parent.getSelectedItem().toString());
                     model.setRequestSession(userTripRequestSession);
+
+                    switch (parent.getSelectedItem().toString()) {
+
+                        case ("Utown"):
+                            moveToPoiPoint(PLACE_NUS_UTOWN_LAT, PLACE_NUS_UTOWN_LNG);
+                            break;
+                        case("Faculty of Science"):
+                            moveToPoiPoint(PLACE_NUS_FOS_LAT, PLACE_NUS_FOS_LNG);
+                            break;
+                        default:
+                            break;
+                    }
                 }
 
                 @Override
@@ -358,111 +348,11 @@ public class HomeFragment extends Fragment
                 @Override
                 public void onClick(View v) {
                     Log.d(TAG, "onClick, navigating to tripRequestFragment");
-
                     navController.navigate(R.id.navigation_trip_request);
                 }
             });
         }
     }
-
-//    @Override
-//    public void onMapReady(GoogleMap map) {
-//
-//        Log.d(TAG, "onMapReady");
-//        mGoogleMap = map;
-//
-//        mLocationRequest = new LocationRequest();
-//        mLocationRequest.setInterval(5000); // five seconds interval
-//        mLocationRequest.setFastestInterval(5000);
-//        mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
-//
-//        if (ContextCompat.checkSelfPermission(mActivity,
-//                Manifest.permission.ACCESS_FINE_LOCATION)
-//                == PackageManager.PERMISSION_GRANTED) {
-//
-//            //Location Permission already granted
-//            Log.d(TAG, "Location Permission already granted, requesting location updates");
-//            mFusedLocationClient.requestLocationUpdates(mLocationRequest, mLocationCallback, Looper.myLooper());
-//
-//            Log.d(TAG, "Set my location enabled true");
-//            mGoogleMap.setMyLocationEnabled(true);
-//
-//        } else {
-//            //Request Location Permission
-//            checkLocationPermission();
-//        }
-//
-//        mGoogleMap.setMyLocationEnabled(true);
-//        mGoogleMap.setOnMyLocationButtonClickListener(this);
-//        mGoogleMap.setOnMyLocationClickListener(this);
-//    }
-
-//    private void checkLocationPermission() {
-//
-//        Log.d(TAG, "checkLocationPermission");
-//
-//        if (ContextCompat.checkSelfPermission(mActivity, Manifest.permission.ACCESS_FINE_LOCATION)
-//                != PackageManager.PERMISSION_GRANTED) {
-//
-//            // Should we show an explanation?
-//            if (ActivityCompat.shouldShowRequestPermissionRationale(mActivity,
-//                    Manifest.permission.ACCESS_FINE_LOCATION)) {
-//
-//                // Show an explanation to the user *asynchronously* -- don't block
-//                // this thread waiting for the user's response! After the user
-//                // sees the explanation, try again to request the permission.
-//                new AlertDialog.Builder(mActivity)
-//                        .setTitle("Location Permission Needed")
-//                        .setMessage("This app needs the Location permission, please accept to use location functionality")
-//                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-//                            @Override
-//                            public void onClick(DialogInterface dialogInterface, int i) {
-//                                //Prompt the user once explanation has been shown
-//                                ActivityCompat.requestPermissions(mActivity,
-//                                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-//                                        PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
-//                            }
-//                        })
-//                        .create()
-//                        .show();
-//
-//
-//            } else {
-//                // No explanation needed, we can request the permission.
-//                ActivityCompat.requestPermissions(mActivity,
-//                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-//                        PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
-//            }
-//        }
-//    }
-
-//    @Override
-//    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
-//        switch (requestCode) {
-//            case PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION: {
-//                // If request is cancelled, the result arrays are empty.
-//                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-//
-//                    // permission was granted, yay! Do the
-//                    // location-related task you need to do.
-//                    if (ContextCompat.checkSelfPermission(mActivity, Manifest.permission.ACCESS_FINE_LOCATION)
-//                            == PackageManager.PERMISSION_GRANTED) {
-//
-//                        mFusedLocationClient.requestLocationUpdates(mLocationRequest, mLocationCallback, Looper.myLooper());
-//                        mGoogleMap.setMyLocationEnabled(true);
-//                    }
-//
-//                } else {
-//                    // permission denied, boo! Disable the
-//                    // functionality that depends on this permission.
-//                    Toast.makeText(mActivity, "permission denied", Toast.LENGTH_LONG).show();
-//                }
-//            }
-//
-//            // other 'case' lines to check for other
-//            // permissions this app might request
-//        }
-//    }
 
 //    LocationCallback mLocationCallback = new LocationCallback() {
 //        @Override
@@ -494,18 +384,6 @@ public class HomeFragment extends Fragment
 //        }
 //    };
 //
-//    @Override
-//    public void onMyLocationClick(@NonNull Location location) {
-//        Toast.makeText(mActivity, "Current location:\n" + location, Toast.LENGTH_LONG).show();
-//    }
-//
-//    @Override
-//    public boolean onMyLocationButtonClick() {
-//        Toast.makeText(mActivity, "Finding your location..", Toast.LENGTH_SHORT).show();
-//        // Return false so that we don't consume the event and the default behavior still occurs
-//        // (the camera animates to the user's current position).
-//        return false;
-//    }
 
     @Override
     public void onStart() {

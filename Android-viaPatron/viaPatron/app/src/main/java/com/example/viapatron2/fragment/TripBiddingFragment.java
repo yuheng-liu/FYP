@@ -25,6 +25,7 @@ import com.example.viapatron2.R;
 import com.example.viapatron2.activity.MainActivity;
 import com.example.viapatron2.core.models.MyViewModel;
 import com.example.viapatron2.core.models.PorterBidRequest;
+import com.example.viapatron2.core.models.Trip;
 import com.example.viapatron2.core.models.UserTripRequestSession;
 import com.github.nkzawa.socketio.client.Socket;
 import io.reactivex.functions.Consumer;
@@ -53,11 +54,18 @@ public class TripBiddingFragment extends Fragment {
     private TextView priceTitle;
     private AlertDialog warningDialog;
 
+    // model
+    String modelStationName;
+    String modelToLocation;
+    String modelFromLocation;
+    int modelLuggageNo;
+
     private UserTripRequestSession userTripRequestSession;
 
     // items
     private CountDownTimer countDownTimer;
     private boolean isCountingDown = false;
+
 
     public TripBiddingFragment() {
         // Empty constructor
@@ -145,10 +153,10 @@ public class TripBiddingFragment extends Fragment {
         model = ViewModelProviders.of(mActivity).get(MyViewModel.class);
         userTripRequestSession = model.getUserTripRequestSession();
 
-        String modelStationName = userTripRequestSession.getStation();
-        String modelToLocation = userTripRequestSession.getToLocation();
-        String modelFromLocation = userTripRequestSession.getFromLocation();
-        int modelLuggageNo = userTripRequestSession.getNoOfLuggage();
+        modelStationName = userTripRequestSession.getStation();
+        modelToLocation = userTripRequestSession.getToLocation();
+        modelFromLocation = userTripRequestSession.getFromLocation();
+        modelLuggageNo = userTripRequestSession.getNoOfLuggage();
 
         model.getRequestSession().observe(this, users -> {
 
@@ -197,12 +205,15 @@ public class TripBiddingFragment extends Fragment {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
 
+                                // todo: send socket msg on acceptance to viaPorter
+                                mActivity.getmSocketManager().acceptBidder(setTrip());
                                 navController.navigate(R.id.navigation_trip_confirmed);
                             }
                         })
                         .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
+                                // do nothing
                                 return;
                             }
                         })
@@ -226,6 +237,15 @@ public class TripBiddingFragment extends Fragment {
 
             }
         }));
+    }
+
+    private Trip setTrip() {
+
+        Trip tripSession = new Trip();
+        tripSession.setPatronLocation(mActivity.getmDataManager().getCurrentLocation());
+        tripSession.setPickupLocation(modelFromLocation);
+        tripSession.setDropoffLocation(modelToLocation);
+        return tripSession;
     }
 
     @Override

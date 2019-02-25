@@ -3,6 +3,7 @@ package com.example.viapatron2.app.managers;
 import android.util.Log;
 import com.example.viapatron2.app.constants.AppConstants;
 import com.example.viapatron2.core.models.PorterBidRequest;
+import com.example.viapatron2.core.models.Trip;
 import com.example.viapatron2.core.models.UserTripRequestSession;
 import com.github.nkzawa.emitter.Emitter;
 import com.github.nkzawa.socketio.client.IO;
@@ -106,13 +107,22 @@ public class SocketManager {
             }
         });
 
-
+        
     }
 
     public void sendRideRequest(UserTripRequestSession tripRequestInfo) {
         try {
             JSONObject data = new JSONObject(gson.toJson(tripRequestInfo));
             getSocket().emit("trip_request", data);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void acceptBidder(Trip tripSessionInfo) {
+        try {
+            JSONObject data = new JSONObject(gson.toJson(tripSessionInfo));
+            getSocket().emit("accept_bidder", data);
         } catch (JSONException e) {
             e.printStackTrace();
         }
