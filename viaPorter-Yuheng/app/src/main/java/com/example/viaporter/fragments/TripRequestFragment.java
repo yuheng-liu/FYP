@@ -11,12 +11,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.viaporter.CallbackListener;
 import com.example.viaporter.MainActivity;
 import com.example.viaporter.adapters.BroadcastAdapter;
 import com.example.viaporter.R;
 import com.example.viaporter.managers.DataManager;
 import com.example.viaporter.managers.SocketManager;
 import com.example.viaporter.models.PatronTripRequest;
+import com.example.viaporter.models.PorterBidRequest;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.List;
 
@@ -34,6 +39,8 @@ public class TripRequestFragment extends Fragment {
 
     private RecyclerView mBidderView;
     private BroadcastAdapter mBroadcastAdapter;
+
+    private PatronTripRequest selectedBidRequest;
 
     public TripRequestFragment() {} // Empty constructor
 
@@ -56,6 +63,7 @@ public class TripRequestFragment extends Fragment {
         setUpViews();
         setupSocket();
         setupSocketListeners();
+        setupButtonListeners();
     }
 
     private void setUpViews() {
@@ -65,6 +73,11 @@ public class TripRequestFragment extends Fragment {
         mBidderView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mBroadcastAdapter = new BroadcastAdapter();
         mBidderView.setAdapter(mBroadcastAdapter);
+
+        // For testing purposes
+        PatronTripRequest testData = new PatronTripRequest("testName", "testStart",
+                "testEnd", 5, 50);
+        mBroadcastAdapter.addToDataSet(testData);
     }
 
     private void setupSocket() {
@@ -84,6 +97,30 @@ public class TripRequestFragment extends Fragment {
                 });
             }
         }));
+    }
+
+    private void setupButtonListeners() {
+        mBroadcastAdapter.setOnPositiveButtonClicked(new CallbackListener<PatronTripRequest>() {
+            @Override
+            public void accept(PatronTripRequest data) {
+                selectedBidRequest = data;
+                try {
+                    JSONObject msg = new JSONObject();
+                    msg.put("porter_name", "yuheng");
+                    msg.put("bid_amount", "$10");
+                    socketManager.emitJSON("bid_request",msg);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        mBroadcastAdapter.setOnNegativeButtonClicked(new CallbackListener<PatronTripRequest>() {
+            @Override
+            public void accept(PatronTripRequest data) {
+                selectedBidRequest = data;
+            }
+        });
     }
 
     @Override

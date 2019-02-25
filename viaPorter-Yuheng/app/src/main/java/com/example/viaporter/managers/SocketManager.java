@@ -77,6 +77,8 @@ public class SocketManager {
         socket.emit(event, msg);
     }
 
+    public void emitJSON(String event, JSONObject msg) { socket.emit(event, msg); }
+
     // listening methods
     public Disposable addOnPatronTripRequest(Consumer<PatronTripRequest> onSuccess){
         return patronTripRequestRelay.subscribe(onSuccess);
@@ -89,13 +91,7 @@ public class SocketManager {
             public void call(final Object... args) {
                 JSONObject data = (JSONObject) args[0];
                 PatronTripRequest newRequest = gson.fromJson(data.toString(), PatronTripRequest.class);
-                dataManager.addPatronTripRequest(newRequest);
                 patronTripRequestRelay.accept(newRequest);
-//                Log.d(TAG, "trip request received");
-//                Log.d(TAG, newRequest.getTrainStationName());
-//                Log.d(TAG, newRequest.getTripStartLocation());
-//                Log.d(TAG, newRequest.getTripEndLocation());
-//                Log.d(TAG, String.valueOf(newRequest.getNumberOfLuggage()));
             }
         });
     }

@@ -29,4 +29,12 @@ public class PatronTripRequest {
     public String getTripEndLocation() { return tripEndLocation; }
     public int getNumberOfLuggage() { return numberOfLuggage; }
     public int getTotalLuggageWeight() { return totalLuggageWeight; }
+
+    public PatronTripRequest(String name, String start, String end, int luggage, int weight) {
+        trainStationName = name;
+        tripStartLocation = start;
+        tripEndLocation = end;
+        numberOfLuggage = luggage;
+        totalLuggageWeight = weight;
+    }
 }

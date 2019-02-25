@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.viaporter.CallbackListener;
 import com.example.viaporter.R;
 import com.example.viaporter.managers.DataManager;
 import com.example.viaporter.models.PatronTripRequest;
@@ -17,6 +18,8 @@ import java.util.List;
 
 public class BroadcastAdapter extends RecyclerView.Adapter<BroadcastAdapter.ViewHolder> {
     private List<PatronTripRequest> mBroadcastDataSet;
+    private CallbackListener<PatronTripRequest> mOnPositiveButtonClicked;
+    private CallbackListener<PatronTripRequest> mOnNegativeButtonClicked;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -26,6 +29,8 @@ public class BroadcastAdapter extends RecyclerView.Adapter<BroadcastAdapter.View
         public TextView endLocation;
         public TextView numLuggage;
         public TextView totalLuggageWeight;
+        public View mPositiveButton;
+        public View mNegativeButton;
 
         ViewHolder(View view) {
             super(view);
@@ -47,6 +52,15 @@ public class BroadcastAdapter extends RecyclerView.Adapter<BroadcastAdapter.View
         mBroadcastDataSet.addAll(tripRequests);
     }
 
+    // Positive and negative button handler
+    public void setOnPositiveButtonClicked(CallbackListener<PatronTripRequest> onPositiveButtonClicked) {
+        mOnPositiveButtonClicked = onPositiveButtonClicked;
+    }
+
+    public void setOnNegativeButtonClicked(CallbackListener<PatronTripRequest> onNegativeButtonClicked) {
+        mOnNegativeButtonClicked = onNegativeButtonClicked;
+    }
+
     @NonNull
     @Override
     public BroadcastAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -64,6 +78,8 @@ public class BroadcastAdapter extends RecyclerView.Adapter<BroadcastAdapter.View
         vh.endLocation = itemView.findViewById(R.id.broadcast_end_location);
         vh.numLuggage = itemView.findViewById(R.id.broadcast_number_of_luggage);
         vh.totalLuggageWeight = itemView.findViewById(R.id.broadcast_total_luggage_weight);
+        vh.mPositiveButton = itemView.findViewById(R.id.positiveButton);
+        vh.mNegativeButton = itemView.findViewById(R.id.negativeButton);
 
         return vh;
     }
@@ -79,6 +95,26 @@ public class BroadcastAdapter extends RecyclerView.Adapter<BroadcastAdapter.View
         holder.endLocation.setText(itemData.getTripEndLocation());
         holder.numLuggage.setText(String.valueOf(itemData.getNumberOfLuggage()));
         holder.totalLuggageWeight.setText(String.valueOf(itemData.getTotalLuggageWeight()));
+
+        holder.mPositiveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (mOnPositiveButtonClicked == null) {
+                    return;
+                }
+                mOnPositiveButtonClicked.accept(itemData);
+            }
+        });
+
+        holder.mNegativeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (mOnNegativeButtonClicked == null) {
+                    return;
+                }
+                mOnNegativeButtonClicked.accept(itemData);
+            }
+        });
     }
 
     @Override

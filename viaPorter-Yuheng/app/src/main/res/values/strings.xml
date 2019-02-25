@@ -29,5 +29,8 @@
     <string name="profile_currency">Currency</string>
     <string name="profile_reminders">Reminder</string>
     <string name="profile_privacy_policy">Privacy Policy</string>
+    <string name="withdraw">Withdraw</string>
+    <string name="change">Change</string>
+    <string name="bid">Bid</string>
 
 </resources>

@@ -15,11 +15,11 @@ io.on('connection', function(socket) {
 		console.log(userNickname +" : has joined");
 	})
 
-	// Event for trip accept
-	socket.on('trip_accept', function(tripAccept) {
-		console.log("tripAccept received");
-		
-		socket.broadcast.emit('porter_trip_accept', tripAccept);
+	// Event for bid request
+	socket.on('bid_request', function(bidRequest) {
+		console.log("bidRequest received");
+		console.log(bidRequest);
+		socket.broadcast.emit('porter_bid_request', bidRequest);
 	})
 
 	// Event for trip request
