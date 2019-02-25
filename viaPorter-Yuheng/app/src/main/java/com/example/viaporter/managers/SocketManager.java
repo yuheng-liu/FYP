@@ -1,8 +1,6 @@
 package com.example.viaporter.managers;
 
-import android.util.Log;
-
-import com.example.viaporter.constants.APIEndPoints;
+import com.example.viaporter.constants.AppConstants;
 import com.example.viaporter.models.PatronTripRequest;
 
 import com.github.nkzawa.emitter.Emitter;
@@ -53,7 +51,7 @@ public class SocketManager {
 
     public void connectSocket() {
         try {
-            socket = IO.socket(APIEndPoints.localhost_URL);
+            socket = IO.socket(AppConstants.LOCAL_HOST_URL);
             socket.connect();
             prepareListeners();
         } catch (URISyntaxException e) {

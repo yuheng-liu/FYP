@@ -32,5 +32,7 @@
     <string name="withdraw">Withdraw</string>
     <string name="change">Change</string>
     <string name="bid">Bid</string>
+    <string name="porter">Porter</string>
+    <string name="user_location_access_denied">User Location Access Denied</string>
 
 </resources>

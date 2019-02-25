@@ -3,39 +3,43 @@ const server = require('http').Server(app);
 const io = require('socket.io')(server);
 
 app.get('/', (req, res) => {
-	res.send('Chat Server is running on port 3000')
+	res.send('Server is running on port 3000')
 });
 
-io.on('connection', function(socket) {
-	// Show new connection
-	console.log('A new user connected!!!');
-
+io.on('connection', (socket) => {
 	// Handle event 'Join'
-	socket.on('join', function(userNickname) {
-		console.log(userNickname +" : has joined");
+	socket.on('join', (userNickname) => {
+		console.log(userNickname +" : has joined server");
+		socket.userNickname = userNickname;
 	})
 
-	// Event for bid request
-	socket.on('bid_request', function(bidRequest) {
+	/* 					  *
+	 * Events from Porter *
+	 *					  */
+	socket.on('bid_request', (bidRequest) => {
 		console.log("bidRequest received");
-		console.log(bidRequest);
 		socket.broadcast.emit('porter_bid_request', bidRequest);
 	})
 
-	// Event for trip request
-	socket.on('trip_request', function(tripRequest){
+	/* 					  *
+	 * Events from Patron *
+	 *					  */
+	socket.on('trip_request', (tripRequest) => {
 		console.log("tripRequest received");
-
 		socket.broadcast.emit('patron_trip_request', tripRequest);
 	})
 
+	socket.on('accept_bidder', (acceptBidder) => {
+		console.log("acceptBidder received");
+		socket.broadcast.emit('patron_accept_bidder', acceptBidder);
+	})
+
 	// Handle event 'disconnect'
-	socket.on('disconnect', function(userNickname) {
-    	console.log(userNickname +" : has left")
-    	// socket.broadcast.emit( "userdisconnect" ,userNickname +' user has left')
+	socket.on('disconnect', () => {
+    	console.log(socket.userNickname +" : has disconnected from server");
     })
 });
 
-server.listen(3000, function(){
+server.listen(3000, () => {
 	console.log('Server is listening on port 3000');
 });
