@@ -16,14 +16,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 import androidx.navigation.NavController;
+import androidx.navigation.NavDestination;
 import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
-import androidx.navigation.ui.NavigationUI;
 import com.amazonaws.mobile.client.AWSMobileClient;
 import com.example.viapatron2.R;
 import com.example.viapatron2.app.constants.AppConstants;
 import com.example.viapatron2.app.managers.DataManager;
 import com.example.viapatron2.app.managers.SocketManager;
+import com.example.viapatron2.core.models.BotNavState;
 import com.example.viapatron2.core.models.MyViewModel;
 import com.example.viapatron2.fragment.ProfileFragment;
 import com.example.viapatron2.service.ViaPatronWorkerService;
@@ -34,7 +35,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements ProfileFragment.MyProfileFragmentListener {
 
-    private static final String TAG = "viaPatron.MainActivity";
+    private static final String TAG = "MainActivity";
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = AppConstants.PERMISSION_FINE_LOCATION;
 
     private ViaPatronWorkerService mService;
@@ -47,6 +48,9 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.M
     private BottomNavigationView bottomNavigation;
     private NavHostFragment navHostFragment;
     private NavController navController;
+    private BotNavState botNavState;
+    private boolean isNavBottom = false;
+    private NavDestination tempNavDest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -145,11 +149,13 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.M
         // Initialise a navigation controller for controlling navigation
         navController = Navigation.findNavController(findViewById(R.id.my_nav_host_fragment));
 
+        botNavState = BotNavState.TRIP_STATE;
+
         // todo: implement custom navigator here to fix fragment back stack reset bug
         //navController.getNavigatorProvider();
 
         // Pair navigation controller with the bottom navigation bar
-        NavigationUI.setupWithNavController(bottomNavigation, navController);
+//        NavigationUI.setupWithNavController(bottomNavigation, navController);
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -162,21 +168,52 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.M
                 case R.id.navigation_trip:
                     Log.d(TAG, "selected trip");
 
-                    // todo: save fragments if exit trip ui flow halfway
-                    // todo: currently these methods are not executing. Suspect due to setupWithNavController (betw botNav and NavController)
-                    navController.navigate(R.id.navigation_trip);
+                    if (isNavBottom) {
+                        if (tempNavDest != null) {
+                            navController.popBackStack(tempNavDest.getId(), false);
+                            botNavState = BotNavState.TRIP_STATE;
+                        }
+                    } else {
+                        Log.d(TAG, "navigating to trip directly");
+                        navController.navigate(R.id.navigation_trip);
+                        botNavState = BotNavState.TRIP_STATE;
+                    }
 
                     return true;
                 case R.id.navigation_chats:
                     Log.d(TAG, "selected chat");
 
-                    navController.navigate(R.id.navigation_chats);
+                    if (botNavState == BotNavState.PROFILE_STATE || botNavState == BotNavState.CHAT_STATE) {
+                        navController.navigate(R.id.navigation_chats);
+                        botNavState = BotNavState.CHAT_STATE;
+                    } else {
+                        // Coming from trip fragment.
+                        // Save destination for returning later.
+                        tempNavDest = navController.getCurrentDestination();
+                        if (tempNavDest != null) {
+                            isNavBottom = true;
+                        }
+                        navController.navigate(R.id.navigation_chats);
+                        botNavState = BotNavState.CHAT_STATE;
+                    }
 
                     return true;
                 case R.id.navigation_profile:
                     Log.d(TAG, "selected profile");
 
-                    navController.navigate(R.id.navigation_profile);
+                    if (botNavState == BotNavState.CHAT_STATE || botNavState == BotNavState.PROFILE_STATE) {
+                        navController.navigate(R.id.navigation_profile);
+                        botNavState = BotNavState.PROFILE_STATE;
+                    } else {
+                        // Coming from trip fragment.
+                        // Save destination for returning later.
+                        tempNavDest = navController.getCurrentDestination();
+                        if (tempNavDest != null) {
+                            isNavBottom = true;
+                        }
+                        navController.navigate(R.id.navigation_profile);
+                        botNavState = BotNavState.PROFILE_STATE;
+                    }
 
                     return true;
             }
