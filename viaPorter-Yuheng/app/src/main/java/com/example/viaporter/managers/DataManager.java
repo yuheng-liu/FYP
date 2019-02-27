@@ -16,6 +16,11 @@ public class DataManager {
     // Private constructor //
     private DataManager() {
         resetData();
+
+        // For testing purposes
+        PatronTripRequest testData = new PatronTripRequest("testName", "testStart",
+                "testEnd", 5, 50);
+        patronTripRequestList.add(testData);
     }
     // Static inner class are not loaded until they are referenced
     private static class dataManagerholder {

@@ -50,6 +50,7 @@ public class BroadcastAdapter extends RecyclerView.Adapter<BroadcastAdapter.View
     public void resetDataSetWith(Collection<PatronTripRequest> tripRequests) {
         mBroadcastDataSet.clear();
         mBroadcastDataSet.addAll(tripRequests);
+        notifyDataSetChanged();
     }
 
     // Positive and negative button handler

@@ -73,11 +73,6 @@ public class TripRequestFragment extends Fragment {
         mBidderView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mBroadcastAdapter = new BroadcastAdapter();
         mBidderView.setAdapter(mBroadcastAdapter);
-
-        // For testing purposes
-        PatronTripRequest testData = new PatronTripRequest("testName", "testStart",
-                "testEnd", 5, 50);
-        mBroadcastAdapter.addToDataSet(testData);
     }
 
     private void setupSocket() {
@@ -92,7 +87,7 @@ public class TripRequestFragment extends Fragment {
                 mActivity.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        mBroadcastAdapter.addToDataSet(tripRequest);
+                        mBroadcastAdapter.resetDataSetWith(dataManager.getPatronTripRequestList());
                     }
                 });
             }

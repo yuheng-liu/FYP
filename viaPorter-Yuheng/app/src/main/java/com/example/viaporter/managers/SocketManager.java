@@ -89,6 +89,7 @@ public class SocketManager {
             public void call(final Object... args) {
                 JSONObject data = (JSONObject) args[0];
                 PatronTripRequest newRequest = gson.fromJson(data.toString(), PatronTripRequest.class);
+                dataManager.addPatronTripRequest(newRequest);
                 patronTripRequestRelay.accept(newRequest);
             }
         });

@@ -33,7 +33,7 @@ import com.google.android.gms.maps.model.Marker;
 
 import static com.example.viaporter.constants.AppConstants.MAP_CAMERA_ZOOM;
 import static com.example.viaporter.constants.AppConstants.MAP_LOCATION_REQUEST_INTERVAL;
-import static com.example.viaporter.constants.AppConstants.PERMISSIONS_FINE_LOCATION;
+import static com.example.viaporter.constants.AppConstants.PERMISSION_FINE_LOCATION;
 
 public class HomeFragment extends Fragment
         implements OnMapReadyCallback,
@@ -109,7 +109,7 @@ public class HomeFragment extends Fragment
         // Check permission to get User's location
         if (ContextCompat.checkSelfPermission(mActivity, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(mActivity, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
-                    PERMISSIONS_FINE_LOCATION);
+                    PERMISSION_FINE_LOCATION);
             return;
         }
 
@@ -175,9 +175,6 @@ public class HomeFragment extends Fragment
 
         @Override
         public void onLocationResult(LocationResult locationResult) {
-
-            Log.d(TAG, "onLocationResult");
-
             for (Location location : locationResult.getLocations()) {
                 // update location
                 currentLocation = new LatLng(location.getLatitude(), location.getLongitude());
@@ -232,7 +229,7 @@ public class HomeFragment extends Fragment
         Log.d(TAG, "onRequestPermissionsResult");
 
         switch (requestCode) {
-            case PERMISSIONS_FINE_LOCATION: {
+            case PERMISSION_FINE_LOCATION: {
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     // permission was granted

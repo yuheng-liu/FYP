@@ -35,14 +35,19 @@
             <ImageButton
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:background="@drawable/circle_profile"/>
+                android:id="@+id/upload_pic_button"
+                android:background="@drawable/circle_profile"
+                android:clickable="true"
+                android:focusable="true"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:id="@+id/upload_pic_text"
                 android:text="PIC"
-                android:textSize="14sp"/>
+                android:textSize="14sp"
+                android:visibility="visible"/>
         </FrameLayout>
 
         <LinearLayout

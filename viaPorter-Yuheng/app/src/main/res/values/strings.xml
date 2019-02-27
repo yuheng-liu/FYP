@@ -34,5 +34,6 @@
     <string name="bid">Bid</string>
     <string name="porter">Porter</string>
     <string name="user_location_access_denied">User Location Access Denied</string>
+    <string name="profile_sign_out_msg">Are you sure you want to sign out?</string>
 
 </resources>
