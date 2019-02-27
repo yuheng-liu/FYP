@@ -182,12 +182,12 @@ public class TripBiddingFragment extends Fragment {
             }
 
             if (luggageTitle != null) {
-                String luggageNum = String.valueOf(modelLuggageNo) + " " + R.string.trip_request_confirm_luggage_KG_text;
+                String luggageNum = String.valueOf(modelLuggageNo) + " " + getResources().getString(R.string.trip_request_confirm_luggage_text);
                 luggageTitle.setText(luggageNum);
             }
 
             if (luggageWeightTitle != null) {
-                String luggageWeightText = String.valueOf(modelLuggageWeight) + " " + R.string.trip_request_confirm_luggage_text;
+                String luggageWeightText = String.valueOf(modelLuggageWeight) + " " + getResources().getString(R.string.trip_request_confirm_luggage_KG_text);
                 luggageWeightTitle.setText(String.valueOf(luggageWeightText));
             }
         });
@@ -201,6 +201,15 @@ public class TripBiddingFragment extends Fragment {
         RecyclerView.LayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         mBidderView.setLayoutManager(linearLayoutManager);
         mBidderAdapter = new BidderAdapter(mActivity.getService().getDataManager());
+
+        // TODO: remove below part after testing
+        // START OF TESTING SEGMENT
+        PorterBidRequest testPorterBidRequest = new PorterBidRequest();
+        testPorterBidRequest.setPorterName("Allen");
+        testPorterBidRequest.setBidAmount("$2");
+        mBidderAdapter.addToDataSet(testPorterBidRequest);
+        // END OF TESTING SEGMENT
+
 
         mBidderAdapter.setOnPositiveButtonClicked(new CallbackListener<PorterBidRequest>() {
             @Override
@@ -217,6 +226,9 @@ public class TripBiddingFragment extends Fragment {
 
                                 // todo: send socket msg on acceptance to viaPorter
                                 mActivity.getmSocketManager().acceptBidder(setTrip());
+                                if (countDownTimer != null) {
+                                    countDownTimer.cancel();
+                                }
                                 navController.navigate(R.id.navigation_trip_confirmed);
                             }
                         })
@@ -244,7 +256,6 @@ public class TripBiddingFragment extends Fragment {
                         mBidderAdapter.addToDataSet(bidRequest);
                     }
                 });
-
             }
         }));
     }
@@ -284,10 +295,11 @@ public class TripBiddingFragment extends Fragment {
             @Override
             public void onFinish() {
                 // todo: upon timer end, end bidding appropriately
-                //getSocketManager().stopBidding(currentRideRequest.getRideRequestId());
-                Socket socket = mActivity.getmSocketManager().getSocket();
-                socket.emit("disconnect", "viaPatron");
-                navController.navigateUp();
+                if (mActivity.getmSocketManager().stopBidding("tempid")) {
+                    navController.navigateUp();
+//                Socket socket = mActivity.getmSocketManager().getSocket();
+//                socket.emit("disconnect", "viaPatron");
+                }
             }
         };
 
@@ -303,7 +315,6 @@ public class TripBiddingFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-
         Log.d(TAG, "onResume " + isCountingDown);
 
         if (!isCountingDown) {
@@ -313,12 +324,16 @@ public class TripBiddingFragment extends Fragment {
 
     @Override
     public void onPause() {
+        Log.d(TAG, "onPause");
         super.onPause();
-
     }
 
     @Override
     public void onDestroy() {
+        Log.d(TAG, "onDestroy");
+        if (countDownTimer != null) {
+            countDownTimer.cancel();
+        }
         super.onDestroy();
     }
 }

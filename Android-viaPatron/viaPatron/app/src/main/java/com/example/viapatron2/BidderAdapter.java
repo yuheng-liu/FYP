@@ -18,6 +18,7 @@ public class BidderAdapter extends RecyclerView.Adapter<BidderAdapter.ViewHolder
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
+        public TextView bidderIndex;
         public TextView bidderName;
         public TextView bidAmount;
         View mPositiveButton, mNegativeButton;
@@ -70,6 +71,7 @@ public class BidderAdapter extends RecyclerView.Adapter<BidderAdapter.ViewHolder
         // set the view's size, margins, padding and layout parameters...
         ViewHolder vh = new ViewHolder(itemView);
 
+        vh.bidderIndex = itemView.findViewById(R.id.bidding_porter_index);
         vh.bidderName = itemView.findViewById(R.id.bidding_porter_name);
         vh.bidAmount = itemView.findViewById(R.id.bid_amount);
         vh.mPositiveButton = itemView.findViewById(R.id.positiveButton);
@@ -82,18 +84,23 @@ public class BidderAdapter extends RecyclerView.Adapter<BidderAdapter.ViewHolder
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         final PorterBidRequest itemData = mBidderDataset.get(position);
 
-        holder.bidderName.setText(itemData.getPorterName());
-        holder.bidAmount.setText(String.valueOf(itemData.getBidAmount()));
-
-        holder.mPositiveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (mOnPositiveButtonClicked == null) {
-                    return;
+        try {
+            int indexPos = position + 1;
+            holder.bidderIndex.setText(String.valueOf(indexPos));
+            holder.bidderName.setText(itemData.getPorterName());
+            holder.bidAmount.setText(String.valueOf(itemData.getBidAmount()));
+            holder.mPositiveButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (mOnPositiveButtonClicked == null) {
+                        return;
+                    }
+                    mOnPositiveButtonClicked.accept(itemData);
                 }
-                mOnPositiveButtonClicked.accept(itemData);
-            }
-        });
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

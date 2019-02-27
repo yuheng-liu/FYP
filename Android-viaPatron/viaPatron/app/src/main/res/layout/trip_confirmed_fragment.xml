@@ -3,7 +3,17 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-      android:layout_height="match_parent">
+        android:layout_height="match_parent">
+
+    <fragment
+            xmlns:map="http://schemas.android.com/apk/res-auto"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:id="@+id/google_map_confirmed"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            map:mapType="normal"
+            map:uiCompass="true"
+            tools:ignore="MissingPrefix"/>
 
     <LinearLayout
             android:layout_width="match_parent"
@@ -31,7 +41,7 @@
                 android:id="@+id/notification_porter_on_the_way"
                 android:visibility="visible"
                 android:background="@color/colorAccent"
-                android:alpha="0.7"
+                android:alpha="0.85"
                 android:padding="10dp">
 
             <TextView
@@ -48,8 +58,8 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/notification_porter_arrived"
                 android:visibility="gone"
-                android:background="@color/colorAccent"
-                android:alpha="0.5"
+                android:background="@color/colorSuccess"
+                android:alpha="0.85"
                 android:padding="10dp">
 
             <TextView
@@ -60,24 +70,13 @@
                     android:textColor="@color/colorWhite"
                     android:textSize="16sp"/>
         </FrameLayout>
-
     </LinearLayout>
-
-    <fragment
-            xmlns:map="http://schemas.android.com/apk/res-auto"
-            android:name="com.google.android.gms.maps.SupportMapFragment"
-            android:id="@+id/google_map_confirmed"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            map:mapType="normal"
-            map:uiCompass="true"
-            tools:ignore="MissingPrefix"/>
 
     <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|center"
-            android:layout_marginBottom="50dp"
+            android:layout_marginBottom="55dp"
             android:orientation="vertical">
 
         <Button
@@ -86,6 +85,7 @@
                 android:layout_marginBottom="10dp"
                 android:id="@+id/button_start_official_trip"
                 android:background="@drawable/rounded_corner_accent"
+                android:visibility="visible"
                 android:text="@string/trip_confirmed_button_start_trip"
                 android:textSize="13sp"
                 android:textColor="@color/colorWhite"/>
@@ -96,9 +96,20 @@
                 android:layout_marginBottom="10dp"
                 android:id="@+id/button_cancel_official_trip"
                 android:background="@drawable/rounded_corner_red_alert"
+                android:visibility="visible"
                 android:text="@string/trip_confirmed_button_cancel_trip"
                 android:textSize="13sp"
                 android:textColor="@color/colorWhite"/>
-    </LinearLayout>
 
+        <Button
+                android:layout_width="250dp"
+                android:layout_height="46dp"
+                android:layout_marginBottom="10dp"
+                android:id="@+id/button_stop_official_trip"
+                android:background="@drawable/rounded_corner_warning"
+                android:visibility="gone"
+                android:text="@string/trip_confirmed_button_stop_trip"
+                android:textSize="13sp"
+                android:textColor="@color/colorWhite"/>
+    </LinearLayout>
 </FrameLayout>

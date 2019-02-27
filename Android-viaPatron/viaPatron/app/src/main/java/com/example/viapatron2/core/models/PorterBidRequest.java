@@ -14,4 +14,12 @@ public class PorterBidRequest {
 
     public String getPorterName() { return porterName; }
     public String getBidAmount() { return bidAmount; }
+
+    public void setPorterName(String porterName) {
+        this.porterName = porterName;
+    }
+
+    public void setBidAmount(String bidAmount) {
+        this.bidAmount = bidAmount;
+    }
 }

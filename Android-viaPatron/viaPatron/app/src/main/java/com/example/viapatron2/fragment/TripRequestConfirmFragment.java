@@ -129,12 +129,12 @@ public class TripRequestConfirmFragment extends Fragment {
             }
 
             if (luggageTitle != null) {
-                String luggageNum = String.valueOf(modelLuggageNo) + " " + R.string.trip_request_confirm_luggage_KG_text;
+                String luggageNum = String.valueOf(modelLuggageNo) + " " + getResources().getString(R.string.trip_request_confirm_luggage_text);
                 luggageTitle.setText(luggageNum);
             }
 
             if (luggageWeightTitle != null) {
-                String luggageWeightText = String.valueOf(modelLuggageWeight) + " " + R.string.trip_request_confirm_luggage_text;
+                String luggageWeightText = String.valueOf(modelLuggageWeight) + " " + getResources().getString(R.string.trip_request_confirm_luggage_KG_text);
                 luggageWeightTitle.setText(String.valueOf(luggageWeightText));
             }
         });

@@ -106,8 +106,6 @@ public class SocketManager {
                 Log.d(TAG, newRequest.getBidAmount());
             }
         });
-
-        
     }
 
     public void sendRideRequest(UserTripRequestSession tripRequestInfo) {
@@ -126,5 +124,17 @@ public class SocketManager {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    public boolean stopBidding(String patronBidRequestId) {
+        try {
+            JSONObject data = new JSONObject();
+            data.put("patron_bid_request_id", patronBidRequestId);
+            getSocket().emit("stop_bidding", data);
+            return true;
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }

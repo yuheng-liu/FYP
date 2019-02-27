@@ -1,6 +1,7 @@
 package com.example.viapatron2.fragment;
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Build;
@@ -10,6 +11,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,6 +34,7 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.*;
 import com.google.android.gms.maps.model.LatLng;
 
+import static android.view.View.GONE;
 import static com.example.viapatron2.app.constants.AppConstants.*;
 
 public class TripConfirmedFragment extends Fragment
@@ -51,9 +54,11 @@ public class TripConfirmedFragment extends Fragment
     private FrameLayout notifyGreen;
     private Button startTripButton;
     private Button cancelTripButton;
+    private Button stopTripButton;
 
     // Local variables
     private boolean isStartButtonPressed = false;
+    private boolean isPorterNearby = false;
 
     // Location Services variables
     private SupportMapFragment mapFragment;
@@ -96,7 +101,7 @@ public class TripConfirmedFragment extends Fragment
 
         Log.d(TAG, "setUpMap");
         try {
-            mapFragment = (SupportMapFragment) this.getChildFragmentManager().findFragmentById(R.id.google_map);
+            mapFragment = (SupportMapFragment) this.getChildFragmentManager().findFragmentById(R.id.google_map_confirmed);
             mMapView = mapFragment.getView();
             if (mapFragment != null) {
                 mapFragment.getMapAsync(this);
@@ -143,6 +148,7 @@ public class TripConfirmedFragment extends Fragment
     private void selectStartingPoint() {
         try {
             currentLocation = mActivity.getmDataManager().getCurrentLocation();
+            Log.d(TAG, "selectStartingPoint, currentLocation = " + currentLocation.toString());
             CameraUpdate update = CameraUpdateFactory.newLatLngZoom(currentLocation, MAP_CAMERA_ZOOM);
             mGoogleMap.moveCamera(update);
             mMapView.setVisibility(View.VISIBLE);
@@ -225,20 +231,8 @@ public class TripConfirmedFragment extends Fragment
         notifyGreen = mActivity.findViewById(R.id.notification_porter_arrived);
         startTripButton = mActivity.findViewById(R.id.button_start_official_trip);
         cancelTripButton = mActivity.findViewById(R.id.button_cancel_official_trip);
+        stopTripButton = mActivity.findViewById(R.id.button_stop_official_trip);
         navController = Navigation.findNavController(mActivity, R.id.my_nav_host_fragment);
-
-        if (notifyGreen != null) {
-            notifyGreen.setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener() {
-                @Override
-                public void onSystemUiVisibilityChange(int visibility) {
-                    Log.d(TAG, "onSystemUiVisibilityChange, visibility = " + visibility);
-
-                    if (visibility == View.VISIBLE) {
-                        // todo: alert user to start trip
-                    }
-                }
-            });
-        }
 
         if (startTripButton != null) {
             startTripButton.setOnClickListener(new View.OnClickListener() {
@@ -251,11 +245,16 @@ public class TripConfirmedFragment extends Fragment
                         // todo: start trip
                         // Testing visibility changes. todo: move this part to porter location proximity checks
                         if (notifyBlue != null) {
-                            notifyBlue.setVisibility(View.GONE);
-                            if (notifyGreen != null) {
-                                notifyGreen.setVisibility(View.VISIBLE);
-                            }
+                            notifyBlue.setVisibility(GONE);
                         }
+
+                        if (notifyGreen != null) {
+                            notifyGreen.setVisibility(View.VISIBLE);
+                        }
+
+//                        startTripButton.setVisibility(View.GONE);
+//                        cancelTripButton.setVisibility(View.GONE);
+//                        stopTripButton.setVisibility(View.VISIBLE);
                     }
                 }
             });
@@ -265,7 +264,48 @@ public class TripConfirmedFragment extends Fragment
             cancelTripButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    new AlertDialog.Builder(mActivity)
+                            .setTitle(R.string.trip_confirmed_button_cancel_trip)
+                            .setMessage(R.string.trip_confirmed_button_cancel_msg)
+                            .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    // todo: cancel trip and go back to home page
+                                }
+                            })
+                            .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // do nothing
+                                }
+                            })
+                            .create()
+                            .show();
+                }
+            });
+        }
 
+        if (stopTripButton != null) {
+            stopTripButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    new AlertDialog.Builder(mActivity)
+                            .setTitle(R.string.trip_confirmed_button_stop_trip)
+                            .setMessage(R.string.trip_confirmed_button_stop_msg)
+                            .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    // todo: show review page and go back to home page
+                                }
+                            })
+                            .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // do nothing
+                                }
+                            })
+                            .create()
+                            .show();
                 }
             });
         }
