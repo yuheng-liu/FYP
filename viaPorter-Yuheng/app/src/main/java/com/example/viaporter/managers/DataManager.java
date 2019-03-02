@@ -1,6 +1,8 @@
 package com.example.viaporter.managers;
 
 import com.example.viaporter.models.PatronTripRequest;
+import com.example.viaporter.models.PatronTripSuccess;
+import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,7 +10,11 @@ import java.util.List;
 public class DataManager {
     private static final String TAG = "DataManager";
 
-    private List<PatronTripRequest> patronTripRequestList;
+    private List<PatronTripRequest> BroadcastRequestList;
+    private List<PatronTripRequest> CurrentBidList;
+    private PatronTripSuccess CurrentTrip;
+
+    private LatLng currentLocation;
 
     /*                                      *
      * Use of Bill Pugh Singleton structure *
@@ -16,11 +22,6 @@ public class DataManager {
     // Private constructor //
     private DataManager() {
         resetData();
-
-        // For testing purposes
-        PatronTripRequest testData = new PatronTripRequest("testName", "testStart",
-                "testEnd", 5, 50);
-        patronTripRequestList.add(testData);
     }
     // Static inner class are not loaded until they are referenced
     private static class dataManagerholder {
@@ -30,18 +31,28 @@ public class DataManager {
     public static DataManager getSharedInstance() {
         return dataManagerholder.manager;
     }
-    /*                                      */
+    /* ************************************ */
 
     public void resetData() {
-        patronTripRequestList = new ArrayList<PatronTripRequest>();
+        BroadcastRequestList = new ArrayList<PatronTripRequest>();
+        CurrentBidList = new ArrayList<PatronTripRequest>();
+        CurrentTrip = null;
     }
 
-    // getter & setters
-    public List<PatronTripRequest> getPatronTripRequestList() {
-        return patronTripRequestList;
+    // getters
+    public List<PatronTripRequest> getBroadcastRequestList() {
+        return BroadcastRequestList;
     }
+    public List<PatronTripRequest> getCurrentBidList() {
+        return CurrentBidList;
+    }
+    public PatronTripSuccess getCurrentTrip() { return CurrentTrip; }
+    public LatLng getCurrentLocation() { return currentLocation; }
 
-    public void addPatronTripRequest(PatronTripRequest newRequest) {
-        patronTripRequestList.add(newRequest);
+    // setters
+    public void addToBroadcastList(PatronTripRequest newRequest) { BroadcastRequestList.add(newRequest); }
+    public void setCurrentTrip(PatronTripSuccess newTrip){
+        CurrentTrip = newTrip;
     }
+    public void setCurrentLocation(LatLng currentLocation) { this.currentLocation = currentLocation; }
 }

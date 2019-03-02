@@ -1,9 +1,11 @@
 package com.example.viaporter.fragments;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -14,16 +16,15 @@ import android.view.ViewGroup;
 import com.example.viaporter.CallbackListener;
 import com.example.viaporter.MainActivity;
 import com.example.viaporter.adapters.BroadcastAdapter;
+import com.example.viaporter.adapters.CurrentBidAdapter;
 import com.example.viaporter.R;
 import com.example.viaporter.managers.DataManager;
 import com.example.viaporter.managers.SocketManager;
 import com.example.viaporter.models.PatronTripRequest;
-import com.example.viaporter.models.PorterBidRequest;
+import com.example.viaporter.models.PatronTripSuccess;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.List;
 
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -34,11 +35,12 @@ public class TripRequestFragment extends Fragment {
 
     private MainActivity mActivity;
     private NavController navController;
-    private SocketManager socketManager;
-    private DataManager dataManager;
 
-    private RecyclerView mBidderView;
+    private RecyclerView mBroadcastView;
+    private RecyclerView mCurrentBidView;
     private BroadcastAdapter mBroadcastAdapter;
+    private CurrentBidAdapter mCurrentBidAdapter;
+    private AlertDialog bidSuccessDialog;
 
     private PatronTripRequest selectedBidRequest;
 
@@ -49,9 +51,6 @@ public class TripRequestFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Log.d(TAG, "onCreateView");
 
-        socketManager = SocketManager.getSharedInstance();
-        dataManager = DataManager.getSharedInstance();
-
         return inflater.inflate(R.layout.trip_request_fragment, container, false);
     }
 
@@ -60,6 +59,7 @@ public class TripRequestFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         mActivity = (MainActivity) requireActivity();
+
         setUpViews();
         setupSocket();
         setupSocketListeners();
@@ -69,25 +69,54 @@ public class TripRequestFragment extends Fragment {
     private void setUpViews() {
         navController = Navigation.findNavController(mActivity, R.id.my_nav_host_fragment);
 
-        mBidderView = mActivity.findViewById(R.id.broadcast_request_table);
-        mBidderView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mBroadcastView = mActivity.findViewById(R.id.broadcast_request_table);
+        mBroadcastView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mBroadcastAdapter = new BroadcastAdapter();
-        mBidderView.setAdapter(mBroadcastAdapter);
+        mBroadcastView.setAdapter(mBroadcastAdapter);
+
+        mCurrentBidView = mActivity.findViewById(R.id.current_bids_table);
+        mCurrentBidView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mCurrentBidAdapter = new CurrentBidAdapter();
+        mCurrentBidView.setAdapter(mCurrentBidAdapter);
+
+        // Create alert dialog for when a bid is successful
+        AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
+        builder.setMessage("The bid is successful")
+                .setTitle("Bid Success")
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // User clicked OK button
+                        navController.navigate(R.id.navigation_trip_confirmed);
+                    }
+                });
+        bidSuccessDialog = builder.create();
     }
 
     private void setupSocket() {
-        socketManager.connectSocket();
-        socketManager.emitString("join", "viaPorter");
+        mActivity.socketManager.connectSocket();
+        mActivity.socketManager.emitString("join", "viaPorter");
     }
 
     private void setupSocketListeners() {
-        mActivity.addDisposable(socketManager.addOnPatronTripRequest(new Consumer<PatronTripRequest>() {
+        mActivity.addDisposable(mActivity.socketManager.addOnPatronTripRequest(new Consumer<PatronTripRequest>() {
             @Override
             public void accept(final PatronTripRequest tripRequest) {
                 mActivity.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        mBroadcastAdapter.resetDataSetWith(dataManager.getPatronTripRequestList());
+                        mBroadcastAdapter.resetDataSetWith(mActivity.dataManager.getBroadcastRequestList());
+                    }
+                });
+            }
+        }));
+
+        mActivity.addDisposable(mActivity.socketManager.addOnPatronTripSuccess(new Consumer<PatronTripSuccess>() {
+            @Override
+            public void accept(PatronTripSuccess patronTripSuccess) {
+                mActivity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        bidSuccessDialog.show();
                     }
                 });
             }
@@ -99,14 +128,33 @@ public class TripRequestFragment extends Fragment {
             @Override
             public void accept(PatronTripRequest data) {
                 selectedBidRequest = data;
-                try {
-                    JSONObject msg = new JSONObject();
-                    msg.put("porter_name", "yuheng");
-                    msg.put("bid_amount", "$10");
-                    socketManager.emitJSON("bid_request",msg);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+
+                new AlertDialog.Builder(mActivity)
+                        .setTitle("Make Default Offer")
+                        .setMessage("Would you like to make a default offer of $2?")
+                        .setPositiveButton("confirm", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                try {
+                                    JSONObject msg = new JSONObject();
+                                    msg.put("porter_name", "yuheng");
+                                    msg.put("bid_amount", "$10");
+                                    mActivity.socketManager.emitJSON("bid_request",msg);
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                                mBroadcastAdapter.removeDataSet(selectedBidRequest);
+                                mCurrentBidAdapter.addToDataSet(selectedBidRequest);
+                            }
+                        })
+                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // do nothing
+                            }
+                        })
+                        .create()
+                        .show();
             }
         });
 
@@ -114,6 +162,40 @@ public class TripRequestFragment extends Fragment {
             @Override
             public void accept(PatronTripRequest data) {
                 selectedBidRequest = data;
+                bidSuccessDialog.show();
+            }
+        });
+
+        mCurrentBidAdapter.setOnPositiveButtonClicked(new CallbackListener<PatronTripRequest>() {
+            @Override
+            public void accept(PatronTripRequest data) {
+                selectedBidRequest = data;
+            }
+        });
+
+        mCurrentBidAdapter.setOnNegativeButtonClicked(new CallbackListener<PatronTripRequest>() {
+            @Override
+            public void accept(PatronTripRequest data) {
+                selectedBidRequest = data;
+
+                new AlertDialog.Builder(mActivity)
+                        .setTitle("Cancel Bid")
+                        .setMessage("Are you sure you want to withdraw your bid?")
+                        .setPositiveButton("confirm", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                mCurrentBidAdapter.removeDataSet(selectedBidRequest);
+                                mBroadcastAdapter.addToDataSet(selectedBidRequest);
+                            }
+                        })
+                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // do nothing
+                            }
+                        })
+                        .create()
+                        .show();
             }
         });
     }
@@ -122,6 +204,6 @@ public class TripRequestFragment extends Fragment {
     public void onDestroy() {
         super.onDestroy();
 
-        socketManager.disconnectSocket();
+        mActivity.socketManager.disconnectSocket();
     }
 }

@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <fragment
+        xmlns:map="http://schemas.android.com/apk/res-auto"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:id="@+id/google_map_confirmed"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        map:mapType="normal"
+        map:uiCompass="true"
+        tools:ignore="MissingPrefix"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|top"
+            android:background="@color/colorPrimary"
+            android:padding="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/trip_confirmed_main_title"
+                android:textSize="30sp"/>
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/notification_porter_on_the_way"
+            android:visibility="visible"
+            android:background="@color/colorAccent"
+            android:alpha="0.85"
+            android:padding="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/trip_confirmed_find_patron"
+                android:textColor="@color/colorWhite"
+                android:textSize="16sp"/>
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/notification_porter_arrived"
+            android:visibility="gone"
+            android:background="@color/colorSuccess"
+            android:alpha="0.85"
+            android:padding="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/trip_confirmed_arrived_at_patron"
+                android:textColor="@color/colorWhite"
+                android:textSize="16sp"/>
+        </FrameLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center"
+        android:layout_marginBottom="0dp"
+        android:orientation="vertical">
+
+        <Button
+            android:layout_width="250dp"
+            android:layout_height="46dp"
+            android:layout_marginBottom="10dp"
+            android:id="@+id/button_start_official_trip"
+            android:background="@drawable/rounded_corner_accent"
+            android:visibility="visible"
+            android:text="@string/trip_confirmed_button_start_trip"
+            android:textSize="13sp"
+            android:textColor="@color/colorWhite"/>
+
+        <Button
+            android:layout_width="250dp"
+            android:layout_height="46dp"
+            android:layout_marginBottom="10dp"
+            android:id="@+id/button_cancel_official_trip"
+            android:background="@drawable/rounded_corner_red_alert"
+            android:visibility="visible"
+            android:text="@string/trip_confirmed_button_cancel_trip"
+            android:textSize="13sp"
+            android:textColor="@color/colorWhite"/>
+
+        <Button
+            android:layout_width="250dp"
+            android:layout_height="46dp"
+            android:layout_marginBottom="10dp"
+            android:id="@+id/button_stop_official_trip"
+            android:background="@drawable/rounded_corner_warning"
+            android:visibility="gone"
+            android:text="@string/trip_confirmed_button_stop_trip"
+            android:textSize="13sp"
+            android:textColor="@color/colorWhite"/>
+    </LinearLayout>
+</FrameLayout>

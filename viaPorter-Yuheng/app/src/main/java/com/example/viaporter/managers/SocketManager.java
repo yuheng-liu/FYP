@@ -3,6 +3,7 @@ package com.example.viaporter.managers;
 import com.example.viaporter.constants.AppConstants;
 import com.example.viaporter.models.PatronTripRequest;
 
+import com.example.viaporter.models.PatronTripSuccess;
 import com.github.nkzawa.emitter.Emitter;
 import com.github.nkzawa.socketio.client.IO;
 import com.github.nkzawa.socketio.client.Socket;
@@ -25,6 +26,7 @@ public class SocketManager {
 
     // Listen events
     private PublishRelay<PatronTripRequest> patronTripRequestRelay;
+    private PublishRelay<PatronTripSuccess> patronTripSuccessRelay;
 
     /*                                      *
      * Use of Bill Pugh Singleton structure *
@@ -43,10 +45,11 @@ public class SocketManager {
     public static SocketManager getSharedInstance() {
         return socketManagerholder.manager;
     }
-    /*                                      */
+    /* ************************************ */
 
     private void createPublishRelayObservers() {
         patronTripRequestRelay = PublishRelay.create();
+        patronTripSuccessRelay = PublishRelay.create();
     }
 
     public void connectSocket() {
@@ -82,6 +85,10 @@ public class SocketManager {
         return patronTripRequestRelay.subscribe(onSuccess);
     }
 
+    public Disposable addOnPatronTripSuccess(Consumer<PatronTripSuccess> onSuccess){
+        return patronTripSuccessRelay.subscribe(onSuccess);
+    }
+
     // socket listeners
     private void prepareListeners() {
         socket.on("patron_trip_request", new Emitter.Listener() {
@@ -89,8 +96,18 @@ public class SocketManager {
             public void call(final Object... args) {
                 JSONObject data = (JSONObject) args[0];
                 PatronTripRequest newRequest = gson.fromJson(data.toString(), PatronTripRequest.class);
-                dataManager.addPatronTripRequest(newRequest);
+                dataManager.addToBroadcastList(newRequest);
                 patronTripRequestRelay.accept(newRequest);
+            }
+        });
+
+        socket.on("patron_bid_success", new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                JSONObject data = (JSONObject) args[0];
+                PatronTripSuccess newTrip = gson.fromJson(data.toString(), PatronTripSuccess.class);
+                dataManager.setCurrentTrip(newTrip);
+                patronTripSuccessRelay.accept(newTrip);
             }
         });
     }

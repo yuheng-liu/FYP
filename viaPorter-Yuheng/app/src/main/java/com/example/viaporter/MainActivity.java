@@ -12,6 +12,8 @@ import android.util.Log;
 import android.view.MenuItem;
 
 import com.example.viaporter.fragments.ProfileFragment;
+import com.example.viaporter.managers.DataManager;
+import com.example.viaporter.managers.SocketManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +34,8 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.M
     private NavHostFragment navHostFragment;
     private NavController navController;
     private List<Disposable> disposables;
+    public SocketManager socketManager;
+    public DataManager dataManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +66,7 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.M
 
         // Initialise the bottom navigation bar
         bottomNavigation = (BottomNavigationView) findViewById(R.id.bot_navigation_view);
+        bottomNavigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         // Initialise a navHostFragment containing the navigation graph chart
         navHostFragment = NavHostFragment.create(R.navigation.nav_graph);
@@ -70,10 +75,13 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.M
         navController = Navigation.findNavController(findViewById(R.id.my_nav_host_fragment));
 
         // Pair navigation controller with the bottom navigation bar
-        NavigationUI.setupWithNavController(bottomNavigation, navController);
+//        NavigationUI.setupWithNavController(bottomNavigation, navController);
     }
 
-    private void setupManagers() { }
+    private void setupManagers() {
+        socketManager = SocketManager.getSharedInstance();
+        dataManager = DataManager.getSharedInstance();
+    }
 
     // Google Maps
     private void checkAppLocationPermission() {
@@ -109,48 +117,48 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.M
         }
     }
 
-//    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
-//            = new BottomNavigationView.OnNavigationItemSelectedListener() {
-//
-//        @Override
-//        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-//
-//            switch (item.getItemId()) {
-//                case R.id.navigation_trip:
-//                    Log.d(TAG, "selected trip");
-//
-//                    // todo: save fragments if exit trip ui flow halfway
-//                    // todo: currently these methods are not executing. Suspect due to setupWithNavController (betw botNav and NavController)
-//                    if (item.getItemId() != navController.getCurrentDestination().getId())
-//                        navController.navigate(R.id.navigation_trip);
-//
-//                    return true;
-//                case R.id.navigation_jobs:
-//                    Log.d(TAG, "selected job");
-//
-//                    if (navController.getCurrentDestination().getId() != R.id.navigation_jobs) {
-//                        navController.navigate(R.id.navigation_jobs);
-//                    }
-//
-//                    return true;
-//                case R.id.navigation_chats:
-//                    Log.d(TAG, "selected chat");
-//
-//                    if (item.getItemId() != navController.getCurrentDestination().getId())
-//                        navController.navigate(R.id.navigation_chats);
-//
-//                    return true;
-//                case R.id.navigation_profile:
-//                    Log.d(TAG, "selected profile");
-//
-//                    if (item.getItemId() != navController.getCurrentDestination().getId())
-//                        navController.navigate(R.id.navigation_profile);
-//
-//                    return true;
-//            }
-//            return false;
-//        }
-//    };
+    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+            = new BottomNavigationView.OnNavigationItemSelectedListener() {
+
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+            switch (item.getItemId()) {
+                case R.id.navigation_trip:
+                    Log.d(TAG, "selected trip");
+
+                    // todo: save fragments if exit trip ui flow halfway
+                    // todo: currently these methods are not executing. Suspect due to setupWithNavController (betw botNav and NavController)
+                    if (item.getItemId() != navController.getCurrentDestination().getId())
+                        navController.navigate(R.id.navigation_trip);
+
+                    return true;
+                case R.id.navigation_jobs:
+                    Log.d(TAG, "selected job");
+
+                    if (navController.getCurrentDestination().getId() != R.id.navigation_jobs) {
+                        navController.navigate(R.id.navigation_jobs);
+                    }
+
+                    return true;
+                case R.id.navigation_chats:
+                    Log.d(TAG, "selected chat");
+
+                    if (item.getItemId() != navController.getCurrentDestination().getId())
+                        navController.navigate(R.id.navigation_chats);
+
+                    return true;
+                case R.id.navigation_profile:
+                    Log.d(TAG, "selected profile");
+
+                    if (item.getItemId() != navController.getCurrentDestination().getId())
+                        navController.navigate(R.id.navigation_profile);
+
+                    return true;
+            }
+            return false;
+        }
+    };
 
     @Override
     public void onLogoutButtonSelected() {

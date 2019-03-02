@@ -15,8 +15,8 @@ import com.example.viaporter.models.PatronTripRequest;
 import java.util.Collection;
 import java.util.List;
 
-public class BroadcastAdapter extends RecyclerView.Adapter<BroadcastAdapter.ViewHolder> {
-    private List<PatronTripRequest> mBroadcastDataSet;
+public class CurrentBidAdapter extends RecyclerView.Adapter<CurrentBidAdapter.ViewHolder> {
+    private List<PatronTripRequest> mCurrentBidDataSet;
     private CallbackListener<PatronTripRequest> mOnPositiveButtonClicked;
     private CallbackListener<PatronTripRequest> mOnNegativeButtonClicked;
 
@@ -37,29 +37,23 @@ public class BroadcastAdapter extends RecyclerView.Adapter<BroadcastAdapter.View
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public BroadcastAdapter() {
-        mBroadcastDataSet = DataManager.getSharedInstance().getBroadcastRequestList();
-        if (mBroadcastDataSet.isEmpty()){
-            // For testing purposes
-            PatronTripRequest testData = new PatronTripRequest("testName", "testStart",
-                    "testEnd", 5, 50);
-            mBroadcastDataSet.add(testData);
-        }
+    public CurrentBidAdapter() {
+        mCurrentBidDataSet = DataManager.getSharedInstance().getCurrentBidList();
     }
 
     public void addToDataSet(PatronTripRequest tripRequest) {
-        mBroadcastDataSet.add(tripRequest);
+        mCurrentBidDataSet.add(tripRequest);
         notifyDataSetChanged();
     }
 
     public void resetDataSetWith(Collection<PatronTripRequest> tripRequests) {
-        mBroadcastDataSet.clear();
-        mBroadcastDataSet.addAll(tripRequests);
+        mCurrentBidDataSet.clear();
+        mCurrentBidDataSet.addAll(tripRequests);
         notifyDataSetChanged();
     }
 
     public void removeDataSet(PatronTripRequest tripRequest) {
-        mBroadcastDataSet.remove(tripRequest);
+        mCurrentBidDataSet.remove(tripRequest);
         notifyDataSetChanged();
     }
 
@@ -74,21 +68,21 @@ public class BroadcastAdapter extends RecyclerView.Adapter<BroadcastAdapter.View
 
     @NonNull
     @Override
-    public BroadcastAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public CurrentBidAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         // create a new view
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.broadcast_request_item, parent, false);
+                .inflate(R.layout.current_bid_item, parent, false);
 
         // set the view's size, margins, padding and layout parameters...
         ViewHolder vh = new ViewHolder(itemView);
 
-        vh.stationNameLeft = itemView.findViewById(R.id.broadcast_station_name_left);
-        vh.stationNameRight = itemView.findViewById(R.id.broadcast_station_name_right);
-        vh.startLocation = itemView.findViewById(R.id.broadcast_start_location);
-        vh.endLocation = itemView.findViewById(R.id.broadcast_end_location);
-        vh.numLuggage = itemView.findViewById(R.id.broadcast_number_of_luggage);
-        vh.totalLuggageWeight = itemView.findViewById(R.id.broadcast_total_luggage_weight);
+        vh.stationNameLeft = itemView.findViewById(R.id.current_bid_station_name_left);
+        vh.stationNameRight = itemView.findViewById(R.id.current_bid_station_name_right);
+        vh.startLocation = itemView.findViewById(R.id.current_bid_start_location);
+        vh.endLocation = itemView.findViewById(R.id.current_bid_end_location);
+        vh.numLuggage = itemView.findViewById(R.id.current_bid_number_of_luggage);
+        vh.totalLuggageWeight = itemView.findViewById(R.id.current_bid_total_luggage_weight);
         vh.mPositiveButton = itemView.findViewById(R.id.positiveButton);
         vh.mNegativeButton = itemView.findViewById(R.id.negativeButton);
 
@@ -98,7 +92,7 @@ public class BroadcastAdapter extends RecyclerView.Adapter<BroadcastAdapter.View
     // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        final PatronTripRequest itemData = mBroadcastDataSet.get(position);
+        final PatronTripRequest itemData = mCurrentBidDataSet.get(position);
 
         holder.stationNameLeft.setText(itemData.getTrainStationName());
         holder.stationNameRight.setText(itemData.getTrainStationName());
@@ -130,6 +124,6 @@ public class BroadcastAdapter extends RecyclerView.Adapter<BroadcastAdapter.View
 
     @Override
     public int getItemCount() {
-        return mBroadcastDataSet.size();
+        return mCurrentBidDataSet.size();
     }
 }

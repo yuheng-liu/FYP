@@ -11,4 +11,10 @@ public class AppConstants {
     public static final int MAP_CAMERA_ZOOM = 18;
     public static final int MAP_LOCATION_REQUEST_INTERVAL = 4 * 1000;
 
+    // Arbitrary places for testing
+    public static final double PLACE_NUS_UTOWN_LAT = 1.3054857921840286;
+    public static final double PLACE_NUS_UTOWN_LNG = 103.77305947244167;
+
+    public static final double PLACE_NUS_FOS_LAT = 1.296701140936438;
+    public static final double PLACE_NUS_FOS_LNG = 103.78054015338421;
 }

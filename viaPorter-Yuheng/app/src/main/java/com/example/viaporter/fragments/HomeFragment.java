@@ -178,15 +178,10 @@ public class HomeFragment extends Fragment
             for (Location location : locationResult.getLocations()) {
                 // update location
                 currentLocation = new LatLng(location.getLatitude(), location.getLongitude());
-//                if (isServiceBounded()) {
-//                    getDataManager().setCurrentLocation(currentLocation);
-//                }
+                mActivity.dataManager.setCurrentLocation(currentLocation);
 
                 // update camera
                 if (!mCameraUpdated) {
-//                    if (isServiceBounded()) {
-//                        getSocketManager().setStartLocation(currentLocation);
-//                    }
                     CameraUpdate update = CameraUpdateFactory.newLatLngZoom(currentLocation, MAP_CAMERA_ZOOM);
                     mGoogleMap.moveCamera(update);
                     mCameraUpdated = true;

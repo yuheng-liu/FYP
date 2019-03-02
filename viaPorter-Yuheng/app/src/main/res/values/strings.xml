@@ -35,5 +35,18 @@
     <string name="porter">Porter</string>
     <string name="user_location_access_denied">User Location Access Denied</string>
     <string name="profile_sign_out_msg">Are you sure you want to sign out?</string>
+    <string name="reject">Reject</string>
+    <string name="edit_bid">Edit Bid</string>
+    <string name="cancel">Cancel</string>
+    <string name="trip_confirmed_main_title">Trip Confirmed</string>
+    <string name="trip_confirmed_find_patron">Please Proceed to find your Patron</string>
+    <string name="trip_confirmed_arrived_at_patron">You have arrived at your Patron</string>
+    <string name="trip_confirmed_button_start_trip">START TRIP</string>
+    <string name="trip_confirmed_button_cancel_trip">CANCEL TRIP</string>
+    <string name="trip_confirmed_button_stop_title">STOP TRIP</string>
+    <string name="trip_confirmed_button_stop_msg">Are you sure you want to end your trip?</string>
+    <string name="trip_confirmed_button_cancel_msg">Trip has already started. Are you sure you want to cancel?</string>
+    <string name="trip_confirmed_button_start_confirm_trip">Press again to confirm</string>
+    <string name="trip_confirmed_button_stop_trip">Stop Trip</string>
 
 </resources>
