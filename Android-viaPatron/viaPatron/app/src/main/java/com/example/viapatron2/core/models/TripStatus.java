@@ -2,7 +2,6 @@ package com.example.viapatron2.core.models;
 
 /**
  * Created by Lim Zhiming on 25/02/19.
- * Adapted from Auto App
  */
 public enum TripStatus {
     NOT_STARTED,

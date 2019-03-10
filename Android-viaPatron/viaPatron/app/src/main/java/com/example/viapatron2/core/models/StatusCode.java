@@ -2,7 +2,6 @@ package com.example.viapatron2.core.models;
 
 /**
  * Created by Lim Zhiming on 10/1/19.
- * Adapting from Auto
  */
 public enum StatusCode {
     DATA_ERROR,

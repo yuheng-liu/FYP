@@ -176,7 +176,7 @@ public class ProfileFragment extends Fragment {
     // Todo: allow for user to retrieve image from gallery
     private void getPicture() {
         Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        startActivityForResult(takePicture, 0);//zero can be replaced with any action code
+        startActivityForResult(takePicture, 0);
     }
 
     @Override
@@ -198,9 +198,9 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
         super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
-        switch(requestCode) {
+        switch (requestCode) {
             case 0:
-                if(resultCode == RESULT_OK){
+                if (resultCode == RESULT_OK) {
                     Log.d(TAG, "case 0");
                     Uri selectedImage = imageReturnedIntent.getData();
                     uploadPicText.setVisibility(View.GONE);
@@ -210,7 +210,7 @@ public class ProfileFragment extends Fragment {
 
                 break;
             case 1:
-                if(resultCode == RESULT_OK){
+                if (resultCode == RESULT_OK) {
                     Log.d(TAG, "case 1");
                     Uri selectedImage = imageReturnedIntent.getData();
                     uploadPicText.setVisibility(View.GONE);

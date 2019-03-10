@@ -7,7 +7,6 @@ import com.google.gson.annotations.SerializedName;
 
 /**
  * Created by Lim Zhiming on 25/2/19.
- * Adapting from Auto App.
  */
 public class Trip {
 

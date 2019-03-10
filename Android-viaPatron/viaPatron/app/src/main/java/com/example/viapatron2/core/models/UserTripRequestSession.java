@@ -8,10 +8,9 @@ import com.google.gson.annotations.SerializedName;
 
 /**
  * Created by Lim Zhiming on 10/1/19.
- * Adapting from Auto
  */
 
-// Originally extends RealmObject (in Auto)
+// Originally extends RealmObject
 public class UserTripRequestSession {
 
     //@SerializedName("start")

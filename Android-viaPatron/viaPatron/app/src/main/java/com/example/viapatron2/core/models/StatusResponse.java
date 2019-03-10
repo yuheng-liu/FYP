@@ -5,7 +5,6 @@ import com.google.gson.annotations.SerializedName;
 
 /**
  * Created by Lim Zhiming on 10/1/19.
- * Adapting from Auto
  */
 
 public class StatusResponse {
