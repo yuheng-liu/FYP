@@ -23,10 +23,7 @@ import com.example.viapatron2.BidderAdapter;
 import com.example.viapatron2.CallbackListener;
 import com.example.viapatron2.R;
 import com.example.viapatron2.activity.MainActivity;
-import com.example.viapatron2.core.models.MyViewModel;
-import com.example.viapatron2.core.models.PorterBidRequest;
-import com.example.viapatron2.core.models.Trip;
-import com.example.viapatron2.core.models.UserTripRequestSession;
+import com.example.viapatron2.core.models.*;
 import com.github.nkzawa.socketio.client.Socket;
 import io.reactivex.functions.Consumer;
 
@@ -206,7 +203,7 @@ public class TripBiddingFragment extends Fragment {
         // START OF TESTING SEGMENT
         PorterBidRequest testPorterBidRequest = new PorterBidRequest();
         testPorterBidRequest.setPorterName("Allen");
-        testPorterBidRequest.setBidAmount("$2");
+        testPorterBidRequest.setBidAmount(2.2);
         mBidderAdapter.addToDataSet(testPorterBidRequest);
         // END OF TESTING SEGMENT
 
@@ -264,6 +261,9 @@ public class TripBiddingFragment extends Fragment {
 
         Trip tripSession = new Trip();
         tripSession.setPatronLocation(mActivity.getmDataManager().getCurrentLocation());
+
+        Log.d(TAG, "patronLocation = " + mActivity.getmDataManager().getCurrentLocation());
+
         tripSession.setPickupLocation(modelFromLocation);
         tripSession.setDropoffLocation(modelToLocation);
         return tripSession;

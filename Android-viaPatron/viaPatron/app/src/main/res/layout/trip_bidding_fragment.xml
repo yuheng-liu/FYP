@@ -16,8 +16,8 @@
 
     <FrameLayout
             android:layout_width="320dp"
-            android:layout_height="140dp"
-            android:layout_marginTop="40dp"
+            android:layout_height="130dp"
+            android:layout_marginTop="20dp"
             android:layout_gravity="center"
             android:background="@drawable/rounded_corner_white_small">
 
@@ -140,7 +140,7 @@
     <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="10dp"
             android:text="@string/bidding_ends_in"
             android:textAlignment="center"
             android:textAllCaps="true"
@@ -153,14 +153,16 @@
             android:layout_marginTop="10dp"
             android:text=""
             android:textAlignment="center"
-            android:textColor="@color/colorPrimaryGreyDark" />
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@color/colorBlack" />
 
     <FrameLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="14dp"
-            android:layout_marginBottom="80dp">
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="72dp">
 
         <Button
                 android:layout_width="200dp"

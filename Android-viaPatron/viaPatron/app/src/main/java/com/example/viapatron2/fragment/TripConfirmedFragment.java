@@ -24,7 +24,9 @@ import androidx.navigation.NavDestination;
 import androidx.navigation.Navigation;
 import com.example.viapatron2.R;
 import com.example.viapatron2.activity.MainActivity;
+import com.example.viapatron2.core.models.LocationUpdate;
 import com.example.viapatron2.core.models.MyViewModel;
+import com.example.viapatron2.core.models.PorterTripAccept;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationCallback;
@@ -32,7 +34,11 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.*;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
+import io.reactivex.functions.Consumer;
 
 import static android.view.View.GONE;
 import static com.example.viapatron2.app.constants.AppConstants.*;
@@ -67,7 +73,8 @@ public class TripConfirmedFragment extends Fragment
     private LocationRequest mLocationRequest;
     private LatLng currentLocation;
 
-//    private Marker driverMarker;
+    private Marker porterMarker;
+
 //    private Marker originMarker;
 //    private Marker destMarker;
 //    private Bitmap driverCarMarkerBitmap, driverAutoMarkerBitmap, driverSuvMarkerBitmap;
@@ -95,6 +102,7 @@ public class TripConfirmedFragment extends Fragment
         setUpMap();
         setViews();
         setUpViewModel();
+        setupSocketListeners();
     }
 
     private void setUpMap() {
@@ -148,6 +156,13 @@ public class TripConfirmedFragment extends Fragment
     private void selectStartingPoint() {
         try {
             currentLocation = mActivity.getmDataManager().getCurrentLocation();
+
+            if(mGoogleMap != null) {
+                porterMarker = mGoogleMap.addMarker((new MarkerOptions().position(currentLocation))
+                        .title("Patron's Current Location")
+                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+            }
+
             Log.d(TAG, "selectStartingPoint, currentLocation = " + currentLocation.toString());
             CameraUpdate update = CameraUpdateFactory.newLatLngZoom(currentLocation, MAP_CAMERA_ZOOM);
             mGoogleMap.moveCamera(update);
@@ -211,6 +226,11 @@ public class TripConfirmedFragment extends Fragment
                 // update location
                 currentLocation = new LatLng(location.getLatitude(), location.getLongitude());
                 mActivity.getmDataManager().setCurrentLocation(currentLocation);
+
+                // Send viaPorter my updated location
+                LocationUpdate patronUpdatedLocation = new LocationUpdate();
+                patronUpdatedLocation.setUpdatedLocation(currentLocation);
+                mActivity.getmSocketManager().sendLocation(patronUpdatedLocation);
 
                 // update camera
                 if (!mCameraUpdated) {
@@ -325,6 +345,51 @@ public class TripConfirmedFragment extends Fragment
         // Re-created activities receive the same MyViewModel instance created by the first activity.
         model = ViewModelProviders.of(mActivity).get(MyViewModel.class);
     }
+
+    private void setupSocketListeners() {
+        mActivity.addDisposable(mActivity.getmSocketManager().addOnPorterTripAccept(new Consumer<PorterTripAccept>() {
+            @Override
+            public void accept(final PorterTripAccept porterInfo) {
+                mActivity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            Log.d(TAG, "porterInfo: name = " + porterInfo.getPorterName());
+                            Log.d(TAG, "porterInfo: location = " + porterInfo.getPorterLocation().toString());
+
+                            if(mGoogleMap != null) {
+//                                porterMarker = mGoogleMap.addMarker(new MarkerOptions().position(porterInfo.getPorterLocation())
+//                                        .title("Porter's Current Location")
+//                                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+
+                                CameraUpdate update = CameraUpdateFactory.newLatLngZoom(porterInfo.getPorterLocation(), MAP_CAMERA_ZOOM);
+                                mGoogleMap.moveCamera(update);
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+            }
+        }));
+
+        mActivity.addDisposable(mActivity.getmSocketManager().addOnPorterLocationUpdate(new Consumer<LocationUpdate>() {
+            @Override
+            public void accept(final LocationUpdate porterUpdatedLocation) {
+                mActivity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            porterMarker.setPosition(porterUpdatedLocation.getUpdatedLocation());
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+            }
+        }));
+    }
+
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) { super.onActivityCreated(savedInstanceState); }

@@ -13,14 +13,14 @@ public final class AppConstants {
 //    public static final String LOCAL_HOST_URL = "http://139.59.244.233:5000"; // digital ocean
 //    public static final String LOCAL_HOST_URL = "http://10.0.2.2:5000"; // localhost
     
-    public static final String LOCAL_HOST_URL = "http://172.17.60.198:3000"; // localhost
+    public static final String LOCAL_HOST_URL = "http://172.17.63.184:5000"; // localhost
 
     public static final int PERMISSION_FINE_LOCATION = 111;
     public static final int PERMISSION_MEDIA_ACCESS = 112;
 
     /* Map parameter */
     public static final int MAP_CAMERA_ZOOM = 18;
-    public static final int MAP_LOCATION_REQUEST_INTERVAL = 4 * 1000;
+    public static final int MAP_LOCATION_REQUEST_INTERVAL = 2 * 1000;
     public static final int MAP_PLACE_SEARCH_RADIUS = 100 * 1000; // search place 100 km around target
 
     /* Login parameter */
