@@ -6,14 +6,19 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 
+import com.example.viaporter.Utilities.directionHelpers.TaskLoadedCallback;
 import com.example.viaporter.fragments.ProfileFragment;
+import com.example.viaporter.fragments.TripConfirmedFragment;
 import com.example.viaporter.managers.DataManager;
 import com.example.viaporter.managers.SocketManager;
+import com.example.viaporter.models.BotNavState;
+import com.google.android.gms.maps.model.Polyline;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +32,7 @@ import io.reactivex.disposables.Disposable;
 
 import static com.example.viaporter.constants.AppConstants.PERMISSION_FINE_LOCATION;
 
-public class MainActivity extends AppCompatActivity implements ProfileFragment.MyProfileFragmentListener {
+public class MainActivity extends AppCompatActivity implements ProfileFragment.MyProfileFragmentListener{
     private static final String TAG = "viaPorter.MainActivity";
 
     private BottomNavigationView bottomNavigation;
@@ -36,6 +41,10 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.M
     private List<Disposable> disposables;
     public SocketManager socketManager;
     public DataManager dataManager;
+
+    private BotNavState botNavState;
+    private boolean isNavBottom = false;
+    private NavDestination tempNavDest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +82,8 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.M
 
         // Initialise a navigation controller for controlling navigation
         navController = Navigation.findNavController(findViewById(R.id.my_nav_host_fragment));
+
+//        botNavState = BotNavState.TRIP_STATE;
 
         // Pair navigation controller with the bottom navigation bar
 //        NavigationUI.setupWithNavController(bottomNavigation, navController);
@@ -127,18 +138,38 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.M
                 case R.id.navigation_trip:
                     Log.d(TAG, "selected trip");
 
-                    // todo: save fragments if exit trip ui flow halfway
-                    // todo: currently these methods are not executing. Suspect due to setupWithNavController (betw botNav and NavController)
                     if (item.getItemId() != navController.getCurrentDestination().getId())
                         navController.navigate(R.id.navigation_trip);
+//                    if (isNavBottom) {
+//                        if (tempNavDest != null) {
+//                            navController.popBackStack(tempNavDest.getId(), false);
+//                            botNavState = BotNavState.TRIP_STATE;
+//                        }
+//                    } else {
+//                        Log.d(TAG, "navigating to trip directly");
+//                        navController.navigate(R.id.navigation_trip);
+//                        botNavState = BotNavState.TRIP_STATE;
+//                    }
 
                     return true;
                 case R.id.navigation_jobs:
                     Log.d(TAG, "selected job");
 
-                    if (navController.getCurrentDestination().getId() != R.id.navigation_jobs) {
+                    if (navController.getCurrentDestination().getId() != R.id.navigation_jobs)
                         navController.navigate(R.id.navigation_jobs);
-                    }
+//                    if (botNavState == BotNavState.TRIP_STATE){
+//                        // Coming from trip fragment.
+//                        // Save destination for returning later.
+//                        tempNavDest = navController.getCurrentDestination();
+//                        if (tempNavDest != null) {
+//                            isNavBottom = true;
+//                        }
+//                        navController.navigate(R.id.navigation_jobs);
+//                        botNavState = BotNavState.JOB_STATE;
+//                    } else {
+//                        navController.navigate(R.id.navigation_jobs);
+//                        botNavState = BotNavState.JOB_STATE;
+//                    }
 
                     return true;
                 case R.id.navigation_chats:
@@ -146,6 +177,19 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.M
 
                     if (item.getItemId() != navController.getCurrentDestination().getId())
                         navController.navigate(R.id.navigation_chats);
+//                    if (botNavState == BotNavState.TRIP_STATE){
+//                        // Coming from trip fragment.
+//                        // Save destination for returning later.
+//                        tempNavDest = navController.getCurrentDestination();
+//                        if (tempNavDest != null) {
+//                            isNavBottom = true;
+//                        }
+//                        navController.navigate(R.id.navigation_chats);
+//                        botNavState = BotNavState.CHAT_STATE;
+//                    } else {
+//                        navController.navigate(R.id.navigation_chats);
+//                        botNavState = BotNavState.CHAT_STATE;
+//                    }
 
                     return true;
                 case R.id.navigation_profile:
@@ -153,6 +197,19 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.M
 
                     if (item.getItemId() != navController.getCurrentDestination().getId())
                         navController.navigate(R.id.navigation_profile);
+//                    if (botNavState == BotNavState.TRIP_STATE){
+//                        // Coming from trip fragment.
+//                        // Save destination for returning later.
+//                        tempNavDest = navController.getCurrentDestination();
+//                        if (tempNavDest != null) {
+//                            isNavBottom = true;
+//                        }
+//                        navController.navigate(R.id.navigation_profile);
+//                        botNavState = BotNavState.PROFILE_STATE;
+//                    } else {
+//                        navController.navigate(R.id.navigation_profile);
+//                        botNavState = BotNavState.PROFILE_STATE;
+//                    }
 
                     return true;
             }

@@ -22,6 +22,9 @@ import com.example.viaporter.managers.DataManager;
 import com.example.viaporter.managers.SocketManager;
 import com.example.viaporter.models.PatronTripRequest;
 import com.example.viaporter.models.PatronTripSuccess;
+import com.example.viaporter.models.PorterBidRequest;
+import com.example.viaporter.models.PorterTripAccept;
+import com.google.gson.Gson;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -35,13 +38,12 @@ public class TripRequestFragment extends Fragment {
 
     private MainActivity mActivity;
     private NavController navController;
-
     private RecyclerView mBroadcastView;
     private RecyclerView mCurrentBidView;
     private BroadcastAdapter mBroadcastAdapter;
     private CurrentBidAdapter mCurrentBidAdapter;
     private AlertDialog bidSuccessDialog;
-
+    private Gson gson;
     private PatronTripRequest selectedBidRequest;
 
     public TripRequestFragment() {} // Empty constructor
@@ -59,7 +61,7 @@ public class TripRequestFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         mActivity = (MainActivity) requireActivity();
-
+        gson = new Gson();
         setUpViews();
         setupSocket();
         setupSocketListeners();
@@ -86,6 +88,13 @@ public class TripRequestFragment extends Fragment {
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         // User clicked OK button
+                        try {
+                            PorterTripAccept newTripAccept = new PorterTripAccept("Yuheng", mActivity.dataManager.getCurrentLocation(),"4.5");
+                            JSONObject data = new JSONObject(gson.toJson(newTripAccept));
+                            mActivity.socketManager.emitJSON("accept_trip", data);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                         navController.navigate(R.id.navigation_trip_confirmed);
                     }
                 });
@@ -104,7 +113,7 @@ public class TripRequestFragment extends Fragment {
                 mActivity.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        mBroadcastAdapter.resetDataSetWith(mActivity.dataManager.getBroadcastRequestList());
+                        mBroadcastAdapter.addToDataSet(tripRequest);
                     }
                 });
             }
@@ -116,7 +125,15 @@ public class TripRequestFragment extends Fragment {
                 mActivity.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        bidSuccessDialog.show();
+//                        bidSuccessDialog.show();
+                        try {
+                            PorterTripAccept newTripAccept = new PorterTripAccept("Yuheng", mActivity.dataManager.getCurrentLocation(),"4.5");
+                            JSONObject data = new JSONObject(gson.toJson(newTripAccept));
+                            mActivity.socketManager.emitJSON("accept_trip", data);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        navController.navigate(R.id.navigation_trip_confirmed);
                     }
                 });
             }
@@ -136,10 +153,9 @@ public class TripRequestFragment extends Fragment {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 try {
-                                    JSONObject msg = new JSONObject();
-                                    msg.put("porter_name", "yuheng");
-                                    msg.put("bid_amount", "$10");
-                                    mActivity.socketManager.emitJSON("bid_request",msg);
+                                    PorterBidRequest newBidRequest = new PorterBidRequest("Yuheng", 10.0);
+                                    JSONObject data = new JSONObject(gson.toJson(newBidRequest));
+                                    mActivity.socketManager.emitJSON("bid_request", data);
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }

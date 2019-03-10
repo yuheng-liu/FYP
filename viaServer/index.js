@@ -3,7 +3,7 @@ const server = require('http').Server(app);
 const io = require('socket.io')(server);
 
 app.get('/', (req, res) => {
-	res.send('Server is running on port 3000')
+	res.send('Server is running on port 5000')
 });
 
 io.on('connection', (socket) => {
@@ -21,6 +21,16 @@ io.on('connection', (socket) => {
 		socket.broadcast.emit('porter_bid_request', bidRequest);
 	})
 
+	socket.on('accept_trip', (acceptTrip) => {
+		console.log("acceptTrip received");
+		socket.broadcast.emit('porter_accept_trip', acceptTrip);
+	})
+
+	socket.on('location_update_porter', (locationUpdate) => {
+		console.log("porter location update");
+		socket.broadcast.emit('porter_location_update', locationUpdate);
+	})
+
 	/* 					  *
 	 * Events from Patron *
 	 *					  */
@@ -31,7 +41,12 @@ io.on('connection', (socket) => {
 
 	socket.on('accept_bidder', (acceptBidder) => {
 		console.log("acceptBidder received");
-		socket.broadcast.emit('patron_accept_bidder', acceptBidder);
+		socket.broadcast.emit('patron_bid_success', acceptBidder);
+	})
+
+	socket.on('location_update_patron', (locationUpdate) => {
+		console.log("patron location update");
+		socket.broadcast.emit('patron_location_update', locationUpdate);
 	})
 
 	// Handle event 'disconnect'
@@ -40,6 +55,6 @@ io.on('connection', (socket) => {
     })
 });
 
-server.listen(3000, () => {
-	console.log('Server is listening on port 3000');
+server.listen(5000, () => {
+	console.log('Server is listening on port 5000');
 });

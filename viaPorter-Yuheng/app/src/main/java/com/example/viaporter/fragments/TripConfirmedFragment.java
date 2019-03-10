@@ -1,8 +1,8 @@
 package com.example.viaporter.fragments;
 
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
@@ -12,6 +12,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,10 +23,14 @@ import android.widget.RelativeLayout;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDestination;
 import androidx.navigation.Navigation;
+import io.reactivex.functions.Consumer;
+
 import com.example.viaporter.R;
 import com.example.viaporter.MainActivity;
-//import com.example.viapatron2.core.models.MyViewModel;
-import com.example.viaporter.managers.DataManager;
+import com.example.viaporter.models.LocationUpdate;
+import com.example.viaporter.models.PatronTripRequest;
+import com.example.viaporter.models.PatronTripSuccess;
+import com.example.viaporter.models.PorterTripAccept;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationCallback;
@@ -33,7 +38,14 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.*;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.gson.Gson;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import static android.view.View.GONE;
 import static com.example.viaporter.constants.AppConstants.*;
@@ -47,6 +59,7 @@ public class TripConfirmedFragment extends Fragment
 
     private NavController navController;
     private MainActivity mActivity;
+    private Gson gson;
 //    private MyViewModel model;
     private View mMapView;
 
@@ -67,17 +80,14 @@ public class TripConfirmedFragment extends Fragment
     private GoogleApiClient mGoogleApiClient;
     private LocationRequest mLocationRequest;
     private LatLng currentLocation;
+    private Marker patronMarker;
 
-//    private Marker driverMarker;
-//    private Marker originMarker;
-//    private Marker destMarker;
-//    private Bitmap driverCarMarkerBitmap, driverAutoMarkerBitmap, driverSuvMarkerBitmap;
-//
-//    private LatLng currentLocation;
+    private static final LatLng UTOWN = new LatLng(PLACE_NUS_UTOWN_LAT, PLACE_NUS_UTOWN_LNG);
+    private static final LatLng FOS = new LatLng(PLACE_NUS_FOS_LAT, PLACE_NUS_FOS_LNG);
 
-    public TripConfirmedFragment() {
-        // Empty constructor
-    }
+    private PatronTripSuccess currentTrip;
+
+    public TripConfirmedFragment() {}
 
     @Nullable
     @Override
@@ -92,15 +102,17 @@ public class TripConfirmedFragment extends Fragment
         super.onViewCreated(view, savedInstanceState);
 
         mActivity = (MainActivity) requireActivity();
+        gson = new Gson();
 
-        setUpMap();
-        setViews();
+        setupMap();
+        setupViews();
 //        setUpViewModel();
+        setupSocketListeners();
     }
 
-    private void setUpMap() {
+    private void setupMap() {
 
-        Log.d(TAG, "setUpMap");
+        Log.d(TAG, "setupMap");
         try {
             mapFragment = (SupportMapFragment) this.getChildFragmentManager().findFragmentById(R.id.google_map_confirmed);
             mMapView = mapFragment.getView();
@@ -110,6 +122,8 @@ public class TripConfirmedFragment extends Fragment
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        currentTrip = mActivity.dataManager.getCurrentTrip();
     }
 
     @Override
@@ -118,6 +132,23 @@ public class TripConfirmedFragment extends Fragment
 
         mGoogleMap = googleMap;
         enableLocationService();
+
+//        googleMap.addMarker(new MarkerOptions()
+//                .position(UTOWN)
+//                .title("UTown")
+//                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
+//        );
+//
+//        googleMap.addMarker(new MarkerOptions()
+//                .position(FOS)
+//                .title("Faculty of Science")
+//                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))
+//        );
+
+        patronMarker = googleMap.addMarker(new MarkerOptions()
+                .position(currentTrip.getPatronLocation())
+                .title("Patron Location")
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
     }
 
     private void enableLocationService() {
@@ -150,7 +181,9 @@ public class TripConfirmedFragment extends Fragment
         try {
             currentLocation = mActivity.dataManager.getCurrentLocation();
             Log.d(TAG, "selectStartingPoint, currentLocation = " + currentLocation.toString());
-            CameraUpdate update = CameraUpdateFactory.newLatLngZoom(currentLocation, MAP_CAMERA_ZOOM);
+//            CameraUpdate update = CameraUpdateFactory.newLatLngZoom(currentLocation, MAP_CAMERA_ZOOM);
+            CameraUpdate update = CameraUpdateFactory.newLatLngZoom(UTOWN, MAP_CAMERA_ZOOM);
+//            CameraUpdate update = CameraUpdateFactory.newLatLngZoom(FOS, MAP_CAMERA_ZOOM);
             mGoogleMap.moveCamera(update);
             mMapView.setVisibility(View.VISIBLE);
         } catch (Exception e) {
@@ -213,10 +246,19 @@ public class TripConfirmedFragment extends Fragment
                 currentLocation = new LatLng(location.getLatitude(), location.getLongitude());
                 mActivity.dataManager.setCurrentLocation(currentLocation);
 
+                // Broadcast Location Update
+                try {
+                    LocationUpdate newLocation = new LocationUpdate(currentLocation);
+                    JSONObject data = new JSONObject(gson.toJson(newLocation));
+                    mActivity.socketManager.emitJSON("location_update_porter", data);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
                 // update camera
                 if (!mCameraUpdated) {
                     CameraUpdate update = CameraUpdateFactory.newLatLngZoom(currentLocation, MAP_CAMERA_ZOOM);
-                    mGoogleMap.moveCamera(update);
+//                    mGoogleMap.moveCamera(update);
                     mCameraUpdated = true;
                     mMapView.setVisibility(View.VISIBLE);
                 }
@@ -224,9 +266,9 @@ public class TripConfirmedFragment extends Fragment
         }
     };
 
-    private void setViews() {
+    private void setupViews() {
 
-        Log.d(TAG, "setViews");
+        Log.d(TAG, "setupViews");
 
         notifyBlue = mActivity.findViewById(R.id.notification_porter_on_the_way);
         notifyGreen = mActivity.findViewById(R.id.notification_porter_arrived);
@@ -242,6 +284,21 @@ public class TripConfirmedFragment extends Fragment
                     if (!isStartButtonPressed) {
                         startTripButton.setText(R.string.trip_confirmed_button_start_confirm_trip);
                         isStartButtonPressed = true;
+//                        mGoogleMap.addPolyline(new PolylineOptions().add(
+//                                FOS,
+//                                new LatLng(1.297371, 103.780215),
+//                                new LatLng(1.297210, 103.778740),
+//                                new LatLng(1.297938, 103.777194),
+//                                new LatLng(1.298816, 103.776295),
+//                                new LatLng(1.298857, 103.775404),
+//                                new LatLng(1.299177, 103.774825),
+//                                new LatLng(1.300694, 103.774342),
+//                                new LatLng(1.301362, 103.774505),
+//                                new LatLng(1.302798, 103.773953),
+//                                new LatLng(1.303471, 103.774430),
+//                                UTOWN)
+//                                .color(Color.BLUE)
+//                                .width(20));
                     } else {
                         // todo: start trip
                         // Testing visibility changes. todo: move this part to porter location proximity checks
@@ -319,26 +376,17 @@ public class TripConfirmedFragment extends Fragment
         });
     }
 
-//    private void setUpViewModel() {
-//
-//        Log.d(TAG, "setUpViewModel");
-//
-//        // Re-created activities receive the same MyViewModel instance created by the first activity.
-//        model = ViewModelProviders.of(mActivity).get(MyViewModel.class);
-//    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) { super.onActivityCreated(savedInstanceState); }
-
-    @Override
-    public void onStart() { super.onStart(); }
-
-    @Override
-    public void onResume() { super.onResume(); }
-
-    @Override
-    public void onPause() { super.onPause(); }
-
-    @Override
-    public void onDestroy() { super.onDestroy(); }
+    private void setupSocketListeners() {
+        mActivity.addDisposable(mActivity.socketManager.addOnPatronLocationUpdate(new Consumer<LocationUpdate>() {
+            @Override
+            public void accept(final LocationUpdate locationUpdate) {
+                mActivity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        patronMarker.setPosition(locationUpdate.getLocation());
+                    }
+                });
+            }
+        }));
+    }
 }

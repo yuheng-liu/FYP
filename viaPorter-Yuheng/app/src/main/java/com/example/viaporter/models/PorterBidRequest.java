@@ -10,12 +10,12 @@ public class PorterBidRequest {
 
     @SerializedName("bid_amount")
     @Expose
-    private String bidAmount;
+    private Double bidAmount;
 
     public String getPorterName() { return porterName; }
-    public String getBidAmount() { return bidAmount; }
+    public Double getBidAmount() { return bidAmount; }
 
-    public PorterBidRequest(String name, String amount) {
+    public PorterBidRequest(String name, Double amount) {
         porterName = name;
         bidAmount = amount;
     }

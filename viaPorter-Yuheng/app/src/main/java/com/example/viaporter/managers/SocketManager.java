@@ -1,6 +1,9 @@
 package com.example.viaporter.managers;
 
+import android.util.Log;
+
 import com.example.viaporter.constants.AppConstants;
+import com.example.viaporter.models.LocationUpdate;
 import com.example.viaporter.models.PatronTripRequest;
 
 import com.example.viaporter.models.PatronTripSuccess;
@@ -27,6 +30,7 @@ public class SocketManager {
     // Listen events
     private PublishRelay<PatronTripRequest> patronTripRequestRelay;
     private PublishRelay<PatronTripSuccess> patronTripSuccessRelay;
+    private PublishRelay<LocationUpdate> patronLocationUpdateRelay;
 
     /*                                      *
      * Use of Bill Pugh Singleton structure *
@@ -50,6 +54,7 @@ public class SocketManager {
     private void createPublishRelayObservers() {
         patronTripRequestRelay = PublishRelay.create();
         patronTripSuccessRelay = PublishRelay.create();
+        patronLocationUpdateRelay = PublishRelay.create();
     }
 
     public void connectSocket() {
@@ -84,9 +89,11 @@ public class SocketManager {
     public Disposable addOnPatronTripRequest(Consumer<PatronTripRequest> onSuccess){
         return patronTripRequestRelay.subscribe(onSuccess);
     }
-
     public Disposable addOnPatronTripSuccess(Consumer<PatronTripSuccess> onSuccess){
         return patronTripSuccessRelay.subscribe(onSuccess);
+    }
+    public Disposable addOnPatronLocationUpdate(Consumer<LocationUpdate> onSuccess){
+        return patronLocationUpdateRelay.subscribe(onSuccess);
     }
 
     // socket listeners
@@ -96,7 +103,9 @@ public class SocketManager {
             public void call(final Object... args) {
                 JSONObject data = (JSONObject) args[0];
                 PatronTripRequest newRequest = gson.fromJson(data.toString(), PatronTripRequest.class);
-                dataManager.addToBroadcastList(newRequest);
+                Log.d("testing", "patron trip request received");
+                Log.d("testing", newRequest.toString());
+//                dataManager.addToBroadcastList(newRequest);
                 patronTripRequestRelay.accept(newRequest);
             }
         });
@@ -106,8 +115,19 @@ public class SocketManager {
             public void call(Object... args) {
                 JSONObject data = (JSONObject) args[0];
                 PatronTripSuccess newTrip = gson.fromJson(data.toString(), PatronTripSuccess.class);
+                Log.d("testing", "" + newTrip.getPatronLocation());
                 dataManager.setCurrentTrip(newTrip);
                 patronTripSuccessRelay.accept(newTrip);
+            }
+        });
+
+        socket.on("patron_location_update", new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                JSONObject data = (JSONObject) args[0];
+                LocationUpdate newLocation = gson.fromJson(data.toString(), LocationUpdate.class);
+                Log.d("testing", "new location update received");
+                patronLocationUpdateRelay.accept(newLocation);
             }
         });
     }
