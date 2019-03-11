@@ -405,8 +405,6 @@ public class HomeFragment extends Fragment
 //        if (mFusedLocationClient != null) {
 //            mFusedLocationClient.removeLocationUpdates(mLocationCallback);
 //        }
-
-        //todo: find a way to save the current state as there is a problem of creating a new HomeFragment everytime reclicking into trip tab in bottom navigation
     }
 
     @Override

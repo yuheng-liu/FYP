@@ -53,12 +53,14 @@
     <string name="trip_confirmed_button_cancel_msg">Trip has already started. Are you sure you want to cancel?</string>
     <string name="trip_confirmed_button_stop_trip">Stop Trip</string>
     <string name="trip_confirmed_button_stop_msg">Are you sure you want to end your trip?</string>
+    <string name="trip_in_progress_main_title">Trip in Progress</string>
 
-    <string name="page_title_porter">Porter</string>
     <string name="profile_language">Language</string>
     <string name="profile_currency">Currency</string>
     <string name="profile_reminders">Reminders</string>
     <string name="profile_privacy_policy">Privacy Policy</string>
     <string name="profile_sign_out_msg">Are you sure you want to sign out?</string>
+
+    <string name="trip_review_popup_title">Your Trip</string>
 
 </resources>

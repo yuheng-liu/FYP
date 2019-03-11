@@ -4,7 +4,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/nav_graph"
-        app:startDestination="@id/navigation_trip">
+        app:startDestination="@+id/navigation_trip">
 
 
     <fragment
@@ -68,7 +68,9 @@
             tools:layout="@layout/trip_confirmed_fragment">
         <action
                 android:id="@+id/action_navigation_trip_confirmed_self"
-                app:popUpTo="@id/navigation_trip_confirmed"/>
+                app:launchSingleTop="true"
+                app:popUpTo="@+id/navigation_trip"
+                app:popUpToInclusive="true"/>
     </fragment>
 
 </navigation>

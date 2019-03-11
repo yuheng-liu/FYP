@@ -61,13 +61,12 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.M
         Log.i(TAG, "onCreate");
 
         disposables = new ArrayList<>();
+        mSocketManager = new SocketManager();
+        mDataManager = new DataManager();
 
         checkAppLocationPermission();
         setUpViewModel();
         setupViews();
-
-        mSocketManager = new SocketManager();
-        mDataManager = new DataManager();
     }
 
     // Google Maps
@@ -148,11 +147,9 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.M
 
         // Initialise a navigation controller for controlling navigation
         navController = Navigation.findNavController(findViewById(R.id.my_nav_host_fragment));
+        Log.d(TAG, "TripStatus  = " + getmDataManager().getTripStatus());
 
         botNavState = BotNavState.TRIP_STATE;
-
-        // todo: implement custom navigator here to fix fragment back stack reset bug
-        //navController.getNavigatorProvider();
 
         // Pair navigation controller with the bottom navigation bar
 //        NavigationUI.setupWithNavController(bottomNavigation, navController);

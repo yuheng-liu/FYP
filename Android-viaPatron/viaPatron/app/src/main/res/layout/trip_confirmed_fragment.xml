@@ -30,6 +30,7 @@
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:id="@+id/trip_confirm_page_title"
                     android:layout_gravity="center"
                     android:text="@string/trip_confirmed_main_title"
                     android:textSize="30sp"/>

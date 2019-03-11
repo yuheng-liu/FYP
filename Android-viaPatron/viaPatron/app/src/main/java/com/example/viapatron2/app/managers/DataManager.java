@@ -17,6 +17,14 @@ public class DataManager {
         tripStatus = TripStatus.NOT_STARTED;
     }
 
+    public void updateTripStatus(TripStatus updatedTripStatus) {
+        this.tripStatus = updatedTripStatus;
+    }
+
+    public TripStatus getTripStatus() {
+        return tripStatus;
+    }
+
     public void setCurrentLocation(LatLng location) {
         currentLocation = location;
     }

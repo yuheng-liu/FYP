@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDestination;
+import androidx.navigation.NavOptions;
 import androidx.navigation.Navigation;
 import com.example.viapatron2.BidderAdapter;
 import com.example.viapatron2.CallbackListener;
@@ -108,7 +109,7 @@ public class TripBiddingFragment extends Fragment {
         navController.addOnDestinationChangedListener(new NavController.OnDestinationChangedListener() {
             @Override
             public void onDestinationChanged(@NonNull NavController controller, @NonNull NavDestination destination, @Nullable Bundle arguments) {
-                Log.d(TAG, "onDestinationChanged " + destination.getLabel() + destination.getId());
+                Log.d(TAG, "onDestinationChanged " + destination.getLabel());
             }
         });
 
@@ -226,7 +227,14 @@ public class TripBiddingFragment extends Fragment {
                                 if (countDownTimer != null) {
                                     countDownTimer.cancel();
                                 }
-                                navController.navigate(R.id.navigation_trip_confirmed);
+
+                                NavOptions navOptions = new NavOptions.Builder()
+                                        .setPopUpTo(R.id.navigation_trip, false)
+                                        .build();
+                                navController.navigate(R.id.navigation_trip_confirmed, null, navOptions);
+
+                                // Update trip status to manage navigation
+                                mActivity.getmDataManager().updateTripStatus(TripStatus.PATRON_STARTED);
                             }
                         })
                         .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
