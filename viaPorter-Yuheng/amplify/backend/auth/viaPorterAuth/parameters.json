@@ -1,0 +1,64 @@
+{
+    "userPoolName": "viaporter_yuhengff8fb6ee_userpool_ff8fb6ee",
+    "autoVerifiedAttributes": [
+        "phone_number"
+    ],
+    "mfaConfiguration": "OFF",
+    "mfaTypes": [
+        "SMS Text Message"
+    ],
+    "roleName": "viaPorterAuth_sns-role",
+    "roleExternalId": "viaPorterAuth_role_external_id",
+    "policyName": "viaPorterAuth-sns-policy",
+    "smsAuthenticationMessage": "Your authentication code is {####}",
+    "smsVerificationMessage": "Your verification code is {####}",
+    "emailVerificationSubject": "Your verification code",
+    "emailVerificationMessage": "Your verification code is {####}",
+    "defaultPasswordPolicy": false,
+    "passwordPolicyMinLength": 8,
+    "passwordPolicyCharacters": [
+        "Requires Lowercase",
+        "Requires Uppercase",
+        "Requires Numbers",
+        "Requires Symbols"
+    ],
+    "requiredAttributes": [
+        "email",
+        "phone_number"
+    ],
+    "userpoolClientName": "viaPorterAuth_app_client",
+    "userpoolClientGenerateSecret": true,
+    "userpoolClientRefreshTokenValidity": 30,
+    "userpoolClientReadAttributes": [
+        "email"
+    ],
+    "mfaLambdaRole": "viaPorterAuth_totp_lambda_role",
+    "mfaLambdaLogPolicy": "viaPorterAuth_totp_lambda_log_policy",
+    "mfaPassRolePolicy": "viaPorterAuth_totp_pass_role_policy",
+    "mfaLambdaIAMPolicy": "viaPorterAuth_totp_lambda_iam_policy",
+    "userpoolClientLambdaRole": "viaPorterAuth_userpoolclient_lambda_role",
+    "userpoolClientLogPolicy": "viaPorterAuth_userpoolclient_lambda_log_policy",
+    "userpoolClientLambdaPolicy": "viaPorterAuth_userpoolclient_lambda_iam_policy",
+    "userpoolClientSetAttributes": false,
+    "useDefault": "manual",
+    "authSelections": "userPoolOnly",
+    "resourceName": "viaPorterAuth",
+    "authRoleName": {
+        "Ref": "AuthRoleName"
+    },
+    "unauthRoleName": {
+        "Ref": "UnauthRoleName"
+    },
+    "authRoleArn": {
+        "Fn::GetAtt": [
+            "AuthRole",
+            "Arn"
+        ]
+    },
+    "unauthRoleArn": {
+        "Fn::GetAtt": [
+            "UnauthRole",
+            "Arn"
+        ]
+    }
+}

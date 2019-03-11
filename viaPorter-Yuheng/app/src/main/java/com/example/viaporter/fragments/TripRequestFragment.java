@@ -18,8 +18,6 @@ import com.example.viaporter.MainActivity;
 import com.example.viaporter.adapters.BroadcastAdapter;
 import com.example.viaporter.adapters.CurrentBidAdapter;
 import com.example.viaporter.R;
-import com.example.viaporter.managers.DataManager;
-import com.example.viaporter.managers.SocketManager;
 import com.example.viaporter.models.PatronTripRequest;
 import com.example.viaporter.models.PatronTripSuccess;
 import com.example.viaporter.models.PorterBidRequest;

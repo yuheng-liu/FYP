@@ -45,7 +45,7 @@ io.on('connection', (socket) => {
 	})
 
 	socket.on('location_update_patron', (locationUpdate) => {
-		console.log("patron location update");
+		console.log("PATRON LOCATION UPDATE");
 		socket.broadcast.emit('patron_location_update', locationUpdate);
 	})
 

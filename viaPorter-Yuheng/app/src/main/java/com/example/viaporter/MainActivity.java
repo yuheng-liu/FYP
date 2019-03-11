@@ -1,24 +1,21 @@
 package com.example.viaporter;
 
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 
-import com.example.viaporter.Utilities.directionHelpers.TaskLoadedCallback;
+import com.amazonaws.mobile.client.AWSMobileClient;
 import com.example.viaporter.fragments.ProfileFragment;
-import com.example.viaporter.fragments.TripConfirmedFragment;
 import com.example.viaporter.managers.DataManager;
 import com.example.viaporter.managers.SocketManager;
 import com.example.viaporter.models.BotNavState;
-import com.google.android.gms.maps.model.Polyline;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +24,6 @@ import androidx.navigation.NavController;
 import androidx.navigation.NavDestination;
 import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
-import androidx.navigation.ui.NavigationUI;
 import io.reactivex.disposables.Disposable;
 
 import static com.example.viaporter.constants.AppConstants.PERMISSION_FINE_LOCATION;
@@ -219,7 +215,19 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.M
 
     @Override
     public void onLogoutButtonSelected() {
+        Log.d(TAG, "onLogoutButtonSelected");
 
+        try {
+            AWSMobileClient.getInstance().signOut();
+
+            // Tips: Intents should be created and activated within activities
+            // go back to authentication screen
+            Intent authIntent = new Intent(this, AuthenticationActivity.class);
+            this.finish();
+            startActivity(authIntent);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /* Utility methods */

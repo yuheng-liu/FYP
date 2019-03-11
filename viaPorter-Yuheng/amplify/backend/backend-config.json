@@ -1,0 +1,8 @@
+{
+	"auth": {
+		"viaPorterAuth": {
+			"service": "Cognito",
+			"providerPlugin": "awscloudformation"
+		}
+	}
+}

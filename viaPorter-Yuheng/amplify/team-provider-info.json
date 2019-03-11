@@ -1,0 +1,19 @@
+{
+    "main": {
+        "awscloudformation": {
+            "AuthRoleName": "viaporter-yuheng-20190311154352-authRole",
+            "UnauthRoleArn": "arn:aws:iam::573611429528:role/viaporter-yuheng-20190311154352-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::573611429528:role/viaporter-yuheng-20190311154352-authRole",
+            "Region": "ap-southeast-1",
+            "DeploymentBucketName": "viaporter-yuheng-20190311154352-deployment",
+            "UnauthRoleName": "viaporter-yuheng-20190311154352-unauthRole",
+            "StackName": "viaporter-yuheng-20190311154352",
+            "StackId": "arn:aws:cloudformation:ap-southeast-1:573611429528:stack/viaporter-yuheng-20190311154352/6ae61440-43d1-11e9-b33d-0a996106fc92"
+        },
+        "categories": {
+            "auth": {
+                "viaPorterAuth": {}
+            }
+        }
+    }
+}
