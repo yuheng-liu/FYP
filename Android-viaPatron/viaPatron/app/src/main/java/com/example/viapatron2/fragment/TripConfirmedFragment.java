@@ -1,11 +1,8 @@
 package com.example.viapatron2.fragment;
 
-import android.app.Dialog;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
@@ -24,6 +21,7 @@ import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import androidx.navigation.NavController;
+import androidx.navigation.NavOptions;
 import androidx.navigation.Navigation;
 import com.example.viapatron2.R;
 import com.example.viapatron2.activity.MainActivity;
@@ -69,7 +67,6 @@ public class TripConfirmedFragment extends Fragment
 
     // Local variables
     private boolean isStartButtonPressed = false;
-    private boolean isPorterNearby = false;
 
     // Location Services variables
     private SupportMapFragment mapFragment;
@@ -79,12 +76,11 @@ public class TripConfirmedFragment extends Fragment
     private LatLng currentLocation;
 
     private Marker porterMarker;
+    private AlertDialog reviewDialog;
 
 //    private Marker originMarker;
 //    private Marker destMarker;
 //    private Bitmap driverCarMarkerBitmap, driverAutoMarkerBitmap, driverSuvMarkerBitmap;
-//
-//    private LatLng currentLocation;
 
     public TripConfirmedFragment() {
         // Empty constructor
@@ -109,9 +105,6 @@ public class TripConfirmedFragment extends Fragment
         mActivity = (MainActivity) requireActivity();
 
         setUpMap();
-//        setViews();
-//        setUpViewModel();
-//        setupSocketListeners();
     }
 
     private void setUpMap() {
@@ -265,7 +258,7 @@ public class TripConfirmedFragment extends Fragment
         stopTripButton = mActivity.findViewById(R.id.button_stop_official_trip);
         navController = Navigation.findNavController(mActivity, R.id.my_nav_host_fragment);
 
-        Log.d(TAG, "TripStatue = " + mActivity.getmDataManager().getTripStatus());
+        Log.d(TAG, "TripStatus = " + mActivity.getmDataManager().getTripStatus());
         if (mActivity.getmDataManager().getTripStatus() == TripStatus.IN_PROGRESS) {
             stopTripButton.setVisibility(View.VISIBLE);
             startTripButton.setVisibility(View.GONE);
@@ -296,13 +289,20 @@ public class TripConfirmedFragment extends Fragment
                     new AlertDialog.Builder(mActivity)
                             .setTitle(R.string.trip_confirmed_button_cancel_trip)
                             .setMessage(R.string.trip_confirmed_button_cancel_msg)
-                            .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
-                                    // todo: cancel trip and go back to home page
+
+                                    mActivity.getmDataManager().updateTripStatus(TripStatus.CANCELLED);
+
+                                    // Cancel trip and go back to home page
+                                    NavOptions navOptions = new NavOptions.Builder()
+                                            .setPopUpTo(R.id.navigation_trip_confirmed, true)
+                                            .build();
+                                    navController.navigate(R.id.navigation_trip, null, navOptions);
                                 }
                             })
-                            .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     // do nothing
@@ -324,9 +324,14 @@ public class TripConfirmedFragment extends Fragment
                             .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
-                                    // todo: update review UI
-                                    showReviewPopup();
-                                    // todo: go back to home page
+
+                                    mActivity.getmDataManager().updateTripStatus(TripStatus.ENDED);
+
+                                    // Cancel trip and go back to home page
+                                    NavOptions navOptions = new NavOptions.Builder()
+                                            .setPopUpTo(R.id.navigation_trip_confirmed, true)
+                                            .build();
+                                    navController.navigate(R.id.navigation_trip, null, navOptions);
                                 }
                             })
                             .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -340,30 +345,6 @@ public class TripConfirmedFragment extends Fragment
                 }
             });
         }
-    }
-
-    private void showReviewPopup() {
-
-        Dialog reviewDialog = new Dialog(mActivity);
-        reviewDialog.setContentView(R.layout.review_custom_popup);
-
-        Button reviewButton = mActivity.findViewById(R.id.trip_ended_review_button);
-
-        if (reviewButton != null) {
-            reviewButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    // todo: fix bug of dialog not disappearing
-                    Log.d(TAG, "clicking review button");
-                    reviewDialog.dismiss();
-                }
-            });
-        }
-
-        if (reviewDialog.getWindow() != null) {
-            reviewDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        }
-        reviewDialog.show();
     }
 
     private void setUpViewModel() {
@@ -411,8 +392,11 @@ public class TripConfirmedFragment extends Fragment
                             porterMarker.setPosition(porterUpdatedLocation.getUpdatedLocation());
 
                             Log.d(TAG, "distance = " + distanceBetwUsers(currentLocation, porterUpdatedLocation.getUpdatedLocation()));
-                            if (distanceBetwUsers(currentLocation, porterUpdatedLocation.getUpdatedLocation()) < MAP_DISTANCE_BETWEEN_PROXIMITY) {
-                                notifyPorterArrived();
+
+                            if (mActivity.getmDataManager().getTripStatus() != TripStatus.IN_PROGRESS) {
+                                if (distanceBetwUsers(currentLocation, porterUpdatedLocation.getUpdatedLocation()) < MAP_DISTANCE_BETWEEN_PROXIMITY) {
+                                    notifyPorterArrived();
+                                }
                             }
                         } catch (Exception e) {
                             e.printStackTrace();

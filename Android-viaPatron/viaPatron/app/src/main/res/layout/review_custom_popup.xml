@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="330dp"
-        android:layout_height="485dp"
+        android:layout_width="350dp"
+        android:layout_height="550dp"
         android:layout_gravity="center"
         android:orientation="vertical"
         android:paddingTop="10dp"
@@ -36,7 +36,7 @@
 
     <ImageButton
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="180dp"
             android:background="@color/colorPrimaryGreyDark"/>
 
     <LinearLayout
@@ -96,7 +96,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="Temporary button"/>
+                    android:text="TEMP END BUTTON"/>
         </LinearLayout>
 
 

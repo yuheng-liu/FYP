@@ -3,6 +3,8 @@ package com.example.viapatron2.fragment;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Build;
@@ -12,6 +14,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatSpinner;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -24,13 +27,13 @@ import com.example.viapatron2.R;
 import com.example.viapatron2.activity.MainActivity;
 import com.example.viapatron2.app.constants.AppConstants;
 import com.example.viapatron2.core.models.MyViewModel;
+import com.example.viapatron2.core.models.TripStatus;
 import com.example.viapatron2.core.models.UserTripRequestSession;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.*;
 import com.google.android.gms.maps.*;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.PointOfInterest;
 
 import static com.example.viapatron2.app.constants.AppConstants.*;
@@ -52,6 +55,7 @@ public class HomeFragment extends Fragment
     private AppCompatSpinner stationSpinner;
     private ArrayAdapter<CharSequence> adapter;
     private View mMapView;
+    private AlertDialog reviewDialog;
 
     // Controllers
     private MyViewModel model;
@@ -63,12 +67,8 @@ public class HomeFragment extends Fragment
     private GoogleMap mGoogleMap;
     private LatLng currentLocation;
     private GoogleApiClient mGoogleApiClient;
-    private Location mLastLocation;
-    private Marker mCurrLocationMarker;
     private FusedLocationProviderClient mFusedLocationClient;
     private LocationRequest mLocationRequest;
-    private boolean hasStartingPointChanged = false;
-    private boolean hasEndingPointChanged = false;
 
 
     public HomeFragment() {
@@ -110,6 +110,57 @@ public class HomeFragment extends Fragment
     private void setUpViews() {
         stationSpinner = (AppCompatSpinner) mActivity.findViewById(R.id.stations_spinner);
         nextButton = (Button) mActivity.findViewById(R.id.stations_spinner_next);
+
+        checkTripStatus();
+    }
+
+    /*
+     * Checks if user is returning from a recent completed trip.
+     * If so, alert user to give the porter a review and returns to main screen afterwards.
+     */
+    private void checkTripStatus() {
+
+        Log.d(TAG, "current trip status = " + mActivity.getmDataManager().getTripStatus());
+
+        if (mActivity.getmDataManager().getTripStatus() == TripStatus.ENDED) {
+            initReviewDialog();
+        } else if (mActivity.getmDataManager().getTripStatus() == TripStatus.CANCELLED) {
+            initCancellationPolicyDialog();
+        }
+    }
+
+    private void initReviewDialog() {
+
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(mActivity);
+        LayoutInflater inflater = this.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.review_custom_popup, null);
+        dialogBuilder.setView(dialogView);
+
+        // todo: update to actual stars rating
+        Button reviewButton = dialogView.findViewById(R.id.trip_ended_review_button);
+
+        if (reviewButton != null) {
+            reviewButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    reviewDialog.cancel();
+
+                    // Update TripStatus
+                    mActivity.getmDataManager().updateTripStatus(TripStatus.NOT_STARTED);
+                }
+            });
+        }
+
+        reviewDialog = dialogBuilder.create();
+        if (reviewDialog.getWindow() != null) {
+            reviewDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        }
+
+        reviewDialog.show();
+    }
+
+    private void initCancellationPolicyDialog() {
+        // todo: future work
     }
 
     private void setUpMap() {
