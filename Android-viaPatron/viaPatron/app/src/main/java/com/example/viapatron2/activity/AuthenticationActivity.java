@@ -1,6 +1,7 @@
 package com.example.viapatron2.activity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -27,27 +28,35 @@ public class AuthenticationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_authentication);
 
         if(AWSMobileClient.getInstance().getConfiguration() != null) {
-//            Log.d(TAG, "onCreate, getConfiguration != null");
+            //Log.d(TAG, "onCreate, getConfiguration != null");
 
             // For users who logged out after signing in
-            UserStateDetails userStateDetails = AWSMobileClient.getInstance().currentUserState();
-            showSignInForUser(userStateDetails);
+            try {
+                UserStateDetails userStateDetails = AWSMobileClient.getInstance().currentUserState();
+                showSignInForUser(userStateDetails);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         } else {
-//            Log.d(TAG, "onCreate, getConfiguration == null");
+            //Log.d(TAG, "onCreate, getConfiguration == null");
 
             // First time signing in
-            AWSMobileClient.getInstance().initialize(getApplicationContext(), new Callback<UserStateDetails>() {
+            try {
+                AWSMobileClient.getInstance().initialize(getApplicationContext(), new Callback<UserStateDetails>() {
 
-                @Override
-                public void onResult(UserStateDetails userStateDetails) {
-                    showSignInForUser(userStateDetails);
-                }
+                    @Override
+                    public void onResult(UserStateDetails userStateDetails) {
+                        showSignInForUser(userStateDetails);
+                    }
 
-                @Override
-                public void onError(Exception e) {
-                    Log.e(TAG, e.toString());
-                }
-            });
+                    @Override
+                    public void onError(Exception e) {
+                        Log.e(TAG, e.toString());
+                    }
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -81,8 +90,8 @@ public class AuthenticationActivity extends AppCompatActivity {
             AWSMobileClient.getInstance().showSignIn(this,
                     SignInUIOptions.builder()
                             .nextActivity(MainActivity.class)
-                            .logo(R.drawable.screen1_banner)
-                            .backgroundColor(R.color.colorPrimary)
+                            .logo(R.drawable.ic_holidays)
+                            .backgroundColor(Color.rgb(1, (float) 156/255, (float) 36/255))
                             .canCancel(false)
                             .build(),
                     new Callback<UserStateDetails>() {

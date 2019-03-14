@@ -167,20 +167,30 @@ public class TripConfirmedFragment extends Fragment
     }
 
     private void setMapUiSettings() {
+
         // Map UI settings
         UiSettings mUiSettings = mGoogleMap.getUiSettings();
         mUiSettings.setMyLocationButtonEnabled(true);
-        mUiSettings.setCompassEnabled(false);
+        mUiSettings.setCompassEnabled(true);
         mUiSettings.setMapToolbarEnabled(false);
 
-        // Move location button to bottom
+        // Retrieve location button
         View locationButton = ((View) mMapView.findViewById(Integer.parseInt("1")).getParent()).findViewById(Integer.parseInt("2"));
         RelativeLayout.LayoutParams rlp = (RelativeLayout.LayoutParams) locationButton.getLayoutParams();
 
-        // position on right bottom
-        rlp.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, 0);
-        rlp.addRule(RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.TRUE);
-        rlp.setMargins(0, 50, 50, 50);
+        // Retrieve compass button
+        View compassButton = ((View) mMapView.findViewById(Integer.parseInt("1")).getParent()).findViewById(Integer.parseInt("5"));
+        RelativeLayout.LayoutParams rlpCompass = (RelativeLayout.LayoutParams) compassButton.getLayoutParams();
+
+        // position location button at right bottom
+        rlp.addRule(RelativeLayout.ALIGN_PARENT_TOP, 0);
+        rlp.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
+        rlp.setMargins(0, 50, 100, 225);
+
+        // position compass button at left button
+        rlpCompass.addRule(RelativeLayout.ALIGN_PARENT_TOP, 0);
+        rlpCompass.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
+        rlpCompass.setMargins(100, 50, 0, 225);
     }
 
     private void buildGoogleApiClient() {

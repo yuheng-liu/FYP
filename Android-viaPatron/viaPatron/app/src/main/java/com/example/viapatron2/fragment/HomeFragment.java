@@ -94,9 +94,9 @@ public class HomeFragment extends Fragment
         mActivity = (MainActivity) requireActivity();
 
         setUpMap();
-        setUpViews();
-        setUpViewModel();
-        setUpClickable();
+//        setUpViews();
+//        setUpViewModel();
+//        setUpClickable();
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(mActivity);
         navController = Navigation.findNavController(mActivity, R.id.my_nav_host_fragment);
@@ -246,17 +246,25 @@ public class HomeFragment extends Fragment
         // Map UI settings
         UiSettings mUiSettings = mGoogleMap.getUiSettings();
         mUiSettings.setMyLocationButtonEnabled(true);
-        mUiSettings.setCompassEnabled(false);
+        mUiSettings.setCompassEnabled(true);
         mUiSettings.setMapToolbarEnabled(false);
 
         // Move location button to bottom
         View locationButton = ((View) mMapView.findViewById(Integer.parseInt("1")).getParent()).findViewById(Integer.parseInt("2"));
         RelativeLayout.LayoutParams rlp = (RelativeLayout.LayoutParams) locationButton.getLayoutParams();
 
-        // position on right bottom
-        rlp.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, 0);
-        rlp.addRule(RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.TRUE);
-        rlp.setMargins(0, 50, 50, 50);
+        View compassButton = ((View) mMapView.findViewById(Integer.parseInt("1")).getParent()).findViewById(Integer.parseInt("5"));
+        RelativeLayout.LayoutParams rlpCompass = (RelativeLayout.LayoutParams) compassButton.getLayoutParams();
+
+        // position location button at right bottom
+        rlp.addRule(RelativeLayout.ALIGN_PARENT_TOP, 0);
+        rlp.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
+        rlp.setMargins(0, 50, 100, 225);
+
+        // position compass button at left button
+        rlpCompass.addRule(RelativeLayout.ALIGN_PARENT_TOP, 0);
+        rlpCompass.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
+        rlpCompass.setMargins(100, 50, 0, 225);
     }
 
     private LocationCallback mLocationCallback = new LocationCallback() {
@@ -405,37 +413,6 @@ public class HomeFragment extends Fragment
         }
     }
 
-//    LocationCallback mLocationCallback = new LocationCallback() {
-//        @Override
-//        public void onLocationResult(LocationResult locationResult) {
-//
-//            Log.d(TAG, "onLocationResult");
-//
-//            List<Location> locationList = locationResult.getLocations();
-//            if (locationList.size() > 0) {
-//                //The last location in the list is the newest
-//                Location location = locationList.get(locationList.size() - 1);
-//                Log.i("MapsActivity", "Location: " + location.getLatitude() + " " + location.getLongitude());
-//                mLastLocation = location;
-//                if (mCurrLocationMarker != null) {
-//                    mCurrLocationMarker.remove();
-//                }
-//
-//                //Place current location marker
-//                LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-//                MarkerOptions markerOptions = new MarkerOptions();
-//                markerOptions.position(latLng);
-//                markerOptions.title("Current Position");
-//                markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
-//                mCurrLocationMarker = mGoogleMap.addMarker(markerOptions);
-//
-//                //move map camera
-//                mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 11));
-//            }
-//        }
-//    };
-//
-
     @Override
     public void onStart() {
         super.onStart();
@@ -446,6 +423,10 @@ public class HomeFragment extends Fragment
         super.onResume();
 
         Log.d(TAG, "onResume");
+
+        setUpViews();
+        setUpViewModel();
+        setUpClickable();
     }
 
     @Override

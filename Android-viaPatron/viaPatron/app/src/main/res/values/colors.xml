@@ -10,4 +10,5 @@
     <color name="colorWarning">#FFBC55</color>
     <color name="colorError">#DD1C39</color>
     <color name="colorAccent">#3389EE</color>
+    <color name="colorBrightOrange">#FF9C24</color>
 </resources>
