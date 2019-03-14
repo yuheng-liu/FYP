@@ -15,13 +15,12 @@ import com.amazonaws.mobile.client.AWSMobileClient;
 import com.example.viaporter.fragments.ProfileFragment;
 import com.example.viaporter.managers.DataManager;
 import com.example.viaporter.managers.SocketManager;
-import com.example.viaporter.models.BotNavState;
+import com.example.viaporter.models.TripStatus;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import androidx.navigation.NavController;
-import androidx.navigation.NavDestination;
 import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import io.reactivex.disposables.Disposable;
@@ -38,12 +37,9 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.M
     public SocketManager socketManager;
     public DataManager dataManager;
 
-    private BotNavState botNavState;
-    private boolean isNavBottom = false;
-    private NavDestination tempNavDest;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -78,11 +74,6 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.M
 
         // Initialise a navigation controller for controlling navigation
         navController = Navigation.findNavController(findViewById(R.id.my_nav_host_fragment));
-
-//        botNavState = BotNavState.TRIP_STATE;
-
-        // Pair navigation controller with the bottom navigation bar
-//        NavigationUI.setupWithNavController(bottomNavigation, navController);
     }
 
     private void setupManagers() {
@@ -131,41 +122,21 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.M
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
             switch (item.getItemId()) {
-                case R.id.navigation_trip:
-                    Log.d(TAG, "selected trip");
-
-                    if (item.getItemId() != navController.getCurrentDestination().getId())
-                        navController.navigate(R.id.navigation_trip);
-//                    if (isNavBottom) {
-//                        if (tempNavDest != null) {
-//                            navController.popBackStack(tempNavDest.getId(), false);
-//                            botNavState = BotNavState.TRIP_STATE;
-//                        }
-//                    } else {
-//                        Log.d(TAG, "navigating to trip directly");
+//                case R.id.navigation_trip:
+//                    Log.d(TAG, "selected trip");
+//
+//                    if (item.getItemId() != navController.getCurrentDestination().getId())
 //                        navController.navigate(R.id.navigation_trip);
-//                        botNavState = BotNavState.TRIP_STATE;
-//                    }
 
-                    return true;
                 case R.id.navigation_jobs:
                     Log.d(TAG, "selected job");
 
-                    if (navController.getCurrentDestination().getId() != R.id.navigation_jobs)
-                        navController.navigate(R.id.navigation_jobs);
-//                    if (botNavState == BotNavState.TRIP_STATE){
-//                        // Coming from trip fragment.
-//                        // Save destination for returning later.
-//                        tempNavDest = navController.getCurrentDestination();
-//                        if (tempNavDest != null) {
-//                            isNavBottom = true;
-//                        }
-//                        navController.navigate(R.id.navigation_jobs);
-//                        botNavState = BotNavState.JOB_STATE;
-//                    } else {
-//                        navController.navigate(R.id.navigation_jobs);
-//                        botNavState = BotNavState.JOB_STATE;
-//                    }
+                    if (dataManager.getTripStatus() == TripStatus.IN_PROGRESS){
+                        navController.popBackStack(R.id.navigation_trip_confirmed, false);
+                    } else {
+                        if (navController.getCurrentDestination().getId() != R.id.navigation_jobs)
+                            navController.navigate(R.id.navigation_jobs);
+                    }
 
                     return true;
                 case R.id.navigation_chats:
@@ -173,19 +144,6 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.M
 
                     if (item.getItemId() != navController.getCurrentDestination().getId())
                         navController.navigate(R.id.navigation_chats);
-//                    if (botNavState == BotNavState.TRIP_STATE){
-//                        // Coming from trip fragment.
-//                        // Save destination for returning later.
-//                        tempNavDest = navController.getCurrentDestination();
-//                        if (tempNavDest != null) {
-//                            isNavBottom = true;
-//                        }
-//                        navController.navigate(R.id.navigation_chats);
-//                        botNavState = BotNavState.CHAT_STATE;
-//                    } else {
-//                        navController.navigate(R.id.navigation_chats);
-//                        botNavState = BotNavState.CHAT_STATE;
-//                    }
 
                     return true;
                 case R.id.navigation_profile:
@@ -193,19 +151,6 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.M
 
                     if (item.getItemId() != navController.getCurrentDestination().getId())
                         navController.navigate(R.id.navigation_profile);
-//                    if (botNavState == BotNavState.TRIP_STATE){
-//                        // Coming from trip fragment.
-//                        // Save destination for returning later.
-//                        tempNavDest = navController.getCurrentDestination();
-//                        if (tempNavDest != null) {
-//                            isNavBottom = true;
-//                        }
-//                        navController.navigate(R.id.navigation_profile);
-//                        botNavState = BotNavState.PROFILE_STATE;
-//                    } else {
-//                        navController.navigate(R.id.navigation_profile);
-//                        botNavState = BotNavState.PROFILE_STATE;
-//                    }
 
                     return true;
             }

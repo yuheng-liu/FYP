@@ -4,20 +4,18 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/nav_graph"
-        app:startDestination="@id/navigation_trip">
+        app:startDestination="@id/navigation_jobs">
 
-
-    <fragment
-            android:id="@+id/navigation_trip"
-            android:name="com.example.viaporter.fragments.HomeFragment"
-            android:label="home_fragment"
-            tools:layout="@layout/home_fragment"/>
 
     <fragment
             android:id="@+id/navigation_jobs"
             android:name="com.example.viaporter.fragments.TripRequestFragment"
             android:label="trip_request_fragment"
-            tools:layout="@layout/trip_request_fragment"/>
+            tools:layout="@layout/trip_request_fragment">
+        <action
+            android:id="@+id/action_navigation_jobs_to_navigation_trip_confirmed"
+            app:destination="@id/navigation_trip_confirmed" />
+    </fragment>
 
     <fragment
             android:id="@+id/navigation_chats"
@@ -35,10 +33,6 @@
         android:id="@+id/navigation_trip_confirmed"
         android:name="com.example.viaporter.fragments.TripConfirmedFragment"
         android:label="trip_confirmed_fragment"
-        tools:layout="@layout/trip_confirmed_fragment">
-        <action
-            android:id="@+id/action_navigation_trip_confirmed_self"
-            app:popUpTo="@id/navigation_trip_confirmed"/>
-    </fragment>
+        tools:layout="@layout/trip_confirmed_fragment"/>
 
 </navigation>

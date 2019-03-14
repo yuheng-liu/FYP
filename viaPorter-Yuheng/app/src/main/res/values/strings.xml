@@ -48,5 +48,7 @@
     <string name="trip_confirmed_button_cancel_msg">Trip has already started. Are you sure you want to cancel?</string>
     <string name="trip_confirmed_button_start_confirm_trip">Press again to confirm</string>
     <string name="trip_confirmed_button_stop_trip">Stop Trip</string>
+    <string name="trip_confirmed_trip_in_progress">Trip In Progress</string>
+    <string name="trip_review_popup_title">Your Trip</string>
 
 </resources>

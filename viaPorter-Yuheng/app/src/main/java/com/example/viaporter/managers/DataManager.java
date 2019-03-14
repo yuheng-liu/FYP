@@ -2,6 +2,7 @@ package com.example.viaporter.managers;
 
 import com.example.viaporter.models.PatronTripRequest;
 import com.example.viaporter.models.PatronTripSuccess;
+import com.example.viaporter.models.TripStatus;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
@@ -13,15 +14,17 @@ public class DataManager {
     private List<PatronTripRequest> BroadcastRequestList;
     private List<PatronTripRequest> CurrentBidList;
     private PatronTripSuccess CurrentTrip;
+    private TripStatus tripStatus;
 
     private LatLng currentLocation;
-
     /*                                      *
      * Use of Bill Pugh Singleton structure *
      *                                      */
     // Private constructor //
     private DataManager() {
-        resetData();
+        BroadcastRequestList = new ArrayList<>();
+        CurrentBidList = new ArrayList<>();
+        tripStatus = TripStatus.IDLE;
     }
     // Static inner class are not loaded until they are referenced
     private static class dataManagerholder {
@@ -33,12 +36,6 @@ public class DataManager {
     }
     /* ************************************ */
 
-    public void resetData() {
-        BroadcastRequestList = new ArrayList<PatronTripRequest>();
-        CurrentBidList = new ArrayList<PatronTripRequest>();
-        CurrentTrip = null;
-    }
-
     // getters
     public List<PatronTripRequest> getBroadcastRequestList() {
         return BroadcastRequestList;
@@ -48,6 +45,9 @@ public class DataManager {
     }
     public PatronTripSuccess getCurrentTrip() { return CurrentTrip; }
     public LatLng getCurrentLocation() { return currentLocation; }
+    public TripStatus getTripStatus() {
+        return tripStatus;
+    }
 
     // setters
     public void addToBroadcastList(PatronTripRequest newRequest) { BroadcastRequestList.add(newRequest); }
@@ -55,4 +55,10 @@ public class DataManager {
         CurrentTrip = newTrip;
     }
     public void setCurrentLocation(LatLng currentLocation) { this.currentLocation = currentLocation; }
+    public void setTripStatus(TripStatus tripStatus) { this.tripStatus = tripStatus; }
+
+    // For showing review page after navigating to home
+    private boolean showReviewInHome = false;
+    public boolean isShowReviewInHome() { return showReviewInHome; }
+    public void setShowReviewInHome(boolean showReviewInHome) { this.showReviewInHome = showReviewInHome; }
 }

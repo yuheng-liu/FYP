@@ -1,6 +1,8 @@
 package com.example.viaporter.fragments;
 
 import android.content.DialogInterface;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -12,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.example.viaporter.CallbackListener;
 import com.example.viaporter.MainActivity;
@@ -22,12 +25,14 @@ import com.example.viaporter.models.PatronTripRequest;
 import com.example.viaporter.models.PatronTripSuccess;
 import com.example.viaporter.models.PorterBidRequest;
 import com.example.viaporter.models.PorterTripAccept;
+import com.example.viaporter.models.TripStatus;
 import com.google.gson.Gson;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import androidx.navigation.NavController;
+import androidx.navigation.NavOptions;
 import androidx.navigation.Navigation;
 import io.reactivex.functions.Consumer;
 
@@ -43,6 +48,7 @@ public class TripRequestFragment extends Fragment {
     private AlertDialog bidSuccessDialog;
     private Gson gson;
     private PatronTripRequest selectedBidRequest;
+    private AlertDialog reviewDialog;
 
     public TripRequestFragment() {} // Empty constructor
 
@@ -80,8 +86,8 @@ public class TripRequestFragment extends Fragment {
         mCurrentBidView.setAdapter(mCurrentBidAdapter);
 
         // Create alert dialog for when a bid is successful
-        AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
-        builder.setMessage("The bid is successful")
+        AlertDialog.Builder bidSuccessBuilder = new AlertDialog.Builder(mActivity);
+        bidSuccessBuilder.setMessage("The bid is successful")
                 .setTitle("Bid Success")
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
@@ -93,10 +99,31 @@ public class TripRequestFragment extends Fragment {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                        navController.navigate(R.id.navigation_trip_confirmed);
+                        navigateToTripConfirmed();
                     }
                 });
-        bidSuccessDialog = builder.create();
+        bidSuccessDialog = bidSuccessBuilder.create();
+
+        // Create dialog for review page
+        AlertDialog.Builder reviewPageBuilder = new AlertDialog.Builder(mActivity);
+        final View reviewView = getLayoutInflater().inflate(R.layout.review_custom_popup, null);
+        reviewPageBuilder.setView(reviewView);
+        Button reviewCancelButton = reviewView.findViewById(R.id.trip_ended_review_button);
+        reviewCancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                reviewDialog.cancel();
+            }
+        });
+        reviewDialog = reviewPageBuilder.create();
+        if (reviewDialog.getWindow() != null) {
+            reviewDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        }
+
+        if (mActivity.dataManager.getTripStatus() == TripStatus.STOPPED){
+            reviewDialog.show();
+            mActivity.dataManager.setTripStatus(TripStatus.IDLE);
+        }
     }
 
     private void setupSocket() {
@@ -131,7 +158,7 @@ public class TripRequestFragment extends Fragment {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                        navController.navigate(R.id.navigation_trip_confirmed);
+                        navigateToTripConfirmed();
                     }
                 });
             }
@@ -212,6 +239,15 @@ public class TripRequestFragment extends Fragment {
                         .show();
             }
         });
+    }
+
+    private void navigateToTripConfirmed() {
+//        NavOptions navOptions = new NavOptions.bidSuccessBuilder()
+//                .setPopUpTo(R.id.navigation_jobs, true)
+//                .build();
+//        navController.navigate(R.id.navigation_trip_confirmed, null, navOptions);
+        mActivity.dataManager.setTripStatus(TripStatus.IN_PROGRESS);
+        navController.navigate(R.id.navigation_trip_confirmed);
     }
 
     @Override

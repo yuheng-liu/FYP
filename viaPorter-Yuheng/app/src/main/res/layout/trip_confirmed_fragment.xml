@@ -28,6 +28,7 @@
             android:padding="10dp">
 
             <TextView
+                android:id="@+id/trip_confirmed_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -85,7 +86,7 @@
             android:layout_marginBottom="10dp"
             android:id="@+id/button_start_official_trip"
             android:background="@drawable/rounded_corner_accent"
-            android:visibility="visible"
+            android:visibility="invisible"
             android:text="@string/trip_confirmed_button_start_trip"
             android:textSize="13sp"
             android:textColor="@color/colorWhite"/>
