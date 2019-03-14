@@ -98,6 +98,12 @@ dependencies {
     implementation 'com.google.maps:google-maps-services:0.2.6'
     implementation 'com.google.maps.android:android-maps-utils:0.5'
 
+    // Google Firebase
+    implementation 'com.google.firebase:firebase-core:16.0.7'
+    implementation 'com.google.firebase:firebase-auth:16.2.0'
+    implementation 'com.google.firebase:firebase-database:16.1.0'
+
+
     // Android adapter item swipe layout
     implementation 'ru.rambler.android:swipe-layout:1.0.14'
 
@@ -105,3 +111,5 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 }
+
+apply plugin: 'com.google.gms.google-services'

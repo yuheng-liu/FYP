@@ -8,7 +8,7 @@ package com.example.viapatron2.app.constants;
 public final class AppConstants {
     /* Base URL */
 //    public static final String LOCAL_HOST_URL = "https://server.autoapp.io/"; // aws prod
-    public static final String LOCAL_HOST_URL = "http://172.17.60.101:5000"; // localhost
+    public static final String LOCAL_HOST_URL = "http://172.25.97.79:5000"; // localhost
 
     public static final int PERMISSION_FINE_LOCATION = 111;
     public static final int PERMISSION_MEDIA_ACCESS = 112;

@@ -19,7 +19,6 @@ import androidx.navigation.NavController;
 import androidx.navigation.NavDestination;
 import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
-import com.amazonaws.mobile.client.AWSMobileClient;
 import com.example.viapatron2.R;
 import com.example.viapatron2.app.constants.AppConstants;
 import com.example.viapatron2.app.managers.DataManager;
@@ -28,6 +27,7 @@ import com.example.viapatron2.core.models.BotNavState;
 import com.example.viapatron2.core.models.MyViewModel;
 import com.example.viapatron2.fragment.ProfileFragment;
 import com.example.viapatron2.service.ViaPatronWorkerService;
+import com.google.firebase.auth.FirebaseAuth;
 import io.reactivex.disposables.Disposable;
 
 import java.util.ArrayList;
@@ -279,11 +279,12 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.M
         Log.d(TAG, "onLogoutButtonSelected");
 
         try {
-            AWSMobileClient.getInstance().signOut();
+            //AWSMobileClient.getInstance().signOut();
+            FirebaseAuth.getInstance().signOut();
 
             // Tips: Intents should be created and activated within activities
             // go back to authentication screen
-            Intent authIntent = new Intent(this, AuthenticationActivity.class);
+            Intent authIntent = new Intent(this, LoginActivity.class);
             this.finish();
             startActivity(authIntent);
         } catch (Exception e) {

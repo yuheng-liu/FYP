@@ -200,12 +200,12 @@ public class TripBiddingFragment extends Fragment {
         mBidderView.setLayoutManager(linearLayoutManager);
         mBidderAdapter = new BidderAdapter(mActivity.getService().getDataManager());
 
-        // TODO: remove below part after testing
+        // TODO: remove below part when not testing
         // START OF TESTING SEGMENT
-        PorterBidRequest testPorterBidRequest = new PorterBidRequest();
-        testPorterBidRequest.setPorterName("Allen");
-        testPorterBidRequest.setBidAmount(2.2);
-        mBidderAdapter.addToDataSet(testPorterBidRequest);
+//        PorterBidRequest testPorterBidRequest = new PorterBidRequest();
+//        testPorterBidRequest.setPorterName("Allen");
+//        testPorterBidRequest.setBidAmount(2.2);
+//        mBidderAdapter.addToDataSet(testPorterBidRequest);
         // END OF TESTING SEGMENT
 
 

@@ -34,7 +34,7 @@
         </activity>
 
         <activity
-                android:name=".activity.AuthenticationActivity"
+                android:name=".activity.LoginActivity"
                 android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

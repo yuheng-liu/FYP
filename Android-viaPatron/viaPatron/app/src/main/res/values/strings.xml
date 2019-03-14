@@ -1,9 +1,10 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
     <string name="app_name">viaPatron</string>
-    <string name="name_hint">Name</string>
+    <string name="username_hint">Username</string>
     <string name="password_hint">Password</string>
     <string name="sign_in_hint">Sign In</string>
+    <string name="register_hint">New user? Register Here</string>
     <string name="forgot_password">Forgot password?</string>
     <string name="email_address_hint">Email Address</string>
     <string name="reset_your_password">Reset your password</string>
