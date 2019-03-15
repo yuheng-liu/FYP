@@ -45,10 +45,8 @@ public class TripRequestFragment extends Fragment {
     private RecyclerView mCurrentBidView;
     private BroadcastAdapter mBroadcastAdapter;
     private CurrentBidAdapter mCurrentBidAdapter;
-    private AlertDialog bidSuccessDialog;
     private Gson gson;
     private PatronTripRequest selectedBidRequest;
-    private AlertDialog reviewDialog;
 
     public TripRequestFragment() {} // Empty constructor
 
@@ -85,43 +83,8 @@ public class TripRequestFragment extends Fragment {
         mCurrentBidAdapter = new CurrentBidAdapter();
         mCurrentBidView.setAdapter(mCurrentBidAdapter);
 
-        // Create alert dialog for when a bid is successful
-        AlertDialog.Builder bidSuccessBuilder = new AlertDialog.Builder(mActivity);
-        bidSuccessBuilder.setMessage("The bid is successful")
-                .setTitle("Bid Success")
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        // User clicked OK button
-                        try {
-                            PorterTripAccept newTripAccept = new PorterTripAccept("Yuheng", mActivity.dataManager.getCurrentLocation(),"4.5");
-                            JSONObject data = new JSONObject(gson.toJson(newTripAccept));
-                            mActivity.socketManager.emitJSON("accept_trip", data);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                        navigateToTripConfirmed();
-                    }
-                });
-        bidSuccessDialog = bidSuccessBuilder.create();
-
-        // Create dialog for review page
-        AlertDialog.Builder reviewPageBuilder = new AlertDialog.Builder(mActivity);
-        final View reviewView = getLayoutInflater().inflate(R.layout.review_custom_popup, null);
-        reviewPageBuilder.setView(reviewView);
-        Button reviewCancelButton = reviewView.findViewById(R.id.trip_ended_review_button);
-        reviewCancelButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                reviewDialog.cancel();
-            }
-        });
-        reviewDialog = reviewPageBuilder.create();
-        if (reviewDialog.getWindow() != null) {
-            reviewDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        }
-
         if (mActivity.dataManager.getTripStatus() == TripStatus.STOPPED){
-            reviewDialog.show();
+            mActivity.dialogManager.showTripRequestReviewPage();
             mActivity.dataManager.setTripStatus(TripStatus.IDLE);
         }
     }
@@ -150,7 +113,6 @@ public class TripRequestFragment extends Fragment {
                 mActivity.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-//                        bidSuccessDialog.show();
                         try {
                             PorterTripAccept newTripAccept = new PorterTripAccept("Yuheng", mActivity.dataManager.getCurrentLocation(),"4.5");
                             JSONObject data = new JSONObject(gson.toJson(newTripAccept));
@@ -203,7 +165,8 @@ public class TripRequestFragment extends Fragment {
             @Override
             public void accept(PatronTripRequest data) {
                 selectedBidRequest = data;
-                bidSuccessDialog.show();
+                // for testing
+                mActivity.dialogManager.showTripRequestBidSuccess();
             }
         });
 
@@ -242,11 +205,8 @@ public class TripRequestFragment extends Fragment {
     }
 
     private void navigateToTripConfirmed() {
-//        NavOptions navOptions = new NavOptions.bidSuccessBuilder()
-//                .setPopUpTo(R.id.navigation_jobs, true)
-//                .build();
-//        navController.navigate(R.id.navigation_trip_confirmed, null, navOptions);
-        mActivity.dataManager.setTripStatus(TripStatus.IN_PROGRESS);
+        mActivity.dataManager.setTripStatus(TripStatus.PROCEEDING);
+        mCurrentBidAdapter.removeDataSet(selectedBidRequest);
         navController.navigate(R.id.navigation_trip_confirmed);
     }
 

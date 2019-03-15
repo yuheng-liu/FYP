@@ -15,6 +15,9 @@ import com.example.viaporter.models.PatronTripRequest;
 import java.util.Collection;
 import java.util.List;
 
+import static com.example.viaporter.constants.AppConstants.LUGGAGE;
+import static com.example.viaporter.constants.AppConstants.WEIGHT;
+
 public class CurrentBidAdapter extends RecyclerView.Adapter<CurrentBidAdapter.ViewHolder> {
     private List<PatronTripRequest> mCurrentBidDataSet;
     private CallbackListener<PatronTripRequest> mOnPositiveButtonClicked;
@@ -98,8 +101,8 @@ public class CurrentBidAdapter extends RecyclerView.Adapter<CurrentBidAdapter.Vi
         holder.stationNameRight.setText(itemData.getTrainStationName());
         holder.startLocation.setText(itemData.getTripStartLocation());
         holder.endLocation.setText(itemData.getTripEndLocation());
-        holder.numLuggage.setText(String.valueOf(itemData.getNumberOfLuggage()));
-        holder.totalLuggageWeight.setText(String.valueOf(itemData.getTotalLuggageWeight()));
+        holder.numLuggage.setText(LUGGAGE + " : " + String.valueOf(itemData.getNumberOfLuggage()));
+        holder.totalLuggageWeight.setText(WEIGHT + " : " + String.valueOf(itemData.getTotalLuggageWeight()) + "kg");
 
         holder.mPositiveButton.setOnClickListener(new View.OnClickListener() {
             @Override

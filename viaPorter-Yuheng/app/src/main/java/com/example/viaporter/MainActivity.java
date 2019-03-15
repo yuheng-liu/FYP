@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import com.amazonaws.mobile.client.AWSMobileClient;
 import com.example.viaporter.fragments.ProfileFragment;
 import com.example.viaporter.managers.DataManager;
+import com.example.viaporter.managers.DialogManager;
 import com.example.viaporter.managers.SocketManager;
 import com.example.viaporter.models.TripStatus;
 
@@ -36,6 +37,7 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.M
     private List<Disposable> disposables;
     public SocketManager socketManager;
     public DataManager dataManager;
+    public DialogManager dialogManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +81,8 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.M
     private void setupManagers() {
         socketManager = SocketManager.getSharedInstance();
         dataManager = DataManager.getSharedInstance();
+        dialogManager = DialogManager.getSharedInstance();
+        dialogManager.setMainActivity(this);
     }
 
     // Google Maps
@@ -172,6 +176,15 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.M
             startActivity(authIntent);
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (navController.getCurrentDestination().getId() == R.id.navigation_trip_confirmed){
+            dialogManager.showTripConfirmedCancelTrip();
+        } else {
+            super.onBackPressed();
         }
     }
 

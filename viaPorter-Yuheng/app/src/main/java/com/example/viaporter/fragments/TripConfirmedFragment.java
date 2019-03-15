@@ -1,6 +1,5 @@
 package com.example.viaporter.fragments;
 
-import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Build;
@@ -10,7 +9,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,7 +20,6 @@ import android.widget.TextView;
 
 import androidx.navigation.NavController;
 import androidx.navigation.NavDestination;
-import androidx.navigation.NavOptions;
 import androidx.navigation.Navigation;
 import io.reactivex.functions.Consumer;
 
@@ -278,56 +275,22 @@ public class TripConfirmedFragment extends Fragment
         startTripButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                tripInProgress();
+                updateTripInProgressUI();
             }
         });
 
         cancelTripButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new AlertDialog.Builder(mActivity)
-                        .setTitle(R.string.trip_confirmed_button_cancel_trip)
-                        .setMessage(R.string.trip_confirmed_button_cancel_msg)
-                        .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                mActivity.dataManager.setTripStatus(TripStatus.CANCELLED);
-                                navController.popBackStack(R.id.navigation_jobs, false);
-                            }
-                        })
-                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                // do nothing
-                                // for testing
-                                navToHomeAndShowReview();
-                            }
-                        })
-                        .create()
-                        .show();
+
+                mActivity.dialogManager.showTripConfirmedCancelTrip();
             }
         });
 
         stopTripButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new AlertDialog.Builder(mActivity)
-                        .setTitle(R.string.trip_confirmed_button_stop_title)
-                        .setMessage(R.string.trip_confirmed_button_stop_msg)
-                        .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                navToHomeAndShowReview();
-                            }
-                        })
-                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                // do nothing
-                            }
-                        })
-                        .create()
-                        .show();
+                mActivity.dialogManager.showTripConfirmedStopTrip();
             }
         });
 
@@ -348,8 +311,10 @@ public class TripConfirmedFragment extends Fragment
                     public void run() {
                         patronMarker.setPosition(locationUpdate.getLocation());
                         // Update UI when porter is near enough to patron
-                        if (distanceBetweenUsers(currentLocation, locationUpdate.getLocation()) < MAP_DISTANCE_BETWEEN_PROXIMITY) {
-                            porterArrived();
+                        if (mActivity.dataManager.getTripStatus() == TripStatus.PROCEEDING){
+                            if (distanceBetweenUsers(currentLocation, locationUpdate.getLocation()) < MAP_DISTANCE_BETWEEN_PROXIMITY) {
+                                porterArrived();
+                            }
                         }
                     }
                 });
@@ -370,12 +335,13 @@ public class TripConfirmedFragment extends Fragment
     }
 
     private void porterArrived() {
-            notifyBlue.setVisibility(GONE);
-            notifyGreen.setVisibility(View.VISIBLE);
-            startTripButton.setVisibility(View.VISIBLE);
+        mActivity.dataManager.setTripStatus(TripStatus.IN_PROGRESS);
+        notifyBlue.setVisibility(GONE);
+        notifyGreen.setVisibility(View.VISIBLE);
+        startTripButton.setVisibility(View.VISIBLE);
     }
 
-    private void tripInProgress() {
+    private void updateTripInProgressUI() {
         // Update UI changes
         viewTitle.setText(getString(R.string.trip_confirmed_trip_in_progress));
         notifyBlue.setVisibility(GONE);
@@ -385,13 +351,8 @@ public class TripConfirmedFragment extends Fragment
         stopTripButton.setVisibility(View.VISIBLE);
     }
 
-    private void navToHomeAndShowReview() {
-        if (mActivity.dataManager.getTripStatus() == TripStatus.IN_PROGRESS) {
-            mActivity.dataManager.setTripStatus(TripStatus.STOPPED);
-            NavOptions navOptions = new NavOptions.Builder()
-                    .setPopUpTo(R.id.navigation_jobs, false)
-                    .build();
-            navController.navigate(R.id.navigation_jobs, null, navOptions);
-        }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
     }
 }

@@ -35,6 +35,7 @@ import static com.example.viaporter.constants.AppConstants.MAP_CAMERA_ZOOM;
 import static com.example.viaporter.constants.AppConstants.MAP_LOCATION_REQUEST_INTERVAL;
 import static com.example.viaporter.constants.AppConstants.PERMISSION_FINE_LOCATION;
 
+// This fragment is not used anymore
 public class HomeFragment extends Fragment
         implements OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,

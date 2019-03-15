@@ -9,6 +9,11 @@
     <color name="colorWarning">#FFBC55</color>
     <color name="colorError">#DD1C39</color>
     <color name="colorAccent">#3389EE</color>
+    <color name="colorNUSOrange">#f07d07</color>
+    <color name="colorNUSBlue">#003d7c</color>
+    <color name="colorThemeLightBlue">#BBDEF0</color>
+    <color name="colorThemeGreen">#00A6A6</color>
+    <color name="colorThemeYellow">#EFCA08</color>
 
     <!--Online resources-->
     <color name="white">#FFFFFF</color>

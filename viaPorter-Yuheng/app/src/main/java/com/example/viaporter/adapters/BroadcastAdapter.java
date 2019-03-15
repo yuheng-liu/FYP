@@ -17,6 +17,9 @@ import com.example.viaporter.models.PatronTripSuccess;
 import java.util.Collection;
 import java.util.List;
 
+import static com.example.viaporter.constants.AppConstants.LUGGAGE;
+import static com.example.viaporter.constants.AppConstants.WEIGHT;
+
 public class BroadcastAdapter extends RecyclerView.Adapter<BroadcastAdapter.ViewHolder> {
     private List<PatronTripRequest> mBroadcastDataSet;
     private CallbackListener<PatronTripRequest> mOnPositiveButtonClicked;
@@ -41,12 +44,12 @@ public class BroadcastAdapter extends RecyclerView.Adapter<BroadcastAdapter.View
     // Provide a suitable constructor (depends on the kind of dataset)
     public BroadcastAdapter() {
         mBroadcastDataSet = DataManager.getSharedInstance().getBroadcastRequestList();
-        if (mBroadcastDataSet.isEmpty()){
-            // For testing purposes
-            PatronTripRequest testData = new PatronTripRequest("testName", "testStart",
-                    "testEnd", 5, 50);
-            mBroadcastDataSet.add(testData);
-        }
+//        if (mBroadcastDataSet.isEmpty()){
+//            // for testing purposes
+//            PatronTripRequest testData = new PatronTripRequest("UTown", "ERC",
+//                    "Bus Stop 2", 2, 30);
+//            mBroadcastDataSet.add(testData);
+//        }
     }
 
     public void addToDataSet(PatronTripRequest tripRequest) {
@@ -109,8 +112,8 @@ public class BroadcastAdapter extends RecyclerView.Adapter<BroadcastAdapter.View
         holder.stationNameRight.setText(itemData.getTrainStationName());
         holder.startLocation.setText(itemData.getTripStartLocation());
         holder.endLocation.setText(itemData.getTripEndLocation());
-        holder.numLuggage.setText(String.valueOf(itemData.getNumberOfLuggage()));
-        holder.totalLuggageWeight.setText(String.valueOf(itemData.getTotalLuggageWeight()));
+        holder.numLuggage.setText(LUGGAGE + " : " + String.valueOf(itemData.getNumberOfLuggage()));
+        holder.totalLuggageWeight.setText(WEIGHT + " : " + String.valueOf(itemData.getTotalLuggageWeight()) + "kg");
 
         holder.mPositiveButton.setOnClickListener(new View.OnClickListener() {
             @Override

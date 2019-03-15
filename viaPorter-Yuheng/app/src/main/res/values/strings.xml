@@ -50,5 +50,7 @@
     <string name="trip_confirmed_button_stop_trip">Stop Trip</string>
     <string name="trip_confirmed_trip_in_progress">Trip In Progress</string>
     <string name="trip_review_popup_title">Your Trip</string>
+    <string name="trip_request_item_luggage">Luggage</string>
+    <string name="trip_request_item_weight">Weight</string>
 
 </resources>
