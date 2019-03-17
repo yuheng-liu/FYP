@@ -39,10 +39,11 @@
             android:background="@drawable/rounded_corner_accent_small"/>
 
     <FrameLayout
-            android:layout_width="320dp"
-            android:layout_height="140dp"
+            android:layout_width="340dp"
+            android:layout_height="160dp"
             android:layout_marginTop="40dp"
             android:layout_gravity="center"
+            android:padding="6dp"
             android:background="@drawable/rounded_corner_white_small">
 
         <LinearLayout
@@ -57,7 +58,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/tv_trip_confirm_station_left_side"
-                    android:textSize="14sp"
+                    android:textSize="@dimen/trip_request_confirm_station_title"
                     android:textColor="@color/colorBlack"
                     android:text=""/>
 
@@ -66,7 +67,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="2dp"
                     android:id="@+id/tv_trip_confirm_from"
-                    android:textSize="16sp"
+                    android:textSize="@dimen/trip_request_confirm_station_to_fro"
                     android:textColor="@color/colorBlack"
                     android:text=""/>
         </LinearLayout>
@@ -97,7 +98,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
                     android:id="@+id/tv_trip_confirm_station_right_side"
-                    android:textSize="14sp"
+                    android:textSize="@dimen/trip_request_confirm_station_title"
                     android:textColor="@color/colorBlack"
                     android:text=""/>
 
@@ -107,7 +108,7 @@
                     android:layout_gravity="end"
                     android:layout_marginTop="2dp"
                     android:id="@+id/tv_trip_confirm_to"
-                    android:textSize="16sp"
+                    android:textSize="@dimen/trip_request_confirm_station_to_fro"
                     android:textColor="@color/colorBlack"
                     android:text=""/>
         </LinearLayout>
@@ -118,14 +119,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_gravity="bottom|start"
-                android:layout_marginStart="16dp"
-                android:layout_marginBottom="10dp">
+                android:layout_gravity="bottom|center"
+                android:layout_marginBottom="4dp">
 
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
+                    android:layout_gravity="center"
                     android:id="@+id/tv_trip_confirm_luggage"
                     android:textSize="16sp"
                     android:textColor="@color/colorBlack"/>
@@ -133,26 +133,11 @@
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:id="@+id/tv_trip_confirm_luggage_weight"
                     android:textSize="16sp"
                     android:textColor="@color/colorPrimaryGreyDark"/>
         </LinearLayout>
-
-        <FrameLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom|end"
-                android:layout_marginEnd="14dp"
-                android:layout_marginBottom="10dp">
-
-            <Button
-                    android:layout_width="80dp"
-                    android:layout_height="46dp"
-                    android:id="@+id/trip_confirm_price"
-                    android:background="@drawable/rounded_corner_accent"
-                    android:text="$3 - $4"
-                    android:textColor="@color/colorPrimary"/>
-        </FrameLayout>
 
 
     </FrameLayout>

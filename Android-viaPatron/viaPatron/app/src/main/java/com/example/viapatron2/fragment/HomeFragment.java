@@ -20,7 +20,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.*;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.RelativeLayout;
+import android.widget.Toast;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import com.example.viapatron2.R;
@@ -31,10 +34,18 @@ import com.example.viapatron2.core.models.TripStatus;
 import com.example.viapatron2.core.models.UserTripRequestSession;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.*;
 import com.google.android.gms.maps.*;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.PointOfInterest;
+import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.api.model.RectangularBounds;
+import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
+import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
+
+import java.util.Arrays;
 
 import static com.example.viapatron2.app.constants.AppConstants.*;
 
@@ -94,6 +105,7 @@ public class HomeFragment extends Fragment
         mActivity = (MainActivity) requireActivity();
 
         setUpMap();
+        setUpPlaces();
 //        setUpViews();
 //        setUpViewModel();
 //        setUpClickable();
@@ -107,8 +119,55 @@ public class HomeFragment extends Fragment
         super.onActivityCreated(savedInstanceState);
     }
 
+    private void setUpPlaces() {
+
+        /**
+         * Initialize Places. For simplicity, the API key is hard-coded. In a production
+         * environment we recommend using a secure mechanism to manage API keys.
+         */
+        if (!Places.isInitialized()) {
+            Places.initialize(mActivity, API_KEY_STRING);
+        }
+
+        // Initialize the AutocompleteSupportFragment.
+        AutocompleteSupportFragment autocompleteFragment = (AutocompleteSupportFragment)
+                this.getChildFragmentManager().findFragmentById(R.id.autocomplete_fragment);
+
+        if (autocompleteFragment != null) {
+            autocompleteFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG));
+
+            // Restrict autocomplete to Singapore's Boundaries
+            // Next time to restrict autocomplete based on location/postal code of users.
+            // Extract boundaries from https://gist.github.com/graydon/11198540
+            RectangularBounds bounds = RectangularBounds.newInstance(
+                    new LatLng(1.1304753, 103.6920359),
+                    new LatLng(1.4504753, 104.0120359));
+
+            autocompleteFragment.setLocationBias(bounds);
+
+            autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+                @Override
+                public void onPlaceSelected(Place place) {
+                    Log.i(TAG, "Place: " + place.getName() + ", " + place.getId() + ", " + place.getLatLng());
+
+                    try {
+                        LatLng selectedPlace = place.getLatLng();
+                        updateMapCamera(selectedPlace);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                @Override
+                public void onError(Status status) {
+                    // TODO: Handle the error.
+                    Log.i(TAG, "An error occurred: " + status);
+                }
+            });
+        }
+    }
+
     private void setUpViews() {
-        stationSpinner = (AppCompatSpinner) mActivity.findViewById(R.id.stations_spinner);
         nextButton = (Button) mActivity.findViewById(R.id.stations_spinner_next);
 
         checkTripStatus();
@@ -282,14 +341,29 @@ public class HomeFragment extends Fragment
 
                 // update camera
                 if (!mCameraUpdated) {
-                    CameraUpdate update = CameraUpdateFactory.newLatLngZoom(currentLocation, MAP_CAMERA_ZOOM);
-                    mGoogleMap.moveCamera(update);
+                    updateMapCamera(currentLocation);
                     mCameraUpdated = true;
-                    mMapView.setVisibility(View.VISIBLE);
+//                    CameraUpdate update = CameraUpdateFactory.newLatLngZoom(currentLocation, MAP_CAMERA_ZOOM);
+//                    mGoogleMap.moveCamera(update);
+//                    mMapView.setVisibility(View.VISIBLE);
                 }
             }
         }
     };
+
+    private void updateMapCamera(LatLng location) {
+
+        // update camera
+        CameraUpdate update = CameraUpdateFactory.newLatLngZoom(location, MAP_CAMERA_ZOOM);
+
+        if (mGoogleMap != null) {
+            mGoogleMap.moveCamera(update);
+        }
+
+        if (mMapView != null) {
+            mMapView.setVisibility(View.VISIBLE);
+        }
+    }
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
@@ -372,33 +446,33 @@ public class HomeFragment extends Fragment
             stationSpinner.setAdapter(adapter);
 
             // Apply an observer to the item selected
-            stationSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                @Override
-                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-                    userTripRequestSession = new UserTripRequestSession();
-                    userTripRequestSession.setStation(parent.getSelectedItem().toString());
-                    model.setRequestSession(userTripRequestSession);
-
-                    switch (parent.getSelectedItem().toString()) {
-
-                        case ("Utown"):
-                            moveToPoiPoint(PLACE_NUS_UTOWN_LAT, PLACE_NUS_UTOWN_LNG);
-                            break;
-                        case("Faculty of Science"):
-                            moveToPoiPoint(PLACE_NUS_FOS_LAT, PLACE_NUS_FOS_LNG);
-                            break;
-                        default:
-                            break;
-                    }
-                }
-
-                @Override
-                public void onNothingSelected(AdapterView<?> parent) {
-                    Log.d(TAG, "onNothingSelected");
-
-                }
-            });
+//            stationSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//                @Override
+//                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//
+//                    userTripRequestSession = new UserTripRequestSession();
+//                    userTripRequestSession.setStation(parent.getSelectedItem().toString());
+//                    model.setRequestSession(userTripRequestSession);
+//
+//                    switch (parent.getSelectedItem().toString()) {
+//
+//                        case ("Utown"):
+//                            moveToPoiPoint(PLACE_NUS_UTOWN_LAT, PLACE_NUS_UTOWN_LNG);
+//                            break;
+//                        case("Faculty of Science"):
+//                            moveToPoiPoint(PLACE_NUS_FOS_LAT, PLACE_NUS_FOS_LNG);
+//                            break;
+//                        default:
+//                            break;
+//                    }
+//                }
+//
+//                @Override
+//                public void onNothingSelected(AdapterView<?> parent) {
+//                    Log.d(TAG, "onNothingSelected");
+//
+//                }
+//            });
         }
 
         if (nextButton != null) {

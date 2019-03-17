@@ -157,7 +157,11 @@ public class SocketManager {
     public void sendRideRequest(UserTripRequestSession tripRequestInfo) {
         try {
             JSONObject data = new JSONObject(gson.toJson(tripRequestInfo));
+//            JSONObject data = new JSONObject();
+//            data.put("STATE", "TESTING2");
+//            data.put("MSG", msg);
             getSocket().emit("trip_request", data);
+//            getSocket().emit("patron_test_event", data);
         } catch (JSONException e) {
             e.printStackTrace();
         }

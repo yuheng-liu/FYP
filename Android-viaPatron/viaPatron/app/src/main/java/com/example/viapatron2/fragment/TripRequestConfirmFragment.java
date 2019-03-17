@@ -35,7 +35,6 @@ public class TripRequestConfirmFragment extends Fragment {
     private TextView fromTitle;
     private TextView luggageTitle;
     private TextView luggageWeightTitle;
-    private TextView priceTitle;
 
     private UserTripRequestSession userTripRequestSession;
 
@@ -67,7 +66,6 @@ public class TripRequestConfirmFragment extends Fragment {
         fromTitle = mActivity.findViewById(R.id.tv_trip_confirm_from);
         luggageTitle = mActivity.findViewById(R.id.tv_trip_confirm_luggage);
         luggageWeightTitle = mActivity.findViewById(R.id.tv_trip_confirm_luggage_weight);
-        priceTitle = mActivity.findViewById(R.id.trip_confirm_price);
 
         if (confirmButton != null) {
             confirmButton.setOnClickListener(new View.OnClickListener() {

@@ -136,6 +136,17 @@ public class TripRequestFragment extends Fragment {
                         luggageFieldInt = Integer.parseInt(tempLuggageFieldString);
                     }
 
+                    if (luggageWeightField.getText().toString().length() <= 0) {
+                        luggageWeightField.setError("Enter Luggage Weight");
+                        luggageWeightField.requestFocus();
+                        return;
+                    } else {
+                        // length() > 0
+                        String tempLuggageWeightFieldString = luggageWeightField.getText().toString();
+                        luggageWeightFieldInt = Integer.parseInt(tempLuggageWeightFieldString);
+                    }
+
+
                     // Save all data if inputs are valid
                     userTripRequestSession.setDate(dateString);
                     userTripRequestSession.setFromLocation(fromFieldString);

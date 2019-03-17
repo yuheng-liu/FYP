@@ -50,7 +50,6 @@ public class TripBiddingFragment extends Fragment {
     private TextView fromTitle;
     private TextView luggageTitle;
     private TextView luggageWeightTitle;
-    private TextView priceTitle;
     private AlertDialog warningDialog;
 
     // model
@@ -104,7 +103,6 @@ public class TripBiddingFragment extends Fragment {
         fromTitle = mActivity.findViewById(R.id.tv_trip_bidding_from);
         luggageTitle = mActivity.findViewById(R.id.tv_trip_bidding_luggage);
         luggageWeightTitle = mActivity.findViewById(R.id.tv_trip_bidding_luggage_weight);
-        priceTitle = mActivity.findViewById(R.id.trip_bidding_price);
 
         navController.addOnDestinationChangedListener(new NavController.OnDestinationChangedListener() {
             @Override
