@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-apply plugin: 'com.amazonaws.appsync'
+//apply plugin: 'com.amazonaws.appsync'
 
 android {
     compileSdkVersion 28
@@ -36,7 +36,7 @@ dependencies {
     implementation "android.arch.lifecycle:extensions:$lifecycle_version"
 
     // Navigation Support
-    def nav_version = "1.0.0-rc01"
+    def nav_version = "1.0.0"
     implementation "android.arch.navigation:navigation-fragment:$nav_version" // use -ktx for Kotlin
     implementation "android.arch.navigation:navigation-ui:$nav_version" // use -ktx for Kotlin
 
@@ -59,16 +59,26 @@ dependencies {
     implementation 'com.google.android.gms:play-services-location:16.0.0'
     implementation 'com.google.android.gms:play-services-places:16.0.0'
 
+    // Adding Google Firebase
+    implementation 'com.google.firebase:firebase-core:16.0.8'
+    implementation 'com.google.firebase:firebase-auth:16.2.0'
+    implementation 'com.google.firebase:firebase-database:16.1.0'
+
+    /*
+     * Not using AWS anymore, but keeping it as backup
+     */
     //Adding AWS Auth
     //Base SDK
-    implementation 'com.amazonaws:aws-android-sdk-core:2.12.+'
-    //AppSync SDK
-    implementation 'com.amazonaws:aws-android-sdk-appsync:2.7.+'
-    implementation 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.0'
-    implementation 'org.eclipse.paho:org.eclipse.paho.android.service:1.1.1'
-    //For AWSMobileClient only:
-    implementation 'com.amazonaws:aws-android-sdk-mobile-client:2.12.+'
-    //For the drop-in UI also:
-    implementation 'com.amazonaws:aws-android-sdk-auth-userpools:2.12.+'
-    implementation 'com.amazonaws:aws-android-sdk-auth-ui:2.12.+'
+//    implementation 'com.amazonaws:aws-android-sdk-core:2.12.+'
+//    //AppSync SDK
+//    implementation 'com.amazonaws:aws-android-sdk-appsync:2.7.+'
+//    implementation 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.0'
+//    implementation 'org.eclipse.paho:org.eclipse.paho.android.service:1.1.1'
+//    //For AWSMobileClient only:
+//    implementation 'com.amazonaws:aws-android-sdk-mobile-client:2.12.+'
+//    //For the drop-in UI also:
+//    implementation 'com.amazonaws:aws-android-sdk-auth-userpools:2.12.+'
+//    implementation 'com.amazonaws:aws-android-sdk-auth-ui:2.12.+'
 }
+
+apply plugin: 'com.google.gms.google-services'

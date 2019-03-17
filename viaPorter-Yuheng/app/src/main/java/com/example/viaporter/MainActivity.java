@@ -11,12 +11,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 
-import com.amazonaws.mobile.client.AWSMobileClient;
 import com.example.viaporter.fragments.ProfileFragment;
 import com.example.viaporter.managers.DataManager;
 import com.example.viaporter.managers.DialogManager;
 import com.example.viaporter.managers.SocketManager;
 import com.example.viaporter.models.TripStatus;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -167,11 +167,13 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.M
         Log.d(TAG, "onLogoutButtonSelected");
 
         try {
-            AWSMobileClient.getInstance().signOut();
+//            AWSMobileClient.getInstance().signOut();
+            FirebaseAuth.getInstance().revoke
+            FirebaseAuth.getInstance().signOut();
 
             // Tips: Intents should be created and activated within activities
             // go back to authentication screen
-            Intent authIntent = new Intent(this, AuthenticationActivity.class);
+            Intent authIntent = new Intent(this, LoginActivity.class);
             this.finish();
             startActivity(authIntent);
         } catch (Exception e) {

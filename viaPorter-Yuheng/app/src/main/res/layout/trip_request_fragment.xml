@@ -18,7 +18,8 @@
                 android:layout_height="wrap_content"
                 android:text="@string/trip_request_main_title"
                 android:textAlignment="center"
-                android:textSize="30sp"/>
+                android:textSize="26sp"
+                android:fontFamily="@font/exo_medium"/>
     </FrameLayout>
 
     <FrameLayout
@@ -42,7 +43,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="@string/trip_request_broadcasted_title"
-                android:textSize="24sp"/>
+                android:textSize="18sp"/>
 
         <ImageButton
             android:layout_width="wrap_content"
@@ -81,7 +82,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="@string/trip_request_current_bids_title"
-                android:textSize="24sp"/>
+                android:textSize="18sp"/>
 
         <ImageButton
             android:layout_width="wrap_content"

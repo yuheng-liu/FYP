@@ -49,6 +49,13 @@ io.on('connection', (socket) => {
 		socket.broadcast.emit('patron_location_update', locationUpdate);
 	})
 
+	// For Testing
+	socket.on('patron_test_event', (newEvent) => {
+		console.log("patron test event");
+		console.log(newEvent);
+		socket.broadcast.emit('porter_test_event', newEvent);
+	})
+
 	// Handle event 'disconnect'
 	socket.on('disconnect', () => {
     	console.log(socket.userNickname +" : has disconnected from server");

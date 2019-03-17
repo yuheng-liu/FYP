@@ -1,5 +1,6 @@
 package com.example.viaporter.managers;
 
+import android.nfc.Tag;
 import android.util.Log;
 
 import com.example.viaporter.constants.AppConstants;
@@ -103,9 +104,6 @@ public class SocketManager {
             public void call(final Object... args) {
                 JSONObject data = (JSONObject) args[0];
                 PatronTripRequest newRequest = gson.fromJson(data.toString(), PatronTripRequest.class);
-                Log.d("testing", "patron trip request received");
-                Log.d("testing", newRequest.toString());
-//                dataManager.addToBroadcastList(newRequest);
                 patronTripRequestRelay.accept(newRequest);
             }
         });
@@ -128,6 +126,34 @@ public class SocketManager {
                 LocationUpdate newLocation = gson.fromJson(data.toString(), LocationUpdate.class);
                 Log.d("testing", "new location update received");
                 patronLocationUpdateRelay.accept(newLocation);
+            }
+        });
+
+        // For testing
+        socket.on("porter_test_event", new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                JSONObject msg = new JSONObject();
+                JSONObject data = (JSONObject) args[0];
+                try {
+                    switch (data.getString("STATE")) {
+                        case "TESTING":
+                            msg = data.getJSONObject("MSG");
+                            PatronTripRequest testing = gson.fromJson(msg.toString(), PatronTripRequest.class);
+                            Log.d(TAG, "Testing for new socket listener");
+                            Log.d(TAG, msg.toString());
+                            break;
+
+                        case "TESTING2":
+                            msg = data.getJSONObject("MSG");
+                            PatronTripSuccess testing2 = gson.fromJson(msg.toString(), PatronTripSuccess.class);
+                            Log.d(TAG, "Testing2 for new socket listener");
+                            Log.d(TAG, msg.toString());
+                            break;
+                    }
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
             }
         });
     }
