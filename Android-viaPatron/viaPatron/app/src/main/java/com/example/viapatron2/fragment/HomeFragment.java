@@ -17,16 +17,16 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatSpinner;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.RelativeLayout;
-import android.widget.Toast;
+import android.view.inputmethod.EditorInfo;
+import android.widget.*;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import com.example.viapatron2.R;
+import com.example.viapatron2.TextValidator;
 import com.example.viapatron2.activity.MainActivity;
 import com.example.viapatron2.app.constants.AppConstants;
 import com.example.viapatron2.core.models.MyViewModel;
@@ -62,11 +62,24 @@ public class HomeFragment extends Fragment
     private MainActivity mActivity;
 
     // Views
-    private Button nextButton;
+    private View mMapView;
     private AppCompatSpinner stationSpinner;
     private ArrayAdapter<CharSequence> adapter;
-    private View mMapView;
     private AlertDialog reviewDialog;
+    private Button nextButton;
+    private FrameLayout swapDestination;
+    private FrameLayout customLocationLayout;
+    private LinearLayout trainLocationLayout;
+    private EditText trainNumField;
+    private EditText coachNumField;
+    private EditText seatNumField;
+
+    // View variables
+    private boolean swapViewsFlag = true;
+    private float pixelDifference = 0f;
+    private String trainNumString;
+    private String coachNumString;
+    private String seatNumString;
 
     // Controllers
     private MyViewModel model;
@@ -169,8 +182,144 @@ public class HomeFragment extends Fragment
 
     private void setUpViews() {
         nextButton = (Button) mActivity.findViewById(R.id.stations_spinner_next);
+        swapDestination = (FrameLayout) mActivity.findViewById(R.id.home_swap_to_from);
+        customLocationLayout = (FrameLayout) mActivity.findViewById(R.id.home_custom_location);
+        trainLocationLayout = (LinearLayout) mActivity.findViewById(R.id.home_train_coach_seat_location);
+        trainNumField = (EditText) mActivity.findViewById(R.id.home_train_field);
+        coachNumField = (EditText) mActivity.findViewById(R.id.home_coach_field);
+        seatNumField = (EditText) mActivity.findViewById(R.id.home_seat_field);
+
+        if (swapDestination != null) {
+            swapDestination.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.d(TAG, "swapDestination onClick");
+
+                    swapDestinationViews(swapViewsFlag);
+                    swapViewsFlag = !swapViewsFlag;
+                }
+            });
+        }
+
+        if (trainNumField != null) {
+            trainNumField.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+                @Override
+                public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                    if (actionId == EditorInfo.IME_ACTION_NEXT) {
+                        trainNumString = trainNumField.getText().toString();
+                    }
+                    return false;
+                }
+            });
+
+            trainNumField.addTextChangedListener(new TextValidator(trainNumField) {
+                @Override
+                public void validate(TextView textView, String text) {
+                    /* Validation code here */
+                    if (trainNumField.getText().toString().length() <= 0) {
+                        trainNumField.setError("Enter Train Number");
+                    } else {
+                        trainNumField.setError(null);
+                    }
+                }
+            });
+        }
+
+        if (coachNumField != null) {
+            coachNumField.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+                @Override
+                public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                    if (actionId == EditorInfo.IME_ACTION_NEXT) {
+                        coachNumString = coachNumField.getText().toString();
+                    }
+                    return false;
+                }
+            });
+
+            coachNumField.addTextChangedListener(new TextValidator(coachNumField) {
+                @Override
+                public void validate(TextView textView, String text) {
+                    /* Validation code here */
+                    if (coachNumField.getText().toString().length() <= 0) {
+                        coachNumField.setError("Enter Train Number");
+                    } else {
+                        coachNumField.setError(null);
+                    }
+                }
+            });
+        }
+
+        if (seatNumField != null) {
+            seatNumField.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+                @Override
+                public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                    if (actionId == EditorInfo.IME_ACTION_DONE) {
+                        seatNumString = seatNumField.getText().toString();
+                    }
+                    return false;
+                }
+            });
+
+            seatNumField.addTextChangedListener(new TextValidator(seatNumField) {
+                @Override
+                public void validate(TextView textView, String text) {
+                    /* Validation code here */
+                    if (seatNumField.getText().toString().length() <= 0) {
+                        seatNumField.setError("Enter Train Number");
+                    } else {
+                        seatNumField.setError(null);
+                    }
+                }
+            });
+        }
+
+        if (nextButton != null) {
+
+            nextButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    // TODO: REMOVE AFTER TESTING
+                    userTripRequestSession = new UserTripRequestSession();
+                    userTripRequestSession.setStation("STATION");
+                    model.setRequestSession(userTripRequestSession);
+
+                    Log.d(TAG, "onClick, navigating to tripRequestFragment");
+                    navController.navigate(R.id.navigation_trip_request);
+                }
+            });
+        }
 
         checkTripStatus();
+    }
+
+    private void swapDestinationViews(boolean swapFlag) {
+
+        if (swapFlag) {
+            if (customLocationLayout != null && trainLocationLayout != null) {
+
+                int[] topViewLoc = new int[2];
+                int[] botViewLoc = new int[2];
+
+                // Retrieve location of the layouts into arrays
+                customLocationLayout.getLocationOnScreen(topViewLoc);
+                trainLocationLayout.getLocationOnScreen(botViewLoc);
+
+                // Get the difference between the layouts
+                pixelDifference = botViewLoc[1] - topViewLoc[1];
+
+                // Animate the layout
+                customLocationLayout.animate().translationY(pixelDifference).setDuration(500);
+                trainLocationLayout.animate().translationY(-pixelDifference).setDuration(500);
+            }
+        } else {
+            if (customLocationLayout != null && trainLocationLayout != null) {
+
+                // Return the layouts their original positions (parameter == 0f for translationY)
+                customLocationLayout.animate().translationY(0f).setDuration(500);
+                trainLocationLayout.animate().translationY(0f).setDuration(500);
+            }
+        }
     }
 
     /*
@@ -276,6 +425,12 @@ public class HomeFragment extends Fragment
         Log.d(TAG, "selectStartingPoint");
 
         try {
+            if (ContextCompat.checkSelfPermission(mActivity, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(mActivity, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
+                        PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+                return;
+            }
+
             LocationManager locationManager = (LocationManager)mActivity.getSystemService(Context.LOCATION_SERVICE);
             Location tempLoc = locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
 
@@ -433,19 +588,19 @@ public class HomeFragment extends Fragment
         }
     }
 
-    private void setUpClickable() {
-
-        if (stationSpinner != null) {
-            // Create an ArrayAdapter using the string array and a default spinner layout
-            adapter = ArrayAdapter.createFromResource(mActivity, R.array.stations_array, android.R.layout.simple_spinner_item);
-
-            // Specify the layout to use when the list of choices appears
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-            // Apply the adapter to the spinner
-            stationSpinner.setAdapter(adapter);
-
-            // Apply an observer to the item selected
+//    private void setUpClickable() {
+//
+//        if (stationSpinner != null) {
+//            // Create an ArrayAdapter using the string array and a default spinner layout
+//            adapter = ArrayAdapter.createFromResource(mActivity, R.array.stations_array, android.R.layout.simple_spinner_item);
+//
+//            // Specify the layout to use when the list of choices appears
+//            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//
+//            // Apply the adapter to the spinner
+//            stationSpinner.setAdapter(adapter);
+//
+//            // Apply an observer to the item selected
 //            stationSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 //                @Override
 //                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -473,19 +628,8 @@ public class HomeFragment extends Fragment
 //
 //                }
 //            });
-        }
-
-        if (nextButton != null) {
-
-            nextButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Log.d(TAG, "onClick, navigating to tripRequestFragment");
-                    navController.navigate(R.id.navigation_trip_request);
-                }
-            });
-        }
-    }
+//        }
+//    }
 
     @Override
     public void onStart() {
@@ -500,7 +644,6 @@ public class HomeFragment extends Fragment
 
         setUpViews();
         setUpViewModel();
-        setUpClickable();
     }
 
     @Override

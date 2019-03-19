@@ -21,6 +21,10 @@
         <item>Faculty of Science</item>
     </string-array>
 
+    <string name="home_train_number">Train #</string>
+    <string name="home_coach_number">Coach #</string>
+    <string name="home_seat_number">Seat #</string>
+
     <string name="next">Next</string>
     <string name="trip_request_main_title">Trip Request</string>
     <string name="trip_request_from">FROM</string>

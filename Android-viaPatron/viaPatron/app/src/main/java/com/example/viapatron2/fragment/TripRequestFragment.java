@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,7 +28,7 @@ import java.util.Locale;
 
 public class TripRequestFragment extends Fragment {
 
-    private static final String TAG = "viaPatron.TRFragment";
+    private static final String TAG = "TripRequestFragment";
 
     private MainActivity mActivity;
     private NavController navController;
@@ -49,6 +50,7 @@ public class TripRequestFragment extends Fragment {
     private int luggageFieldInt;
     private int luggageWeightFieldInt;
     private String dateString;
+    private String stationString;
 
 
     public TripRequestFragment() {
@@ -69,8 +71,8 @@ public class TripRequestFragment extends Fragment {
         mActivity = (MainActivity) requireActivity();
 
         setUpViews();
-        setUpListeners();
         setUpViewModel();
+        setUpListeners();
     }
 
     private void setUpViews() {
@@ -99,13 +101,6 @@ public class TripRequestFragment extends Fragment {
             nextButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
-                    // debug
-//                    NavDestination currentDest = navController.getCurrentDestination();
-//                    if (currentDest != null) {
-//                        Log.d(TAG, "currentDest.getId = " + currentDest.getId());
-//                        Log.d(TAG, "currentDest.getLabel = " + currentDest.getLabel());
-//                    }
 
                     /* Verify before confirmation that all inputs are entered accordingly. */
                     if (fromField.getText().toString().length() <= 0) {
@@ -148,6 +143,14 @@ public class TripRequestFragment extends Fragment {
 
 
                     // Save all data if inputs are valid
+                    // testing
+                    if (userTripRequestSession == null) {
+                        Log.d(TAG, "userTripRequestSession is null");
+                    } else {
+                        Log.d(TAG, "userTripRequestSession is valid");
+                    }
+                    stationString = "STATION";
+                    userTripRequestSession.setStation(stationString);
                     userTripRequestSession.setDate(dateString);
                     userTripRequestSession.setFromLocation(fromFieldString);
                     userTripRequestSession.setToLocation(toFieldString);
@@ -273,8 +276,10 @@ public class TripRequestFragment extends Fragment {
         // Re-created activities receive the same MyViewModel instance created by the first activity.
         model = ViewModelProviders.of(mActivity).get(MyViewModel.class);
 
+        Log.d(TAG, "setUpViewModel, before extract-> userTripRequestSession = " + userTripRequestSession);
         // Extract out the current UserTripRequestSession (initialised in HomeFragment)
         userTripRequestSession = model.getUserTripRequestSession();
+        Log.d(TAG, "setUpViewModel, after extract-> userTripRequestSession = " + userTripRequestSession);
 
         model.getRequestSession().observe(this, users -> {
             // update UI

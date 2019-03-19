@@ -211,7 +211,7 @@ public class TripBiddingFragment extends Fragment {
             @Override
             public void accept(PorterBidRequest data) {
 
-                String alertMsg = getString(R.string.trip_bidding_confirm_msg) + " " + data.getBidAmount() + "?";
+                String alertMsg = getString(R.string.trip_bidding_confirm_msg) + " $" + data.getBidAmount() + "?";
 
                 new AlertDialog.Builder(mActivity)
                         .setTitle(R.string.trip_bidding_confirm_title)
@@ -312,6 +312,8 @@ public class TripBiddingFragment extends Fragment {
         countDownTimer.start();
         isCountingDown = true;
     }
+
+
 
     @Override
     public void onStart() {
