@@ -276,10 +276,8 @@ public class TripRequestFragment extends Fragment {
         // Re-created activities receive the same MyViewModel instance created by the first activity.
         model = ViewModelProviders.of(mActivity).get(MyViewModel.class);
 
-        Log.d(TAG, "setUpViewModel, before extract-> userTripRequestSession = " + userTripRequestSession);
         // Extract out the current UserTripRequestSession (initialised in HomeFragment)
         userTripRequestSession = model.getUserTripRequestSession();
-        Log.d(TAG, "setUpViewModel, after extract-> userTripRequestSession = " + userTripRequestSession);
 
         model.getRequestSession().observe(this, users -> {
             // update UI
@@ -288,6 +286,14 @@ public class TripRequestFragment extends Fragment {
 
                 if (modelStationName != null) {
                     stationTitle.setText(modelStationName);
+                }
+
+                if (fromField != null) {
+                    fromField.setText(userTripRequestSession.getFromLocation());
+                }
+
+                if (toField != null) {
+                    toField.setText(userTripRequestSession.getToLocation());
                 }
             }
         });

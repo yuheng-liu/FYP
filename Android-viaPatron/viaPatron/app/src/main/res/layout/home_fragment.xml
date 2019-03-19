@@ -98,7 +98,7 @@
                 <!--END of From-To layout-->
 
 
-                <!--START of destination selection layout 1-->
+                <!--START of destination selection layout-->
                 <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -143,7 +143,12 @@
                                 android:layout_weight="1"
                                 android:id="@+id/home_train_field"
                                 android:background="@null"
+                                android:clickable="true"
+                                android:focusable="true"
                                 android:textAlignment="center"
+                                android:singleLine="true"
+                                android:lines="1"
+                                android:inputType="text"
                                 android:hint="@string/home_train_number"/>
 
                         <EditText
@@ -153,7 +158,12 @@
                                 android:layout_weight="1"
                                 android:id="@+id/home_coach_field"
                                 android:background="@null"
+                                android:clickable="true"
+                                android:focusable="true"
                                 android:textAlignment="center"
+                                android:singleLine="true"
+                                android:lines="1"
+                                android:inputType="text"
                                 android:hint="@string/home_coach_number"/>
 
                         <EditText
@@ -163,75 +173,16 @@
                                 android:layout_weight="1"
                                 android:id="@+id/home_seat_field"
                                 android:background="@null"
+                                android:clickable="true"
+                                android:focusable="true"
                                 android:textAlignment="center"
+                                android:singleLine="true"
+                                android:lines="1"
+                                android:inputType="text"
                                 android:hint="@string/home_seat_number"/>
                     </LinearLayout>
                 </LinearLayout>
-                <!--END of destination selection layout 1-->
-
-                <!--START of destination selection layout 2-->
-                <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:id="@+id/home_location_selection_grid_from_platform"
-                        android:orientation="vertical"
-                        android:visibility="gone">
-
-                    <LinearLayout
-                            android:id="@+id/home_train_coach_seat_location_from"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:orientation="horizontal">
-
-                        <EditText
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:background="@null"
-                                android:textAlignment="center"
-                                android:text="Train No"/>
-
-                        <EditText
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:background="@null"
-                                android:textAlignment="center"
-                                android:text="Coach No"/>
-
-                        <EditText
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:background="@null"
-                                android:textAlignment="center"
-                                android:text="Seat No"/>
-                    </LinearLayout>
-
-                    <FrameLayout
-                            android:id="@+id/home_custom_location_to"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1">
-
-                        <android.support.v7.widget.CardView
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_gravity="center"
-                                android:background="@drawable/rounded_corner">
-
-                            <fragment
-                                    android:id="@+id/autocomplete_fragment_to"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
-                            />
-
-                        </android.support.v7.widget.CardView>
-                    </FrameLayout>
-                </LinearLayout>
-                <!--END of destination selection layout 2-->
+                <!--END of destination selection layout-->
 
             </LinearLayout>
         </LinearLayout>

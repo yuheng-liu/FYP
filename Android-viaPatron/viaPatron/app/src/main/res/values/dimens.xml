@@ -10,7 +10,7 @@
     <dimen name="trip_request_station_title_padding_bottom">14dp</dimen>
 
     <dimen name="trip_request_confirm_station_title">14sp</dimen>
-    <dimen name="trip_request_confirm_station_to_fro">16sp</dimen>
+    <dimen name="trip_request_confirm_station_to_fro">14sp</dimen>
 
 
     <dimen name="profile_section_padding_horizontal">8dp</dimen>

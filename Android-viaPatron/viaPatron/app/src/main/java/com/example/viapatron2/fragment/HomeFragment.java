@@ -37,8 +37,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.*;
 import com.google.android.gms.maps.*;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.PointOfInterest;
+import com.google.android.gms.maps.model.*;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.api.model.RectangularBounds;
@@ -93,6 +92,8 @@ public class HomeFragment extends Fragment
     private GoogleApiClient mGoogleApiClient;
     private FusedLocationProviderClient mFusedLocationClient;
     private LocationRequest mLocationRequest;
+    private Marker mUserMarker;
+    private Place mPlace;
 
 
     public HomeFragment() {
@@ -147,11 +148,11 @@ public class HomeFragment extends Fragment
                 this.getChildFragmentManager().findFragmentById(R.id.autocomplete_fragment);
 
         if (autocompleteFragment != null) {
-            autocompleteFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG));
+            autocompleteFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG, Place.Field.ADDRESS));
 
             // Restrict autocomplete to Singapore's Boundaries
             // Next time to restrict autocomplete based on location/postal code of users.
-            // Extract boundaries from https://gist.github.com/graydon/11198540
+            // Extracted boundaries from https://gist.github.com/graydon/11198540
             RectangularBounds bounds = RectangularBounds.newInstance(
                     new LatLng(1.1304753, 103.6920359),
                     new LatLng(1.4504753, 104.0120359));
@@ -160,12 +161,27 @@ public class HomeFragment extends Fragment
 
             autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
                 @Override
-                public void onPlaceSelected(Place place) {
-                    Log.i(TAG, "Place: " + place.getName() + ", " + place.getId() + ", " + place.getLatLng());
+                public void onPlaceSelected(@NonNull Place place) {
+                    Log.i(TAG, "Place: " + place.getName() + ", " + place.getId() + ", " + place.getLatLng() + ", " + place.getAddress());
 
                     try {
-                        LatLng selectedPlace = place.getLatLng();
-                        updateMapCamera(selectedPlace);
+                        mPlace = place;
+
+                        // clear old markers
+                        mGoogleMap.clear();
+
+                        if (mPlace.getLatLng() != null) {
+                            // add new marker to selected location
+                            mUserMarker = mGoogleMap.addMarker(new MarkerOptions().position(mPlace.getLatLng())
+                                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
+
+                            // Edit marker title
+                            setmUserMarkerTitle();
+
+                            // move camera to selected location
+                            updateMapCamera(mPlace.getLatLng());
+
+                        }
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -197,6 +213,7 @@ public class HomeFragment extends Fragment
 
                     swapDestinationViews(swapViewsFlag);
                     swapViewsFlag = !swapViewsFlag;
+                    setmUserMarkerTitle();
                 }
             });
         }
@@ -279,13 +296,24 @@ public class HomeFragment extends Fragment
                 @Override
                 public void onClick(View v) {
 
-                    // TODO: REMOVE AFTER TESTING
-                    userTripRequestSession = new UserTripRequestSession();
-                    userTripRequestSession.setStation("STATION");
-                    model.setRequestSession(userTripRequestSession);
+                    if (fieldsValid()) {
+                        userTripRequestSession = new UserTripRequestSession();
+                        userTripRequestSession.setStation(" ");
+                        String concatenateDest = "Train: " + trainNumString + ", Coach: " + coachNumString + ", Seat: " + seatNumString;
 
-                    Log.d(TAG, "onClick, navigating to tripRequestFragment");
-                    navController.navigate(R.id.navigation_trip_request);
+                        if (swapViewsFlag) {
+                            // From custom location to Train
+                            userTripRequestSession.setFromLocation(mPlace.getName());
+                            userTripRequestSession.setToLocation(concatenateDest);
+                        } else {
+                            // From Train to custom location
+                            userTripRequestSession.setFromLocation(concatenateDest);
+                            userTripRequestSession.setToLocation(mPlace.getName());
+                        }
+
+                        model.setRequestSession(userTripRequestSession);
+                        navController.navigate(R.id.navigation_trip_request);
+                    }
                 }
             });
         }
@@ -543,11 +571,11 @@ public class HomeFragment extends Fragment
 
         Log.d(TAG, "onPoiClick");
 
-        Toast.makeText(mActivity, "Clicked: " +
-                        pointOfInterest.name + "\nPlace ID:" + pointOfInterest.placeId +
-                        "\nLatitude:" + pointOfInterest.latLng.latitude +
-                        " Longitude:" + pointOfInterest.latLng.longitude,
-                Toast.LENGTH_SHORT).show();
+//        Toast.makeText(mActivity, "Clicked: " +
+//                        pointOfInterest.name + "\nPlace ID:" + pointOfInterest.placeId +
+//                        "\nLatitude:" + pointOfInterest.latLng.latitude +
+//                        " Longitude:" + pointOfInterest.latLng.longitude,
+//                Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -585,6 +613,59 @@ public class HomeFragment extends Fragment
             model.getRequestSession().observe(this, users -> {
                 // update UI
             });
+        }
+    }
+
+    private void setmUserMarkerTitle() {
+
+        if (mUserMarker != null) {
+            mUserMarker.hideInfoWindow();
+
+            if (swapViewsFlag) {
+                mUserMarker.setTitle("Pickup Here");
+            } else {
+                mUserMarker.setTitle("Dropoff Here");
+            }
+
+            mUserMarker.showInfoWindow();
+        }
+    }
+
+    private boolean fieldsValid() {
+
+        if (mPlace == null) {
+            Toast.makeText(mActivity, "Please enter a destination for Pickup or Dropoff", Toast.LENGTH_SHORT).show();
+            return false;
+        } else {
+            /* Verify before confirmation that all inputs are entered accordingly. */
+            if (trainNumField.getText().toString().length() <= 0) {
+                trainNumField.setError("Enter Train Number");
+                trainNumField.requestFocus();
+                return false;
+            } else {
+                // length() > 0
+                trainNumString = trainNumField.getText().toString();
+            }
+
+            if (coachNumField.getText().toString().length() <= 0) {
+                coachNumField.setError("Enter Coach Number");
+                coachNumField.requestFocus();
+                return false;
+            } else {
+                // length() > 0
+                coachNumString = coachNumField.getText().toString();
+            }
+
+            if (seatNumField.getText().toString().length() <= 0) {
+                seatNumField.setError("Enter Seat Number");
+                seatNumField.requestFocus();
+                return false;
+            } else {
+                // length() > 0
+                seatNumString = seatNumField.getText().toString();
+            }
+
+            return true;
         }
     }
 
