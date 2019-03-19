@@ -10,6 +10,7 @@ import android.widget.Button;
 import com.example.viaporter.MainActivity;
 import com.example.viaporter.R;
 import com.example.viaporter.models.PorterTripAccept;
+import com.example.viaporter.models.PorterUserDetails;
 import com.example.viaporter.models.TripStatus;
 import com.google.gson.Gson;
 
@@ -129,7 +130,8 @@ public class DialogManager {
                     public void onClick(DialogInterface dialog, int id) {
                         // User clicked OK button
                         try {
-                            PorterTripAccept newTripAccept = new PorterTripAccept("Yuheng", mActivity.dataManager.getCurrentLocation(),"4.5");
+                            PorterUserDetails porterDetails = mActivity.dataManager.getPorterUserDetails();
+                            PorterTripAccept newTripAccept = new PorterTripAccept(porterDetails.getId(),porterDetails.getName(), mActivity.dataManager.getCurrentLocation() ,porterDetails.getRating());
                             JSONObject data = new JSONObject(gson.toJson(newTripAccept));
                             mActivity.socketManager.emitJSON("accept_trip", data);
                         } catch (JSONException e) {

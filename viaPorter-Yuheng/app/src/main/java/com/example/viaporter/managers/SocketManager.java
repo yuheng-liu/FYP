@@ -1,6 +1,5 @@
 package com.example.viaporter.managers;
 
-import android.nfc.Tag;
 import android.util.Log;
 
 import com.example.viaporter.constants.AppConstants;
@@ -14,6 +13,7 @@ import com.github.nkzawa.socketio.client.Socket;
 import com.google.gson.Gson;
 import com.jakewharton.rxrelay2.PublishRelay;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.net.URISyntaxException;
@@ -86,6 +86,17 @@ public class SocketManager {
 
     public void emitJSON(String event, JSONObject msg) { socket.emit(event, msg); }
 
+    public void emitStateChanged(String state, JSONObject msg) {
+        try {
+            JSONObject data = new JSONObject()
+                .put("STATE", state)
+                .put("MSG", msg);
+            socket.emit("porter_state_change", data);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
     // listening methods
     public Disposable addOnPatronTripRequest(Consumer<PatronTripRequest> onSuccess){
         return patronTripRequestRelay.subscribe(onSuccess);
@@ -99,26 +110,6 @@ public class SocketManager {
 
     // socket listeners
     private void prepareListeners() {
-        socket.on("patron_trip_request", new Emitter.Listener() {
-            @Override
-            public void call(final Object... args) {
-                JSONObject data = (JSONObject) args[0];
-                PatronTripRequest newRequest = gson.fromJson(data.toString(), PatronTripRequest.class);
-                patronTripRequestRelay.accept(newRequest);
-            }
-        });
-
-        socket.on("patron_bid_success", new Emitter.Listener() {
-            @Override
-            public void call(Object... args) {
-                JSONObject data = (JSONObject) args[0];
-                PatronTripSuccess newTrip = gson.fromJson(data.toString(), PatronTripSuccess.class);
-                Log.d("testing", "" + newTrip.getPatronLocation());
-                dataManager.setCurrentTrip(newTrip);
-                patronTripSuccessRelay.accept(newTrip);
-            }
-        });
-
         socket.on("patron_location_update", new Emitter.Listener() {
             @Override
             public void call(Object... args) {
@@ -129,27 +120,32 @@ public class SocketManager {
             }
         });
 
-        // For testing
-        socket.on("porter_test_event", new Emitter.Listener() {
+        socket.on("patron_state_change", new Emitter.Listener() {
             @Override
             public void call(Object... args) {
-                JSONObject msg = new JSONObject();
+                String strMsg;
+                JSONObject msg;
                 JSONObject data = (JSONObject) args[0];
                 try {
                     switch (data.getString("STATE")) {
-                        case "TESTING":
+                        case "patron_trip_request":
                             msg = data.getJSONObject("MSG");
-                            PatronTripRequest testing = gson.fromJson(msg.toString(), PatronTripRequest.class);
-                            Log.d(TAG, "Testing for new socket listener");
-                            Log.d(TAG, msg.toString());
+                            PatronTripRequest newRequest = gson.fromJson(msg.toString(), PatronTripRequest.class);
+                            patronTripRequestRelay.accept(newRequest);
                             break;
 
-                        case "TESTING2":
+                        case "patron_bid_success":
                             msg = data.getJSONObject("MSG");
-                            PatronTripSuccess testing2 = gson.fromJson(msg.toString(), PatronTripSuccess.class);
-                            Log.d(TAG, "Testing2 for new socket listener");
-                            Log.d(TAG, msg.toString());
+                            PatronTripSuccess newTrip = gson.fromJson(msg.toString(), PatronTripSuccess.class);
+                            dataManager.setCurrentTrip(newTrip);
+                            patronTripSuccessRelay.accept(newTrip);
                             break;
+
+                        case "patron_stop_bidding":
+                            strMsg = data.getString("MSG");
+
+                        default:
+                            Log.d(TAG,"no state change detected");
                     }
                 } catch (Exception e){
                     e.printStackTrace();

@@ -11,7 +11,6 @@ import com.google.gson.annotations.SerializedName;
  */
 public class PatronTripSuccess {
 
-
     @SerializedName("patron_location")
     @Expose
     private LatLng patronLocation;

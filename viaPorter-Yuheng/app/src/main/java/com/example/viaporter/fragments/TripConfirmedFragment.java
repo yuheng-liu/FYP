@@ -125,18 +125,6 @@ public class TripConfirmedFragment extends Fragment
         mGoogleMap = googleMap;
         enableLocationService();
 
-//        googleMap.addMarker(new MarkerOptions()
-//                .position(UTOWN)
-//                .title("UTown")
-//                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
-//        );
-//
-//        googleMap.addMarker(new MarkerOptions()
-//                .position(FOS)
-//                .title("Faculty of Science")
-//                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))
-//        );
-
         if (currentTrip != null) {
             patronMarker = googleMap.addMarker(new MarkerOptions()
                     .position(currentTrip.getPatronLocation())
@@ -282,7 +270,6 @@ public class TripConfirmedFragment extends Fragment
         cancelTripButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 mActivity.dialogManager.showTripConfirmedCancelTrip();
             }
         });
@@ -322,7 +309,7 @@ public class TripConfirmedFragment extends Fragment
         }));
     }
 
-    private float distanceBetweenUsers(LatLng patronLatLng, LatLng porterLatLng) {
+    private float distanceBetweenUsers(LatLng porterLatLng, LatLng patronLatLng) {
         Location loc1 = new Location("");
         loc1.setLatitude(patronLatLng.latitude);
         loc1.setLongitude(patronLatLng.longitude);

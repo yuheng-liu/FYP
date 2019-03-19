@@ -108,7 +108,6 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.M
 
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
-//        mLocationPermissionGranted = false;
         switch (requestCode) {
             case PERMISSION_FINE_LOCATION: {
                 // If request is cancelled, the result arrays are empty.
@@ -126,12 +125,6 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.M
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
             switch (item.getItemId()) {
-//                case R.id.navigation_trip:
-//                    Log.d(TAG, "selected trip");
-//
-//                    if (item.getItemId() != navController.getCurrentDestination().getId())
-//                        navController.navigate(R.id.navigation_trip);
-
                 case R.id.navigation_jobs:
                     Log.d(TAG, "selected job");
 
@@ -168,7 +161,6 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.M
 
         try {
 //            AWSMobileClient.getInstance().signOut();
-            FirebaseAuth.getInstance().revoke
             FirebaseAuth.getInstance().signOut();
 
             // Tips: Intents should be created and activated within activities

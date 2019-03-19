@@ -25,6 +25,7 @@ import com.example.viaporter.models.PatronTripRequest;
 import com.example.viaporter.models.PatronTripSuccess;
 import com.example.viaporter.models.PorterBidRequest;
 import com.example.viaporter.models.PorterTripAccept;
+import com.example.viaporter.models.PorterUserDetails;
 import com.example.viaporter.models.TripStatus;
 import com.google.gson.Gson;
 
@@ -114,9 +115,10 @@ public class TripRequestFragment extends Fragment {
                     @Override
                     public void run() {
                         try {
-                            PorterTripAccept newTripAccept = new PorterTripAccept("Yuheng", mActivity.dataManager.getCurrentLocation(),"4.5");
-                            JSONObject data = new JSONObject(gson.toJson(newTripAccept));
-                            mActivity.socketManager.emitJSON("accept_trip", data);
+                            PorterUserDetails porterDetails = mActivity.dataManager.getPorterUserDetails();
+                            PorterTripAccept newTripAccept = new PorterTripAccept(porterDetails.getId(), porterDetails.getName(), mActivity.dataManager.getCurrentLocation(),porterDetails.getRating());
+                            JSONObject msg = new JSONObject(gson.toJson(newTripAccept));
+                            mActivity.socketManager.emitStateChanged("porter_accept_trip", msg);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -140,9 +142,10 @@ public class TripRequestFragment extends Fragment {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 try {
-                                    PorterBidRequest newBidRequest = new PorterBidRequest("Yuheng", 10.0);
-                                    JSONObject data = new JSONObject(gson.toJson(newBidRequest));
-                                    mActivity.socketManager.emitJSON("bid_request", data);
+                                    PorterUserDetails porterDetails = mActivity.dataManager.getPorterUserDetails();
+                                    PorterBidRequest newBidRequest = new PorterBidRequest(porterDetails.getId(), porterDetails.getName(), 2.0);
+                                    JSONObject msg = new JSONObject(gson.toJson(newBidRequest));
+                                    mActivity.socketManager.emitStateChanged("porter_bid_request", msg);
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }

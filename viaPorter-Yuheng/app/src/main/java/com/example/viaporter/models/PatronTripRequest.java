@@ -5,6 +5,10 @@ import com.google.gson.annotations.SerializedName;
 
 public class PatronTripRequest {
 
+    @SerializedName("patron_id")
+    @Expose
+    private String patronID;
+
     @SerializedName("train_station_name")
     @Expose
     private String trainStationName;
@@ -24,13 +28,15 @@ public class PatronTripRequest {
     @Expose
     private int totalLuggageWeight;
 
+    public String getPatronID() { return  patronID; };
     public String getTrainStationName() { return trainStationName; }
     public String getTripStartLocation() { return tripStartLocation; }
     public String getTripEndLocation() { return tripEndLocation; }
     public int getNumberOfLuggage() { return numberOfLuggage; }
     public int getTotalLuggageWeight() { return totalLuggageWeight; }
 
-    public PatronTripRequest(String name, String start, String end, int luggage, int weight) {
+    public PatronTripRequest(String id, String name, String start, String end, int luggage, int weight) {
+        patronID = id;
         trainStationName = name;
         tripStartLocation = start;
         tripEndLocation = end;

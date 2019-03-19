@@ -44,12 +44,12 @@ public class BroadcastAdapter extends RecyclerView.Adapter<BroadcastAdapter.View
     // Provide a suitable constructor (depends on the kind of dataset)
     public BroadcastAdapter() {
         mBroadcastDataSet = DataManager.getSharedInstance().getBroadcastRequestList();
-//        if (mBroadcastDataSet.isEmpty()){
-//            // for testing purposes
-//            PatronTripRequest testData = new PatronTripRequest("UTown", "ERC",
-//                    "Bus Stop 2", 2, 30);
-//            mBroadcastDataSet.add(testData);
-//        }
+        if (mBroadcastDataSet.isEmpty()){
+            // for testing purposes
+            PatronTripRequest testData = new PatronTripRequest("testing","UTown", "ERC",
+                    "Bus Stop 2", 2, 30);
+            mBroadcastDataSet.add(testData);
+        }
     }
 
     public void addToDataSet(PatronTripRequest tripRequest) {
@@ -58,11 +58,8 @@ public class BroadcastAdapter extends RecyclerView.Adapter<BroadcastAdapter.View
     }
 
     public void resetDataSetWith(Collection<PatronTripRequest> tripRequests) {
-//        Log.d("testing", "in broadcastadapter " + String.valueOf(mBroadcastDataSet.size()));
-//        Log.d("testing", "in broadcastadapter " + String.valueOf(tripRequests.size()));
         mBroadcastDataSet.clear();
         mBroadcastDataSet.addAll(tripRequests);
-//        Log.d("testing", "in broadcastadapter after addAll " + String.valueOf(mBroadcastDataSet.size()));
         notifyDataSetChanged();
     }
 

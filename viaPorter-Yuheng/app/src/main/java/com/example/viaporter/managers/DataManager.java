@@ -2,6 +2,7 @@ package com.example.viaporter.managers;
 
 import com.example.viaporter.models.PatronTripRequest;
 import com.example.viaporter.models.PatronTripSuccess;
+import com.example.viaporter.models.PorterUserDetails;
 import com.example.viaporter.models.TripStatus;
 import com.google.android.gms.maps.model.LatLng;
 
@@ -11,6 +12,7 @@ import java.util.List;
 public class DataManager {
     private static final String TAG = "DataManager";
 
+    private PorterUserDetails porterUserDetails;
     private List<PatronTripRequest> BroadcastRequestList;
     private List<PatronTripRequest> CurrentBidList;
     private PatronTripSuccess CurrentTrip;
@@ -22,6 +24,7 @@ public class DataManager {
      *                                      */
     // Private constructor //
     private DataManager() {
+        porterUserDetails = new PorterUserDetails();
         BroadcastRequestList = new ArrayList<>();
         CurrentBidList = new ArrayList<>();
         tripStatus = TripStatus.IDLE;
@@ -48,8 +51,10 @@ public class DataManager {
     public TripStatus getTripStatus() {
         return tripStatus;
     }
+    public PorterUserDetails getPorterUserDetails() { return  porterUserDetails; }
 
     // setters
+    public void setPorterUserDetails(PorterUserDetails newDetails) { porterUserDetails = newDetails; }
     public void addToBroadcastList(PatronTripRequest newRequest) { BroadcastRequestList.add(newRequest); }
     public void setCurrentTrip(PatronTripSuccess newTrip){
         CurrentTrip = newTrip;

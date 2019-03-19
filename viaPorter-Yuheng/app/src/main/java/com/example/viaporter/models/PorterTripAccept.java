@@ -6,6 +6,10 @@ import com.google.gson.annotations.SerializedName;
 
 public class PorterTripAccept {
 
+    @SerializedName("accepted_porter_id")
+    @Expose
+    private String porterID;
+
     @SerializedName("accepted_porter_name")
     @Expose
     private String porterName;
@@ -16,16 +20,19 @@ public class PorterTripAccept {
 
     @SerializedName("porter_rating")
     @Expose
-    private String porterRating;
+    private Double porterRating;
 
+    public String getPorterID() { return porterID; };
+    public void  setPorterID(String porterID) { this.porterID = porterID; }
     public String getPorterName() { return porterName; }
     public void setPorterName(String porterName) { this.porterName = porterName; }
     public LatLng getPorterLocation() { return porterLocation; }
     public void setPorterLocation(LatLng porterLocation) { this.porterLocation = porterLocation; }
-    public String getPorterRating() { return porterRating; }
-    public void setPorterRating(String porterRating) { this.porterRating = porterRating;}
+    public Double getPorterRating() { return porterRating; }
+    public void setPorterRating(Double porterRating) { this.porterRating = porterRating;}
 
-    public PorterTripAccept(String porterName, LatLng porterLocation, String porterRating) {
+    public PorterTripAccept(String id, String porterName, LatLng porterLocation, Double porterRating) {
+        this.porterID = id;
         this.porterName = porterName;
         this.porterLocation = porterLocation;
         this.porterRating = porterRating;

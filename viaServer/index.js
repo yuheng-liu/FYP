@@ -16,44 +16,27 @@ io.on('connection', (socket) => {
 	/* 					  *
 	 * Events from Porter *
 	 *					  */
-	socket.on('bid_request', (bidRequest) => {
-		console.log("bidRequest received");
-		socket.broadcast.emit('porter_bid_request', bidRequest);
-	})
-
-	socket.on('accept_trip', (acceptTrip) => {
-		console.log("acceptTrip received");
-		socket.broadcast.emit('porter_accept_trip', acceptTrip);
-	})
-
 	socket.on('location_update_porter', (locationUpdate) => {
 		console.log("porter location update");
 		socket.broadcast.emit('porter_location_update', locationUpdate);
 	})
 
+	socket.on('porter_state_change', (state) => {
+		console.log("porter state changed" + state);
+		socket.broadcast.emit('porter_state_changed', state);
+	})
+
 	/* 					  *
 	 * Events from Patron *
 	 *					  */
-	socket.on('trip_request', (tripRequest) => {
-		console.log("tripRequest received");
-		socket.broadcast.emit('patron_trip_request', tripRequest);
-	})
-
-	socket.on('accept_bidder', (acceptBidder) => {
-		console.log("acceptBidder received");
-		socket.broadcast.emit('patron_bid_success', acceptBidder);
-	})
-
 	socket.on('location_update_patron', (locationUpdate) => {
 		console.log("PATRON LOCATION UPDATE");
 		socket.broadcast.emit('patron_location_update', locationUpdate);
 	})
 
-	// For Testing
-	socket.on('patron_test_event', (newEvent) => {
-		console.log("patron test event");
-		console.log(newEvent);
-		socket.broadcast.emit('porter_test_event', newEvent);
+	socket.on('patron_state_changed', (state) => {
+		console.log("patron state changed" + state);
+		socket.broadcast.emit('patron_state_change', state);
 	})
 
 	// Handle event 'disconnect'

@@ -4,6 +4,11 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class PorterBidRequest {
+
+    @SerializedName("porter_id")
+    @Expose
+    private String porterID;
+
     @SerializedName("porter_name")
     @Expose
     private String porterName;
@@ -14,8 +19,10 @@ public class PorterBidRequest {
 
     public String getPorterName() { return porterName; }
     public Double getBidAmount() { return bidAmount; }
+    public String getPorterID() { return porterID; }
 
-    public PorterBidRequest(String name, Double amount) {
+    public PorterBidRequest(String id, String name, Double amount) {
+        porterID = id;
         porterName = name;
         bidAmount = amount;
     }
