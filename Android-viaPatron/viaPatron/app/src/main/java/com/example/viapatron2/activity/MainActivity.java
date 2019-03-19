@@ -165,15 +165,19 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.M
                 case R.id.navigation_trip:
                     Log.d(TAG, "selected trip");
 
-                    if (isNavBottom) {
-                        if (tempNavDest != null) {
-                            navController.popBackStack(tempNavDest.getId(), false);
+                    // Prevent user from going back to home fragment if user is in trip confirm fragment etc.
+                    if (botNavState != BotNavState.TRIP_STATE) {
+                        if (isNavBottom) {
+                            if (tempNavDest != null) {
+                                navController.popBackStack(tempNavDest.getId(), false);
+                                botNavState = BotNavState.TRIP_STATE;
+                                isNavBottom = false;
+                            }
+                        } else {
+                            Log.d(TAG, "navigating to trip directly");
+                            navController.navigate(R.id.navigation_trip);
                             botNavState = BotNavState.TRIP_STATE;
                         }
-                    } else {
-                        Log.d(TAG, "navigating to trip directly");
-                        navController.navigate(R.id.navigation_trip);
-                        botNavState = BotNavState.TRIP_STATE;
                     }
 
                     return true;
