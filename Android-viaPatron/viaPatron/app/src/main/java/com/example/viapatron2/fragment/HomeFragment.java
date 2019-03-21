@@ -500,12 +500,12 @@ public class HomeFragment extends Fragment
         // position location button at right bottom
         rlp.addRule(RelativeLayout.ALIGN_PARENT_TOP, 0);
         rlp.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
-        rlp.setMargins(0, 50, 100, 225);
+        rlp.setMargins(0, 50, 100, 50);
 
         // position compass button at left button
         rlpCompass.addRule(RelativeLayout.ALIGN_PARENT_TOP, 0);
         rlpCompass.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
-        rlpCompass.setMargins(100, 50, 0, 225);
+        rlpCompass.setMargins(100, 50, 0, 50);
     }
 
     private LocationCallback mLocationCallback = new LocationCallback() {

@@ -71,4 +71,6 @@
 
     <string name="trip_review_popup_title">Your Trip</string>
 
+    <string name="trip_chat_title">Chat</string>
+    <string name="trip_chat_type_your_message">Type your message</string>
 </resources>

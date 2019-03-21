@@ -185,12 +185,12 @@ public class TripConfirmedFragment extends Fragment
         // position location button at right bottom
         rlp.addRule(RelativeLayout.ALIGN_PARENT_TOP, 0);
         rlp.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
-        rlp.setMargins(0, 50, 100, 225);
+        rlp.setMargins(0, 50, 100, 50);
 
         // position compass button at left button
         rlpCompass.addRule(RelativeLayout.ALIGN_PARENT_TOP, 0);
         rlpCompass.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
-        rlpCompass.setMargins(100, 50, 0, 225);
+        rlpCompass.setMargins(100, 50, 0, 50);
     }
 
     private void buildGoogleApiClient() {
@@ -374,6 +374,7 @@ public class TripConfirmedFragment extends Fragment
                     public void run() {
                         try {
                             Log.d(TAG, "porterInfo: name = " + porterInfo.getPorterName());
+                            Log.d(TAG, "porterInfo: id = " + porterInfo.getPorterId());
                             Log.d(TAG, "porterInfo: location = " + porterInfo.getPorterLocation().toString());
 
                             if(mGoogleMap != null) {

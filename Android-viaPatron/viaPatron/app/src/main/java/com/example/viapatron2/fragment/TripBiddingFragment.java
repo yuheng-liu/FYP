@@ -187,10 +187,10 @@ public class TripBiddingFragment extends Fragment {
 
         // TODO: remove below part when not testing
         // START OF TESTING SEGMENT
-//        PorterBidRequest testPorterBidRequest = new PorterBidRequest();
-//        testPorterBidRequest.setPorterName("Allen");
-//        testPorterBidRequest.setBidAmount(2.2);
-//        mBidderAdapter.addToDataSet(testPorterBidRequest);
+        PorterBidRequest testPorterBidRequest = new PorterBidRequest();
+        testPorterBidRequest.setPorterName("Max");
+        testPorterBidRequest.setBidAmount(2.2);
+        mBidderAdapter.addToDataSet(testPorterBidRequest);
         // END OF TESTING SEGMENT
 
 

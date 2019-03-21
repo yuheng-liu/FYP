@@ -25,9 +25,12 @@ import com.example.viapatron2.app.managers.DataManager;
 import com.example.viapatron2.app.managers.SocketManager;
 import com.example.viapatron2.core.models.BotNavState;
 import com.example.viapatron2.core.models.MyViewModel;
+import com.example.viapatron2.core.models.TripStatus;
 import com.example.viapatron2.fragment.ProfileFragment;
 import com.example.viapatron2.service.ViaPatronWorkerService;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import io.reactivex.disposables.Disposable;
 
 import java.util.ArrayList;
@@ -44,6 +47,7 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.M
     private SocketManager mSocketManager;
     private DataManager mDataManager;
     private List<Disposable> disposables;
+    private DatabaseReference mDatabase;
 
     private BottomNavigationView bottomNavigation;
     private NavHostFragment navHostFragment;
@@ -63,6 +67,7 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.M
         disposables = new ArrayList<>();
         mSocketManager = new SocketManager();
         mDataManager = new DataManager();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
 
         checkAppLocationPermission();
         setUpViewModel();
@@ -185,6 +190,12 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.M
                     // Todo: disable chat button until a trip has successfully started with a porter
 
                     Log.d(TAG, "selected chat");
+
+                    if (mDataManager.getTripStatus() != TripStatus.PATRON_STARTED || mDataManager.getTripStatus() != TripStatus.IN_PROGRESS) {
+                        Log.d(TAG, "Should not be inside chat");
+                    } else {
+                        Log.d(TAG, "Should have chat with Porter");
+                    }
 
                     if (botNavState == BotNavState.PROFILE_STATE || botNavState == BotNavState.CHAT_STATE) {
                         navController.navigate(R.id.navigation_chats);
@@ -336,4 +347,6 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.M
     public DataManager getmDataManager() {
         return mDataManager;
     }
+
+    public DatabaseReference getmDatabase() { return mDatabase;}
 }
