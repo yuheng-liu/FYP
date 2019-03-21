@@ -122,4 +122,6 @@
     <string name="login_send_verification_code">Send Verification Code</string>
     <string name="chat_type_your_message">Type your message</string>
     <string name="chat_title">Chat</string>
+    <string name="trip_request_bid">Bid</string>
+    <string name="trip_request_enter_bid_amount">Default Bid / Enter Bid Amount</string>
 </resources>

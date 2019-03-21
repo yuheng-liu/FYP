@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 
 import com.example.viaporter.CallbackListener;
 import com.example.viaporter.MainActivity;
@@ -48,6 +49,8 @@ public class TripRequestFragment extends Fragment {
     private CurrentBidAdapter mCurrentBidAdapter;
     private Gson gson;
     private PatronTripRequest selectedBidRequest;
+    private AlertDialog bidDialog;
+    private AlertDialog editBidDialog;
 
     public TripRequestFragment() {} // Empty constructor
 
@@ -135,32 +138,43 @@ public class TripRequestFragment extends Fragment {
             public void accept(PatronTripRequest data) {
                 selectedBidRequest = data;
 
-                new AlertDialog.Builder(mActivity)
-                        .setTitle("Make Default Offer")
-                        .setMessage("Would you like to make a default offer of $2?")
-                        .setPositiveButton("confirm", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                try {
-                                    PorterUserDetails porterDetails = mActivity.dataManager.getPorterUserDetails();
-                                    PorterBidRequest newBidRequest = new PorterBidRequest(porterDetails.getId(), porterDetails.getName(), 2.0);
-                                    JSONObject msg = new JSONObject(gson.toJson(newBidRequest));
-                                    mActivity.socketManager.emitStateChanged("porter_bid_request", msg);
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                                mBroadcastAdapter.removeDataSet(selectedBidRequest);
-                                mCurrentBidAdapter.addToDataSet(selectedBidRequest);
-                            }
-                        })
-                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                // do nothing
-                            }
-                        })
-                        .create()
-                        .show();
+                AlertDialog.Builder biddingDialogBuilder = new AlertDialog.Builder(mActivity);
+                final View biddingView = mActivity.getLayoutInflater().inflate(R.layout.place_bid_custom_popup, null);
+                biddingDialogBuilder.setView(biddingView);
+                final EditText bidAmountField = biddingView.findViewById(R.id.bid_amount_field);
+                Button bidButton = biddingView.findViewById(R.id.bid_button);
+                bidButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        // Default bid amount
+                        String currentBidAmount = "2.0";
+
+                        if (bidAmountField.getText().toString().length() > 0) {
+                            currentBidAmount = bidAmountField.getText().toString();
+                        }
+
+                        try {
+                            PorterUserDetails porterDetails = mActivity.dataManager.getPorterUserDetails();
+                            PorterBidRequest newBidRequest = new PorterBidRequest(porterDetails.getId(), porterDetails.getName(), currentBidAmount);
+                            JSONObject msg = new JSONObject(gson.toJson(newBidRequest));
+                            mActivity.socketManager.emitStateChanged("porter_bid_request", msg);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        mBroadcastAdapter.removeDataSet(selectedBidRequest);
+                        mCurrentBidAdapter.addToDataSet(selectedBidRequest);
+                        bidDialog.cancel();
+                    }
+                });
+                Button cancelButton = biddingView.findViewById(R.id.cancel_button);
+                cancelButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        bidDialog.cancel();
+                    }
+                });
+                bidDialog = biddingDialogBuilder.create();
+                bidDialog.show();
             }
         });
 
@@ -211,6 +225,35 @@ public class TripRequestFragment extends Fragment {
         mActivity.dataManager.setTripStatus(TripStatus.PROCEEDING);
         mCurrentBidAdapter.removeDataSet(selectedBidRequest);
         navController.navigate(R.id.navigation_trip_confirmed);
+    }
+
+    private void showDefaultOfferDialog() {
+        new AlertDialog.Builder(mActivity)
+                .setTitle("Make Default Offer")
+                .setMessage("Would you like to make a default offer of $2?")
+                .setPositiveButton("confirm", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        try {
+                            PorterUserDetails porterDetails = mActivity.dataManager.getPorterUserDetails();
+                            PorterBidRequest newBidRequest = new PorterBidRequest(porterDetails.getId(), porterDetails.getName(), "2.0");
+                            JSONObject msg = new JSONObject(gson.toJson(newBidRequest));
+                            mActivity.socketManager.emitStateChanged("porter_bid_request", msg);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        mBroadcastAdapter.removeDataSet(selectedBidRequest);
+                        mCurrentBidAdapter.addToDataSet(selectedBidRequest);
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // do nothing
+                    }
+                })
+                .create()
+                .show();
     }
 
     @Override

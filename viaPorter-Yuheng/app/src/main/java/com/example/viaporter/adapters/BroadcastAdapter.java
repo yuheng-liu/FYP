@@ -11,6 +11,7 @@ import com.example.viaporter.CallbackListener;
 import com.example.viaporter.R;
 import com.example.viaporter.managers.DataManager;
 import com.example.viaporter.models.PatronTripRequest;
+import ru.rambler.libs.swipe_layout.SwipeLayout;
 
 import java.util.Collection;
 import java.util.List;
@@ -33,6 +34,7 @@ public class BroadcastAdapter extends RecyclerView.Adapter<BroadcastAdapter.View
         public TextView totalLuggageWeight;
         public View mPositiveButton;
         public View mNegativeButton;
+        public SwipeLayout swipeLayout;
 
         ViewHolder(View view) {
             super(view);
@@ -84,23 +86,24 @@ public class BroadcastAdapter extends RecyclerView.Adapter<BroadcastAdapter.View
                 .inflate(R.layout.broadcast_request_item, parent, false);
 
         // set the view's size, margins, padding and layout parameters...
-        ViewHolder vh = new ViewHolder(itemView);
+        ViewHolder viewHolder = new ViewHolder(itemView);
 
-        vh.stationNameLeft = itemView.findViewById(R.id.broadcast_station_name_left);
-        vh.stationNameRight = itemView.findViewById(R.id.broadcast_station_name_right);
-        vh.startLocation = itemView.findViewById(R.id.broadcast_start_location);
-        vh.endLocation = itemView.findViewById(R.id.broadcast_end_location);
-        vh.numLuggage = itemView.findViewById(R.id.broadcast_number_of_luggage);
-        vh.totalLuggageWeight = itemView.findViewById(R.id.broadcast_total_luggage_weight);
-        vh.mPositiveButton = itemView.findViewById(R.id.positiveButton);
-        vh.mNegativeButton = itemView.findViewById(R.id.negativeButton);
+        viewHolder.stationNameLeft = itemView.findViewById(R.id.broadcast_station_name_left);
+        viewHolder.stationNameRight = itemView.findViewById(R.id.broadcast_station_name_right);
+        viewHolder.startLocation = itemView.findViewById(R.id.broadcast_start_location);
+        viewHolder.endLocation = itemView.findViewById(R.id.broadcast_end_location);
+        viewHolder.numLuggage = itemView.findViewById(R.id.broadcast_number_of_luggage);
+        viewHolder.totalLuggageWeight = itemView.findViewById(R.id.broadcast_total_luggage_weight);
+        viewHolder.mPositiveButton = itemView.findViewById(R.id.positiveButton);
+        viewHolder.mNegativeButton = itemView.findViewById(R.id.negativeButton);
+        viewHolder.swipeLayout = itemView.findViewById(R.id.swipe_layout);
 
-        return vh;
+        return viewHolder;
     }
 
     // Replace the contents of a view (invoked by the layout manager)
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
         final PatronTripRequest itemData = mBroadcastDataSet.get(position);
 
         holder.stationNameLeft.setText(itemData.getTrainStationName());
@@ -117,6 +120,7 @@ public class BroadcastAdapter extends RecyclerView.Adapter<BroadcastAdapter.View
                     return;
                 }
                 mOnPositiveButtonClicked.accept(itemData);
+                holder.swipeLayout.animateReset();
             }
         });
 
@@ -127,6 +131,7 @@ public class BroadcastAdapter extends RecyclerView.Adapter<BroadcastAdapter.View
                     return;
                 }
                 mOnNegativeButtonClicked.accept(itemData);
+                holder.swipeLayout.animateReset();
             }
         });
     }
