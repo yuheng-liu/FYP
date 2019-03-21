@@ -7,6 +7,9 @@ import com.amazonaws.mobile.config.AWSConfiguration;
 import com.amazonaws.mobileconnectors.appsync.AWSAppSyncClient;
 import com.amazonaws.mobileconnectors.appsync.sigv4.CognitoUserPoolsAuthProvider;
 
+/** This class was used for authentication before switching over to Firebase due to a bug in password verification causing app to crash.
+ *  Kept for future development where needed.
+ */
 public class ClientFactory {
 
     private static final String TAG = "ClientFactory";

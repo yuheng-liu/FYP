@@ -182,6 +182,8 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.M
 
                     return true;
                 case R.id.navigation_chats:
+                    // Todo: disable chat button until a trip has successfully started with a porter
+
                     Log.d(TAG, "selected chat");
 
                     if (botNavState == BotNavState.PROFILE_STATE || botNavState == BotNavState.CHAT_STATE) {
