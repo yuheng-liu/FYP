@@ -17,6 +17,8 @@ import com.example.viaporter.managers.DialogManager;
 import com.example.viaporter.managers.SocketManager;
 import com.example.viaporter.models.TripStatus;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,11 +35,12 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.M
 
     private BottomNavigationView bottomNavigation;
     private NavHostFragment navHostFragment;
-    private NavController navController;
     private List<Disposable> disposables;
+    public NavController navController;
     public SocketManager socketManager;
     public DataManager dataManager;
     public DialogManager dialogManager;
+    public DatabaseReference mDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,17 +54,6 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.M
 
         setupViews();
         setupManagers();
-    }
-
-    @Override
-    protected void onDestroy() {
-        // clean disposable
-        for (Disposable disposable : disposables) {
-            if (!disposable.isDisposed()) {
-                disposable.dispose();
-            }
-        }
-        super.onDestroy();
     }
 
     private void setupViews() {
@@ -83,6 +75,7 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.M
         dataManager = DataManager.getSharedInstance();
         dialogManager = DialogManager.getSharedInstance();
         dialogManager.setMainActivity(this);
+        mDatabase = FirebaseDatabase.getInstance().getReference();
     }
 
     // Google Maps
@@ -180,6 +173,19 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.M
         } else {
             super.onBackPressed();
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        // clean disposable
+        for (Disposable disposable : disposables) {
+            if (!disposable.isDisposed()) {
+                disposable.dispose();
+            }
+        }
+
+//        mDatabase.child("chats").removeValue();
+        super.onDestroy();
     }
 
     /* Utility methods */

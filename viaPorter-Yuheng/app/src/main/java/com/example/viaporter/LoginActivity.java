@@ -19,6 +19,7 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
+import com.google.firebase.auth.UserProfileChangeRequest;
 
 import java.util.concurrent.TimeUnit;
 
@@ -109,7 +110,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 currentUser = firebaseAuth.getCurrentUser();
 
                 if (currentUser != null) {
-                    Log.d(TAG, "user display name = " + currentUser.getDisplayName());
+                    UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                            .setDisplayName("Yuheng").build();
+                    currentUser.updateProfile(profileUpdates);
+
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
                     finish();
