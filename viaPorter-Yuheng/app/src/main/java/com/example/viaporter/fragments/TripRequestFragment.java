@@ -1,8 +1,6 @@
 package com.example.viaporter.fragments;
 
 import android.content.DialogInterface;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -19,24 +17,21 @@ import android.widget.EditText;
 
 import com.example.viaporter.CallbackListener;
 import com.example.viaporter.MainActivity;
-import com.example.viaporter.adapters.BroadcastAdapter;
 import com.example.viaporter.adapters.CurrentBidAdapter;
 import com.example.viaporter.R;
+import com.example.viaporter.managers.FirebaseAdaptersManager;
 import com.example.viaporter.models.PatronTripRequest;
-import com.example.viaporter.models.PatronTripSuccess;
 import com.example.viaporter.models.PorterBidRequest;
-import com.example.viaporter.models.PorterTripAccept;
 import com.example.viaporter.models.PorterUserDetails;
 import com.example.viaporter.models.TripStatus;
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.gson.Gson;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import androidx.navigation.NavController;
-import androidx.navigation.NavOptions;
 import androidx.navigation.Navigation;
-import io.reactivex.functions.Consumer;
 
 public class TripRequestFragment extends Fragment {
     private static final String TAG = "viaPatron.TRFragment";
@@ -45,12 +40,17 @@ public class TripRequestFragment extends Fragment {
     private NavController navController;
     private RecyclerView mBroadcastView;
     private RecyclerView mCurrentBidView;
-    private BroadcastAdapter mBroadcastAdapter;
-    private CurrentBidAdapter mCurrentBidAdapter;
+    private FirebaseRecyclerAdapter<PatronTripRequest, FirebaseAdaptersManager.BroadcastRequestHolder> mBroadcastAdapter;
+    private FirebaseRecyclerAdapter<PatronTripRequest, FirebaseAdaptersManager.CurrentBidHolder> mCurrentBidAdapter;
     private Gson gson;
     private PatronTripRequest selectedBidRequest;
     private AlertDialog bidDialog;
     private AlertDialog editBidDialog;
+
+    CallbackListener<PatronTripRequest> broadcastRequestPositiveCallback;
+    CallbackListener<PatronTripRequest> broadcastRequestNegativeCallback;
+    CallbackListener<PatronTripRequest> currentBidPositiveCallback;
+    CallbackListener<PatronTripRequest> currentBidNegativeCallback;
 
     public TripRequestFragment() {} // Empty constructor
 
@@ -68,10 +68,18 @@ public class TripRequestFragment extends Fragment {
 
         mActivity = (MainActivity) requireActivity();
         gson = new Gson();
+
+        setupButtonListeners();
         setUpViews();
         setupSocket();
         setupSocketListeners();
-        setupButtonListeners();
+
+        mActivity.mDatabase
+                .child("patron_trip_requests")
+                .push()
+                .setValue(new PatronTripRequest("test date", "testing","UTown", "ERC",
+                "Bus Stop 2", 2, 30)
+                );
     }
 
     private void setUpViews() {
@@ -79,12 +87,18 @@ public class TripRequestFragment extends Fragment {
 
         mBroadcastView = mActivity.findViewById(R.id.broadcast_request_table);
         mBroadcastView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mBroadcastAdapter = new BroadcastAdapter();
+        mBroadcastAdapter = mActivity.firebaseAdaptersManager.getBroadcastRequestAdapter(
+                mBroadcastView,
+                broadcastRequestPositiveCallback,
+                broadcastRequestNegativeCallback);
         mBroadcastView.setAdapter(mBroadcastAdapter);
 
         mCurrentBidView = mActivity.findViewById(R.id.current_bids_table);
         mCurrentBidView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mCurrentBidAdapter = new CurrentBidAdapter();
+        mCurrentBidAdapter = mActivity.firebaseAdaptersManager.getCurrentBidAdapter(
+                mCurrentBidView,
+                currentBidPositiveCallback,
+                currentBidNegativeCallback);
         mCurrentBidView.setAdapter(mCurrentBidAdapter);
 
         if (mActivity.dataManager.getTripStatus() == TripStatus.STOPPED){
@@ -99,41 +113,41 @@ public class TripRequestFragment extends Fragment {
     }
 
     private void setupSocketListeners() {
-        mActivity.addDisposable(mActivity.socketManager.addOnPatronTripRequest(new Consumer<PatronTripRequest>() {
-            @Override
-            public void accept(final PatronTripRequest tripRequest) {
-                mActivity.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        mBroadcastAdapter.addToDataSet(tripRequest);
-                    }
-                });
-            }
-        }));
-
-        mActivity.addDisposable(mActivity.socketManager.addOnPatronTripSuccess(new Consumer<PatronTripSuccess>() {
-            @Override
-            public void accept(PatronTripSuccess patronTripSuccess) {
-                mActivity.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            PorterUserDetails porterDetails = mActivity.dataManager.getPorterUserDetails();
-                            PorterTripAccept newTripAccept = new PorterTripAccept(porterDetails.getId(), porterDetails.getName(), mActivity.dataManager.getCurrentLocation(),porterDetails.getRating());
-                            JSONObject msg = new JSONObject(gson.toJson(newTripAccept));
-                            mActivity.socketManager.emitStateChanged("porter_accept_trip", msg);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                        navigateToTripConfirmed();
-                    }
-                });
-            }
-        }));
+//        mActivity.addDisposable(mActivity.socketManager.addOnPatronTripRequest(new Consumer<PatronTripRequest>() {
+//            @Override
+//            public void accept(final PatronTripRequest tripRequest) {
+//                mActivity.runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        mBroadcastAdapter.addToDataSet(tripRequest);
+//                    }
+//                });
+//            }
+//        }));
+//
+//        mActivity.addDisposable(mActivity.socketManager.addOnPatronTripSuccess(new Consumer<PatronTripSuccess>() {
+//            @Override
+//            public void accept(PatronTripSuccess patronTripSuccess) {
+//                mActivity.runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        try {
+//                            PorterUserDetails porterDetails = mActivity.dataManager.getPorterUserDetails();
+//                            PorterTripAccept newTripAccept = new PorterTripAccept(porterDetails.getId(), porterDetails.getName(), mActivity.dataManager.getCurrentLocation(),porterDetails.getRating());
+//                            JSONObject msg = new JSONObject(gson.toJson(newTripAccept));
+//                            mActivity.socketManager.emitStateChanged("porter_accept_trip", msg);
+//                        } catch (JSONException e) {
+//                            e.printStackTrace();
+//                        }
+//                        navigateToTripConfirmed();
+//                    }
+//                });
+//            }
+//        }));
     }
 
     private void setupButtonListeners() {
-        mBroadcastAdapter.setOnPositiveButtonClicked(new CallbackListener<PatronTripRequest>() {
+        broadcastRequestPositiveCallback = new CallbackListener<PatronTripRequest>() {
             @Override
             public void accept(PatronTripRequest data) {
                 selectedBidRequest = data;
@@ -161,8 +175,8 @@ public class TripRequestFragment extends Fragment {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                        mBroadcastAdapter.removeDataSet(selectedBidRequest);
-                        mCurrentBidAdapter.addToDataSet(selectedBidRequest);
+//                        mBroadcastAdapter.removeDataSet(selectedBidRequest);
+//                        mCurrentBidAdapter.addToDataSet(selectedBidRequest);
                         bidDialog.cancel();
                     }
                 });
@@ -176,25 +190,25 @@ public class TripRequestFragment extends Fragment {
                 bidDialog = biddingDialogBuilder.create();
                 bidDialog.show();
             }
-        });
+        };
 
-        mBroadcastAdapter.setOnNegativeButtonClicked(new CallbackListener<PatronTripRequest>() {
+        broadcastRequestNegativeCallback = new CallbackListener<PatronTripRequest>() {
             @Override
             public void accept(PatronTripRequest data) {
                 selectedBidRequest = data;
                 // for testing
                 mActivity.dialogManager.showTripRequestBidSuccess();
             }
-        });
+        };
 
-        mCurrentBidAdapter.setOnPositiveButtonClicked(new CallbackListener<PatronTripRequest>() {
+        currentBidPositiveCallback = new CallbackListener<PatronTripRequest>() {
             @Override
             public void accept(PatronTripRequest data) {
                 selectedBidRequest = data;
             }
-        });
+        };
 
-        mCurrentBidAdapter.setOnNegativeButtonClicked(new CallbackListener<PatronTripRequest>() {
+        currentBidNegativeCallback = new CallbackListener<PatronTripRequest>() {
             @Override
             public void accept(PatronTripRequest data) {
                 selectedBidRequest = data;
@@ -205,8 +219,8 @@ public class TripRequestFragment extends Fragment {
                         .setPositiveButton("confirm", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                mCurrentBidAdapter.removeDataSet(selectedBidRequest);
-                                mBroadcastAdapter.addToDataSet(selectedBidRequest);
+//                                mCurrentBidAdapter.removeDataSet(selectedBidRequest);
+//                                mBroadcastAdapter.addToDataSet(selectedBidRequest);
                             }
                         })
                         .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -218,12 +232,12 @@ public class TripRequestFragment extends Fragment {
                         .create()
                         .show();
             }
-        });
+        };
     }
 
     private void navigateToTripConfirmed() {
         mActivity.dataManager.setTripStatus(TripStatus.PROCEEDING);
-        mCurrentBidAdapter.removeDataSet(selectedBidRequest);
+//        mCurrentBidAdapter.removeDataSet(selectedBidRequest);
         navController.navigate(R.id.navigation_trip_confirmed);
     }
 
@@ -242,8 +256,8 @@ public class TripRequestFragment extends Fragment {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                        mBroadcastAdapter.removeDataSet(selectedBidRequest);
-                        mCurrentBidAdapter.addToDataSet(selectedBidRequest);
+//                        mBroadcastAdapter.removeDataSet(selectedBidRequest);
+//                        mCurrentBidAdapter.addToDataSet(selectedBidRequest);
                     }
                 })
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -261,5 +275,17 @@ public class TripRequestFragment extends Fragment {
         super.onDestroy();
 
         mActivity.socketManager.disconnectSocket();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        mBroadcastAdapter.startListening();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        mBroadcastAdapter.stopListening();
     }
 }

@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import com.example.viaporter.fragments.ProfileFragment;
 import com.example.viaporter.managers.DataManager;
 import com.example.viaporter.managers.DialogManager;
+import com.example.viaporter.managers.FirebaseAdaptersManager;
 import com.example.viaporter.managers.SocketManager;
 import com.example.viaporter.models.TripStatus;
 import com.google.firebase.auth.FirebaseAuth;
@@ -40,6 +41,7 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.M
     public SocketManager socketManager;
     public DataManager dataManager;
     public DialogManager dialogManager;
+    public FirebaseAdaptersManager firebaseAdaptersManager;
     public DatabaseReference mDatabase;
 
     @Override
@@ -75,6 +77,8 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.M
         dataManager = DataManager.getSharedInstance();
         dialogManager = DialogManager.getSharedInstance();
         dialogManager.setMainActivity(this);
+        firebaseAdaptersManager = FirebaseAdaptersManager.getSharedInstance();
+        firebaseAdaptersManager.setMainActivity(this);
         mDatabase = FirebaseDatabase.getInstance().getReference();
     }
 

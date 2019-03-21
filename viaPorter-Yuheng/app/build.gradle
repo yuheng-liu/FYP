@@ -1,5 +1,4 @@
 apply plugin: 'com.android.application'
-//apply plugin: 'com.amazonaws.appsync'
 
 android {
     compileSdkVersion 28
@@ -64,24 +63,6 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth:16.2.0'
     implementation 'com.google.firebase:firebase-database:16.1.0'
     implementation 'com.firebaseui:firebase-ui-database:4.3.1'
-
-    // For Chat page UI
-
-    /*
-     * Not using AWS anymore, but keeping it as backup
-     */
-    //Adding AWS Auth
-    //Base SDK
-//    implementation 'com.amazonaws:aws-android-sdk-core:2.12.+'
-//    //AppSync SDK
-//    implementation 'com.amazonaws:aws-android-sdk-appsync:2.7.+'
-//    implementation 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.0'
-//    implementation 'org.eclipse.paho:org.eclipse.paho.android.service:1.1.1'
-//    //For AWSMobileClient only:
-//    implementation 'com.amazonaws:aws-android-sdk-mobile-client:2.12.+'
-//    //For the drop-in UI also:
-//    implementation 'com.amazonaws:aws-android-sdk-auth-userpools:2.12.+'
-//    implementation 'com.amazonaws:aws-android-sdk-auth-ui:2.12.+'
 }
 
 apply plugin: 'com.google.gms.google-services'
