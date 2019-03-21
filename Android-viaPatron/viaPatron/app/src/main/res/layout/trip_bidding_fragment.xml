@@ -16,15 +16,17 @@
 
     <FrameLayout
             android:layout_width="340dp"
-            android:layout_height="130dp"
-            android:layout_marginTop="20dp"
+            android:layout_height="200dp"
+            android:layout_marginTop="40dp"
             android:layout_gravity="center"
-            android:padding="4dp"
+            android:padding="6dp"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
             android:background="@drawable/rounded_corner_white_small">
 
         <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="110dp"
+                android:layout_height="120dp"
                 android:layout_gravity="start"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
@@ -35,8 +37,9 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/tv_trip_bidding_station_left_side"
                     android:textSize="@dimen/trip_request_confirm_station_title"
-                    android:textColor="@color/colorBlack"
-                    android:text=""/>
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textStyle="bold"
+                    android:text="@string/trip_request_confirm_pickup"/>
 
             <TextView
                     android:layout_width="wrap_content"
@@ -44,7 +47,7 @@
                     android:layout_marginTop="2dp"
                     android:id="@+id/tv_trip_bidding_from"
                     android:textSize="@dimen/trip_request_confirm_station_to_fro"
-                    android:textColor="@color/colorBlack"
+                    android:textColor="@color/colorPrimaryGreyDark"
                     android:text=""/>
         </LinearLayout>
 
@@ -62,8 +65,8 @@
         </LinearLayout>
 
         <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="110dp"
+                android:layout_height="120dp"
                 android:layout_gravity="end"
                 android:layout_marginEnd="14dp"
                 android:layout_marginTop="10dp"
@@ -75,8 +78,9 @@
                     android:layout_gravity="end"
                     android:id="@+id/tv_trip_bidding_station_right_side"
                     android:textSize="@dimen/trip_request_confirm_station_title"
-                    android:textColor="@color/colorBlack"
-                    android:text=""/>
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textStyle="bold"
+                    android:text="@string/trip_request_confirm_dropoff"/>
 
             <TextView
                     android:layout_width="wrap_content"
@@ -84,10 +88,13 @@
                     android:layout_gravity="end"
                     android:layout_marginTop="2dp"
                     android:id="@+id/tv_trip_bidding_to"
+                    android:textAlignment="textEnd"
                     android:textSize="@dimen/trip_request_confirm_station_to_fro"
-                    android:textColor="@color/colorBlack"
+                    android:textColor="@color/colorPrimaryGreyDark"
                     android:text=""/>
         </LinearLayout>
+
+
 
         <LinearLayout
                 android:layout_width="wrap_content"

@@ -9,17 +9,17 @@
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/trip_request_main_title"
-            android:textSize="20sp"
+            android:text="@string/app_name"
+            android:textSize="@dimen/text_page_header_title"
             android:layout_gravity="center"
-            android:layout_marginTop="24dp"/>
+            android:layout_marginTop="10dp"/>
 
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/trip_request_confirm_station_title"
-            android:text=""
-            android:textSize="24sp"
+            android:text="@string/trip_request_main_title"
+            android:textSize="20sp"
             android:paddingTop="@dimen/trip_request_station_title_padding_top"
             android:paddingBottom="@dimen/trip_request_station_title_padding_bottom"
             android:layout_gravity="center"/>
@@ -59,10 +59,10 @@
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/tv_trip_confirm_station_left_side"
                     android:textSize="@dimen/trip_request_confirm_station_title"
-                    android:textColor="@color/colorBlack"
-                    android:text=""/>
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textStyle="bold"
+                    android:text="@string/trip_request_confirm_pickup"/>
 
             <TextView
                     android:layout_width="wrap_content"
@@ -70,7 +70,7 @@
                     android:layout_marginTop="2dp"
                     android:id="@+id/tv_trip_confirm_from"
                     android:textSize="@dimen/trip_request_confirm_station_to_fro"
-                    android:textColor="@color/colorBlack"
+                    android:textColor="@color/colorPrimaryGreyDark"
                     android:text=""/>
         </LinearLayout>
 
@@ -99,10 +99,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
-                    android:id="@+id/tv_trip_confirm_station_right_side"
                     android:textSize="@dimen/trip_request_confirm_station_title"
-                    android:textColor="@color/colorBlack"
-                    android:text=""/>
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textStyle="bold"
+                    android:text="@string/trip_request_confirm_dropoff"/>
 
             <TextView
                     android:layout_width="wrap_content"
@@ -112,7 +112,7 @@
                     android:id="@+id/tv_trip_confirm_to"
                     android:textAlignment="textEnd"
                     android:textSize="@dimen/trip_request_confirm_station_to_fro"
-                    android:textColor="@color/colorBlack"
+                    android:textColor="@color/colorPrimaryGreyDark"
                     android:text=""/>
         </LinearLayout>
 

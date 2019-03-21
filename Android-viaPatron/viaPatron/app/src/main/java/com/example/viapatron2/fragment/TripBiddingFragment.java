@@ -44,8 +44,6 @@ public class TripBiddingFragment extends Fragment {
     // Views
     private Button cancelBidButton;
     private TextView timeLeftTv;
-    private TextView smallStationTitleLeft;
-    private TextView smallStationTitleRight;
     private TextView toTitle;
     private TextView fromTitle;
     private TextView luggageTitle;
@@ -53,7 +51,6 @@ public class TripBiddingFragment extends Fragment {
     private AlertDialog warningDialog;
 
     // model
-    String modelStationName;
     String modelToLocation;
     String modelFromLocation;
     int modelLuggageNo;
@@ -97,8 +94,6 @@ public class TripBiddingFragment extends Fragment {
         navController = Navigation.findNavController(mActivity, R.id.my_nav_host_fragment);
         timeLeftTv = mActivity.findViewById(R.id.trip_request_bidding_time_left);
         cancelBidButton = mActivity.findViewById(R.id.trip_request_bidding_cancel_button);
-        smallStationTitleLeft = mActivity.findViewById(R.id.tv_trip_bidding_station_left_side);
-        smallStationTitleRight = mActivity.findViewById(R.id.tv_trip_bidding_station_right_side);
         toTitle = mActivity.findViewById(R.id.tv_trip_bidding_to);
         fromTitle = mActivity.findViewById(R.id.tv_trip_bidding_from);
         luggageTitle = mActivity.findViewById(R.id.tv_trip_bidding_luggage);
@@ -152,7 +147,6 @@ public class TripBiddingFragment extends Fragment {
         model = ViewModelProviders.of(mActivity).get(MyViewModel.class);
         userTripRequestSession = model.getUserTripRequestSession();
 
-        modelStationName = userTripRequestSession.getStation();
         modelToLocation = userTripRequestSession.getToLocation();
         modelFromLocation = userTripRequestSession.getFromLocation();
         modelLuggageNo = userTripRequestSession.getNoOfLuggage();
@@ -161,13 +155,6 @@ public class TripBiddingFragment extends Fragment {
         model.getRequestSession().observe(this, users -> {
 
             // update UI
-            if (smallStationTitleLeft != null) {
-                smallStationTitleLeft.setText(modelStationName);
-            }
-
-            if (smallStationTitleRight != null) {
-                smallStationTitleRight.setText(modelStationName);
-            }
 
             if (toTitle != null) {
                 toTitle.setText(modelToLocation);

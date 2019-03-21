@@ -27,10 +27,7 @@ public class TripRequestConfirmFragment extends Fragment {
     private MainActivity mActivity;
 
     private Button confirmButton;
-    private TextView stationTitle;
     private TextView dateTitle;
-    private TextView smallStationTitleLeft;
-    private TextView smallStationTitleRight;
     private TextView toTitle;
     private TextView fromTitle;
     private TextView luggageTitle;
@@ -58,10 +55,7 @@ public class TripRequestConfirmFragment extends Fragment {
 
         navController = Navigation.findNavController(mActivity, R.id.my_nav_host_fragment);
         confirmButton = mActivity.findViewById(R.id.trip_request_confirm_button);
-        stationTitle = mActivity.findViewById(R.id.trip_request_confirm_station_title);
         dateTitle = mActivity.findViewById(R.id.trip_request_confirm_date_title);
-        smallStationTitleLeft = mActivity.findViewById(R.id.tv_trip_confirm_station_left_side);
-        smallStationTitleRight = mActivity.findViewById(R.id.tv_trip_confirm_station_right_side);
         toTitle = mActivity.findViewById(R.id.tv_trip_confirm_to);
         fromTitle = mActivity.findViewById(R.id.tv_trip_confirm_from);
         luggageTitle = mActivity.findViewById(R.id.tv_trip_confirm_luggage);
@@ -92,7 +86,6 @@ public class TripRequestConfirmFragment extends Fragment {
         model = ViewModelProviders.of(mActivity).get(MyViewModel.class);
         userTripRequestSession = model.getUserTripRequestSession();
 
-        String modelStationName = userTripRequestSession.getStation();
         String modelDate = userTripRequestSession.getDate();
         String modelToLocation = userTripRequestSession.getToLocation();
         String modelFromLocation = userTripRequestSession.getFromLocation();
@@ -102,17 +95,6 @@ public class TripRequestConfirmFragment extends Fragment {
         model.getRequestSession().observe(this, users -> {
 
             // update UI
-            if (stationTitle != null) {
-                stationTitle.setText(modelStationName);
-            }
-
-            if (smallStationTitleLeft != null) {
-                smallStationTitleLeft.setText(modelStationName);
-            }
-
-            if (smallStationTitleRight != null) {
-                smallStationTitleRight.setText(modelStationName);
-            }
 
             if (dateTitle != null) {
                 dateTitle.setText(modelDate);

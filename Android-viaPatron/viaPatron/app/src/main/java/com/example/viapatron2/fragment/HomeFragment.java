@@ -298,7 +298,6 @@ public class HomeFragment extends Fragment
 
                     if (fieldsValid()) {
                         userTripRequestSession = new UserTripRequestSession();
-                        userTripRequestSession.setStation(" ");
                         String concatenateDest = "Train: " + trainNumString + ", Coach: " + coachNumString + ", Seat: " + seatNumString;
 
                         if (swapViewsFlag) {

@@ -37,7 +37,6 @@ public class TripRequestFragment extends Fragment {
 
     // Views
     private Button nextButton;
-    private TextView stationTitle;
     private TextView dateTitle;
     private EditText fromField;
     private EditText toField;
@@ -79,7 +78,6 @@ public class TripRequestFragment extends Fragment {
 
         navController = Navigation.findNavController(mActivity, R.id.my_nav_host_fragment);
         nextButton = mActivity.findViewById(R.id.trip_request_next_button);
-        stationTitle = mActivity.findViewById(R.id.trip_request_station_title);
         dateTitle = mActivity.findViewById(R.id.trip_request_date_title);
         fromField = mActivity.findViewById(R.id.from_request_field);
         toField = mActivity.findViewById(R.id.to_request_field);
@@ -281,20 +279,12 @@ public class TripRequestFragment extends Fragment {
 
         model.getRequestSession().observe(this, users -> {
             // update UI
-            if (stationTitle != null) {
-                String modelStationName = userTripRequestSession.getStation();
+            if (fromField != null) {
+                fromField.setText(userTripRequestSession.getFromLocation());
+            }
 
-                if (modelStationName != null) {
-                    stationTitle.setText(modelStationName);
-                }
-
-                if (fromField != null) {
-                    fromField.setText(userTripRequestSession.getFromLocation());
-                }
-
-                if (toField != null) {
-                    toField.setText(userTripRequestSession.getToLocation());
-                }
+            if (toField != null) {
+                toField.setText(userTripRequestSession.getToLocation());
             }
         });
     }

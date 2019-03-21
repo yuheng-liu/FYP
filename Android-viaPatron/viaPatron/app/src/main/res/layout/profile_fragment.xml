@@ -17,8 +17,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="Profile"
-                android:textSize="30sp"/>
+                android:text="@string/profile_title"
+                android:textSize="@dimen/text_page_header_title"/>
     </FrameLayout>
 
     <LinearLayout

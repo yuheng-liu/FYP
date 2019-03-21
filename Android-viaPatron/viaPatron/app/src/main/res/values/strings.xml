@@ -36,6 +36,8 @@
     <string name="trip_request_confirm">Confirm</string>
     <string name="trip_request_confirm_luggage_text">Luggages</string>
     <string name="trip_request_confirm_luggage_KG_text">KG Total</string>
+    <string name="trip_request_confirm_pickup">PICKUP</string>
+    <string name="trip_request_confirm_dropoff">DROPOFF</string>
 
     <string name="trip_request_bidding_main_title">Trip Request Bidding</string>
     <string name="trip_request_bidding_cancel">CANCEL REQUEST</string>
@@ -60,6 +62,7 @@
     <string name="trip_confirmed_button_stop_msg">Are you sure you want to end your trip?</string>
     <string name="trip_in_progress_main_title">Trip in Progress</string>
 
+    <string name="profile_title">Profile</string>
     <string name="profile_language">Language</string>
     <string name="profile_currency">Currency</string>
     <string name="profile_reminders">Reminders</string>
