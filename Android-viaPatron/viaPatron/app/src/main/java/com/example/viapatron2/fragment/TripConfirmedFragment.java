@@ -260,6 +260,8 @@ public class TripConfirmedFragment extends Fragment
 
         Log.d(TAG, "setViews");
 
+        mActivity.getBottomNavigationView().getMenu().getItem(1).setEnabled(true);
+
         notifyBlue = mActivity.findViewById(R.id.notification_porter_on_the_way);
         notifyGreen = mActivity.findViewById(R.id.notification_porter_arrived);
         startTripButton = mActivity.findViewById(R.id.button_start_official_trip);
@@ -336,6 +338,7 @@ public class TripConfirmedFragment extends Fragment
                                 public void onClick(DialogInterface dialogInterface, int i) {
 
                                     mActivity.getmDataManager().updateTripStatus(TripStatus.ENDED);
+                                    mActivity.getBottomNavigationView().getMenu().getItem(1).setEnabled(false);
 
                                     // Cancel trip and go back to home page
                                     NavOptions navOptions = new NavOptions.Builder()

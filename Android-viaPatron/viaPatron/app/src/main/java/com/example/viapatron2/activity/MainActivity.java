@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.annotation.NonNull;
@@ -143,21 +145,50 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.M
     private void setupViews() {
         Log.d(TAG, "setupViews");
 
-        // Initialise the bottom navigation bar
-        bottomNavigation = (BottomNavigationView) findViewById(R.id.bot_navigation_view);
-        bottomNavigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        initBottomNavigationBar();
 
         // Initialise a navHostFragment containing the navigation graph chart
         navHostFragment = NavHostFragment.create(R.navigation.nav_graph);
 
         // Initialise a navigation controller for controlling navigation
         navController = Navigation.findNavController(findViewById(R.id.my_nav_host_fragment));
-        Log.d(TAG, "TripStatus  = " + getmDataManager().getTripStatus());
+    }
 
+    private void initBottomNavigationBar() {
+
+        bottomNavigation = (BottomNavigationView) findViewById(R.id.bot_navigation_view);
+        bottomNavigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
+        ColorStateList mColorStateList = new ColorStateList(
+                new int[][] {
+                        new int[] {-android.R.attr.state_enabled}, // disabled
+                        new int[] { android.R.attr.state_checked}, // checked
+                        new int[] { android.R.attr.state_enabled}  // pressed
+                },
+                new int[] {
+                        Color.LTGRAY,
+                        Color.BLACK,
+                        Color.BLACK });
+
+        bottomNavigation.setItemIconTintList(mColorStateList);
+        bottomNavigation.setItemTextColor(mColorStateList);
+
+        // if patron has not started a trip with a porter
+        if (getmDataManager().getTripStatus() != TripStatus.IN_PROGRESS || getmDataManager().getTripStatus() != TripStatus.PATRON_STARTED) {
+
+            // retrieve chat button and disable it
+            if (bottomNavigation.getMenu().getItem(1) != null) {
+                bottomNavigation.getMenu().getItem(1).setEnabled(false);
+            }
+        } else {
+            if (bottomNavigation.getMenu().getItem(1) != null) {
+                bottomNavigation.getMenu().getItem(1).setEnabled(true);
+            }
+        }
+
+        // Initialise flag to start Bottom Navigation Bar from Trip page
+        // The flag is to prevent reinitialization of the same fragment when clicking on the same icon
         botNavState = BotNavState.TRIP_STATE;
-
-        // Pair navigation controller with the bottom navigation bar
-//        NavigationUI.setupWithNavController(bottomNavigation, navController);
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -187,15 +218,7 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.M
 
                     return true;
                 case R.id.navigation_chats:
-                    // Todo: disable chat button until a trip has successfully started with a porter
-
                     Log.d(TAG, "selected chat");
-
-                    if (mDataManager.getTripStatus() != TripStatus.PATRON_STARTED || mDataManager.getTripStatus() != TripStatus.IN_PROGRESS) {
-                        Log.d(TAG, "Should not be inside chat");
-                    } else {
-                        Log.d(TAG, "Should have chat with Porter");
-                    }
 
                     if (botNavState == BotNavState.PROFILE_STATE || botNavState == BotNavState.CHAT_STATE) {
                         navController.navigate(R.id.navigation_chats);
@@ -348,5 +371,7 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.M
         return mDataManager;
     }
 
-    public DatabaseReference getmDatabase() { return mDatabase;}
+    public DatabaseReference getmDatabase() { return mDatabase; }
+
+    public BottomNavigationView getBottomNavigationView() { return bottomNavigation; }
 }
