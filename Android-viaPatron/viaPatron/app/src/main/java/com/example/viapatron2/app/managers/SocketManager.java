@@ -104,6 +104,52 @@ public class SocketManager {
     }
 
     private void prepareListeners() {
+
+        socket.on("porter_state_changed", new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                JSONObject data = (JSONObject) args[0];
+
+                Log.d(TAG, "bid request received");
+                Log.d(TAG, "data = " + data.toString());
+
+                try {
+                    JSONObject msg = new JSONObject();
+
+                    switch (data.getString("STATE")) {
+                        case "porter_bid_request":
+                            Log.d(TAG, "porter bidding");
+                            msg = data.getJSONObject("MSG");
+
+                            PorterBidRequest newRequest = gson.fromJson(msg.toString(), PorterBidRequest.class);
+                            porterBidRequestPublishRelay.accept(newRequest);
+
+                            return;
+
+                        case "porter_accept_trip":
+                            Log.d(TAG, "porter accepted trip");
+                            msg = data.getJSONObject("MSG");
+
+                            PorterTripAccept porterInfo = gson.fromJson(msg.toString(), PorterTripAccept.class);
+                            porterTripAcceptPublishRelay.accept(porterInfo);
+
+                            return;
+
+                        case "porter_cancel_trip":
+                            Log.d(TAG, "porter is cancelling trip");
+
+                            return;
+
+                        default:
+                            Log.d(TAG, "no state detected");
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+
         // bid request created
         socket.on("porter_bid_request", new Emitter.Listener() {
             @Override
@@ -156,12 +202,13 @@ public class SocketManager {
 
     public void sendRideRequest(UserTripRequestSession tripRequestInfo) {
         try {
-            JSONObject data = new JSONObject(gson.toJson(tripRequestInfo));
-//            JSONObject data = new JSONObject();
-//            data.put("STATE", "TESTING2");
-//            data.put("MSG", msg);
-            getSocket().emit("trip_request", data);
-//            getSocket().emit("patron_test_event", data);
+            JSONObject msg = new JSONObject(gson.toJson(tripRequestInfo));
+            JSONObject data = new JSONObject();
+            data.put("STATE", "patron_trip_request");
+            data.put("MSG", msg);
+
+//            getSocket().emit("trip_request", data);
+            getSocket().emit("patron_state_changed", data);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -169,11 +216,30 @@ public class SocketManager {
 
     public void acceptBidder(Trip tripSessionInfo) {
         try {
-            JSONObject data = new JSONObject(gson.toJson(tripSessionInfo));
-            getSocket().emit("accept_bidder", data);
+            JSONObject msg = new JSONObject(gson.toJson(tripSessionInfo));
+            JSONObject data = new JSONObject();
+            data.put("STATE", "patron_bid_success");
+            data.put("MSG", msg);
+
+            getSocket().emit("patron_state_changed", data);
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    public boolean stopBidding(String patronBidRequestId) {
+        try {
+            JSONObject msg = new JSONObject(gson.toJson(patronBidRequestId));
+            JSONObject data = new JSONObject();
+            data.put("STATE", "patron_stop_bidding");
+            data.put("MSG", msg);
+
+            getSocket().emit("patron_state_changed", data);
+            return true;
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
     public void sendLocation(LocationUpdate myUpdatedLocation) {
@@ -183,17 +249,5 @@ public class SocketManager {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-    }
-
-    public boolean stopBidding(String patronBidRequestId) {
-        try {
-            JSONObject data = new JSONObject();
-            data.put("patron_bid_request_id", patronBidRequestId);
-            getSocket().emit("stop_bidding", data);
-            return true;
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return false;
     }
 }
