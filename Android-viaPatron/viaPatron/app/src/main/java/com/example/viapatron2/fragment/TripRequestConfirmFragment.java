@@ -17,6 +17,7 @@ import com.example.viapatron2.R;
 import com.example.viapatron2.activity.MainActivity;
 import com.example.viapatron2.core.models.MyViewModel;
 import com.example.viapatron2.core.models.UserTripRequestSession;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class TripRequestConfirmFragment extends Fragment {
 
@@ -66,7 +67,15 @@ public class TripRequestConfirmFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     try {
-                        mActivity.getmSocketManager().sendRideRequest(userTripRequestSession);
+//                        mActivity.getmSocketManager().sendRideRequest(userTripRequestSession);
+
+                        if (FirebaseAuth.getInstance().getUid() != null) {
+                            mActivity.getmDatabase()
+                                    .child("patron_trip_requests")
+                                    .push()
+                                    .setValue(userTripRequestSession);
+                        }
+
                         navController.navigate(R.id.navigation_trip_bidding);
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -87,9 +96,9 @@ public class TripRequestConfirmFragment extends Fragment {
         userTripRequestSession = model.getUserTripRequestSession();
 
         String modelDate = userTripRequestSession.getDate();
-        String modelToLocation = userTripRequestSession.getToLocation();
-        String modelFromLocation = userTripRequestSession.getFromLocation();
-        int modelLuggageNo = userTripRequestSession.getNoOfLuggage();
+        String modelToLocation = userTripRequestSession.getTripEndLocation();
+        String modelFromLocation = userTripRequestSession.getTripStartLocation();
+        int modelLuggageNo = userTripRequestSession.getNumberOfLuggage();
         int modelLuggageWeight = userTripRequestSession.getTotalLuggageWeight();
 
         model.getRequestSession().observe(this, users -> {

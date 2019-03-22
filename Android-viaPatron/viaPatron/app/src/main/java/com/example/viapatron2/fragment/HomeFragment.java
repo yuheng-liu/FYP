@@ -302,12 +302,12 @@ public class HomeFragment extends Fragment
 
                         if (swapViewsFlag) {
                             // From custom location to Train
-                            userTripRequestSession.setFromLocation(mPlace.getName());
-                            userTripRequestSession.setToLocation(concatenateDest);
+                            userTripRequestSession.setTripStartLocation(mPlace.getName());
+                            userTripRequestSession.setTripEndLocation(concatenateDest);
                         } else {
                             // From Train to custom location
-                            userTripRequestSession.setFromLocation(concatenateDest);
-                            userTripRequestSession.setToLocation(mPlace.getName());
+                            userTripRequestSession.setTripStartLocation(concatenateDest);
+                            userTripRequestSession.setTripEndLocation(mPlace.getName());
                         }
 
                         model.setRequestSession(userTripRequestSession);

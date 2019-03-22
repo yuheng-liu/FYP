@@ -30,8 +30,6 @@ import io.reactivex.functions.Consumer;
 
 import java.util.Locale;
 
-import static com.amazonaws.mobile.auth.core.internal.util.ThreadUtils.runOnUiThread;
-
 public class TripBiddingFragment extends Fragment {
 
     private static final String TAG = "viaPatron.BidFragment";
@@ -123,9 +121,17 @@ public class TripBiddingFragment extends Fragment {
                     public void onClick(DialogInterface dialog, int id) {
                         // User clicked OK button
 
-                        Socket socket = mActivity.getmSocketManager().getSocket();
-                        socket.emit("disconnect", "viaPatron");
-                        navController.navigateUp();
+                        try {
+                            Socket socket = mActivity.getmSocketManager().getSocket();
+                            socket.emit("disconnect", "viaPatron");
+
+                            // todo: fix bug later on
+                            mActivity.getmDatabase().child("patron_trip_requests").removeValue();
+
+                            navController.navigateUp();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
                 })
                 .setNegativeButton(R.string.button_cancel, new DialogInterface.OnClickListener() {
@@ -147,9 +153,9 @@ public class TripBiddingFragment extends Fragment {
         model = ViewModelProviders.of(mActivity).get(MyViewModel.class);
         userTripRequestSession = model.getUserTripRequestSession();
 
-        modelToLocation = userTripRequestSession.getToLocation();
-        modelFromLocation = userTripRequestSession.getFromLocation();
-        modelLuggageNo = userTripRequestSession.getNoOfLuggage();
+        modelToLocation = userTripRequestSession.getTripEndLocation();
+        modelFromLocation = userTripRequestSession.getTripStartLocation();
+        modelLuggageNo = userTripRequestSession.getNumberOfLuggage();
         modelLuggageWeight = userTripRequestSession.getTotalLuggageWeight();
 
         model.getRequestSession().observe(this, users -> {
@@ -187,10 +193,10 @@ public class TripBiddingFragment extends Fragment {
 
         // TODO: remove below part when not testing
         // START OF TESTING SEGMENT
-        PorterBidRequest testPorterBidRequest = new PorterBidRequest();
-        testPorterBidRequest.setPorterName("Max");
-        testPorterBidRequest.setBidAmount(2.2);
-        mBidderAdapter.addToDataSet(testPorterBidRequest);
+//        PorterBidRequest testPorterBidRequest = new PorterBidRequest();
+//        testPorterBidRequest.setPorterName("Max");
+//        testPorterBidRequest.setBidAmount(2.2);
+//        mBidderAdapter.addToDataSet(testPorterBidRequest);
         // END OF TESTING SEGMENT
 
 
@@ -274,7 +280,7 @@ public class TripBiddingFragment extends Fragment {
         countDownTimer = new CountDownTimer(180000, 1000) {
             @Override
             public void onTick(final long millisUntilFinished) {
-                runOnUiThread(new Runnable() {
+                mActivity.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         long seconds = millisUntilFinished / 1000;
@@ -287,7 +293,9 @@ public class TripBiddingFragment extends Fragment {
 
             @Override
             public void onFinish() {
-                // todo: upon timer end, end bidding appropriately
+                // todo: fix bug later on
+                mActivity.getmDatabase().child("patron_trip_requests").removeValue();
+
                 if (mActivity.getmSocketManager().stopBidding("tempid")) {
                     navController.navigateUp();
 //                Socket socket = mActivity.getmSocketManager().getSocket();

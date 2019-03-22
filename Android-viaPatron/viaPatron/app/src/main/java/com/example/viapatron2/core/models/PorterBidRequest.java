@@ -8,17 +8,21 @@ public class PorterBidRequest {
     @Expose
     private String porterName;
 
+    @SerializedName("porter_id")
+    @Expose
+    private String porterId;
+
     @SerializedName("bid_amount")
     @Expose
     private Double bidAmount;
 
+    public String getPorterId() { return porterId; }
+    public void setPorterId(String porterId) { this.porterId = porterId; }
     public String getPorterName() { return porterName; }
-    public Double getBidAmount() { return bidAmount; }
-
     public void setPorterName(String porterName) {
         this.porterName = porterName;
     }
-
+    public Double getBidAmount() { return bidAmount; }
     public void setBidAmount(Double bidAmount) {
         this.bidAmount = bidAmount;
     }

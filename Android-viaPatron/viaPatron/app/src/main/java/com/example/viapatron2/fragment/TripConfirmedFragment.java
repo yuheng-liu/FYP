@@ -305,13 +305,21 @@ public class TripConfirmedFragment extends Fragment
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
 
-                                    mActivity.getmDataManager().updateTripStatus(TripStatus.CANCELLED);
+                                    try {
+                                        mActivity.getmDataManager().updateTripStatus(TripStatus.CANCELLED);
+                                        mActivity.getBottomNavigationView().getMenu().getItem(1).setEnabled(false);
+                                        mActivity.getmDatabase().child("chats").removeValue();
+                                        // todo: to fix the bug later on
+                                        mActivity.getmDatabase().child("patron_trip_requests").removeValue();
 
-                                    // Cancel trip and go back to home page
-                                    NavOptions navOptions = new NavOptions.Builder()
-                                            .setPopUpTo(R.id.navigation_trip_confirmed, true)
-                                            .build();
-                                    navController.navigate(R.id.navigation_trip, null, navOptions);
+                                        // Cancel trip and go back to home page
+                                        NavOptions navOptions = new NavOptions.Builder()
+                                                .setPopUpTo(R.id.navigation_trip_confirmed, true)
+                                                .build();
+                                        navController.navigate(R.id.navigation_trip, null, navOptions);
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
                                 }
                             })
                             .setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -337,14 +345,21 @@ public class TripConfirmedFragment extends Fragment
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
 
-                                    mActivity.getmDataManager().updateTripStatus(TripStatus.ENDED);
-                                    mActivity.getBottomNavigationView().getMenu().getItem(1).setEnabled(false);
+                                    try {
+                                        mActivity.getmDataManager().updateTripStatus(TripStatus.ENDED);
+                                        mActivity.getBottomNavigationView().getMenu().getItem(1).setEnabled(false);
+                                        mActivity.getmDatabase().child("chats").removeValue();
+                                        // todo: to fix the bug later on
+                                        mActivity.getmDatabase().child("patron_trip_requests").removeValue();
 
-                                    // Cancel trip and go back to home page
-                                    NavOptions navOptions = new NavOptions.Builder()
-                                            .setPopUpTo(R.id.navigation_trip_confirmed, true)
-                                            .build();
-                                    navController.navigate(R.id.navigation_trip, null, navOptions);
+                                        // Cancel trip and go back to home page
+                                        NavOptions navOptions = new NavOptions.Builder()
+                                                .setPopUpTo(R.id.navigation_trip_confirmed, true)
+                                                .build();
+                                        navController.navigate(R.id.navigation_trip, null, navOptions);
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
                                 }
                             })
                             .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

@@ -15,6 +15,10 @@ public class PorterTripAccept {
     @Expose
     private String porterName;
 
+    @SerializedName("accepted_porter_id")
+    @Expose
+    private String porterId;
+
     @SerializedName("porter_location")
     @Expose
     private LatLng porterLocation;
@@ -25,6 +29,8 @@ public class PorterTripAccept {
 
     public String getPorterName() { return porterName; }
     public void setPorterName(String porterName) { this.porterName = porterName; }
+    public String getPorterId() { return porterId; }
+    public void setPorterId(String porterId) { this.porterId = porterId; }
     public LatLng getPorterLocation() { return porterLocation; }
     public void setPorterLocation(LatLng porterLocation) { this.porterLocation = porterLocation; }
     public Double getPorterRating() { return porterRating; }

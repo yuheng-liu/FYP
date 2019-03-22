@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,7 +48,6 @@ public class TripRequestFragment extends Fragment {
     private int luggageFieldInt;
     private int luggageWeightFieldInt;
     private String dateString;
-    private String stationString;
 
 
     public TripRequestFragment() {
@@ -141,18 +139,10 @@ public class TripRequestFragment extends Fragment {
 
 
                     // Save all data if inputs are valid
-                    // testing
-                    if (userTripRequestSession == null) {
-                        Log.d(TAG, "userTripRequestSession is null");
-                    } else {
-                        Log.d(TAG, "userTripRequestSession is valid");
-                    }
-                    stationString = "STATION";
-                    userTripRequestSession.setStation(stationString);
                     userTripRequestSession.setDate(dateString);
-                    userTripRequestSession.setFromLocation(fromFieldString);
-                    userTripRequestSession.setToLocation(toFieldString);
-                    userTripRequestSession.setNoOfLuggage(luggageFieldInt);
+                    userTripRequestSession.setTripStartLocation(fromFieldString);
+                    userTripRequestSession.setTripEndLocation(toFieldString);
+                    userTripRequestSession.setNumberOfLuggage(luggageFieldInt);
                     userTripRequestSession.setTotalLuggageWeight(luggageWeightFieldInt);
 
                     model.setRequestSession(userTripRequestSession);
@@ -237,6 +227,8 @@ public class TripRequestFragment extends Fragment {
                     }
                 }
             });
+
+            luggageField.requestFocus(View.FOCUS_UP);
         }
 
         if (luggageWeightField != null) {
@@ -280,11 +272,11 @@ public class TripRequestFragment extends Fragment {
         model.getRequestSession().observe(this, users -> {
             // update UI
             if (fromField != null) {
-                fromField.setText(userTripRequestSession.getFromLocation());
+                fromField.setText(userTripRequestSession.getTripStartLocation());
             }
 
             if (toField != null) {
-                toField.setText(userTripRequestSession.getToLocation());
+                toField.setText(userTripRequestSession.getTripEndLocation());
             }
         });
     }
