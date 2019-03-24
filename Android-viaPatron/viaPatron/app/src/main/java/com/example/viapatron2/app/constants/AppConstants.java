@@ -8,7 +8,7 @@ package com.example.viapatron2.app.constants;
 public final class AppConstants {
     /* Base URL */
 //    public static final String LOCAL_HOST_URL = "https://server.autoapp.io/"; // aws prod
-    public static final String LOCAL_HOST_URL = "http://10.197.36.219:5000"; // localhost
+    public static final String LOCAL_HOST_URL = "http://172.17.63.125:5000"; // localhost
 
     public static final int PERMISSION_FINE_LOCATION = 111;
     public static final int PERMISSION_MEDIA_ACCESS = 112;
@@ -27,11 +27,5 @@ public final class AppConstants {
 
     /* Rider socket */
     public static final String RIDER_APP_SOCKET = "/";
-
-    public static final double PLACE_NUS_UTOWN_LAT = 1.3054857921840286;
-    public static final double PLACE_NUS_UTOWN_LNG = 103.77305947244167;
-
-    public static final double PLACE_NUS_FOS_LAT = 1.296701140936438;
-    public static final double PLACE_NUS_FOS_LNG = 103.78054015338421;
 }
 

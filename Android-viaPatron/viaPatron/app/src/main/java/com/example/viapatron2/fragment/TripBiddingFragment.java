@@ -26,6 +26,7 @@ import com.example.viapatron2.R;
 import com.example.viapatron2.activity.MainActivity;
 import com.example.viapatron2.core.models.*;
 import com.github.nkzawa.socketio.client.Socket;
+import com.google.firebase.auth.FirebaseAuth;
 import io.reactivex.functions.Consumer;
 
 import java.util.Locale;
@@ -125,8 +126,7 @@ public class TripBiddingFragment extends Fragment {
                             Socket socket = mActivity.getmSocketManager().getSocket();
                             socket.emit("disconnect", "viaPatron");
 
-                            // todo: fix bug later on
-                            mActivity.getmDatabase().child("patron_trip_requests").removeValue();
+                            mActivity.getmDatabase().child("patron_trip_requests").child(mActivity.getmDataManager().getMyTripRequestKey()).removeValue();
 
                             navController.navigateUp();
                         } catch (Exception e) {
@@ -294,13 +294,13 @@ public class TripBiddingFragment extends Fragment {
             @Override
             public void onFinish() {
                 // todo: fix bug later on
-                mActivity.getmDatabase().child("patron_trip_requests").removeValue();
+                mActivity.getmDatabase().child("patron_trip_requests").child(mActivity.getmDataManager().getMyTripRequestKey()).removeValue();
+                navController.navigateUp();
 
-                if (mActivity.getmSocketManager().stopBidding("tempid")) {
-                    navController.navigateUp();
-//                Socket socket = mActivity.getmSocketManager().getSocket();
-//                socket.emit("disconnect", "viaPatron");
-                }
+//                if (mActivity.getmSocketManager().stopBidding("tempid")) {
+//                    Socket socket = mActivity.getmSocketManager().getSocket();
+//                    socket.emit("disconnect", "viaPatron");
+//                }
             }
         };
 
@@ -336,6 +336,7 @@ public class TripBiddingFragment extends Fragment {
         Log.d(TAG, "onDestroy");
         if (countDownTimer != null) {
             countDownTimer.cancel();
+            mActivity.getmDatabase().child("patron_trip_requests").child(mActivity.getmDataManager().getMyTripRequestKey()).removeValue();
         }
         super.onDestroy();
     }

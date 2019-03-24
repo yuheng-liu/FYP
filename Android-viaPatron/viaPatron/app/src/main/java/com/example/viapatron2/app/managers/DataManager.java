@@ -12,6 +12,7 @@ public class DataManager {
 
     private TripStatus tripStatus;
     private LatLng currentLocation;
+    private String myTripRequestKey;
 
     public DataManager() {
         tripStatus = TripStatus.NOT_STARTED;
@@ -31,5 +32,13 @@ public class DataManager {
 
     public LatLng getCurrentLocation() {
         return currentLocation;
+    }
+
+    public void setMyTripRequestKey(String key) {
+        myTripRequestKey = key;
+    }
+
+    public String getMyTripRequestKey() {
+        return myTripRequestKey;
     }
 }

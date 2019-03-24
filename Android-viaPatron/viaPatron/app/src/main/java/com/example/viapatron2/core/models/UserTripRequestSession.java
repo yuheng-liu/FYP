@@ -4,6 +4,9 @@ package com.example.viapatron2.core.models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by Lim Zhiming on 10/1/19.
  */
@@ -99,5 +102,19 @@ public class UserTripRequestSession {
 
     public void setTotalLuggageWeight(int totalLuggageWeight) {
         this.totalLuggageWeight = totalLuggageWeight;
+    }
+
+    public Map<String, Object> toMap() {
+
+        HashMap<String, Object> result = new HashMap<>();
+
+        result.put("date", date);
+        result.put("patronID", patronID);
+        result.put("tripStartLocation", tripStartLocation);
+        result.put("tripEndLocation", tripEndLocation);
+        result.put("numberOfLuggage", numberOfLuggage);
+        result.put("totalLuggageWeight", totalLuggageWeight);
+
+        return result;
     }
 }
