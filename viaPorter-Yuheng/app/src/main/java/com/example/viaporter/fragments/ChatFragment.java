@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.example.viaporter.MainActivity;
 import com.example.viaporter.R;
+import com.example.viaporter.managers.FirebaseAdaptersManager;
 import com.example.viaporter.models.ChatMessage;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
@@ -33,7 +34,7 @@ public class ChatFragment extends Fragment {
 
     private MainActivity mActivity;
     private RecyclerView mChatBoxView;
-    private FirebaseRecyclerAdapter<ChatMessage, ChatViewHolder> mChatBoxAdapter;
+    private FirebaseRecyclerAdapter<ChatMessage, FirebaseAdaptersManager.ChatViewHolder> mChatBoxAdapter;
     private EditText messageBox;
     private ImageButton sendButton;
 
@@ -65,8 +66,7 @@ public class ChatFragment extends Fragment {
         sendButton = mActivity.findViewById(R.id.send_button);
         sendButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                mActivity.mDatabase
-                        .child("chats")
+                mActivity.firebaseDatabaseManager.chatDatabase
                         .push()
                         .setValue(new ChatMessage(messageBox.getText().toString(),
                                 FirebaseAuth.getInstance()
@@ -79,75 +79,76 @@ public class ChatFragment extends Fragment {
     }
 
     private void setupFirebaseRecyclerAdapter() {
-        DatabaseReference curDatabase = mActivity.mDatabase.child("chats");
-        curDatabase.keepSynced(true);
-
-        Query query = curDatabase.limitToLast(50);
-
-        FirebaseRecyclerOptions<ChatMessage> options =
-                new FirebaseRecyclerOptions.Builder<ChatMessage>()
-                        .setQuery(query, ChatMessage.class)
-                        .build();
-
-        mChatBoxAdapter = new FirebaseRecyclerAdapter<ChatMessage, ChatViewHolder>(options) {
-            @NonNull
-            @Override
-            public ChatViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
-                int layout = 0;
-
-                if (viewType == TYPE_MY_MSG){
-                    layout = R.layout.my_chat_bubble;
-                } else if (viewType == TYPE_THEIR_MSG){
-                    layout = R.layout.their_chat_bubble;
-                }
-
-                 return new ChatViewHolder(LayoutInflater.from(viewGroup.getContext())
-                            .inflate(layout, viewGroup, false));
-            }
-
-            @Override
-            protected void onBindViewHolder(@NonNull ChatViewHolder holder, int position, @NonNull ChatMessage model) {
-                holder.setName(model.getMessageUser());
-                holder.setMessage(model.getMessageText());
-            }
-
-            @Override
-            public int getItemViewType(int position) {
-                ChatMessage message = getItem(position);
-                if (message.getMessageUser().equals("Yuheng")){
-                    return TYPE_MY_MSG;
-                } else {
-                    return TYPE_THEIR_MSG;
-                }
-            }
-
-            @Override
-            public void onDataChanged() {
-                super.onDataChanged();
-
-                mChatBoxView.scrollToPosition(mChatBoxAdapter.getItemCount() - 1);
-            }
-        };
+//        DatabaseReference curDatabase = mActivity.mDatabase.child("chats");
+//        curDatabase.keepSynced(true);
+//
+//        Query query = curDatabase.limitToLast(50);
+//
+//        FirebaseRecyclerOptions<ChatMessage> options =
+//                new FirebaseRecyclerOptions.Builder<ChatMessage>()
+//                        .setQuery(query, ChatMessage.class)
+//                        .build();
+//
+//        mChatBoxAdapter = new FirebaseRecyclerAdapter<ChatMessage, ChatViewHolder>(options) {
+//            @NonNull
+//            @Override
+//            public ChatViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
+//                int layout = 0;
+//
+//                if (viewType == TYPE_MY_MSG){
+//                    layout = R.layout.my_chat_bubble;
+//                } else if (viewType == TYPE_THEIR_MSG){
+//                    layout = R.layout.their_chat_bubble;
+//                }
+//
+//                 return new ChatViewHolder(LayoutInflater.from(viewGroup.getContext())
+//                            .inflate(layout, viewGroup, false));
+//            }
+//
+//            @Override
+//            protected void onBindViewHolder(@NonNull ChatViewHolder holder, int position, @NonNull ChatMessage model) {
+//                holder.setName(model.getMessageUser());
+//                holder.setMessage(model.getMessageText());
+//            }
+//
+//            @Override
+//            public int getItemViewType(int position) {
+//                ChatMessage message = getItem(position);
+//                if (message.getMessageUser().equals("Yuheng")){
+//                    return TYPE_MY_MSG;
+//                } else {
+//                    return TYPE_THEIR_MSG;
+//                }
+//            }
+//
+//            @Override
+//            public void onDataChanged() {
+//                super.onDataChanged();
+//
+//                mChatBoxView.scrollToPosition(mChatBoxAdapter.getItemCount() - 1);
+//            }
+//        };
+        mChatBoxAdapter = mActivity.firebaseAdaptersManager.getChatBoxAdapter(mChatBoxView);
         mChatBoxView.setAdapter(mChatBoxAdapter);
     }
 
-    public static class ChatViewHolder extends RecyclerView.ViewHolder{
-
-        View mView;
-
-        public ChatViewHolder(View itemView){
-            super(itemView);
-            mView = itemView;
-        }
-        public void setName(String name){
-            TextView nameField = (TextView)mView.findViewById(R.id.name);
-            nameField.setText(name);
-        }
-        public void setMessage(String message){
-            TextView messageField = (TextView)mView.findViewById(R.id.message_body);
-            messageField.setText(message);
-        }
-    }
+//    public static class ChatViewHolder extends RecyclerView.ViewHolder{
+//
+//        View mView;
+//
+//        public ChatViewHolder(View itemView){
+//            super(itemView);
+//            mView = itemView;
+//        }
+//        public void setName(String name){
+//            TextView nameField = (TextView)mView.findViewById(R.id.name);
+//            nameField.setText(name);
+//        }
+//        public void setMessage(String message){
+//            TextView messageField = (TextView)mView.findViewById(R.id.message_body);
+//            messageField.setText(message);
+//        }
+//    }
 
     @Override
     public void onStart() {

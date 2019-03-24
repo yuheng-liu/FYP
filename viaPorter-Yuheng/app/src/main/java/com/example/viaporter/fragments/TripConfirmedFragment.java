@@ -270,14 +270,14 @@ public class TripConfirmedFragment extends Fragment
         cancelTripButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mActivity.dialogManager.showTripConfirmedCancelTrip();
+                mActivity.dialogManager.showTripConfirmedCancelTripDialog();
             }
         });
 
         stopTripButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mActivity.dialogManager.showTripConfirmedStopTrip();
+                mActivity.dialogManager.showTripConfirmedStopTripDialog();
             }
         });
 

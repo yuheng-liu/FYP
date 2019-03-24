@@ -15,6 +15,7 @@ public class DataManager {
     private PorterUserDetails porterUserDetails;
     private List<PatronTripRequest> BroadcastRequestList;
     private List<PatronTripRequest> CurrentBidList;
+    private PatronTripRequest selectedBidRequest;
     private PatronTripSuccess CurrentTrip;
     private TripStatus tripStatus;
 
@@ -29,6 +30,7 @@ public class DataManager {
         CurrentBidList = new ArrayList<>();
         tripStatus = TripStatus.IDLE;
     }
+
     // Static inner class are not loaded until they are referenced
     private static class dataManagerholder {
         private static DataManager manager = new DataManager();
@@ -52,15 +54,15 @@ public class DataManager {
         return tripStatus;
     }
     public PorterUserDetails getPorterUserDetails() { return  porterUserDetails; }
+    public PatronTripRequest getSelectedBidRequest() { return selectedBidRequest; }
 
     // setters
     public void setPorterUserDetails(PorterUserDetails newDetails) { porterUserDetails = newDetails; }
     public void addToBroadcastList(PatronTripRequest newRequest) { BroadcastRequestList.add(newRequest); }
-    public void setCurrentTrip(PatronTripSuccess newTrip){
-        CurrentTrip = newTrip;
-    }
+    public void setCurrentTrip(PatronTripSuccess newTrip){ CurrentTrip = newTrip; }
     public void setCurrentLocation(LatLng currentLocation) { this.currentLocation = currentLocation; }
     public void setTripStatus(TripStatus tripStatus) { this.tripStatus = tripStatus; }
+    public void setSelectedBidRequest(PatronTripRequest selectedBidRequest) { this.selectedBidRequest = selectedBidRequest; }
 
     // For showing review page after navigating to home
     private boolean showReviewInHome = false;

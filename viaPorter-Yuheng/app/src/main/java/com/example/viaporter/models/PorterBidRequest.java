@@ -1,29 +1,18 @@
 package com.example.viaporter.models;
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
-
 public class PorterBidRequest {
 
-    @SerializedName("porter_id")
-    @Expose
-    private String porterID;
-
-    @SerializedName("porter_name")
-    @Expose
+    private String porterUid;
     private String porterName;
-
-    @SerializedName("bid_amount")
-    @Expose
-    private String bidAmount;
+    private Double bidAmount;
 
     public String getPorterName() { return porterName; }
-    public String getBidAmount() { return bidAmount; }
-    public String getPorterID() { return porterID; }
+    public Double getBidAmount() { return bidAmount; }
+    public String getPorterUid() { return porterUid; }
 
-    public PorterBidRequest(String id, String name, String amount) {
-        porterID = id;
-        porterName = name;
-        bidAmount = amount;
+    public PorterBidRequest(String porterUid, String porterName, Double bidAmount) {
+        this.porterUid = porterUid;
+        this.porterName = porterName;
+        this.bidAmount = bidAmount;
     }
 }

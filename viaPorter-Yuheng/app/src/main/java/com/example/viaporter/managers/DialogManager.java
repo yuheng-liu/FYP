@@ -6,6 +6,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 
 import com.example.viaporter.MainActivity;
 import com.example.viaporter.R;
@@ -32,6 +33,9 @@ public class DialogManager {
     private AlertDialog tripConfirmedCancelTrip;
     private AlertDialog tripRequestBidSuccess;
     private AlertDialog tripRequestReviewPage;
+    private AlertDialog tripRequestBidding;
+    private AlertDialog tripRequestCancelBid;
+
 
     /*                                      *
      * Use of Bill Pugh Singleton structure *
@@ -55,10 +59,12 @@ public class DialogManager {
         gson = new Gson();
     }
 
-    public void showTripConfirmedStopTrip() { tripConfirmedStopTrip.show(); }
-    public void showTripConfirmedCancelTrip() { tripConfirmedCancelTrip.show(); }
-    public void showTripRequestBidSuccess() { tripRequestBidSuccess.show(); }
-    public void showTripRequestReviewPage() { tripRequestReviewPage.show(); }
+    public void showTripConfirmedStopTripDialog() { tripConfirmedStopTrip.show(); }
+    public void showTripConfirmedCancelTripDialog() { tripConfirmedCancelTrip.show(); }
+    public void showTripRequestBidSuccessDialog() { tripRequestBidSuccess.show(); }
+    public void showTripRequestReviewPageDialog() { tripRequestReviewPage.show(); }
+    public void showTripRequestBiddingDialog() { tripRequestBidding.show(); }
+    public void showTripRequestCancelBidDialog() { tripRequestCancelBid.show(); }
 
     private void createAlertDialogs() {
         /*
@@ -98,7 +104,7 @@ public class DialogManager {
                     public void onClick(DialogInterface dialog, int which) {
                         // do nothing
                         // for testing
-                        showTripConfirmedStopTrip();
+                        showTripConfirmedStopTripDialog();
                     }
                 })
                 .create();
@@ -121,6 +127,52 @@ public class DialogManager {
         if (tripRequestReviewPage.getWindow() != null) {
             tripRequestReviewPage.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         }
+        // dialog for bidding page
+        AlertDialog.Builder biddingDialogBuilder = new AlertDialog.Builder(mActivity);
+        final View biddingView = mActivity.getLayoutInflater().inflate(R.layout.place_bid_custom_popup, null);
+        biddingDialogBuilder.setView(biddingView);
+        final EditText bidAmountField = biddingView.findViewById(R.id.bid_amount_field);
+        Button bidButton = biddingView.findViewById(R.id.bid_button);
+        bidButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Default bid amount
+                Double currentBidAmount = 2.0;
+
+                if (bidAmountField.getText().toString().length() > 0) {
+                    currentBidAmount = Double.valueOf(bidAmountField.getText().toString());
+                }
+                mActivity.firebaseDatabaseManager.addToMyCurrentBids(currentBidAmount);
+                tripRequestBidding.cancel();
+            }
+        });
+        Button cancelButton = biddingView.findViewById(R.id.cancel_button);
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tripRequestBidding.cancel();
+            }
+        });
+        tripRequestBidding = biddingDialogBuilder.create();
+
+        // dialog for cancelling current bid
+        tripRequestCancelBid = new AlertDialog.Builder(mActivity)
+                .setTitle("Cancel Bid")
+                .setMessage("Are you sure you want to withdraw your bid?")
+                .setPositiveButton("confirm", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        mActivity.firebaseDatabaseManager.cancelMyCurrentBid();
+                        tripRequestCancelBid.cancel();
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        tripRequestCancelBid.cancel();
+                    }
+                })
+                .create();
 
         // For testing only
         tripRequestBidSuccess = new AlertDialog.Builder(mActivity)

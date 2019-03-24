@@ -15,11 +15,10 @@ import com.example.viaporter.fragments.ProfileFragment;
 import com.example.viaporter.managers.DataManager;
 import com.example.viaporter.managers.DialogManager;
 import com.example.viaporter.managers.FirebaseAdaptersManager;
+import com.example.viaporter.managers.FirebaseDatabaseManager;
 import com.example.viaporter.managers.SocketManager;
 import com.example.viaporter.models.TripStatus;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,8 +40,8 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.M
     public SocketManager socketManager;
     public DataManager dataManager;
     public DialogManager dialogManager;
+    public FirebaseDatabaseManager firebaseDatabaseManager;
     public FirebaseAdaptersManager firebaseAdaptersManager;
-    public DatabaseReference mDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,9 +76,10 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.M
         dataManager = DataManager.getSharedInstance();
         dialogManager = DialogManager.getSharedInstance();
         dialogManager.setMainActivity(this);
+        firebaseDatabaseManager = FirebaseDatabaseManager.getSharedInstance();
+        firebaseDatabaseManager.setMainActivity(this);
         firebaseAdaptersManager = FirebaseAdaptersManager.getSharedInstance();
         firebaseAdaptersManager.setMainActivity(this);
-        mDatabase = FirebaseDatabase.getInstance().getReference();
     }
 
     // Google Maps
@@ -173,7 +173,7 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.M
     @Override
     public void onBackPressed() {
         if (navController.getCurrentDestination().getId() == R.id.navigation_trip_confirmed){
-            dialogManager.showTripConfirmedCancelTrip();
+            dialogManager.showTripConfirmedCancelTripDialog();
         } else {
             super.onBackPressed();
         }
