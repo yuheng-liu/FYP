@@ -26,7 +26,7 @@
             tools:targetApi="donut">
 
         <!--AWS SUPPORT-->
-        <service android:name="org.eclipse.paho.android.service.MqttService" />
+        <!--<service android:name="org.eclipse.paho.android.service.MqttService" />-->
 
         <activity
                 android:name=".activity.MainActivity"
@@ -35,7 +35,7 @@
         </activity>
 
         <activity
-                android:name=".activity.LoginActivity"
+                android:name=".activity.PhoneLoginActivity"
                 android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

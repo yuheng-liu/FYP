@@ -4,6 +4,9 @@
     <string name="username_hint">Username</string>
     <string name="password_hint">Password</string>
     <string name="sign_in_hint">Sign In</string>
+    <string name="sign_in_phone_hint">Phone Number</string>
+    <string name="verification_code">Verification Code</string>
+    <string name="verification_code_hint">Send Verification Code</string>
     <string name="register_hint">New user? Register Here</string>
     <string name="forgot_password">Forgot password?</string>
     <string name="email_address_hint">Email Address</string>
@@ -69,7 +72,9 @@
     <string name="profile_privacy_policy">Privacy Policy</string>
     <string name="profile_sign_out_msg">Are you sure you want to sign out?</string>
 
-    <string name="trip_review_popup_title">Your Trip</string>
+    <string name="trip_review_popup_title">Your Last Trip</string>
+    <string name="trip_review_msg">Rate your Porter</string>
+    <string name="trip_review_submit">Submit</string>
 
     <string name="trip_chat_title">Chat</string>
     <string name="trip_chat_type_your_message">Type your message</string>
