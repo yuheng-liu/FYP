@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.example.viaporter.MainActivity;
+import com.example.viaporter.models.ChatMessage;
 import com.example.viaporter.models.PatronTripRequest;
 import com.example.viaporter.models.PorterBidRequest;
 import com.example.viaporter.models.PorterUserDetails;
@@ -61,8 +62,18 @@ public class FirebaseDatabaseManager {
                 .setValue(new PorterUserDetails(FirebaseAuth.getInstance().getUid(), "Yuheng", 4.5));
     }
 
-    void addToMyCurrentBids(Double bidAmount) {
-        final PatronTripRequest newBid = mActivity.dataManager.getSelectedBidRequest();
+    public void sendChatMessage(String msg) {
+        chatDatabase
+                .push()
+                .setValue(new ChatMessage(msg,
+                        FirebaseAuth.getInstance()
+                                .getCurrentUser()
+                                .getDisplayName())
+                );
+    }
+
+    public void addToMyCurrentBids(Double bidAmount) {
+        final PatronTripRequest newBid = mActivity.getDataManager().getSelectedBidRequest();
 
         currentBidsDatabase
                 .child(newBid.getPatronUid())
@@ -93,8 +104,8 @@ public class FirebaseDatabaseManager {
         });
     }
 
-    void cancelMyCurrentBid() {
-        PatronTripRequest curBid = mActivity.dataManager.getSelectedBidRequest();
+    public void cancelMyCurrentBid() {
+        PatronTripRequest curBid = mActivity.getDataManager().getSelectedBidRequest();
 
         currentBidsDatabase
                 .child(curBid.getPatronUid())

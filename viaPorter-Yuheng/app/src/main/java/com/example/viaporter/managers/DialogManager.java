@@ -10,13 +10,8 @@ import android.widget.EditText;
 
 import com.example.viaporter.MainActivity;
 import com.example.viaporter.R;
-import com.example.viaporter.models.PorterTripAccept;
-import com.example.viaporter.models.PorterUserDetails;
 import com.example.viaporter.models.TripStatus;
 import com.google.gson.Gson;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import androidx.navigation.NavController;
 import androidx.navigation.NavOptions;
@@ -27,12 +22,11 @@ public class DialogManager {
 
     private MainActivity mActivity;
     private NavController navController;
-    private Gson gson;
 
     private AlertDialog tripConfirmedStopTrip;
     private AlertDialog tripConfirmedCancelTrip;
-    private AlertDialog tripRequestBidSuccess;
     private AlertDialog tripRequestReviewPage;
+    private AlertDialog tripRequestBidSuccess;
     private AlertDialog tripRequestBidding;
     private AlertDialog tripRequestCancelBid;
 
@@ -56,7 +50,6 @@ public class DialogManager {
         mActivity = mainActivity;
         navController = Navigation.findNavController(mActivity, R.id.my_nav_host_fragment);
         createAlertDialogs();
-        gson = new Gson();
     }
 
     public void showTripConfirmedStopTripDialog() { tripConfirmedStopTrip.show(); }
@@ -95,7 +88,7 @@ public class DialogManager {
                 .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        mActivity.dataManager.setTripStatus(TripStatus.CANCELLED);
+                        mActivity.getDataManager().setTripStatus(TripStatus.CANCELLED);
                         navController.popBackStack(R.id.navigation_jobs, false);
                     }
                 })
@@ -142,7 +135,7 @@ public class DialogManager {
                 if (bidAmountField.getText().toString().length() > 0) {
                     currentBidAmount = Double.valueOf(bidAmountField.getText().toString());
                 }
-                mActivity.firebaseDatabaseManager.addToMyCurrentBids(currentBidAmount);
+                mActivity.getFirebaseDatabaseManager().addToMyCurrentBids(currentBidAmount);
                 tripRequestBidding.cancel();
             }
         });
@@ -162,7 +155,7 @@ public class DialogManager {
                 .setPositiveButton("confirm", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        mActivity.firebaseDatabaseManager.cancelMyCurrentBid();
+                        mActivity.getFirebaseDatabaseManager().cancelMyCurrentBid();
                         tripRequestCancelBid.cancel();
                     }
                 })
@@ -175,30 +168,30 @@ public class DialogManager {
                 .create();
 
         // For testing only
-        tripRequestBidSuccess = new AlertDialog.Builder(mActivity)
-                .setTitle("Bid Success")
-                .setMessage("The bid is successful")
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        // User clicked OK button
-                        try {
-                            PorterUserDetails porterDetails = mActivity.dataManager.getPorterUserDetails();
-                            PorterTripAccept newTripAccept = new PorterTripAccept(porterDetails.getId(),porterDetails.getName(), mActivity.dataManager.getCurrentLocation() ,porterDetails.getRating());
-                            JSONObject data = new JSONObject(gson.toJson(newTripAccept));
-                            mActivity.socketManager.emitJSON("accept_trip", data);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                        mActivity.dataManager.setTripStatus(TripStatus.IN_PROGRESS);
-                        navController.navigate(R.id.navigation_trip_confirmed);
-                    }
-                })
-                .create();
+//        tripRequestBidSuccess = new AlertDialog.Builder(mActivity)
+//                .setTitle("Bid Success")
+//                .setMessage("The bid is successful")
+//                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+//                    public void onClick(DialogInterface dialog, int id) {
+//                        // User clicked OK button
+//                        try {
+//                            PorterUserDetails porterDetails = mActivity.dataManager.getPorterUserDetails();
+//                            PorterTripAccept newTripAccept = new PorterTripAccept(porterDetails.getId(),porterDetails.getName(), mActivity.dataManager.getCurrentLocation() ,porterDetails.getRating());
+//                            JSONObject data = new JSONObject(gson.toJson(newTripAccept));
+//                            mActivity.socketManager.emitJSON("accept_trip", data);
+//                        } catch (JSONException e) {
+//                            e.printStackTrace();
+//                        }
+//                        mActivity.dataManager.setTripStatus(TripStatus.IN_PROGRESS);
+//                        navController.navigate(R.id.navigation_trip_confirmed);
+//                    }
+//                })
+//                .create();
     }
 
     private void navToHomeAndShowReview() {
-        if (mActivity.dataManager.getTripStatus() == TripStatus.IN_PROGRESS) {
-            mActivity.dataManager.setTripStatus(TripStatus.STOPPED);
+        if (mActivity.getDataManager().getTripStatus() == TripStatus.IN_PROGRESS) {
+            mActivity.getDataManager().setTripStatus(TripStatus.STOPPED);
             NavOptions navOptions = new NavOptions.Builder()
                     .setPopUpTo(R.id.navigation_jobs, false)
                     .build();

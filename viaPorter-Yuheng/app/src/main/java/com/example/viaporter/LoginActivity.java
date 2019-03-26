@@ -28,10 +28,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private static final int STATE_INITIALIZED = 1;
     private static final int STATE_CODE_SENT = 2;
-    private static final int STATE_VERIFY_FAILED = 3;
-    private static final int STATE_VERIFY_SUCCESS = 4;
-    private static final int STATE_SIGNIN_FAILED = 5;
-    private static final int STATE_SIGNIN_SUCCESS = 6;
 
     private static int currentState;
 

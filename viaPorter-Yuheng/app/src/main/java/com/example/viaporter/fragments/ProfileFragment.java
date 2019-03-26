@@ -49,9 +49,7 @@ public class ProfileFragment extends Fragment {
         void onLogoutButtonSelected();
     }
 
-    public ProfileFragment () {
-        // Empty Constructor
-    }
+    public ProfileFragment () {}
 
     // Store the listener (activity) that will have events fired once the fragment is attached
     @Override

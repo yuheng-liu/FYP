@@ -8,4 +8,17 @@
     <dimen name="icon_bottom_margin">24dp</dimen>
     <dimen name="title_bottom_margin">16dp</dimen>
     <dimen name="field_width_standard">160dp</dimen>
+
+    <dimen name="text_page_header_title">30sp</dimen>
+
+    <dimen name="trip_request_field_text_size">15sp</dimen>
+    <dimen name="trip_request_field_between_margin">16dp</dimen>
+    <dimen name="trip_request_station_title_padding_top">22dp</dimen>
+    <dimen name="trip_request_station_title_padding_bottom">14dp</dimen>
+
+    <dimen name="trip_request_confirm_station_title">16sp</dimen>
+    <dimen name="trip_request_confirm_station_to_fro">14sp</dimen>
+
+    <dimen name="profile_section_padding_horizontal">8dp</dimen>
+    <dimen name="profile_section_padding_vertical">16dp</dimen>
 </resources>

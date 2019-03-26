@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:text="@string/chat_title"
         android:textAlignment="center"
-        android:textSize="26sp"
+        android:textSize="@dimen/text_page_header_title"
         android:fontFamily="@font/exo_medium"/>
 
     <android.support.v7.widget.RecyclerView

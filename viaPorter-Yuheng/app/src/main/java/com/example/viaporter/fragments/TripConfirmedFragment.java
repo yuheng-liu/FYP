@@ -21,7 +21,6 @@ import android.widget.TextView;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDestination;
 import androidx.navigation.Navigation;
-import io.reactivex.functions.Consumer;
 
 import com.example.viaporter.R;
 import com.example.viaporter.MainActivity;
@@ -40,9 +39,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.gson.Gson;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import static android.view.View.GONE;
 import static com.example.viaporter.constants.AppConstants.*;
@@ -99,7 +95,7 @@ public class TripConfirmedFragment extends Fragment
 
         setupMap();
         setupViews();
-        setupSocketListeners();
+//        setupSocketListeners();
     }
 
     private void setupMap() {
@@ -115,7 +111,7 @@ public class TripConfirmedFragment extends Fragment
             e.printStackTrace();
         }
 
-        currentTrip = mActivity.dataManager.getCurrentTrip();
+        currentTrip = mActivity.getDataManager().getCurrentTrip();
     }
 
     @Override
@@ -161,7 +157,7 @@ public class TripConfirmedFragment extends Fragment
 
     private void selectStartingPoint() {
         try {
-            currentLocation = mActivity.dataManager.getCurrentLocation();
+            currentLocation = mActivity.getDataManager().getCurrentLocation();
             Log.d(TAG, "selectStartingPoint, currentLocation = " + currentLocation.toString());
             CameraUpdate update = CameraUpdateFactory.newLatLngZoom(currentLocation, MAP_CAMERA_ZOOM);
 //            CameraUpdate update = CameraUpdateFactory.newLatLngZoom(UTOWN, MAP_CAMERA_ZOOM);
@@ -226,16 +222,16 @@ public class TripConfirmedFragment extends Fragment
             for (Location location : locationResult.getLocations()) {
                 // update location
                 currentLocation = new LatLng(location.getLatitude(), location.getLongitude());
-                mActivity.dataManager.setCurrentLocation(currentLocation);
+                mActivity.getDataManager().setCurrentLocation(currentLocation);
 
                 // Broadcast Location Update
-                try {
-                    LocationUpdate newLocation = new LocationUpdate(currentLocation);
-                    JSONObject data = new JSONObject(gson.toJson(newLocation));
-                    mActivity.socketManager.emitJSON("location_update_porter", data);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+//                try {
+//                    LocationUpdate newLocation = new LocationUpdate(currentLocation);
+//                    JSONObject data = new JSONObject(gson.toJson(newLocation));
+//                    mActivity.socketManager.emitJSON("location_update_porter", data);
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
 
                 // update camera
                 if (!mCameraUpdated) {
@@ -249,8 +245,12 @@ public class TripConfirmedFragment extends Fragment
     };
 
     private void setupViews() {
-
         Log.d(TAG, "setupViews");
+
+        // for setting chat icon to be enabled
+        mActivity.getBottomNavigationView().getMenu().getItem(1).setEnabled(true);
+        // for setting chat icon to be greyed out
+//        mActivity.getBottomNavigationView().getMenu().getItem(1).setEnabled(false);
 
         viewTitle = mActivity.findViewById(R.id.trip_confirmed_title);
         notifyBlue = mActivity.findViewById(R.id.notification_porter_on_the_way);
@@ -270,14 +270,14 @@ public class TripConfirmedFragment extends Fragment
         cancelTripButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mActivity.dialogManager.showTripConfirmedCancelTripDialog();
+                mActivity.getDialogManager().showTripConfirmedCancelTripDialog();
             }
         });
 
         stopTripButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mActivity.dialogManager.showTripConfirmedStopTripDialog();
+                mActivity.getDialogManager().showTripConfirmedStopTripDialog();
             }
         });
 
@@ -289,25 +289,25 @@ public class TripConfirmedFragment extends Fragment
         });
     }
 
-    private void setupSocketListeners() {
-        mActivity.addDisposable(mActivity.socketManager.addOnPatronLocationUpdate(new Consumer<LocationUpdate>() {
-            @Override
-            public void accept(final LocationUpdate locationUpdate) {
-                mActivity.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        patronMarker.setPosition(locationUpdate.getLocation());
-                        // Update UI when porter is near enough to patron
-                        if (mActivity.dataManager.getTripStatus() == TripStatus.PROCEEDING){
-                            if (distanceBetweenUsers(currentLocation, locationUpdate.getLocation()) < MAP_DISTANCE_BETWEEN_PROXIMITY) {
-                                porterArrived();
-                            }
-                        }
-                    }
-                });
-            }
-        }));
-    }
+//    private void setupSocketListeners() {
+//        mActivity.addDisposable(mActivity.socketManager.addOnPatronLocationUpdate(new Consumer<LocationUpdate>() {
+//            @Override
+//            public void accept(final LocationUpdate locationUpdate) {
+//                mActivity.runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        patronMarker.setPosition(locationUpdate.getLocation());
+//                        // Update UI when porter is near enough to patron
+//                        if (mActivity.dataManager.getTripStatus() == TripStatus.PROCEEDING){
+//                            if (distanceBetweenUsers(currentLocation, locationUpdate.getLocation()) < MAP_DISTANCE_BETWEEN_PROXIMITY) {
+//                                porterArrived();
+//                            }
+//                        }
+//                    }
+//                });
+//            }
+//        }));
+//    }
 
     private float distanceBetweenUsers(LatLng porterLatLng, LatLng patronLatLng) {
         Location loc1 = new Location("");
@@ -322,7 +322,7 @@ public class TripConfirmedFragment extends Fragment
     }
 
     private void porterArrived() {
-        mActivity.dataManager.setTripStatus(TripStatus.IN_PROGRESS);
+        mActivity.getDataManager().setTripStatus(TripStatus.IN_PROGRESS);
         notifyBlue.setVisibility(GONE);
         notifyGreen.setVisibility(View.VISIBLE);
         startTripButton.setVisibility(View.VISIBLE);

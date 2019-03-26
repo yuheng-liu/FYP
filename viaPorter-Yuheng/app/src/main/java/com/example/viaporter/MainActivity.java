@@ -8,6 +8,8 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.MenuItem;
 
@@ -16,7 +18,6 @@ import com.example.viaporter.managers.DataManager;
 import com.example.viaporter.managers.DialogManager;
 import com.example.viaporter.managers.FirebaseAdaptersManager;
 import com.example.viaporter.managers.FirebaseDatabaseManager;
-import com.example.viaporter.managers.SocketManager;
 import com.example.viaporter.models.TripStatus;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -36,12 +37,18 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.M
     private BottomNavigationView bottomNavigation;
     private NavHostFragment navHostFragment;
     private List<Disposable> disposables;
-    public NavController navController;
-    public SocketManager socketManager;
-    public DataManager dataManager;
-    public DialogManager dialogManager;
-    public FirebaseDatabaseManager firebaseDatabaseManager;
-    public FirebaseAdaptersManager firebaseAdaptersManager;
+    private NavController navController;
+    private DataManager dataManager;
+    private DialogManager dialogManager;
+    private FirebaseDatabaseManager firebaseDatabaseManager;
+    private FirebaseAdaptersManager firebaseAdaptersManager;
+
+    // getters
+    public BottomNavigationView getBottomNavigationView() { return bottomNavigation; }
+    public DataManager getDataManager() { return dataManager; }
+    public DialogManager getDialogManager() { return dialogManager; }
+    public FirebaseDatabaseManager getFirebaseDatabaseManager() { return firebaseDatabaseManager; }
+    public FirebaseAdaptersManager getFirebaseAdaptersManager() { return firebaseAdaptersManager; }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,26 +60,19 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.M
 
         disposables = new ArrayList<>();
 
-        setupViews();
         setupManagers();
+        setupViews();
     }
 
     private void setupViews() {
         Log.d(TAG, "setupViews");
 
-        // Initialise the bottom navigation bar
-        bottomNavigation = (BottomNavigationView) findViewById(R.id.bot_navigation_view);
-        bottomNavigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-
-        // Initialise a navHostFragment containing the navigation graph chart
+        initBottomNavigationBar();
         navHostFragment = NavHostFragment.create(R.navigation.nav_graph);
-
-        // Initialise a navigation controller for controlling navigation
         navController = Navigation.findNavController(findViewById(R.id.my_nav_host_fragment));
     }
 
     private void setupManagers() {
-        socketManager = SocketManager.getSharedInstance();
         dataManager = DataManager.getSharedInstance();
         dialogManager = DialogManager.getSharedInstance();
         dialogManager.setMainActivity(this);
@@ -80,6 +80,39 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.M
         firebaseDatabaseManager.setMainActivity(this);
         firebaseAdaptersManager = FirebaseAdaptersManager.getSharedInstance();
         firebaseAdaptersManager.setMainActivity(this);
+    }
+
+    private void initBottomNavigationBar() {
+
+        bottomNavigation = findViewById(R.id.bot_navigation_view);
+        bottomNavigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
+        ColorStateList mColorStateList = new ColorStateList(
+                new int[][]{
+                        new int[]{-android.R.attr.state_enabled}, // disabled
+                        new int[]{android.R.attr.state_checked}, // checked
+                        new int[]{android.R.attr.state_enabled}  // pressed
+                },
+                new int[]{
+                        Color.LTGRAY,
+                        Color.BLACK,
+                        Color.BLACK});
+
+        bottomNavigation.setItemIconTintList(mColorStateList);
+        bottomNavigation.setItemTextColor(mColorStateList);
+
+        // if patron has not started a trip with a porter
+        if (dataManager.getTripStatus() != TripStatus.PROCEEDING || dataManager.getTripStatus() != TripStatus.IN_PROGRESS) {
+
+            // retrieve chat button and disable it
+            if (bottomNavigation.getMenu().getItem(1) != null) {
+                bottomNavigation.getMenu().getItem(1).setEnabled(false);
+            }
+        } else {
+            if (bottomNavigation.getMenu().getItem(1) != null) {
+                bottomNavigation.getMenu().getItem(1).setEnabled(true);
+            }
+        }
     }
 
     // Google Maps
@@ -157,7 +190,6 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.M
         Log.d(TAG, "onLogoutButtonSelected");
 
         try {
-//            AWSMobileClient.getInstance().signOut();
             FirebaseAuth.getInstance().signOut();
 
             // Tips: Intents should be created and activated within activities
@@ -187,8 +219,6 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.M
                 disposable.dispose();
             }
         }
-
-//        mDatabase.child("chats").removeValue();
         super.onDestroy();
     }
 

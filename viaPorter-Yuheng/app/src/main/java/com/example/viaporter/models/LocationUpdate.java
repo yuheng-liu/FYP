@@ -17,7 +17,5 @@ public class LocationUpdate {
         location = newLocation;
     }
 
-    @SerializedName("location_update")
-    @Expose
     private LatLng location;
 }

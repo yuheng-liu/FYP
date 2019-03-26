@@ -62,7 +62,7 @@ public class FirebaseAdaptersManager {
         final int TYPE_MY_MSG = 1;
         final int TYPE_THEIR_MSG = 2;
 
-        DatabaseReference curDatabase = mActivity.firebaseDatabaseManager.chatDatabase;
+        DatabaseReference curDatabase = mActivity.getFirebaseDatabaseManager().chatDatabase;
         curDatabase.keepSynced(true);
 
         Query query = curDatabase.limitToLast(50);
@@ -126,7 +126,7 @@ public class FirebaseAdaptersManager {
             final CallbackListener<PatronTripRequest> onPositiveButtonClicked,
             final CallbackListener<PatronTripRequest> onNegativeButtonClicked){
 
-        DatabaseReference curDatabase = mActivity.firebaseDatabaseManager.broadcastTripsDatabase;
+        DatabaseReference curDatabase = mActivity.getFirebaseDatabaseManager().broadcastTripsDatabase;
         curDatabase.keepSynced(true);
 
         Query query = curDatabase.limitToLast(50);
@@ -204,7 +204,7 @@ public class FirebaseAdaptersManager {
             final CallbackListener<PatronTripRequest> onPositiveButtonClicked,
             final CallbackListener<PatronTripRequest> onNegativeButtonClicked){
 
-        DatabaseReference curDatabase = mActivity.firebaseDatabaseManager.currentBidsDatabase;
+        DatabaseReference curDatabase = mActivity.getFirebaseDatabaseManager().currentBidsDatabase;
         curDatabase.keepSynced(true);
 
         Query query = curDatabase.limitToLast(50);

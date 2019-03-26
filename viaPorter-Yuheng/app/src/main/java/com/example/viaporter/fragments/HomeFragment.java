@@ -179,7 +179,7 @@ public class HomeFragment extends Fragment
             for (Location location : locationResult.getLocations()) {
                 // update location
                 currentLocation = new LatLng(location.getLatitude(), location.getLongitude());
-                mActivity.dataManager.setCurrentLocation(currentLocation);
+                mActivity.getDataManager().setCurrentLocation(currentLocation);
 
                 // update camera
                 if (!mCameraUpdated) {
