@@ -26,6 +26,7 @@ import com.example.viapatron2.app.constants.AppConstants;
 import com.example.viapatron2.app.managers.DataManager;
 import com.example.viapatron2.app.managers.SocketManager;
 import com.example.viapatron2.core.models.BotNavState;
+import com.example.viapatron2.core.models.MyPatron;
 import com.example.viapatron2.core.models.MyViewModel;
 import com.example.viapatron2.core.models.TripStatus;
 import com.example.viapatron2.fragment.ProfileFragment;
@@ -74,6 +75,7 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.M
         checkAppLocationPermission();
         setUpViewModel();
         setupViews();
+        setUpDatabaseUser();
     }
 
     // Google Maps
@@ -152,6 +154,13 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.M
 
         // Initialise a navigation controller for controlling navigation
         navController = Navigation.findNavController(findViewById(R.id.my_nav_host_fragment));
+    }
+
+    private void setUpDatabaseUser() {
+        if (FirebaseAuth.getInstance().getUid() != null) {
+            MyPatron myPatron = new MyPatron(FirebaseAuth.getInstance().getUid(), TripStatus.NOT_STARTED);
+            mDatabase.child("Patrons").child(FirebaseAuth.getInstance().getUid()).setValue(myPatron);
+        }
     }
 
     private void initBottomNavigationBar() {
@@ -292,6 +301,8 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.M
     @Override
     protected void onStop() {
         super.onStop();
+        Log.d(TAG, "onStop");
+
         unbindService(mConnection);
     }
 
@@ -324,7 +335,7 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.M
 
             // Tips: Intents should be created and activated within activities
             // go back to authentication screen
-            Intent authIntent = new Intent(this, LoginActivity.class);
+            Intent authIntent = new Intent(this, PhoneLoginActivity.class);
             this.finish();
             startActivity(authIntent);
         } catch (Exception e) {

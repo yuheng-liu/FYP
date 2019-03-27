@@ -25,8 +25,11 @@ import com.example.viapatron2.CallbackListener;
 import com.example.viapatron2.R;
 import com.example.viapatron2.activity.MainActivity;
 import com.example.viapatron2.core.models.*;
-import com.github.nkzawa.socketio.client.Socket;
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.Query;
 import io.reactivex.functions.Consumer;
 
 import java.util.Locale;
@@ -37,6 +40,8 @@ public class TripBiddingFragment extends Fragment {
 
     private NavController navController;
     private BidderAdapter mBidderAdapter;
+    private CallbackListener<PorterBidRequest> mOnPositiveButtonClicked;
+    private FirebaseRecyclerAdapter<PorterBidRequest, PorterBidsViewHolder> mBidderViewAdapter;
     private MainActivity mActivity;
     private MyViewModel model;
 
@@ -82,8 +87,64 @@ public class TripBiddingFragment extends Fragment {
 
         setViews();
         setUpViewModel();
-        createAdapter();
-        setupSocketListeners();
+//        createAdapter();
+//        setupSocketListeners();
+
+        mOnPositiveButtonClicked = new CallbackListener<PorterBidRequest>() {
+
+            @Override
+            public void accept(PorterBidRequest data) {
+
+                String alertMsg = getString(R.string.trip_bidding_confirm_msg) + " $" + data.getBidAmount() + "?";
+
+                new AlertDialog.Builder(mActivity)
+                        .setTitle(R.string.trip_bidding_confirm_title)
+                        .setMessage(alertMsg)
+                        .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+
+//                                mActivity.getmSocketManager().acceptBidder(setTrip());
+
+                                if (countDownTimer != null) {
+                                    countDownTimer.cancel();
+                                }
+
+                                NavOptions navOptions = new NavOptions.Builder()
+                                        .setPopUpTo(R.id.navigation_trip, true)
+                                        .build();
+                                navController.navigate(R.id.navigation_trip_confirmed, null, navOptions);
+
+                                // Update trip status to manage navigation
+                                mActivity.getmDataManager().updateTripStatus(TripStatus.PATRON_STARTED);
+
+                                // Update selected porter
+                                mActivity.getmDataManager().setAcceptedBidRequest(data);
+
+                                // Update triggering of start trip for porter
+                                if (FirebaseAuth.getInstance().getUid() != null) {
+                                    mActivity.getmDatabase()
+                                            .child("Patrons")
+                                            .child(FirebaseAuth.getInstance().getUid())
+                                            .child("tripState")
+                                            .setValue(TripStatus.PATRON_STARTED);
+                                }
+                            }
+                        })
+                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // do nothing
+                                return;
+                            }
+                        })
+                        .create()
+                        .show();
+
+            }
+        };
+
+        createFirebaseAdapter();
     }
 
     private void setViews() {
@@ -120,14 +181,11 @@ public class TripBiddingFragment extends Fragment {
                 .setTitle(R.string.trip_bidding_cancel_title)
                 .setPositiveButton(R.string.button_ok, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        // User clicked OK button
-
                         try {
-                            Socket socket = mActivity.getmSocketManager().getSocket();
-                            socket.emit("disconnect", "viaPatron");
-
-                            mActivity.getmDatabase().child("patron_trip_requests").child(mActivity.getmDataManager().getMyTripRequestKey()).removeValue();
-
+                            if (FirebaseAuth.getInstance().getUid() != null) {
+                                mActivity.getmDatabase().child("Broadcast Trip Requests").child(FirebaseAuth.getInstance().getUid()).removeValue();
+                                mActivity.getmDatabase().child("Patrons").child(FirebaseAuth.getInstance().getUid()).child("porterBidRequest").removeValue();
+                            }
                             navController.navigateUp();
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -182,65 +240,151 @@ public class TripBiddingFragment extends Fragment {
         });
     }
 
-    private void createAdapter() {
 
-        Log.d(TAG, "createAdapter");
+    private void createFirebaseAdapter() {
 
-        RecyclerView mBidderView = mActivity.findViewById(R.id.trip_request_bidding_table);
-        RecyclerView.LayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
-        mBidderView.setLayoutManager(linearLayoutManager);
-        mBidderAdapter = new BidderAdapter(mActivity.getService().getDataManager());
+        Log.d(TAG, "createFirebaseAdapter");
+        RecyclerView mBidderRecyclerView = mActivity.findViewById(R.id.trip_request_bidding_table);
+        mBidderRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mBidderRecyclerView.setHasFixedSize(true);
 
-        // TODO: remove below part when not testing
-        // START OF TESTING SEGMENT
+        DatabaseReference curDatabase = mActivity.getmDatabase()
+                .child("Patrons")
+                .child(FirebaseAuth.getInstance().getUid())
+                .child("porterBidRequest");
+
+        curDatabase.keepSynced(true);
+
+        Query query = curDatabase.limitToLast(50);
+
+        FirebaseRecyclerOptions<PorterBidRequest> options =
+                new FirebaseRecyclerOptions.Builder<PorterBidRequest>()
+                        .setQuery(query, PorterBidRequest.class)
+                        .build();
+
+        mBidderViewAdapter = new FirebaseRecyclerAdapter<PorterBidRequest, PorterBidsViewHolder>(options) {
+            @NonNull
+            @Override
+            public PorterBidsViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
+
+                Log.d(TAG, "onCreateViewHolder");
+
+                // create a new view
+                View itemView = (View) LayoutInflater.from(viewGroup.getContext())
+                        .inflate(R.layout.bidder_item, viewGroup, false);
+
+                // set the view's size, margins, padding and layout parameters...
+                PorterBidsViewHolder vh = new PorterBidsViewHolder(itemView);
+
+                vh.bidderIndex = itemView.findViewById(R.id.bidding_porter_index);
+                vh.bidderName = itemView.findViewById(R.id.bidding_porter_name);
+                vh.bidAmount = itemView.findViewById(R.id.bid_amount);
+                vh.mPositiveButton = itemView.findViewById(R.id.positiveButton);
+
+                return vh;
+            }
+
+            @Override
+            protected void onBindViewHolder(@NonNull PorterBidsViewHolder holder, int position, @NonNull PorterBidRequest model) {
+                Log.d(TAG, "onBindViewHolder");
+
+                try {
+                    int indexPos = position + 1;
+                    String bidAmountString = "$" + String.valueOf(model.getBidAmount());
+
+                    holder.bidderIndex.setText(String.valueOf(indexPos));
+                    holder.bidderName.setText(model.getPorterName());
+                    holder.bidAmount.setText(bidAmountString);
+                    holder.mPositiveButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            if (mOnPositiveButtonClicked == null) { return; }
+                            mOnPositiveButtonClicked.accept(model);
+                        }
+                    });
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+
+        mBidderRecyclerView.setAdapter(mBidderViewAdapter);
+    }
+
+
+    public static class PorterBidsViewHolder extends RecyclerView.ViewHolder{
+
+        public TextView bidderIndex;
+        public TextView bidderName;
+        public TextView bidAmount;
+        View mPositiveButton, mNegativeButton;
+
+        public PorterBidsViewHolder(View itemView){
+            super(itemView);
+        }
+    }
+
+
+
+//    private void createAdapter() {
+//
+//        Log.d(TAG, "createAdapter");
+//
+//        RecyclerView mBidderView = mActivity.findViewById(R.id.trip_request_bidding_table);
+//        RecyclerView.LayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+//        mBidderView.setLayoutManager(linearLayoutManager);
+//        mBidderAdapter = new BidderAdapter(mActivity.getService().getDataManager());
+//
+//        // TODO: remove below part when not testing
+//        // START OF TESTING SEGMENT
 //        PorterBidRequest testPorterBidRequest = new PorterBidRequest();
 //        testPorterBidRequest.setPorterName("Max");
 //        testPorterBidRequest.setBidAmount(2.2);
 //        mBidderAdapter.addToDataSet(testPorterBidRequest);
-        // END OF TESTING SEGMENT
-
-
-        mBidderAdapter.setOnPositiveButtonClicked(new CallbackListener<PorterBidRequest>() {
-            @Override
-            public void accept(PorterBidRequest data) {
-
-                String alertMsg = getString(R.string.trip_bidding_confirm_msg) + " $" + data.getBidAmount() + "?";
-
-                new AlertDialog.Builder(mActivity)
-                        .setTitle(R.string.trip_bidding_confirm_title)
-                        .setMessage(alertMsg)
-                        .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-
-                                // todo: send socket msg on acceptance to viaPorter
-                                mActivity.getmSocketManager().acceptBidder(setTrip());
-                                if (countDownTimer != null) {
-                                    countDownTimer.cancel();
-                                }
-
-                                NavOptions navOptions = new NavOptions.Builder()
-                                        .setPopUpTo(R.id.navigation_trip, false)
-                                        .build();
-                                navController.navigate(R.id.navigation_trip_confirmed, null, navOptions);
-
-                                // Update trip status to manage navigation
-                                mActivity.getmDataManager().updateTripStatus(TripStatus.PATRON_STARTED);
-                            }
-                        })
-                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                // do nothing
-                                return;
-                            }
-                        })
-                        .create()
-                        .show();
-            }
-        });
-        mBidderView.setAdapter(mBidderAdapter);
-    }
+//        // END OF TESTING SEGMENT
+//
+//
+//        mBidderAdapter.setOnPositiveButtonClicked(new CallbackListener<PorterBidRequest>() {
+//            @Override
+//            public void accept(PorterBidRequest data) {
+//
+//                String alertMsg = getString(R.string.trip_bidding_confirm_msg) + " $" + data.getBidAmount() + "?";
+//
+//                new AlertDialog.Builder(mActivity)
+//                        .setTitle(R.string.trip_bidding_confirm_title)
+//                        .setMessage(alertMsg)
+//                        .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialogInterface, int i) {
+//
+//                                // Update trip status to manage navigation
+//                                mActivity.getmDataManager().updateTripStatus(TripStatus.PATRON_STARTED);
+//
+//                                // todo: send socket msg on acceptance to viaPorter
+//                                mActivity.getmSocketManager().acceptBidder(setTrip());
+//
+//                                if (countDownTimer != null) {
+//                                    countDownTimer.cancel();
+//                                }
+//                                NavOptions navOptions = new NavOptions.Builder()
+//                                        .setPopUpTo(R.id.navigation_trip, false)
+//                                        .build();
+//                                navController.navigate(R.id.navigation_trip_confirmed, null, navOptions);
+//                            }
+//                        })
+//                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialog, int which) {
+//                                // do nothing
+//                                return;
+//                            }
+//                        })
+//                        .create()
+//                        .show();
+//            }
+//        });
+//        mBidderView.setAdapter(mBidderAdapter);
+//    }
 
     private void setupSocketListeners() {
         mActivity.addDisposable(mActivity.getmSocketManager().addOnPorterBidRequest(new Consumer<PorterBidRequest>() {
@@ -293,14 +437,13 @@ public class TripBiddingFragment extends Fragment {
 
             @Override
             public void onFinish() {
-                // todo: fix bug later on
-                mActivity.getmDatabase().child("patron_trip_requests").child(mActivity.getmDataManager().getMyTripRequestKey()).removeValue();
-                navController.navigateUp();
+                Log.d(TAG, "onFinish");
 
-//                if (mActivity.getmSocketManager().stopBidding("tempid")) {
-//                    Socket socket = mActivity.getmSocketManager().getSocket();
-//                    socket.emit("disconnect", "viaPatron");
-//                }
+                if (FirebaseAuth.getInstance().getUid() != null) {
+                    mActivity.getmDatabase().child("Broadcast Trip Requests").child(FirebaseAuth.getInstance().getUid()).removeValue();
+                    mActivity.getmDatabase().child("Patrons").child(FirebaseAuth.getInstance().getUid()).child("porterBidRequest").removeValue();
+                    navController.navigateUp();
+                }
             }
         };
 
@@ -313,6 +456,10 @@ public class TripBiddingFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+
+        if (mBidderViewAdapter != null) {
+            mBidderViewAdapter.startListening();
+        }
     }
 
     @Override
@@ -332,11 +479,25 @@ public class TripBiddingFragment extends Fragment {
     }
 
     @Override
+    public void onStop() {
+        super.onStop();
+
+        Log.d(TAG, "onStop");
+        if (mBidderViewAdapter != null) {
+            mBidderViewAdapter.stopListening();
+        }
+    }
+
+    @Override
     public void onDestroy() {
         Log.d(TAG, "onDestroy");
         if (countDownTimer != null) {
             countDownTimer.cancel();
-            mActivity.getmDatabase().child("patron_trip_requests").child(mActivity.getmDataManager().getMyTripRequestKey()).removeValue();
+
+            if (FirebaseAuth.getInstance().getUid() != null) {
+                mActivity.getmDatabase().child("Broadcast Trip Requests").child(FirebaseAuth.getInstance().getUid()).removeValue();
+                mActivity.getmDatabase().child("Patrons").child(FirebaseAuth.getInstance().getUid()).child("porterBidRequest").removeValue();
+            }
         }
         super.onDestroy();
     }

@@ -18,7 +18,7 @@ public class UserTripRequestSession {
 
     @SerializedName("patron_id")
     @Expose
-    private String patronID;
+    private String patronUid;
 
     @SerializedName("train_station_name")
     @Expose
@@ -40,12 +40,12 @@ public class UserTripRequestSession {
     @Expose
     private int totalLuggageWeight = 0;
 
-    public String getPatronID() {
-        return patronID;
+    public String getPatronUid() {
+        return patronUid;
     }
 
-    public void setPatronID(String patronID) {
-        this.patronID = patronID;
+    public void setPatronUid(String patronUid) {
+        this.patronUid = patronUid;
     }
 
     public String getStation() {
@@ -109,7 +109,7 @@ public class UserTripRequestSession {
         HashMap<String, Object> result = new HashMap<>();
 
         result.put("date", date);
-        result.put("patronID", patronID);
+        result.put("patronUid", patronUid);
         result.put("tripStartLocation", tripStartLocation);
         result.put("tripEndLocation", tripEndLocation);
         result.put("numberOfLuggage", numberOfLuggage);

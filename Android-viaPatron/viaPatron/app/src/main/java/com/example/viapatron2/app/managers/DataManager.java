@@ -1,5 +1,6 @@
 package com.example.viapatron2.app.managers;
 
+import com.example.viapatron2.core.models.PorterBidRequest;
 import com.example.viapatron2.core.models.TripStatus;
 import com.google.android.gms.maps.model.LatLng;
 
@@ -13,6 +14,7 @@ public class DataManager {
     private TripStatus tripStatus;
     private LatLng currentLocation;
     private String myTripRequestKey;
+    private PorterBidRequest acceptedBidRequest;
 
     public DataManager() {
         tripStatus = TripStatus.NOT_STARTED;
@@ -41,4 +43,8 @@ public class DataManager {
     public String getMyTripRequestKey() {
         return myTripRequestKey;
     }
+
+    public PorterBidRequest getAcceptedBidRequest() { return acceptedBidRequest; }
+
+    public void setAcceptedBidRequest(PorterBidRequest acceptedBidRequest) { this.acceptedBidRequest = acceptedBidRequest; }
 }

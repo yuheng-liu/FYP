@@ -21,14 +21,12 @@ import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import androidx.navigation.NavController;
+import androidx.navigation.NavDestination;
 import androidx.navigation.NavOptions;
 import androidx.navigation.Navigation;
 import com.example.viapatron2.R;
 import com.example.viapatron2.activity.MainActivity;
-import com.example.viapatron2.core.models.LocationUpdate;
-import com.example.viapatron2.core.models.MyViewModel;
-import com.example.viapatron2.core.models.PorterTripAccept;
-import com.example.viapatron2.core.models.TripStatus;
+import com.example.viapatron2.core.models.*;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationCallback;
@@ -40,6 +38,10 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 import io.reactivex.functions.Consumer;
 
 import static android.view.View.GONE;
@@ -89,11 +91,7 @@ public class TripConfirmedFragment extends Fragment
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        if (savedInstanceState != null) {
-            Log.d(TAG, "onCreateView - " + savedInstanceState.describeContents());
-        } else {
-            Log.d(TAG, "onCreateView - savedInstanceState is null");
-        }
+        Log.d(TAG, "onCreateView");
 
         return inflater.inflate(R.layout.trip_confirmed_fragment, container, false);
     }
@@ -101,6 +99,8 @@ public class TripConfirmedFragment extends Fragment
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        Log.d(TAG, "onViewCreated");
 
         mActivity = (MainActivity) requireActivity();
 
@@ -144,10 +144,14 @@ public class TripConfirmedFragment extends Fragment
         mGoogleMap.setMyLocationEnabled(true);
         setMapUiSettings();
         buildGoogleApiClient();
+
         LocationServices.getFusedLocationProviderClient(mActivity).requestLocationUpdates(mLocationRequest, mLocationCallback, null);
     }
 
     private void selectStartingPoint() {
+
+        Log.d(TAG, "selectStartingPoint");
+
         try {
             currentLocation = mActivity.getmDataManager().getCurrentLocation();
 
@@ -157,7 +161,6 @@ public class TripConfirmedFragment extends Fragment
                         .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
             }
 
-            Log.d(TAG, "selectStartingPoint, currentLocation = " + currentLocation.toString());
             CameraUpdate update = CameraUpdateFactory.newLatLngZoom(currentLocation, MAP_CAMERA_ZOOM);
             mGoogleMap.moveCamera(update);
             mMapView.setVisibility(View.VISIBLE);
@@ -167,6 +170,8 @@ public class TripConfirmedFragment extends Fragment
     }
 
     private void setMapUiSettings() {
+
+        Log.d(TAG, "setMapUiSettings");
 
         // Map UI settings
         UiSettings mUiSettings = mGoogleMap.getUiSettings();
@@ -208,16 +213,21 @@ public class TripConfirmedFragment extends Fragment
 
         Log.d(TAG, "onConnected");
 
+        Log.d(TAG, "onConnected -> TripStatus = " + mActivity.getmDataManager().getTripStatus());
+
         mLocationRequest = LocationRequest.create();
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         mLocationRequest.setInterval(MAP_LOCATION_REQUEST_INTERVAL);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (mActivity.checkSelfPermission(android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                Log.d(TAG, "checkSelfPermission");
+
                 return;
             }
         }
 
+        Log.d(TAG, "onConnected -> requesting location updates");
         LocationServices.getFusedLocationProviderClient(mActivity).requestLocationUpdates(mLocationRequest, mLocationCallback, null);
     }
 
@@ -238,12 +248,24 @@ public class TripConfirmedFragment extends Fragment
             for (Location location : locationResult.getLocations()) {
                 // update location
                 currentLocation = new LatLng(location.getLatitude(), location.getLongitude());
+                Log.d(TAG, "currentLocation is " + currentLocation.toString());
+
                 mActivity.getmDataManager().setCurrentLocation(currentLocation);
 
                 // Send viaPorter my updated location
                 LocationUpdate patronUpdatedLocation = new LocationUpdate();
                 patronUpdatedLocation.setUpdatedLocation(currentLocation);
                 mActivity.getmSocketManager().sendLocation(patronUpdatedLocation);
+
+                // NEW CODE
+                FirebaseLocationUpdate firebaseLocationUpdate = new FirebaseLocationUpdate(location.getLatitude(), location.getLongitude());
+                if (FirebaseAuth.getInstance().getUid() != null) {
+                    mActivity.getmDatabase()
+                            .child("Patrons")
+                            .child(FirebaseAuth.getInstance().getUid())
+                            .child("currentLocation")
+                            .setValue(firebaseLocationUpdate);
+                }
 
                 // update camera
                 if (!mCameraUpdated) {
@@ -270,7 +292,7 @@ public class TripConfirmedFragment extends Fragment
         stopTripButton = mActivity.findViewById(R.id.button_stop_official_trip);
         navController = Navigation.findNavController(mActivity, R.id.my_nav_host_fragment);
 
-        Log.d(TAG, "TripStatus = " + mActivity.getmDataManager().getTripStatus());
+        Log.d(TAG, "setViews -> TripStatus = " + mActivity.getmDataManager().getTripStatus());
         if (mActivity.getmDataManager().getTripStatus() == TripStatus.IN_PROGRESS) {
             stopTripButton.setVisibility(View.VISIBLE);
             startTripButton.setVisibility(View.GONE);
@@ -306,9 +328,11 @@ public class TripConfirmedFragment extends Fragment
                                 public void onClick(DialogInterface dialogInterface, int i) {
 
                                     try {
+                                        Log.d(TAG, "onClick -> cancelling trip");
+
                                         mActivity.getmDataManager().updateTripStatus(TripStatus.CANCELLED);
                                         mActivity.getBottomNavigationView().getMenu().getItem(1).setEnabled(false);
-                                        mActivity.getmDatabase().child("chats").removeValue();
+                                        mActivity.getmDatabase().child("Chats").removeValue();
                                         // todo: to fix the bug later on
                                         mActivity.getmDatabase().child("patron_trip_requests").removeValue();
 
@@ -348,7 +372,7 @@ public class TripConfirmedFragment extends Fragment
                                     try {
                                         mActivity.getmDataManager().updateTripStatus(TripStatus.ENDED);
                                         mActivity.getBottomNavigationView().getMenu().getItem(1).setEnabled(false);
-                                        mActivity.getmDatabase().child("chats").removeValue();
+                                        mActivity.getmDatabase().child("Chats").removeValue();
                                         // todo: to fix the bug later on
                                         mActivity.getmDatabase().child("patron_trip_requests").removeValue();
 
@@ -357,6 +381,14 @@ public class TripConfirmedFragment extends Fragment
                                                 .setPopUpTo(R.id.navigation_trip_confirmed, true)
                                                 .build();
                                         navController.navigate(R.id.navigation_trip, null, navOptions);
+
+                                        if (FirebaseAuth.getInstance().getUid() != null) {
+                                            mActivity.getmDatabase()
+                                                    .child("Patrons")
+                                                    .child(FirebaseAuth.getInstance().getUid())
+                                                    .child("tripState")
+                                                    .setValue(TripStatus.ENDED);
+                                        }
                                     } catch (Exception e) {
                                         e.printStackTrace();
                                     }
@@ -373,6 +405,13 @@ public class TripConfirmedFragment extends Fragment
                 }
             });
         }
+
+        navController.addOnDestinationChangedListener(new NavController.OnDestinationChangedListener() {
+            @Override
+            public void onDestinationChanged(@NonNull NavController controller, @NonNull NavDestination destination, @Nullable Bundle arguments) {
+                Log.d(TAG, "onDestinationChanged " + destination.getLabel());
+            }
+        });
     }
 
     private void setUpViewModel() {
@@ -383,7 +422,47 @@ public class TripConfirmedFragment extends Fragment
         model = ViewModelProviders.of(mActivity).get(MyViewModel.class);
     }
 
+    private void setUpFirebaseListeners() {
+
+        ValueEventListener porterLocationListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                FirebaseLocationUpdate firebaseLocationUpdate = dataSnapshot.getValue(FirebaseLocationUpdate.class);
+
+                if (firebaseLocationUpdate != null) {
+                    try {
+                        LatLng porterLatLng = new LatLng(firebaseLocationUpdate.getLat(), firebaseLocationUpdate.getLong());
+
+                        porterMarker.setPosition(porterLatLng);
+
+                        Log.d(TAG, "distance = " + distanceBetwUsers(currentLocation, porterLatLng));
+
+                        if (mActivity.getmDataManager().getTripStatus() != TripStatus.IN_PROGRESS) {
+                            if (distanceBetwUsers(currentLocation, porterLatLng) < MAP_DISTANCE_BETWEEN_PROXIMITY) {
+                                notifyPorterArrived();
+                            }
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        };
+
+        mActivity.getmDatabase()
+                .child("Porters")
+                .child(mActivity.getmDataManager().getAcceptedBidRequest().getPorterUid())
+                .child("currentLocation")
+                .addValueEventListener(porterLocationListener);
+    }
+
     private void setupSocketListeners() {
+
         mActivity.addDisposable(mActivity.getmSocketManager().addOnPorterTripAccept(new Consumer<PorterTripAccept>() {
             @Override
             public void accept(final PorterTripAccept porterInfo) {
@@ -462,6 +541,8 @@ public class TripConfirmedFragment extends Fragment
 
     private void userStartTrip() {
 
+        Log.d(TAG, "userStartTrip");
+
         if (isStartButtonPressed) {
             startTripButton.setVisibility(GONE);
             cancelTripButton.setVisibility(View.GONE);
@@ -482,11 +563,14 @@ public class TripConfirmedFragment extends Fragment
         mActivity.getmDataManager().updateTripStatus(TripStatus.IN_PROGRESS);
     }
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) { super.onActivityCreated(savedInstanceState); }
+//    @Override
+//    public void onActivityCreated(@Nullable Bundle savedInstanceState) { super.onActivityCreated(savedInstanceState); }
 
     @Override
-    public void onStart() { super.onStart(); }
+    public void onStart() {
+        super.onStart();
+        Log.d(TAG, "onStart");
+    }
 
     @Override
     public void onResume() {
@@ -495,18 +579,32 @@ public class TripConfirmedFragment extends Fragment
 
         setViews();
         setUpViewModel();
-        setupSocketListeners();
+        setUpFirebaseListeners();
+        //setupSocketListeners();
     }
 
     @Override
     public void onPause() {
         super.onPause();
         Log.d(TAG, "onPause");
+
+        Log.d(TAG, "onPause -> getting trip status: " + mActivity.getmDataManager().getTripStatus());
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         Log.d(TAG, "onDestroy");
+
+        Log.d(TAG, "onDestroy -> getting trip status: " + mActivity.getmDataManager().getTripStatus());
+
+        //stop location updates when Activity is no longer active
+        if (mGoogleApiClient != null) {
+            Log.d(TAG, "disconnecting mGoogleApiClient");
+            mGoogleApiClient.disconnect();
+        }
+
+        LocationServices.getFusedLocationProviderClient(mActivity).removeLocationUpdates(mLocationCallback);
+        Log.d(TAG, "removed location updates");
     }
 }

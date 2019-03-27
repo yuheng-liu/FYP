@@ -19,9 +19,6 @@ import com.example.viapatron2.core.models.MyViewModel;
 import com.example.viapatron2.core.models.UserTripRequestSession;
 import com.google.firebase.auth.FirebaseAuth;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class TripRequestConfirmFragment extends Fragment {
 
     private static final String TAG = "viaPatron.TRCFragment";
@@ -74,20 +71,27 @@ public class TripRequestConfirmFragment extends Fragment {
 
                         if (FirebaseAuth.getInstance().getUid() != null) {
 
-                            Map<String, Object> requests = new HashMap<>();
-                            requests = userTripRequestSession.toMap();
+                            userTripRequestSession.setPatronUid(FirebaseAuth.getInstance().getUid());
+//
+//                            Map<String, Object> requests = new HashMap<>();
+//                            requests = userTripRequestSession.toMap();
+//
+//                            String key = mActivity.getmDatabase()
+//                                        .child("Broadcast Trip Requests")
+//                                        .push()
+//                                        .getKey();
+//
+//                            mActivity.getmDataManager().setMyTripRequestKey(key);
+//
+//                            Map<String, Object> childUpdates = new HashMap<>();
+//                            childUpdates.put("/Broadcast Trip Requests/" + key, requests);
+//
+//                            mActivity.getmDatabase().updateChildren(childUpdates);
 
-                            String key = mActivity.getmDatabase()
-                                        .child("patron_trip_requests")
-                                        .push()
-                                        .getKey();
-
-                            mActivity.getmDataManager().setMyTripRequestKey(key);
-
-                            Map<String, Object> childUpdates = new HashMap<>();
-                            childUpdates.put("/patron_trip_requests/" + key, requests);
-
-                            mActivity.getmDatabase().updateChildren(childUpdates);
+                            mActivity.getmDatabase()
+                                    .child("Broadcast Trip Requests")
+                                    .child(FirebaseAuth.getInstance().getUid())
+                                    .setValue(userTripRequestSession);
                         }
 
                         navController.navigate(R.id.navigation_trip_bidding);
