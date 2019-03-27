@@ -14,7 +14,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:layout_marginBottom="10dp"
-            android:layout_marginStart="10dp"
+            android:layout_marginStart="16dp"
             android:orientation="vertical">
 
         <TextView
@@ -26,22 +26,25 @@
                 android:textAllCaps="true"/>
 
         <TextView
+                android:id="@+id/review_trip_end_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
+                android:layout_marginTop="3dp"
                 android:text="Sunday, 14:10"
                 android:textStyle="normal"
-                android:textSize="14sp"/>
+                android:textSize="13sp"/>
     </LinearLayout>
 
-    <ImageButton
-            android:layout_width="match_parent"
-            android:layout_height="180dp"
-            android:background="@color/colorPrimaryGreyDark"/>
+    <!--<ImageButton-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="180dp"-->
+            <!--android:background="@color/colorPrimaryGreyDark"/>-->
 
     <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
             android:orientation="horizontal"
             android:background="@color/colorPrimaryGrey">
 
@@ -57,6 +60,7 @@
                 android:layout_weight="1"
                 android:layout_gravity="center"
                 android:layout_marginStart="15dp"
+                android:id="@+id/review_porter_name"
                 android:textAllCaps="true"
                 android:textSize="16sp"
                 android:textStyle="bold"
@@ -67,6 +71,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginEnd="12dp"
+                android:id="@+id/review_trip_price"
                 android:textAllCaps="true"
                 android:textSize="16sp"
                 android:textStyle="bold"
@@ -87,16 +92,32 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:layout_marginTop="14dp"
                     android:padding="14dp"
-                    android:text="Rate Your Trip"
+                    android:text="@string/trip_review_msg"
                     android:textSize="14sp"/>
 
-            <Button
-                    android:id="@+id/trip_ended_review_button"
+            <me.zhanghai.android.materialratingbar.MaterialRatingBar
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:id="@+id/review_rating_bar"
+                    android:padding="8dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:rating="0"
+                    style="@style/Widget.MaterialRatingBar.RatingBar"/>
+
+            <Button
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="TEMP END BUTTON"/>
+                    android:id="@+id/trip_ended_review_button"
+                    android:padding="10dp"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:background="@drawable/rounded_corner_accent"
+                    android:textColor="@color/colorWhite"
+                    android:text="@string/trip_review_submit"/>
         </LinearLayout>
 
 

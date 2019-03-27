@@ -43,8 +43,12 @@ import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.api.model.RectangularBounds;
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
+import me.zhanghai.android.materialratingbar.MaterialRatingBar;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
+import java.util.Locale;
 
 import static com.example.viapatron2.app.constants.AppConstants.*;
 
@@ -355,7 +359,7 @@ public class HomeFragment extends Fragment
      */
     private void checkTripStatus() {
 
-        Log.d(TAG, "current trip status = " + mActivity.getmDataManager().getTripStatus());
+        Log.d(TAG, "checkTripStatus: current trip status = " + mActivity.getmDataManager().getTripStatus());
 
         if (mActivity.getmDataManager().getTripStatus() == TripStatus.ENDED) {
             initReviewDialog();
@@ -371,19 +375,39 @@ public class HomeFragment extends Fragment
         View dialogView = inflater.inflate(R.layout.review_custom_popup, null);
         dialogBuilder.setView(dialogView);
 
-        // todo: update to actual stars rating
         Button reviewButton = dialogView.findViewById(R.id.trip_ended_review_button);
+        MaterialRatingBar ratingBar = dialogView.findViewById(R.id.review_rating_bar);
+        TextView tripEndTime = dialogView.findViewById(R.id.review_trip_end_time);
 
         if (reviewButton != null) {
             reviewButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    Log.d(TAG, "onClick -> clicking reviewButton");
+
                     reviewDialog.cancel();
 
                     // Update TripStatus
                     mActivity.getmDataManager().updateTripStatus(TripStatus.NOT_STARTED);
                 }
             });
+        }
+
+        if (ratingBar != null) {
+            ratingBar.setOnRatingChangeListener(new MaterialRatingBar.OnRatingChangeListener() {
+                @Override
+                public void onRatingChanged(MaterialRatingBar ratingBar, float rating) {
+                    Log.d(TAG, "rating = " + rating);
+                }
+            });
+        }
+
+        if (tripEndTime != null) {
+            String pattern = "EEEE, HH:mm";
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern, Locale.getDefault());
+            String timeString = simpleDateFormat.format(new Date());
+
+            tripEndTime.setText(timeString);
         }
 
         reviewDialog = dialogBuilder.create();
@@ -462,18 +486,6 @@ public class HomeFragment extends Fragment
             Location tempLoc = locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
 
             currentLocation = new LatLng(tempLoc.getLatitude(), tempLoc.getLongitude());
-            CameraUpdate update = CameraUpdateFactory.newLatLngZoom(currentLocation, MAP_CAMERA_ZOOM);
-            mGoogleMap.moveCamera(update);
-            mMapView.setVisibility(View.VISIBLE);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void moveToPoiPoint(double lat, double lng) {
-
-        try {
-            currentLocation = new LatLng(lat, lng);
             CameraUpdate update = CameraUpdateFactory.newLatLngZoom(currentLocation, MAP_CAMERA_ZOOM);
             mGoogleMap.moveCamera(update);
             mMapView.setVisibility(View.VISIBLE);
@@ -724,11 +736,18 @@ public class HomeFragment extends Fragment
 
         setUpViews();
         setUpViewModel();
+
+//        if (mFusedLocationClient != null) {
+//            Log.d(TAG, "onResume -> requesting location updates");
+//            mFusedLocationClient.requestLocationUpdates(mLocationRequest, mLocationCallback, null);
+//        }
     }
 
     @Override
     public void onPause() {
         super.onPause();
+
+        Log.d(TAG, "onPause");
 
         //stop location updates when Activity is no longer active
 //        if (mFusedLocationClient != null) {
@@ -746,6 +765,11 @@ public class HomeFragment extends Fragment
         super.onDestroy();
 
         Log.d(TAG, "onDestroy");
+
+//        if (mFusedLocationClient != null) {
+//            Log.d(TAG, "onDestroy -> removing location updates");
+//            mFusedLocationClient.removeLocationUpdates(mLocationCallback);
+//        }
     }
 
 
