@@ -105,7 +105,7 @@ public class ChatFragment extends Fragment {
         sendButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 mActivity.getmDatabase()
-                        .child("chats")
+                        .child("Chats")
                         .push()
                         .setValue(new ChatMessage(messageBox.getText().toString(),
                                 FirebaseAuth.getInstance()
@@ -118,7 +118,7 @@ public class ChatFragment extends Fragment {
     }
 
     private void setupFirebaseRecyclerAdapter() {
-        DatabaseReference curDatabase = mActivity.getmDatabase().child("chats");
+        DatabaseReference curDatabase = mActivity.getmDatabase().child("Chats");
         curDatabase.keepSynced(true);
 
         Query query = curDatabase.limitToLast(50);

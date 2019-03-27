@@ -1,6 +1,7 @@
 package com.example.viapatron2.fragment;
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -10,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -277,6 +279,13 @@ public class TripRequestFragment extends Fragment {
 
             if (toField != null) {
                 toField.setText(userTripRequestSession.getTripEndLocation());
+            }
+
+            if (luggageField != null) {
+                if (luggageField.getText().length() <= 0) {
+                    InputMethodManager imm = (InputMethodManager) mActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+                }
             }
         });
     }
