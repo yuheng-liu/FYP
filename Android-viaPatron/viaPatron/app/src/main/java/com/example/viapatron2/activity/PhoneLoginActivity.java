@@ -147,7 +147,9 @@ public class PhoneLoginActivity extends AppCompatActivity implements View.OnClic
                     break;
 
                 case STATE_CODE_SENT:
-                    verifyPhoneNumberWithCode(mVerificationId, verificationCodeField.getText().toString());
+                    if (validateVerificationCode()) {
+                        verifyPhoneNumberWithCode(mVerificationId, verificationCodeField.getText().toString());
+                    }
                     break;
             }
         }
@@ -174,6 +176,17 @@ public class PhoneLoginActivity extends AppCompatActivity implements View.OnClic
     private void verifyPhoneNumberWithCode(String verificationId, String code) {
         PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationId, code);
         signInWithPhoneAuthCredential(credential);
+    }
+
+    private boolean validateVerificationCode() {
+
+        String verificationCode = verificationCodeField.getText().toString();
+
+        if (TextUtils.isEmpty(verificationCode)) {
+            verificationCodeField.setError("Field is Empty");
+            return false;
+        }
+        return true;
     }
 
     @Override
