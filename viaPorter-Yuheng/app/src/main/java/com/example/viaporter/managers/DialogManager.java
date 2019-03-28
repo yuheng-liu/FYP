@@ -10,8 +10,7 @@ import android.widget.EditText;
 
 import com.example.viaporter.MainActivity;
 import com.example.viaporter.R;
-import com.example.viaporter.models.TripStatus;
-import com.google.gson.Gson;
+import com.example.viaporter.models.TripState;
 
 import androidx.navigation.NavController;
 import androidx.navigation.NavOptions;
@@ -29,7 +28,6 @@ public class DialogManager {
     private AlertDialog tripRequestBidSuccess;
     private AlertDialog tripRequestBidding;
     private AlertDialog tripRequestCancelBid;
-
 
     /*                                      *
      * Use of Bill Pugh Singleton structure *
@@ -71,6 +69,8 @@ public class DialogManager {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         navToHomeAndShowReview();
+                        mActivity.getDataManager().setTripState(TripState.ENDED);
+                        mActivity.getFirebaseDatabaseManager().setTripStatus(TripState.ENDED);
                     }
                 })
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -88,7 +88,8 @@ public class DialogManager {
                 .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        mActivity.getDataManager().setTripStatus(TripStatus.CANCELLED);
+                        mActivity.getFirebaseDatabaseManager().setTripStatus(TripState.PORTER_CANCELLED);
+                        mActivity.getDataManager().setTripState(TripState.PORTER_CANCELLED);
                         navController.popBackStack(R.id.navigation_jobs, false);
                     }
                 })
@@ -136,6 +137,7 @@ public class DialogManager {
                     currentBidAmount = Double.valueOf(bidAmountField.getText().toString());
                 }
                 mActivity.getFirebaseDatabaseManager().addToMyCurrentBids(currentBidAmount);
+                mActivity.getFirebaseDatabaseManager().startPatronTripRequestStatusListener();
                 tripRequestBidding.cancel();
             }
         });
@@ -168,30 +170,22 @@ public class DialogManager {
                 .create();
 
         // For testing only
-//        tripRequestBidSuccess = new AlertDialog.Builder(mActivity)
-//                .setTitle("Bid Success")
-//                .setMessage("The bid is successful")
-//                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-//                    public void onClick(DialogInterface dialog, int id) {
-//                        // User clicked OK button
-//                        try {
-//                            PorterUserDetails porterDetails = mActivity.dataManager.getPorterUserDetails();
-//                            PorterTripAccept newTripAccept = new PorterTripAccept(porterDetails.getId(),porterDetails.getName(), mActivity.dataManager.getCurrentLocation() ,porterDetails.getRating());
-//                            JSONObject data = new JSONObject(gson.toJson(newTripAccept));
-//                            mActivity.socketManager.emitJSON("accept_trip", data);
-//                        } catch (JSONException e) {
-//                            e.printStackTrace();
-//                        }
-//                        mActivity.dataManager.setTripStatus(TripStatus.IN_PROGRESS);
-//                        navController.navigate(R.id.navigation_trip_confirmed);
-//                    }
-//                })
-//                .create();
+        tripRequestBidSuccess = new AlertDialog.Builder(mActivity)
+                .setTitle("Bid Success")
+                .setMessage("The bid is successful")
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // User clicked OK button
+                        mActivity.getDataManager().setTripState(TripState.PATRON_STARTED);
+                        navController.navigate(R.id.navigation_trip_confirmed);
+                    }
+                })
+                .create();
     }
 
     private void navToHomeAndShowReview() {
-        if (mActivity.getDataManager().getTripStatus() == TripStatus.IN_PROGRESS) {
-            mActivity.getDataManager().setTripStatus(TripStatus.STOPPED);
+        if (mActivity.getDataManager().getTripState() == TripState.IN_PROGRESS) {
+            mActivity.getDataManager().setTripState(TripState.PATRON_STOPPED);
             NavOptions navOptions = new NavOptions.Builder()
                     .setPopUpTo(R.id.navigation_jobs, false)
                     .build();

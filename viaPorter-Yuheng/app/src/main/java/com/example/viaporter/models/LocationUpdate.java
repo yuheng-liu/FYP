@@ -1,21 +1,22 @@
 package com.example.viaporter.models;
 
-import com.google.android.gms.maps.model.LatLng;
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
-
 public class LocationUpdate {
-    public LocationUpdate(LatLng newLocation) {
-        this.location = newLocation;
+    private Double latitude;
+    private Double longitude;
+
+    public LocationUpdate(Double latitude, Double longitude) {
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 
-    public LatLng getLocation() {
-        return location;
-    }
+    public LocationUpdate() {}
 
-    public void setLocation(LatLng newLocation) {
-        location = newLocation;
+    public Double getLat() {
+        return latitude;
     }
-
-    private LatLng location;
+    public Double getLong() { return longitude; }
+    public void setLat(Double latitude) {
+        this.latitude = latitude;
+    }
+    public void setLong(Double longitude) { this.longitude = longitude; }
 }

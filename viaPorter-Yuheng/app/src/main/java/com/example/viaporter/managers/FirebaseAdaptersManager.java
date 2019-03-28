@@ -13,7 +13,6 @@ import com.example.viaporter.MainActivity;
 import com.example.viaporter.R;
 import com.example.viaporter.models.ChatMessage;
 import com.example.viaporter.models.PatronTripRequest;
-import com.example.viaporter.models.PatronTripSuccess;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.DatabaseReference;
@@ -174,6 +173,8 @@ public class FirebaseAdaptersManager {
                         holder.swipeLayout.animateReset();
                     }
                 });
+                // for disabling right swipe at times
+//                holder.swipeLayout.setRightSwipeEnabled(false);
             }
 
             @Override
@@ -194,6 +195,7 @@ public class FirebaseAdaptersManager {
         TextView startLocation;
         TextView endLocation;
         TextView luggageInfo;
+        TextView bidAmount;
         View mPositiveButton;
         View mNegativeButton;
         SwipeLayout swipeLayout;
@@ -204,7 +206,10 @@ public class FirebaseAdaptersManager {
             final CallbackListener<PatronTripRequest> onPositiveButtonClicked,
             final CallbackListener<PatronTripRequest> onNegativeButtonClicked){
 
-        DatabaseReference curDatabase = mActivity.getFirebaseDatabaseManager().currentBidsDatabase;
+        DatabaseReference curDatabase = mActivity.getFirebaseDatabaseManager()
+                .porterDatabase
+                .child(mActivity.getFirebaseDatabaseManager().myUid)
+                .child("currentBids");
         curDatabase.keepSynced(true);
 
         Query query = curDatabase.limitToLast(50);
@@ -224,6 +229,7 @@ public class FirebaseAdaptersManager {
                 viewHolder.startLocation = itemView.findViewById(R.id.current_bids_start_location);
                 viewHolder.endLocation = itemView.findViewById(R.id.current_bids_end_location);
                 viewHolder.luggageInfo = itemView.findViewById(R.id.current_bids_luggage_info);
+                viewHolder.bidAmount = itemView.findViewById(R.id.current_bids_bid_amount);
                 viewHolder.mPositiveButton = itemView.findViewById(R.id.positiveButton);
                 viewHolder.mNegativeButton = itemView.findViewById(R.id.negativeButton);
                 viewHolder.swipeLayout = itemView.findViewById(R.id.swipe_layout);
@@ -236,6 +242,7 @@ public class FirebaseAdaptersManager {
                 holder.startLocation.setText(model.getTripStartLocation());
                 holder.endLocation.setText(model.getTripEndLocation());
                 holder.luggageInfo.setText(model.getNumberOfLuggage() + " (" + model.getTotalLuggageWeight() + "KG)");
+                holder.bidAmount.setText("$" + model.getBidAmount().toString());
 
                 holder.mPositiveButton.setOnClickListener(new View.OnClickListener() {
                     @Override

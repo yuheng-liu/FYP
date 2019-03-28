@@ -4,22 +4,24 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.viaporter.CallbackListener;
 import com.example.viaporter.MainActivity;
 import com.example.viaporter.R;
 import com.example.viaporter.managers.FirebaseAdaptersManager;
 import com.example.viaporter.models.PatronTripRequest;
-import com.example.viaporter.models.TripStatus;
+import com.example.viaporter.models.TripState;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.google.gson.Gson;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -33,8 +35,6 @@ public class TripRequestFragment extends Fragment {
     private RecyclerView mCurrentBidView;
     private FirebaseRecyclerAdapter<PatronTripRequest, FirebaseAdaptersManager.BroadcastRequestHolder> mBroadcastAdapter;
     private FirebaseRecyclerAdapter<PatronTripRequest, FirebaseAdaptersManager.CurrentBidHolder> mCurrentBidAdapter;
-    private Gson gson;
-    private AlertDialog editBidDialog;
 
     CallbackListener<PatronTripRequest> broadcastRequestPositiveCallback;
     CallbackListener<PatronTripRequest> broadcastRequestNegativeCallback;
@@ -56,12 +56,15 @@ public class TripRequestFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         mActivity = (MainActivity) requireActivity();
-        gson = new Gson();
 
         setupButtonListeners();
         setUpViews();
-//        setupSocket();
-//        setupSocketListeners();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        checkTripState();
     }
 
     private void setUpViews() {
@@ -82,57 +85,37 @@ public class TripRequestFragment extends Fragment {
                 currentBidPositiveCallback,
                 currentBidNegativeCallback);
         mCurrentBidView.setAdapter(mCurrentBidAdapter);
-
-        if (mActivity.getDataManager().getTripStatus() == TripStatus.STOPPED){
-            mActivity.getDialogManager().showTripRequestReviewPageDialog();
-            mActivity.getDataManager().setTripStatus(TripStatus.IDLE);
-        }
     }
-
-//    private void setupSocket() {
-//        mActivity.socketManager.connectSocket();
-//        mActivity.socketManager.emitString("join", "viaPorter");
-//    }
-
-//    private void setupSocketListeners() {
-//        mActivity.addDisposable(mActivity.socketManager.addOnPatronTripRequest(new Consumer<PatronTripRequest>() {
-//            @Override
-//            public void accept(final PatronTripRequest tripRequest) {
-//                mActivity.runOnUiThread(new Runnable() {
-//                    @Override
-//                    public void run() {
-////                        mBroadcastAdapter.addToDataSet(tripRequest);
-//                    }
-//                });
-//            }
-//        }));
-//
-//        mActivity.addDisposable(mActivity.socketManager.addOnPatronTripSuccess(new Consumer<PatronTripSuccess>() {
-//            @Override
-//            public void accept(PatronTripSuccess patronTripSuccess) {
-//                mActivity.runOnUiThread(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        try {
-//                            PorterUserDetails porterDetails = mActivity.dataManager.getPorterUserDetails();
-//                            PorterTripAccept newTripAccept = new PorterTripAccept(porterDetails.getId(), porterDetails.getName(), mActivity.dataManager.getCurrentLocation(),porterDetails.getRating());
-//                            JSONObject msg = new JSONObject(gson.toJson(newTripAccept));
-//                            mActivity.socketManager.emitStateChanged("porter_accept_trip", msg);
-//                        } catch (JSONException e) {
-//                            e.printStackTrace();
-//                        }
-//                        navigateToTripConfirmed();
-//                    }
-//                });
-//            }
-//        }));
-//    }
 
     private void setupButtonListeners() {
         broadcastRequestPositiveCallback = new CallbackListener<PatronTripRequest>() {
             @Override
             public void accept(PatronTripRequest data) {
                 mActivity.getDataManager().setSelectedBidRequest(data);
+                mActivity.getFirebaseDatabaseManager().setListeners(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        if (dataSnapshot.exists()){
+                            TripState curState = dataSnapshot.getValue(TripState.class);
+                            switch (curState){
+                                case NOT_STARTED:
+                                    break;
+                                case PATRON_STARTED:
+                                    navigateToTripConfirmed();
+                                    break;
+                                case CANCELLED:
+                                    break;
+                                case ENDED:
+                                    break;
+                                default :
+                                    Log.d(TAG,"State change value not in switch statement");
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) { }
+                }, "TripRequestPatronTripStatus");
                 mActivity.getDialogManager().showTripRequestBiddingDialog();
             }
         };
@@ -164,43 +147,37 @@ public class TripRequestFragment extends Fragment {
     }
 
     private void navigateToTripConfirmed() {
-        mActivity.getDataManager().setTripStatus(TripStatus.PROCEEDING);
+        mActivity.getDataManager().setTripState(TripState.PATRON_STARTED);
+        mActivity.getFirebaseDatabaseManager().setTripStatus(TripState.PORTER_STARTED);
         mActivity.getFirebaseDatabaseManager().cancelMyCurrentBid();
         navController.navigate(R.id.navigation_trip_confirmed);
     }
 
-//    private void showDefaultOfferDialog() {
-//        new AlertDialog.Builder(mActivity)
-//                .setTitle("Make Default Offer")
-//                .setMessage("Would you like to make a default offer of $2?")
-//                .setPositiveButton("confirm", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        try {
-//                            PorterUserDetails porterDetails = mActivity.dataManager.getPorterUserDetails();
-//                            PorterBidRequest newBidRequest = new PorterBidRequest(porterDetails.getId(), porterDetails.getName(), 2.0);
-//                            JSONObject msg = new JSONObject(gson.toJson(newBidRequest));
-//                            mActivity.socketManager.emitStateChanged("porter_bid_request", msg);
-//                        } catch (JSONException e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
-//                })
-//                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        // do nothing
-//                    }
-//                })
-//                .create()
-//                .show();
-//    }
+    private void checkTripState() {
+        switch (mActivity.getDataManager().getTripState()){
+            case CANCELLED:
+                Toast.makeText(mActivity, "We're sorry, your Patron has cancelled the trip. Please try booking again.", Toast.LENGTH_LONG).show();
+                mActivity.getDataManager().setTripState(TripState.NOT_STARTED);
+                mActivity.getFirebaseDatabaseManager().setTripStatus(TripState.NOT_STARTED);
+                break;
+            case ENDED:
+                mActivity.getDialogManager().showTripRequestReviewPageDialog();
+                mActivity.getDataManager().setTripState(TripState.NOT_STARTED);
+                mActivity.getFirebaseDatabaseManager().setTripStatus(TripState.NOT_STARTED);
+                break;
+            case PORTER_CANCELLED:
+                Toast.makeText(mActivity, "You have cancelled your trip.", Toast.LENGTH_LONG).show();
+                mActivity.getDataManager().setTripState(TripState.NOT_STARTED);
+                mActivity.getFirebaseDatabaseManager().setTripStatus(TripState.NOT_STARTED);
+                break;
+            default:
+                Log.d(TAG, "Trip state not addressed, in default case");
+        }
+    }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-
-//        mActivity.socketManager.disconnectSocket();
     }
 
     @Override

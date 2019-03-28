@@ -40,7 +40,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public FirebaseUser currentUser;
 
     private String mVerificationId;
-    private PhoneAuthProvider.ForceResendingToken mResendToken;
+//    private PhoneAuthProvider.ForceResendingToken mResendToken;
     private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks;
 
     @Override
@@ -92,7 +92,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
                 // Save verification ID and resending token so we can use them later
                 mVerificationId = verificationId;
-                mResendToken = token;
+//                mResendToken = token;
             }
         };
     }
@@ -124,10 +124,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
 
-                            FirebaseUser user = task.getResult().getUser();
+//                            FirebaseUser user = task.getResult().getUser();
                         } else {
                             // Sign in failed, display a message and update the UI
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
@@ -153,6 +152,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     break;
 
                 case STATE_CODE_SENT:
+                    if (!validateVerificationCode()){
+                        return;
+                    }
                     verifyPhoneNumberWithCode(mVerificationId, verificationCodeField.getText().toString());
                     break;
             }
@@ -162,7 +164,16 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private boolean validatePhoneNumber() {
         String phoneNumber = phoneNumberField.getText().toString();
         if (TextUtils.isEmpty(phoneNumber)) {
-            phoneNumberField.setError("Invalid phone number.");
+            phoneNumberField.setError("Invalid Phone Number.");
+            return false;
+        }
+        return true;
+    }
+
+    private boolean validateVerificationCode() {
+        String verificationCode = verificationCodeField.getText().toString();
+        if (TextUtils.isEmpty(verificationCode)) {
+            verificationCodeField.setError("Field is Empty");
             return false;
         }
         return true;

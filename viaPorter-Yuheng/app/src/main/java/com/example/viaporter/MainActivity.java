@@ -18,16 +18,11 @@ import com.example.viaporter.managers.DataManager;
 import com.example.viaporter.managers.DialogManager;
 import com.example.viaporter.managers.FirebaseAdaptersManager;
 import com.example.viaporter.managers.FirebaseDatabaseManager;
-import com.example.viaporter.models.TripStatus;
+import com.example.viaporter.models.TripState;
 import com.google.firebase.auth.FirebaseAuth;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
-import androidx.navigation.fragment.NavHostFragment;
-import io.reactivex.disposables.Disposable;
 
 import static com.example.viaporter.constants.AppConstants.PERMISSION_FINE_LOCATION;
 
@@ -35,8 +30,6 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.M
     private static final String TAG = "viaPorter.MainActivity";
 
     private BottomNavigationView bottomNavigation;
-    private NavHostFragment navHostFragment;
-    private List<Disposable> disposables;
     private NavController navController;
     private DataManager dataManager;
     private DialogManager dialogManager;
@@ -58,8 +51,6 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.M
 
         checkAppLocationPermission();
 
-        disposables = new ArrayList<>();
-
         setupManagers();
         setupViews();
     }
@@ -68,7 +59,6 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.M
         Log.d(TAG, "setupViews");
 
         initBottomNavigationBar();
-        navHostFragment = NavHostFragment.create(R.navigation.nav_graph);
         navController = Navigation.findNavController(findViewById(R.id.my_nav_host_fragment));
     }
 
@@ -102,11 +92,13 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.M
         bottomNavigation.setItemTextColor(mColorStateList);
 
         // if patron has not started a trip with a porter
-        if (dataManager.getTripStatus() != TripStatus.PROCEEDING || dataManager.getTripStatus() != TripStatus.IN_PROGRESS) {
+        if (dataManager.getTripState() != TripState.PATRON_STARTED || dataManager.getTripState() != TripState.IN_PROGRESS) {
 
             // retrieve chat button and disable it
             if (bottomNavigation.getMenu().getItem(1) != null) {
                 bottomNavigation.getMenu().getItem(1).setEnabled(false);
+                // for testing
+//                bottomNavigation.getMenu().getItem(1).setEnabled(true);
             }
         } else {
             if (bottomNavigation.getMenu().getItem(1) != null) {
@@ -135,17 +127,15 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.M
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
-
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
-        switch (requestCode) {
-            case PERMISSION_FINE_LOCATION: {
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-//                    mLocationPermissionGranted = true;
-                }
-            }
-        }
+//        switch (requestCode) {
+//            case PERMISSION_FINE_LOCATION: {
+//                // If request is cancelled, the result arrays are empty.
+//                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+////                    mLocationPermissionGranted = true;
+//                }
+//            }
+//        }
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -158,11 +148,14 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.M
                 case R.id.navigation_jobs:
                     Log.d(TAG, "selected job");
 
-                    if (dataManager.getTripStatus() == TripStatus.IN_PROGRESS){
+                    if (dataManager.getTripState() == TripState.PATRON_STARTED
+                        || dataManager.getTripState() == TripState.IN_PROGRESS
+                        || dataManager.getTripState() == TripState.PATRON_ARRIVED){
                         navController.popBackStack(R.id.navigation_trip_confirmed, false);
                     } else {
-                        if (navController.getCurrentDestination().getId() != R.id.navigation_jobs)
+                        if (navController.getCurrentDestination().getId() != R.id.navigation_jobs) {
                             navController.navigate(R.id.navigation_jobs);
+                        }
                     }
 
                     return true;
@@ -191,6 +184,9 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.M
 
         try {
             FirebaseAuth.getInstance().signOut();
+            firebaseDatabaseManager.porterDatabase
+                    .child(firebaseDatabaseManager.myUid)
+                    .removeValue();
 
             // Tips: Intents should be created and activated within activities
             // go back to authentication screen
@@ -213,17 +209,6 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.M
 
     @Override
     protected void onDestroy() {
-        // clean disposable
-        for (Disposable disposable : disposables) {
-            if (!disposable.isDisposed()) {
-                disposable.dispose();
-            }
-        }
         super.onDestroy();
-    }
-
-    /* Utility methods */
-    public void addDisposable(Disposable disposable) {
-        disposables.add(disposable);
     }
 }

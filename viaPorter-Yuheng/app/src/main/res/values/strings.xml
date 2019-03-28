@@ -9,7 +9,7 @@
     <string name="bot_nav_title_home">Home</string>
     <string name="bot_nav_title_jobs">Jobs</string>
     <string name="bot_nav_title_trip">Trip</string>
-    <string name="bot_nav_title_chats">Chats</string>
+    <string name="bot_nav_title_chats">Chat</string>
     <string name="bot_nav_title_profile">Profile</string>
     <string name="bot_nav">Bottom Navigation</string>
     <string name="sign_out">Sign Out</string>
@@ -41,7 +41,7 @@
     <string name="cancel">Cancel</string>
     <string name="trip_confirmed_main_title">Trip Confirmed</string>
     <string name="trip_confirmed_find_patron">Please Proceed to find your Patron</string>
-    <string name="trip_confirmed_arrived_at_patron">You have arrived at your Patron</string>
+    <string name="trip_confirmed_arrived_at_patron">You have arrived at your Patron\'s location.</string>
     <string name="trip_confirmed_button_start_trip">START TRIP</string>
     <string name="trip_confirmed_button_cancel_trip">CANCEL TRIP</string>
     <string name="trip_confirmed_button_stop_title">STOP TRIP</string>

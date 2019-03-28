@@ -11,20 +11,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.TextView;
 
 import com.example.viaporter.MainActivity;
 import com.example.viaporter.R;
 import com.example.viaporter.managers.FirebaseAdaptersManager;
 import com.example.viaporter.models.ChatMessage;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.Query;
-
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 
 public class ChatFragment extends Fragment {
     private static final String TAG = "viaPatron.ChatFragment";

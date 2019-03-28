@@ -17,16 +17,17 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.navigation.NavController;
 import androidx.navigation.NavDestination;
+import androidx.navigation.NavOptions;
 import androidx.navigation.Navigation;
 
 import com.example.viaporter.R;
 import com.example.viaporter.MainActivity;
 import com.example.viaporter.models.LocationUpdate;
-import com.example.viaporter.models.PatronTripSuccess;
-import com.example.viaporter.models.TripStatus;
+import com.example.viaporter.models.TripState;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationCallback;
@@ -38,7 +39,9 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.gson.Gson;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 
 import static android.view.View.GONE;
 import static com.example.viaporter.constants.AppConstants.*;
@@ -52,7 +55,6 @@ public class TripConfirmedFragment extends Fragment
 
     private NavController navController;
     private MainActivity mActivity;
-    private Gson gson;
     private View mMapView;
 
     // Views
@@ -68,13 +70,7 @@ public class TripConfirmedFragment extends Fragment
     private GoogleMap mGoogleMap;
     private GoogleApiClient mGoogleApiClient;
     private LocationRequest mLocationRequest;
-    private LatLng currentLocation;
     private Marker patronMarker;
-
-    private static final LatLng UTOWN = new LatLng(PLACE_NUS_UTOWN_LAT, PLACE_NUS_UTOWN_LNG);
-    private static final LatLng FOS = new LatLng(PLACE_NUS_FOS_LAT, PLACE_NUS_FOS_LNG);
-
-    private PatronTripSuccess currentTrip;
 
     public TripConfirmedFragment() {}
 
@@ -91,11 +87,16 @@ public class TripConfirmedFragment extends Fragment
         super.onViewCreated(view, savedInstanceState);
 
         mActivity = (MainActivity) requireActivity();
-        gson = new Gson();
 
         setupMap();
         setupViews();
-//        setupSocketListeners();
+        setupFirebaseListeners();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mActivity.getBottomNavigationView().getMenu().getItem(1).setEnabled(true);
     }
 
     private void setupMap() {
@@ -110,8 +111,6 @@ public class TripConfirmedFragment extends Fragment
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        currentTrip = mActivity.getDataManager().getCurrentTrip();
     }
 
     @Override
@@ -121,12 +120,10 @@ public class TripConfirmedFragment extends Fragment
         mGoogleMap = googleMap;
         enableLocationService();
 
-        if (currentTrip != null) {
-            patronMarker = googleMap.addMarker(new MarkerOptions()
-                    .position(currentTrip.getPatronLocation())
-                    .title("Patron Location")
-                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
-        }
+        patronMarker = googleMap.addMarker(new MarkerOptions()
+                .position(new LatLng(0,0))
+                .title("Patron Location")
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
     }
 
     private void enableLocationService() {
@@ -140,8 +137,6 @@ public class TripConfirmedFragment extends Fragment
             return;
         }
 
-        selectStartingPoint();
-
         mGoogleMap.setMyLocationEnabled(true);
         setMapUiSettings();
 
@@ -153,20 +148,6 @@ public class TripConfirmedFragment extends Fragment
 
         mGoogleApiClient.connect();
         LocationServices.getFusedLocationProviderClient(mActivity).requestLocationUpdates(mLocationRequest, mLocationCallback, null);
-    }
-
-    private void selectStartingPoint() {
-        try {
-            currentLocation = mActivity.getDataManager().getCurrentLocation();
-            Log.d(TAG, "selectStartingPoint, currentLocation = " + currentLocation.toString());
-            CameraUpdate update = CameraUpdateFactory.newLatLngZoom(currentLocation, MAP_CAMERA_ZOOM);
-//            CameraUpdate update = CameraUpdateFactory.newLatLngZoom(UTOWN, MAP_CAMERA_ZOOM);
-//            CameraUpdate update = CameraUpdateFactory.newLatLngZoom(FOS, MAP_CAMERA_ZOOM);
-            mGoogleMap.moveCamera(update);
-            mMapView.setVisibility(View.VISIBLE);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     private void setMapUiSettings() {
@@ -182,8 +163,8 @@ public class TripConfirmedFragment extends Fragment
         RelativeLayout.LayoutParams rlp = (RelativeLayout.LayoutParams) locationButton.getLayoutParams();
 
         // position on right bottom
-        rlp.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, 0);
-        rlp.addRule(RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.TRUE);
+        rlp.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
+        rlp.addRule(RelativeLayout.ALIGN_PARENT_TOP, 0);
         rlp.setMargins(0, 50, 50, 50);
     }
 
@@ -221,17 +202,12 @@ public class TripConfirmedFragment extends Fragment
 
             for (Location location : locationResult.getLocations()) {
                 // update location
-                currentLocation = new LatLng(location.getLatitude(), location.getLongitude());
-                mActivity.getDataManager().setCurrentLocation(currentLocation);
+                Double latitude = location.getLatitude();
+                Double longitude = location.getLongitude();
+                LatLng currentLocation = new LatLng(latitude, longitude);
 
-                // Broadcast Location Update
-//                try {
-//                    LocationUpdate newLocation = new LocationUpdate(currentLocation);
-//                    JSONObject data = new JSONObject(gson.toJson(newLocation));
-//                    mActivity.socketManager.emitJSON("location_update_porter", data);
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
+                mActivity.getDataManager().setCurrentLocation(currentLocation);
+                mActivity.getFirebaseDatabaseManager().updateMyCurrentLocation(latitude, longitude);
 
                 // update camera
                 if (!mCameraUpdated) {
@@ -249,8 +225,6 @@ public class TripConfirmedFragment extends Fragment
 
         // for setting chat icon to be enabled
         mActivity.getBottomNavigationView().getMenu().getItem(1).setEnabled(true);
-        // for setting chat icon to be greyed out
-//        mActivity.getBottomNavigationView().getMenu().getItem(1).setEnabled(false);
 
         viewTitle = mActivity.findViewById(R.id.trip_confirmed_title);
         notifyBlue = mActivity.findViewById(R.id.notification_porter_on_the_way);
@@ -263,7 +237,11 @@ public class TripConfirmedFragment extends Fragment
         startTripButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                updateTripInProgressUI();
+                if (mActivity.getDataManager().getTripState() == TripState.PATRON_ARRIVED){
+                    updateTripInProgress();
+                } else {
+                    Toast.makeText(mActivity,"Please proceed to find your patron.", Toast.LENGTH_LONG).show();
+                }
             }
         });
 
@@ -289,46 +267,86 @@ public class TripConfirmedFragment extends Fragment
         });
     }
 
-//    private void setupSocketListeners() {
-//        mActivity.addDisposable(mActivity.socketManager.addOnPatronLocationUpdate(new Consumer<LocationUpdate>() {
-//            @Override
-//            public void accept(final LocationUpdate locationUpdate) {
-//                mActivity.runOnUiThread(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        patronMarker.setPosition(locationUpdate.getLocation());
-//                        // Update UI when porter is near enough to patron
-//                        if (mActivity.dataManager.getTripStatus() == TripStatus.PROCEEDING){
-//                            if (distanceBetweenUsers(currentLocation, locationUpdate.getLocation()) < MAP_DISTANCE_BETWEEN_PROXIMITY) {
-//                                porterArrived();
-//                            }
-//                        }
-//                    }
-//                });
-//            }
-//        }));
-//    }
+    private void setupFirebaseListeners() {
+        String patronUid = mActivity.getDataManager().getSelectedBidRequest().getPatronUid();
+
+        mActivity.getFirebaseDatabaseManager().patronDatabase
+                .child(patronUid)
+                .child("currentLocation")
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        if (dataSnapshot.exists()) {
+                            LocationUpdate newLocation = dataSnapshot.getValue(LocationUpdate.class);
+                            LatLng newCoordinates = new LatLng(newLocation.getLat(), newLocation.getLong());
+
+                            patronMarker.setPosition(newCoordinates);
+
+                            if (mActivity.getDataManager().getTripState() == TripState.PATRON_STARTED) {
+                                if (mActivity.getDataManager().getCurrentLocation() != null) {
+                                    if (distanceBetweenUsers(mActivity.getDataManager().getCurrentLocation(), newCoordinates) < MAP_DISTANCE_BETWEEN_PROXIMITY) {
+                                        porterArrived();
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+
+        mActivity.getFirebaseDatabaseManager().setListeners(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()){
+                    TripState curState = dataSnapshot.getValue(TripState.class);
+                    switch (curState){
+                        case NOT_STARTED:
+                            break;
+                        case PATRON_STARTED:
+                            break;
+                        case CANCELLED:
+                            navToHome();
+                            break;
+                        case ENDED:
+                            Toast.makeText(mActivity,"Your patron has stopped their trip.", Toast.LENGTH_SHORT).show();
+                            break;
+                        default :
+                            Log.d(TAG,"State change value not in switch statement");
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) { }
+        }, "TripConfirmedPatronTripStatus");
+        mActivity.getFirebaseDatabaseManager().startPatronTripConfirmedStatusListener();
+    }
 
     private float distanceBetweenUsers(LatLng porterLatLng, LatLng patronLatLng) {
         Location loc1 = new Location("");
-        loc1.setLatitude(patronLatLng.latitude);
-        loc1.setLongitude(patronLatLng.longitude);
+        loc1.setLatitude(porterLatLng.latitude);
+        loc1.setLongitude(porterLatLng.longitude);
 
         Location loc2 = new Location("");
-        loc2.setLatitude(porterLatLng.latitude);
-        loc2.setLongitude(porterLatLng.longitude);
+        loc2.setLatitude(patronLatLng.latitude);
+        loc2.setLongitude(patronLatLng.longitude);
 
         return loc1.distanceTo(loc2);
     }
 
     private void porterArrived() {
-        mActivity.getDataManager().setTripStatus(TripStatus.IN_PROGRESS);
+        mActivity.getDataManager().setTripState(TripState.PATRON_ARRIVED);
         notifyBlue.setVisibility(GONE);
         notifyGreen.setVisibility(View.VISIBLE);
-        startTripButton.setVisibility(View.VISIBLE);
     }
 
-    private void updateTripInProgressUI() {
+    private void updateTripInProgress() {
+        mActivity.getDataManager().setTripState(TripState.IN_PROGRESS);
+
         // Update UI changes
         viewTitle.setText(getString(R.string.trip_confirmed_trip_in_progress));
         notifyBlue.setVisibility(GONE);
@@ -336,6 +354,23 @@ public class TripConfirmedFragment extends Fragment
         startTripButton.setVisibility(GONE);
         cancelTripButton.setVisibility(GONE);
         stopTripButton.setVisibility(View.VISIBLE);
+    }
+
+    private void navToHome() {
+        if (mActivity.getDataManager().getTripState() == TripState.IN_PROGRESS
+                || mActivity.getDataManager().getTripState() == TripState.PATRON_STARTED) {
+            mActivity.getDataManager().setTripState(TripState.CANCELLED);
+            NavOptions navOptions = new NavOptions.Builder()
+                    .setPopUpTo(R.id.navigation_jobs, false)
+                    .build();
+            navController.navigate(R.id.navigation_jobs, null, navOptions);
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        mActivity.getBottomNavigationView().getMenu().getItem(1).setEnabled(false);
     }
 
     @Override

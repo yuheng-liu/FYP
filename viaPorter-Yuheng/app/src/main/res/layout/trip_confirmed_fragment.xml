@@ -23,17 +23,16 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center|top"
-            android:background="@color/colorPrimary"
-            android:padding="10dp">
+            android:background="@color/colorPrimary">
 
             <TextView
                 android:id="@+id/trip_confirmed_title"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
+                android:fontFamily="@font/exo_medium"
                 android:text="@string/trip_confirmed_main_title"
-                android:textSize="30sp"/>
+                android:textAlignment="center"
+                android:textSize="@dimen/text_page_header_title" />
         </FrameLayout>
 
         <FrameLayout
@@ -86,7 +85,6 @@
             android:layout_marginBottom="10dp"
             android:id="@+id/button_start_official_trip"
             android:background="@drawable/rounded_corner_accent"
-            android:visibility="invisible"
             android:text="@string/trip_confirmed_button_start_trip"
             android:textSize="13sp"
             android:textColor="@color/colorWhite"/>
